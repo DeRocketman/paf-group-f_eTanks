@@ -44,6 +44,7 @@ Es sollen mindestens 2 Benutzer als Dummy angelegt sein (Zwecks Prüfung)
 ## 3.3. Vorgehen
 -   Es wurde entschieden, soviel wie möglich im "Pair" oder "Mob" zu programmieren (Dabei "fährt" eine/einer während die anderen beiden kontrollieren und formulieren).
 -   Einzelergebnisse werden in der Gruppe im regelmäßigen Meeting vorgestellt.
+-   Es soll mit den Milestone- sowie Issue-Funktionen hier im Gitlabrepo gearbeitet werden, um immer einen einheitlichen Arbeitsstand zu haben.
 -   Es wird gemeinsam das Klassendiagramm erstellt.
 -   Um ein gemeinsames Bild innerhalb der Gruppe vom Projekt zu bekommen werden gemeinsam Mockups der einzelnen Szenarien erstellt.  
 

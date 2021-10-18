@@ -13,25 +13,25 @@ sich bekämpfen. Dabei können die Spieler Deckung hinter Blöcken suchen. Diese
 Es sollen mindestens 2 Level verfügbar sein!
 Es sollen mindestens 2 Benutzer als Dummy angelegt sein (Zwecks Prüfung)
 
-# 2.2. Anforderungen an das Projekt
-## Unabhängig von der Projektidee sollten folgende Anforderungen berücksichtig werden.
+### 2.2. Anforderungen an das Projekt
+#### Unabhängig von der Projektidee sollten folgende Anforderungen berücksichtig werden.
 - Ein Anwender soll sich registrieren, einloggen und ausloggen können.
 - Für jeden Anwender wird eine Historie seiner gespielten Spiele erfasst und mittels einfacher Auswertung dargestellt (gewonnene und verlorene  Spiele, mittlere Punktzahl, usw.).
 - Es sollen an mind. Einer sinnvollen Stelle auch Bilder über die API angefragt und im Client dargestellt werden (z.B. Profilbilder der Anwender).
 
-### 2.2.1 Server-Komponente (SC)
+#### 2.2.1 Server-Komponente (SC)
 -	Die registrierten Anwender und ihre Spielhistorie sollen zentral in einer relationalen Datenbank gespeichert werden.
 -	Es soll dazu ein Framework für das objekt-relationale Mapping eingesetzt werden
 -	Es soll eine API für den Datenaustausch mit dem Client angeboten werden, über die Daten im JSON- oder XML-Format ausgetauscht werden. 
 -	Die API soll JSON Web Tokens (JWT) zur Authentifizierung von Anwendern unterstützen.
 
-### 2.2.2 Client-Komponente (CC)
+#### 2.2.2 Client-Komponente (CC)
 -	Der Client soll ein grafisches UI umfassen und die obigen funktionalen Anforderungen abbilden.
 -	Bei ≥ 3 Studierenden im Team sind 2 Clients in unterschiedlichen Frameworks zu erstellen, die sich eine serverseitige API teilen.
 -	1. Client Nutzung JavaFX (oder alternativ Android Java API Framework).
 -	2. Client Nutzung beliebiges anderes Framework inkl. Freier Auswahl der Programmiersprache.
 
-### 2.5. UML Klassendiagramm als unbenotete PVL
+### 2.3. UML Klassendiagramm als unbenotete PVL
 -   UML-Klassendiagramm für Klassen des fachlichen Datenmodells.
 
 # 3. Organisation

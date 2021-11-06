@@ -9,7 +9,7 @@ public class UserGameStatistic {
     private float killDeathRate;
     private float hitRate;
 
-    public UserGameStatistic(int gamePoints, int kills, int deaths, int shots, int hitPoints) {
+    public UserGameStatistic() {
         this.gamePoints = gamePoints;
         this.kills = kills;
         this.deaths = deaths;

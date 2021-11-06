@@ -26,7 +26,7 @@ public class Game {
     public void createUserGameStatistic() {
         int playerCount = participants.size() + 1;
         for (int i = 0; i < playerCount; i++) {
-            UserGameStatistic userGameStatistic = new UserGameStatistic(0,0,0,0,0);
+            UserGameStatistic userGameStatistic = new UserGameStatistic();
             this.userGameStatistics.add(userGameStatistic);
         }
     }

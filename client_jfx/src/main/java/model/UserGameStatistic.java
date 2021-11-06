@@ -1,5 +1,6 @@
 package model;
 
+//todo: Klaeren, ob noch winningGames and winningRounds dazukommen sollen DS= ja
 public class UserGameStatistic {
     private int gamePoints;
     private int kills;

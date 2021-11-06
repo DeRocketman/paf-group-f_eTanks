@@ -20,7 +20,7 @@ public class Game {
     }
 
     public void drawLevel() {
-        //todo: ausformulieren des Methodenrumpfes drawLevel (wirklich hier? oder in view?
+        //todo: ausformulieren des Methodenrumpfes drawLevel (wirklich hier? oder in view bzw. controller?)
     }
 
     public void createUserGameStatistic() {

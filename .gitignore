@@ -1,3 +1,4 @@
 .idea/
 *.class
 .classpath
+/client_jfx/client_jfx.iml

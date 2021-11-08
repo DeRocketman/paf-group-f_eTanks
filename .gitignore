@@ -2,3 +2,5 @@
 *.class
 .classpath
 /client_jfx/client_jfx.iml
+/clientAngular/node_modules/
+/clientAngular/node_modules/

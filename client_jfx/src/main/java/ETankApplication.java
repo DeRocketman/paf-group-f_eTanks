@@ -15,7 +15,7 @@ public class ETankApplication extends Application {
     public void start(Stage primaryStage) {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(ETankApplication.class.getResource("view/LevelOneView.fxml"));
+            loader.setLocation(ETankApplication.class.getResource("view/LoginView.fxml"));
             AnchorPane rootLayout = (AnchorPane) loader.load();
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);

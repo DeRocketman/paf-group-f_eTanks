@@ -10,3 +10,6 @@
 /client_jfx/target/classes/img/images/levelBackground/Ground_Tile_02_A.png
 /client_jfx/target/classes/img/images/levelBackground/Ground_Tile_02_B.png
 /client_jfx/target/classes/img/images/levelBackground/Ground_Tile_02_C.png
+/client_jfx/target/maven-status/maven-compiler-plugin/compile/default-cli/createdFiles.lst
+/client_jfx/target/maven-status/maven-compiler-plugin/compile/default-cli/inputFiles.lst
+/client_jfx/target/classes/view/SettingView.fxml

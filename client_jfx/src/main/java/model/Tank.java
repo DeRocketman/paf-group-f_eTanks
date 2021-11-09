@@ -8,31 +8,43 @@ public class Tank extends LevelElement{
         this.publicName = publicName;
     }
 
-    public void shootMainWeapon() {
+    public void shootMainWeapon(int direction) {
 
     }
 
-    public void shootSecondaryWeapon() {
+    public void shootSecondaryWeapon(int direction) {
 
     }
 
-    public boolean loadWeapon() {
+    public boolean loadWeapon(int loadTime) {
         return true;
     }
 
-    public void driveUp() {
+    public void driveUp(int course) {
+            if (course == 0) {
+                GamePhysics.moveTank(0);
+            } else if (course == 180) {
+                GamePhysics.turnTank(-180);
+                GamePhysics.moveTank(0);
+            } else if (course == 90) {
+                GamePhysics.turnTank(-180);
+                GamePhysics.moveTank(0);
+            }
+    }
+
+    public void driveDown(int course, int speed) {
 
     }
 
-    public void driveDown() {
+    public void driveLeft(int course, int speed) {
 
     }
 
-    public void driveLeft() {
+    public void driveRight(int course, int speed) {
 
     }
 
-    public void driveRight() {
+    public void turnTank(int direction, int speed) {
 
     }
 

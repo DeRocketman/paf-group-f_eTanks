@@ -13,6 +13,7 @@ public class LevelOneViewController {
 
     @FXML
     public Group tankOne;
+    public Button moveUp;
 
 
     @FXML

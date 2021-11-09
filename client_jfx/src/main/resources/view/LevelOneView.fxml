@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.Group?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -12,9 +10,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LevelOneViewController">
+<AnchorPane blendMode="SCREEN" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LevelOneViewController">
    <children>
-      <GridPane prefHeight="800.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="40.0" prefWidth="40.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="40.0" prefWidth="40.0" />
@@ -3075,7 +3073,7 @@
       </GridPane>
       <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Group layoutX="179.0" layoutY="527.0">
+            <Group fx:id="tankOne" layoutX="100.0" layoutY="700.0">
                <children>
                   <StackPane prefHeight="40.0" prefWidth="40.0">
                      <children>
@@ -3093,7 +3091,7 @@
                   </StackPane>
                </children>
             </Group>
-            <Group fx:id="tankOne" layoutX="863.0" layoutY="47.0" rotate="180.0">
+            <Group layoutX="1060.0" layoutY="700.0">
                <children>
                   <StackPane prefHeight="40.0" prefWidth="40.0">
                      <children>
@@ -3111,8 +3109,122 @@
                   </StackPane>
                </children>
             </Group>
-            <Button fx:id="moveUp" layoutX="821.0" layoutY="476.0" mnemonicParsing="false" onAction="#moveUPClicked" text="MoveUp" />
-            <Button fx:id="moveDown" layoutX="814.0" layoutY="514.0" mnemonicParsing="false" text="MoveDown" />
+            <Group fx:id="tankOne1" layoutX="100.0" layoutY="60.0" rotate="180.0">
+               <children>
+                  <StackPane prefHeight="40.0" prefWidth="40.0">
+                     <children>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/images/tanks/Hulls_Color_C/Hull_01.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/images/tanks/Weapon_Color_C/Gun_01.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </StackPane>
+               </children>
+            </Group>
+            <Group fx:id="tankOne11" layoutX="1060.0" layoutY="60.0" rotate="180.0">
+               <children>
+                  <StackPane prefHeight="40.0" prefWidth="40.0">
+                     <children>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/images/tanks/Hulls_Color_D/Hull_01.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/images/tanks/Weapon_Color_D/Gun_01.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </StackPane>
+               </children>
+            </Group>
+            <ImageView fitHeight="120.0" fitWidth="80.0" layoutX="80.0" layoutY="164.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/images/buildings/Building_B_01.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="120.0" fitWidth="80.0" layoutX="80.0" layoutY="597.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/images/buildings/Building_B_01.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="120.0" fitWidth="80.0" layoutX="1040.0" layoutY="597.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/images/buildings/Building_B_01.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="120.0" fitWidth="80.0" layoutX="1040.0" layoutY="158.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/images/buildings/Building_B_01.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="120.0" fitWidth="80.0" layoutX="549.0" layoutY="706.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/images/buildings/Building_B_01.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="120.0" fitWidth="80.0" layoutX="549.0" layoutY="360.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/images/buildings/Building_B_01.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="120.0" fitWidth="80.0" layoutX="645.0" layoutY="400.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
+               <image>
+                  <Image url="@../img/images/buildings/Building_B_01.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="120.0" fitWidth="80.0" layoutX="549.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/images/buildings/Building_B_01.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="120.0" fitWidth="80.0" layoutX="549.0" layoutY="440.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/images/buildings/Building_B_01.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="120.0" fitWidth="80.0" layoutX="549.0" layoutY="626.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/images/buildings/Building_B_01.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="120.0" fitWidth="80.0" layoutX="549.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/images/buildings/Building_B_01.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="120.0" fitWidth="80.0" layoutX="455.0" layoutY="400.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
+               <image>
+                  <Image url="@../img/images/buildings/Building_B_01.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="120.0" fitWidth="80.0" layoutX="120.0" layoutY="400.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
+               <image>
+                  <Image url="@../img/images/buildings/Building_B_01.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="120.0" fitWidth="80.0" layoutX="40.0" layoutY="400.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
+               <image>
+                  <Image url="@../img/images/buildings/Building_B_01.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="120.0" fitWidth="80.0" layoutX="1080.0" layoutY="400.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
+               <image>
+                  <Image url="@../img/images/buildings/Building_B_01.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="120.0" fitWidth="80.0" layoutX="1000.0" layoutY="400.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
+               <image>
+                  <Image url="@../img/images/buildings/Building_B_01.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
    </children>

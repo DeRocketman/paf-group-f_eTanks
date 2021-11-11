@@ -19,7 +19,10 @@ public class LoginViewController {
     @FXML
     Button loginBtn;
 
+    @FXML
+    public void changeView(){
 
+    }
 
 
 

@@ -1,13 +1,18 @@
 package controller;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+
+import static com.sun.javafx.scene.control.skin.Utils.getResource;
 
 public class ViewController {
 
@@ -47,4 +52,5 @@ public class ViewController {
         stage.setScene(scene);
         stage.show();
     }
+
 }

@@ -39,9 +39,23 @@ public class ViewController {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("../view/LoginView.fxml"));
         root = loader.load();
+        System.out.println(root);
         scene = new Scene(root);
+        stage.setScene(scene);
         stage.show();
     }
+
+    public void switchToLevelOneView(Stage primaryStage) throws IOException{
+        stage = primaryStage;
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../view/LevelOneView.fxml"));
+        root = loader.load();
+        System.out.println(root);
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
 
     public void switchToStatistics(Stage primaryStage) throws IOException{
         stage = primaryStage;
@@ -49,6 +63,7 @@ public class ViewController {
         loader.setLocation(getClass().getResource("../view/StatisticsView.fxml"));
         root = loader.load();
         scene = new Scene(root);
+
         stage.show();
     }
 

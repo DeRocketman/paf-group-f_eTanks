@@ -64,6 +64,6 @@ public class LevelOneViewController implements Initializable {
 
     @FXML
     private void initialize(){
-        tankOne.setLayoutY(tankOne.getLayoutY()+240);
+
     }
 }

@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LevelOneViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginViewController">
    <children>
       <GridPane prefHeight="850.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -3409,7 +3409,7 @@
                         <Insets bottom="15.0" />
                      </VBox.margin>
                   </Label>
-                  <Button fx:id="loginBtn" mnemonicParsing="false" prefHeight="37.0" prefWidth="221.0" text="Login" />
+                  <Button fx:id="loginBtn" mnemonicParsing="false" onAction="#changeView" prefHeight="37.0" prefWidth="221.0" text="Login" />
                </children>
             </VBox>
          </children>

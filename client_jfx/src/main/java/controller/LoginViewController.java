@@ -6,6 +6,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
+import controller.ViewController;
+
+import java.io.IOException;
+
 public class LoginViewController {
 
     @FXML
@@ -21,7 +25,8 @@ public class LoginViewController {
 
     @FXML
     public void changeView(){
-
+        ViewController viewController = new ViewController();
+        System.out.println("HIER HIER HIER");
     }
 
 

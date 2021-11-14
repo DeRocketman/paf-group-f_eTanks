@@ -23,14 +23,11 @@ public class ETankApplication extends Application {
 
         try {
             ViewController viewController = new ViewController();
-            FXMLLoader loader = new FXMLLoader();
-            loader.setController(viewController);
+            //FXMLLoader loader = new FXMLLoader();
+            //loader.setController(viewController);
 
             viewController.eTankApplication(this);
-            viewController.switchToStatistics(primaryStage);
-
-
-
+            viewController.switchToLevelOneView(primaryStage);
 
         } catch(Exception e) {
             e.printStackTrace();

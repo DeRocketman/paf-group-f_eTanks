@@ -44,7 +44,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>ETankApplication</mainClass>
+                            <mainClass>main.ETankApplication</mainClass>
                         </configuration>
                     </execution>
                 </executions>

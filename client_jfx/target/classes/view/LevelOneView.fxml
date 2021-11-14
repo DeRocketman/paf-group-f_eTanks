@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 
-<AnchorPane blendMode="SCREEN" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LevelOneViewController">
+<AnchorPane onKeyPressed="#keyPressed" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LevelOneViewController">
    <children>
-      <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <GridPane prefHeight="800.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="40.0" prefWidth="40.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="40.0" prefWidth="40.0" />
@@ -3071,7 +3071,7 @@
             <ImageView fitHeight="97.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
          </children>
       </GridPane>
-      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Pane onKeyPressed="#keyPressed" prefHeight="800.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Group fx:id="tankOne" layoutX="100.0" layoutY="700.0">
                <children>
@@ -3091,7 +3091,7 @@
                   </StackPane>
                </children>
             </Group>
-            <Group layoutX="1060.0" layoutY="700.0">
+            <Group fx:id="tankTwo" layoutX="1060.0" layoutY="700.0">
                <children>
                   <StackPane prefHeight="40.0" prefWidth="40.0">
                      <children>
@@ -3109,7 +3109,7 @@
                   </StackPane>
                </children>
             </Group>
-            <Group fx:id="tankOne1" layoutX="100.0" layoutY="60.0" rotate="180.0">
+            <Group fx:id="tankThree" layoutX="100.0" layoutY="60.0" rotate="180.0">
                <children>
                   <StackPane prefHeight="40.0" prefWidth="40.0">
                      <children>
@@ -3127,7 +3127,7 @@
                   </StackPane>
                </children>
             </Group>
-            <Group fx:id="tankOne11" layoutX="1060.0" layoutY="60.0" rotate="180.0">
+            <Group fx:id="tankFour" layoutX="1060.0" layoutY="60.0" rotate="180.0">
                <children>
                   <StackPane prefHeight="40.0" prefWidth="40.0">
                      <children>

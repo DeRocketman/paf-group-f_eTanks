@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import main.ETankApplication;
 
 import java.io.IOException;
 
@@ -14,6 +15,8 @@ public class ViewController {
     private Stage stage;
     private Scene scene;
     private Parent root;
+
+    ETankApplication eTankApplication;
 
     public void switchToGame(ActionEvent event)  throws IOException{
         root = FXMLLoader.load(getClass().getResource("../resources/view/GameView.fxml"));
@@ -31,12 +34,21 @@ public class ViewController {
         stage.show();
     }
 
-    public void switchToStatistics(ActionEvent event) throws IOException{
+    public void switchToLoginView(Stage primaryStage) throws IOException{
+        stage = primaryStage;
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("view/StatisticsView.fxml"));
+        loader.setLocation(getClass().getResource("../view/LoginView.fxml"));
         root = loader.load();
         scene = new Scene(root);
-        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void switchToStatistics(Stage primaryStage) throws IOException{
+        stage = primaryStage;
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../view/StatisticsView.fxml"));
+        root = loader.load();
+        scene = new Scene(root);
         stage.show();
     }
 
@@ -47,4 +59,10 @@ public class ViewController {
         stage.setScene(scene);
         stage.show();
     }
+
+    public void eTankApplication(ETankApplication eTankApplication) {
+        this.eTankApplication = eTankApplication;
+
+    }
+
 }

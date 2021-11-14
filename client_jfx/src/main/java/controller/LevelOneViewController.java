@@ -43,4 +43,9 @@ public class LevelOneViewController {
 
         alert.showAndWait();
     }
+
+    @FXML
+    private void initialize(){
+        tankOne.setLayoutY(tankOne.getLayoutY()+240);
+    }
 }

@@ -83,4 +83,6 @@ public class ViewController {
 
     }
 
+    public void switchToLevelOne(ActionEvent actionEvent) {
+    }
 }

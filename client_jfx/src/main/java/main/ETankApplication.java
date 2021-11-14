@@ -1,9 +1,6 @@
 package main;
 
-import controller.LevelOneViewController;
-import controller.LoginViewController;
-import controller.MenuViewController;
-import controller.ViewController;
+import controller.*;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -28,8 +25,6 @@ public class ETankApplication extends Application {
     public void start(Stage primaryStage) throws IOException {
         this.primaryStage = primaryStage;
         showLoginView();
-
-
     }
 
     public void showLoginView() throws IOException {
@@ -53,6 +48,58 @@ public class ETankApplication extends Application {
 
         MenuViewController menuController = loader.getController();
         menuController.setETankApplication(this);
+
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    public void showProfilView() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../view/ProfilView.fxml"));
+        rootLayout = loader.load();
+        Scene scene = new Scene(rootLayout);
+
+        ProfilViewController profilController = loader.getController();
+        profilController.setETankApplication(this);
+
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    public void showStatisticsView() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../view/StatisticsView.fxml"));
+        rootLayout = loader.load();
+        Scene scene = new Scene(rootLayout);
+
+        StatisticsViewController statisticsController = loader.getController();
+        statisticsController.setETankApplication(this);
+
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    public void showSettingsView() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../view/SettingView.fxml"));
+        rootLayout = loader.load();
+        Scene scene = new Scene(rootLayout);
+
+        SettingViewController settingsController = loader.getController();
+        settingsController.setETankApplication(this);
+
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    public void showLevelOneViewX() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../view/LevelOneView.fxml"));
+        rootLayout = loader.load();
+        Scene scene = new Scene(rootLayout);
+
+        LevelOneViewController lvlOneController = loader.getController();
+        lvlOneController.setETankApplication(this);
 
         primaryStage.setScene(scene);
         primaryStage.show();

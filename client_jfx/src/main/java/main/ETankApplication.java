@@ -80,9 +80,8 @@ public class ETankApplication extends Application {
             AnchorPane page = loader.load();
 
             // Create the dialog Stage.
-            Stage levelOneStage = new Stage();
             Scene scene = new Scene(page);
-            levelOneStage.setScene(scene);
+            primaryStage.setScene(scene);
 
             // Set the seminar into the controller.
             LevelOneViewController controller = loader.getController();
@@ -94,12 +93,6 @@ public class ETankApplication extends Application {
                     controller.keyPressed(keyEvent);
                 }
             });
-
-
-
-            // Show the dialog and wait until the user closes it
-            levelOneStage.showAndWait();
-
         } catch (IOException e) {
             e.printStackTrace();
         }

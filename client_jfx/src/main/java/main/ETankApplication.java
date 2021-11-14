@@ -58,20 +58,6 @@ public class ETankApplication extends Application {
         primaryStage.show();
     }
 
-    public void showLevelOneViewX() throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../view/LevelOneView.fxml"));
-        rootLayout = loader.load();
-        Scene scene = new Scene(rootLayout);
-
-        LevelOneViewController lvlOneController = loader.getController();
-        lvlOneController.setETankApplication(this);
-
-        primaryStage.setScene(scene);
-        primaryStage.show();
-    }
-
-
     public void showLevelOneView() {
         try {
             // Load the fxml file and create the new stage for the popup dialog-

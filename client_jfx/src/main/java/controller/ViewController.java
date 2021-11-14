@@ -51,7 +51,7 @@ public class ViewController {
     public void switchToLevelOneView(Stage primaryStage) throws IOException{
         stage = primaryStage;
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../view/LevelOneView.fxml"));
+        loader.setLocation(getClass().getResource("../view/LevelOneViewOnlyTank.fxml"));
         root = loader.load();
         System.out.println(root);
         scene = new Scene(root);

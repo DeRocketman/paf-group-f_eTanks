@@ -7,10 +7,13 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import controller.ViewController;
+import main.ETankApplication;
 
 import java.io.IOException;
 
 public class LoginViewController {
+
+    ETankApplication eTankApplication;
 
     @FXML
     TextField UsernameField;
@@ -24,11 +27,14 @@ public class LoginViewController {
     Button loginBtn;
 
     @FXML
-    public void changeView(){
-        ViewController viewController = new ViewController();
-        System.out.println("HIER HIER HIER");
+    public void changeView() throws IOException {
+        eTankApplication.showMenuView();
     }
 
+    public void setETankApplication(ETankApplication eTankApplication) {
+        this.eTankApplication = eTankApplication;
+
+    }
 
 
 }

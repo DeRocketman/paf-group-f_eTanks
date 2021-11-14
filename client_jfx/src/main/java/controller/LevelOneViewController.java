@@ -7,6 +7,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import main.ETankApplication;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
@@ -15,6 +16,8 @@ import java.util.ResourceBundle;
 
 
 public class LevelOneViewController implements Initializable {
+
+    ETankApplication eTankApplication;
 
     @FXML
     public Group tankOne;
@@ -64,6 +67,11 @@ public class LevelOneViewController implements Initializable {
 
     @FXML
     private void initialize(){
+
+    }
+
+    public void setETankApplication(ETankApplication eTankApplication) {
+        this.eTankApplication = eTankApplication;
 
     }
 }

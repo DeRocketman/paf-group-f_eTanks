@@ -1,5 +1,8 @@
 package model;
 
+import javafx.event.EventHandler;
+import javafx.scene.input.KeyEvent;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 

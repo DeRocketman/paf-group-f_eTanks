@@ -42,6 +42,6 @@ public class UserGameStatistic {
     }
 
     public float hitRate() {
-        return hitPoints / shots;
+        return this.hitPoints / this.shots;
     }
 }

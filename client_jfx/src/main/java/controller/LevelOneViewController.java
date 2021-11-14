@@ -65,11 +65,6 @@ public class LevelOneViewController implements Initializable {
 
     }
 
-    @FXML
-    private void initialize(){
-
-    }
-
     public void setETankApplication(ETankApplication eTankApplication) {
         this.eTankApplication = eTankApplication;
 

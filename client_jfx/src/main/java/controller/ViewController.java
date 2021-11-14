@@ -52,7 +52,8 @@ public class ViewController {
         eTankApplication.showMenuView();
     }
 
-    public void switchToLevelOne() {
-        eTankApplication.showLevelOneView();
+    public void switchToGameCreator() throws IOException {
+        eTankApplication.showGameCreatorView();
     }
+
 }

@@ -92,14 +92,14 @@ public class ETankApplication extends Application {
         primaryStage.show();
     }
 
-    public void showLevelOneViewX() throws IOException {
+    public void showGameView() throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../view/LevelOneView.fxml"));
+        loader.setLocation(getClass().getResource("../view/GameView.fxml"));
         rootLayout = loader.load();
         Scene scene = new Scene(rootLayout);
 
-        LevelOneViewController lvlOneController = loader.getController();
-        lvlOneController.setETankApplication(this);
+        GameViewController gameViewController = loader.getController();
+
 
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -120,14 +120,23 @@ public class ETankApplication extends Application {
             LevelOneViewController controller = loader.getController();
 
             //  Adding EventListener to scene and push the KeyEvent in Controller
-            scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-                @Override
-                public void handle(KeyEvent keyEvent) {
-                    controller.keyPressed(keyEvent);
-                }
-            });
+            scene.setOnKeyPressed(keyEvent -> controller.keyPressed(keyEvent));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    public void showGameCreatorView() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../view/GameCreatorView.fxml"));
+        rootLayout = loader.load();
+        Scene scene = new Scene(rootLayout);
+
+        GameCreatorViewController gameCreatorViewController = loader.getController();
+        gameCreatorViewController.setETankApplication(this);
+
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
 }

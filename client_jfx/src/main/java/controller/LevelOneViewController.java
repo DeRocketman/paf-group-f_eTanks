@@ -31,22 +31,6 @@ public class LevelOneViewController implements Initializable {
     @FXML
     public Group tankFour;
 
-    public void moveUp() {
-        System.out.println("Movin UP!");
-    }
-
-    public void moveDown() {
-        System.out.println("Movin Down!");
-    }
-
-    public void moveLeft() {
-        System.out.println("Movin Left!");
-    }
-
-    public void moveRight() {
-        System.out.println("Movin Right!");
-    }
-
     public void keyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.W) {
             tankOne.setLayoutY(tankOne.getLayoutY()-10.0);

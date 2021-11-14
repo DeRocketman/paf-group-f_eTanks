@@ -1,3 +1,4 @@
+import controller.LevelOneViewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,8 +16,9 @@ public class ETankApplication extends Application {
     public void start(Stage primaryStage) {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(ETankApplication.class.getResource("view/LoginView.fxml"));
-            AnchorPane rootLayout = (AnchorPane) loader.load();
+            loader.setLocation(ETankApplication.class.getResource("view/LevelOneView.fxml"));
+            LevelOneViewController levelOneViewController = loader.getController();
+            AnchorPane rootLayout = loader.load();
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             primaryStage.show();

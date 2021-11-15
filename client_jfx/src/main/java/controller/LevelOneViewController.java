@@ -36,7 +36,6 @@ public class LevelOneViewController implements Initializable {
             tankOne.setLayoutY(tankOne.getLayoutY()-10.0);
         }
         if (keyEvent.getCode() == KeyCode.S) {
-
             tankOne.setLayoutY(tankOne.getLayoutY()+10.0);
         }
         if (keyEvent.getCode() == KeyCode.D) {

@@ -3393,12 +3393,12 @@
                </image></ImageView>
             <VBox layoutX="493.0" layoutY="476.0" prefHeight="173.0" prefWidth="214.0" styleClass="\@../css/Application.css">
                <children>
-                  <TextField fx:id="usernameField" promptText="Username">
+                  <TextField fx:id="usernameField" promptText="Username" onKeyReleased="#keyRelased">
                      <VBox.margin>
                         <Insets bottom="15.0" />
                      </VBox.margin>
                   </TextField>
-                  <PasswordField fx:id="passwordField" promptText="Passwort">
+                  <PasswordField fx:id="passwordField" promptText="Passwort" onKeyReleased="#keyRelased">
                      <VBox.margin>
                         <Insets bottom="15.0" />
                      </VBox.margin>

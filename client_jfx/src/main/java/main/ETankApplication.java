@@ -100,7 +100,6 @@ public class ETankApplication extends Application {
 
         GameViewController gameViewController = loader.getController();
 
-
         primaryStage.setScene(scene);
         primaryStage.show();
     }

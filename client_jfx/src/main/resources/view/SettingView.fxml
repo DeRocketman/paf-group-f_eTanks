@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane stylesheets="@../css/Application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SettingViewController">
     <children>
@@ -11,7 +16,41 @@
                 <AnchorPane id="btn-back" prefHeight="850.0" prefWidth="800.0" BorderPane.alignment="CENTER">
                     <children>
                         <Button id="btn-back" layoutX="98.0" layoutY="95.0" mnemonicParsing="false" onAction="#switchToMenu" text="Zurück" />
-                        <Button layoutX="98.0" layoutY="164.0" mnemonicParsing="false" onAction="#saveSettings" text="Speichern" />
+                  <VBox layoutX="248.0" layoutY="284.0" prefHeight="370.0" prefWidth="304.0">
+                     <children>
+                        <HBox prefHeight="50.0" prefWidth="308.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sound" wrappingWidth="139.13671875" />
+                              <ToggleButton fx:id="soundSettings" mnemonicParsing="false" onAction="#changeSound" text="An" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="50.0" prefWidth="309.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Hintergrundmusik" wrappingWidth="139.13671875" />
+                              <ToggleButton fx:id="musicSettings" mnemonicParsing="false" onAction="#changeMusic" text="An" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="50.0" prefWidth="309.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Musik- Lautstärke" wrappingWidth="139.13671875" />
+                              <Slider fx:id="musicVolumeSettings" onDragDone="#changeMusicVolume" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="50.0" prefWidth="309.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sound-Effekte" wrappingWidth="139.13671875" />
+                              <ToggleButton fx:id="effectSettings" mnemonicParsing="false" onAction="#changeEffect" text="An" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="50.0" prefWidth="309.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Effekt - Lautstärke" wrappingWidth="139.13671875" />
+                              <Slider fx:id="effectVolumeSettings" onDragDone="#changeEffectVolume" />
+                           </children>
+                        </HBox>
+                              <Button mnemonicParsing="false" onAction="#saveSettings" text="Speichern" />
+                     </children>
+                  </VBox>
                     </children></AnchorPane>
             </center>
             <left>

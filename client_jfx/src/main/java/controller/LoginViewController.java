@@ -1,5 +1,7 @@
 package controller;
 
+import javafx.beans.property.StringProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -16,9 +18,9 @@ public class LoginViewController {
     ETankApplication eTankApplication;
 
     @FXML
-    TextField UsernameField;
+    TextField usernameField;
     @FXML
-    PasswordField pwField;
+    PasswordField passwordField;
     @FXML
     Label forgotPwLabel;
     @FXML
@@ -26,7 +28,19 @@ public class LoginViewController {
     @FXML
     Button loginBtn;
 
-    @FXML
+    public void initialize(){
+        loginBtn.setDisable(true);
+    }
+
+    public void keyRelased () {
+        String userName = usernameField.getText();
+        String password = passwordField.getText();
+
+        boolean isDisabled = (userName.isEmpty() || password.isEmpty() );
+
+        loginBtn.setDisable(isDisabled);
+    }
+
     public void changeView() throws IOException {
         eTankApplication.showMenuView();
     }

@@ -1,5 +1,7 @@
 package model;
 
+import javafx.scene.image.Image;
+
 public class User {
     private final int id;
     private String userName;

@@ -88,7 +88,7 @@ public class GameCreatorViewController {
         eTankApplication.showLevelOneView();
     }
 
-    //TODO: Refactorn unbedingt!!
+    //TODO: Refactorn unbedingt-> Elemente vielleicht automatisch erstellen lassen foreach?!
     @FXML
     public Game joinSelectedGame() {
         Game selectedGame = tableGameList.getSelectionModel().getSelectedItem();
@@ -118,8 +118,8 @@ public class GameCreatorViewController {
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Game ist schon voll");
-            alert.setHeaderText("Panzerfahrer, du kannst kein volles Game joinen");
-            alert.setContentText("Bitte wählen ein anderes Game in der Tabelle aus oder hoste selbst eins");
+            alert.setHeaderText("Panzerfahrer, du kannst das Game joinen");
+            alert.setContentText("Bitte wählen ein anderes Game aus oder hoste selbst eins");
             alert.showAndWait();
         }
         return selectedGame;

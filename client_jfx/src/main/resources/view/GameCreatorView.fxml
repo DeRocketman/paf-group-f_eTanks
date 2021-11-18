@@ -93,9 +93,6 @@
                            </font>
                         </Label>
                         <Button fx:id="btnGameStart" mnemonicParsing="false" onMouseClicked="#switchToGameView" text="Start Game" GridPane.columnIndex="3" />
-                        <Button fx:id="btnJoin1" mnemonicParsing="false" onMouseClicked="#joinAsMember1" text="Join" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                        <Button fx:id="btnJoin2" mnemonicParsing="false" onMouseClicked="#joinAsMember2" text="Join" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                        <Button fx:id="btnJoin3" mnemonicParsing="false" onMouseClicked="#joinAsMember3" prefHeight="44.0" prefWidth="136.0" text="Join" GridPane.columnIndex="3" GridPane.rowIndex="3" />
                         <ImageView fx:id="imgViewHost" fitHeight="71.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
                            <GridPane.margin>
                               <Insets />

@@ -8,10 +8,7 @@ import javafx.scene.layout.GridPane;
 import main.ETankApplication;
 import model.Game;
 import model.GameCreator;
-import model.User;
-
 import java.io.IOException;
-import java.net.URL;
 import java.util.Objects;
 
 public class GameCreatorViewController {
@@ -30,12 +27,6 @@ public class GameCreatorViewController {
     private TableView<Game> tableGameList;
     @FXML
     private Button btnGameStart;
-    @FXML
-    private Button btnJoin1;
-    @FXML
-    private Button btnJoin2;
-    @FXML
-    private Button btnJoin3;
     @FXML
     private Button btnJoinSelectedGame;
     @FXML
@@ -97,55 +88,32 @@ public class GameCreatorViewController {
         eTankApplication.showLevelOneView();
     }
 
-    @FXML
-    public void joinAsMember1() {
-        Game selectedGame = tableGameList.getSelectionModel().getSelectedItem();
-        selectedGame.addParticipants(gc.getSignedUser());
-        btnJoin1.setDisable(true);
-        labelUserName2.setText(gc.getSignedUser().getPublicName());
-        imgViewMember1.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(gc.getSignedUser().getImage()))));
-    }
-
-    @FXML
-    public void joinAsMember2() {
-        Game selectedGame = tableGameList.getSelectionModel().getSelectedItem();
-        selectedGame.addParticipants(gc.getSignedUser());
-        btnJoin2.setDisable(true);
-        imgViewMember2.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(gc.getSignedUser().getImage()))));
-    }
-
-    @FXML
-    public void joinAsMember3() {
-        Game selectedGame = tableGameList.getSelectionModel().getSelectedItem();
-        selectedGame.addParticipants(gc.getSignedUser());
-        btnJoin3.setDisable(true);
-        imgViewMember3.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(gc.getSignedUser().getImage()))));
-    }
     //TODO: Refactorn unbedingt!!
     @FXML
-    public void joinSelectedGame() {
+    public Game joinSelectedGame() {
         Game selectedGame = tableGameList.getSelectionModel().getSelectedItem();
         if (selectedGame.getSeatCounter() < 4) {
+            selectedGame.addParticipants(gc.getSignedUser());
             setDefaultView();
             gridPaneHosts.setVisible(true);
-            btnJoin1.setDisable(false);
-            btnJoin2.setDisable(false);
-            btnJoin3.setDisable(false);
             labelUserName1.setText(selectedGame.getHost().get(0).getPublicName());
             imgViewHost.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(selectedGame.getHost().get(0).getImage()))));
             btnGameStart.setDisable(true);
-            switch(selectedGame.getParticipants().size()) {
-                case 3: labelUserName4.setText(selectedGame.getParticipants().get(2).getPublicName());
-                        imgViewMember3.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(selectedGame.getParticipants().get(2).getImage()))));
-                        btnJoin3.setDisable(true);
-                case 2: labelUserName3.setText(selectedGame.getParticipants().get(1).getPublicName());
-                        imgViewMember2.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(selectedGame.getParticipants().get(1).getImage()))));
-                        btnJoin2.setDisable(true);
-                case 1: labelUserName2.setText(selectedGame.getParticipants().get(0).getPublicName());
-                        imgViewMember1.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(selectedGame.getParticipants().get(0).getImage()))));
-                        btnJoin1.setDisable(true);
-                        break;
-                default: break;
+            if (selectedGame.getParticipants().size() == 1) {
+                labelUserName2.setText(selectedGame.getParticipants().get(0).getPublicName());
+                imgViewMember1.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(selectedGame.getParticipants().get(0).getImage()))));
+            } else if (selectedGame.getParticipants().size() == 2) {
+                labelUserName2.setText(selectedGame.getParticipants().get(0).getPublicName());
+                imgViewMember1.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(selectedGame.getParticipants().get(0).getImage()))));
+                labelUserName3.setText(selectedGame.getParticipants().get(1).getPublicName());
+                imgViewMember2.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(selectedGame.getParticipants().get(1).getImage()))));
+            } else if (selectedGame.getParticipants().size() == 3) {
+                labelUserName2.setText(selectedGame.getParticipants().get(0).getPublicName());
+                imgViewMember1.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(selectedGame.getParticipants().get(0).getImage()))));
+                labelUserName3.setText(selectedGame.getParticipants().get(1).getPublicName());
+                imgViewMember2.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(selectedGame.getParticipants().get(1).getImage()))));
+                labelUserName4.setText(selectedGame.getParticipants().get(2).getPublicName());
+                imgViewMember3.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(selectedGame.getParticipants().get(2).getImage()))));
             }
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -154,6 +122,7 @@ public class GameCreatorViewController {
             alert.setContentText("Bitte wählen ein anderes Game in der Tabelle aus oder hoste selbst eins");
             alert.showAndWait();
         }
+        return selectedGame;
     }
 
     @FXML
@@ -165,9 +134,7 @@ public class GameCreatorViewController {
         labelUserName1.setText("Free");
         labelUserName2.setText("Free");
         labelUserName3.setText("Free");
-        btnJoin1.setDisable(true);
-        btnJoin2.setDisable(true);
-        btnJoin3.setDisable(true);
+        labelUserName3.setText("Free");
     }
 
     public void setETankApplication(ETankApplication eTankApplication) {

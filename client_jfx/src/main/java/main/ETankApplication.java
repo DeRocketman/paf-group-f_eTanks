@@ -2,10 +2,8 @@ package main;
 
 import controller.*;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -106,7 +104,7 @@ public class ETankApplication extends Application {
 
     public void showLevelOneView() {
         try {
-            // Load the fxml file and create the new stage for the popup dialog-
+            // Load the fxml file and create the new stage for the popup dialog
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(ETankApplication.class.getResource("../view/LevelOneView.fxml"));
             AnchorPane page = loader.load();

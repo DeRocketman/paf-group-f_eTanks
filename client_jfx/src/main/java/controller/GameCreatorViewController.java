@@ -62,9 +62,10 @@ public class GameCreatorViewController {
         game.addHost(gc.getSignedUser());
         setDefaultView();
         gridPaneHosts.setVisible(true);
-        boolean startIsDisabled = (game.getParticipants().size() == 0 && gc.getSignedUser() != game.getHost().get(0));
+        boolean startIsDisabled = (game.getParticipants().size() == 0  && gc.getSignedUser().getId() == game.getHost().get(0).getId());
+        System.out.println("Anzahl User:" + game.getSeatCounter() + " Hosts:" + game.getHost().size() + " Part:" + game.getParticipants().size());
+        System.out.println(startIsDisabled);
         btnGameStart.setDisable(startIsDisabled);
-
         labelUserName1.setText(game.getHost().get(0).getPublicName());
         imgViewHost.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(game.getHost().get(0).getImage()))));
     }

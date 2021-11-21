@@ -32,12 +32,15 @@ public class ViewController {
         stage.show();
     }*/
 
+
+
     public void setETankApplication(ETankApplication eTankApplication) {
         this.eTankApplication = eTankApplication;
     }
 
     public void switchToProfil() throws IOException {
         eTankApplication.showProfilView();
+        System.out.println(eTankApplication.getSignedUser().getUserName());
     }
 
     public void switchToStatistics() throws IOException {

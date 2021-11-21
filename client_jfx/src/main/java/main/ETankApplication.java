@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import model.User;
 
 import java.io.IOException;
 
@@ -13,6 +14,7 @@ public class ETankApplication extends Application {
 
     Stage primaryStage;
     AnchorPane rootLayout;
+    User signedUser;
 
 
     public static void main(String[] args) {
@@ -59,6 +61,7 @@ public class ETankApplication extends Application {
 
         ProfilViewController profilController = loader.getController();
         profilController.setETankApplication(this);
+        profilController.initialiseUserData();
 
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -136,4 +139,11 @@ public class ETankApplication extends Application {
         primaryStage.show();
     }
 
+    public void setSignedUser(User signedUser) {
+        this.signedUser = signedUser;
+    }
+
+    public User getSignedUser() {
+        return signedUser;
+    }
 }

@@ -8,6 +8,8 @@ import java.io.IOException;
 
 public class MenuViewController extends ViewController {
 
+
+
     public void safeProfil() {
     }
 

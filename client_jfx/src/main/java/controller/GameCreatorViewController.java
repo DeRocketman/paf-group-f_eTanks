@@ -54,7 +54,6 @@ public class GameCreatorViewController {
     private void initialize() {
         columnGameNumber.setCellValueFactory(cellData -> cellData.getValue().gameIdProperty().asObject());
         columnGameSeats.setCellValueFactory(cellData -> cellData.getValue().seatCounterProperty().asObject());
-        System.out.println(eTankApplication.getSignedUser().getUserName());
     }
 
     @FXML

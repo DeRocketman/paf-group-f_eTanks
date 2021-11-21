@@ -13,7 +13,7 @@ public class GameCreator {
     public GameCreator() {
         UserSettings testUserSetting = new UserSettings();
         UserStatistic testUserStatistic = new UserStatistic();
-        User testUser1 = new User(10000, "Line-Maxi", "Rocket wo man",
+        User testUser1 = new User(1000, "Line-Maxi", "Rocket wo man",
                     "../img/images/default-user-image.png", "passwort", testUserSetting, testUserStatistic);
         User testUser = new User(10001, "Maxi-Line", "Wocketwan",
                 "../img/images/default-user-image.png", "passwort", testUserSetting, testUserStatistic);

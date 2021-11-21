@@ -54,12 +54,13 @@ public class GameCreatorViewController {
     private void initialize() {
         columnGameNumber.setCellValueFactory(cellData -> cellData.getValue().gameIdProperty().asObject());
         columnGameSeats.setCellValueFactory(cellData -> cellData.getValue().seatCounterProperty().asObject());
+        System.out.println(eTankApplication.getSignedUser().getUserName());
     }
 
     @FXML
     public void hostGame() {
         Game game = new Game(100003);
-        game.addHost(gc.getSignedUser());
+        game.addHost(eTankApplication.getSignedUser());
         setDefaultView();
         gridPaneHosts.setVisible(true);
         boolean startIsDisabled = (game.getParticipants().size() == 0  && gc.getSignedUser().getId() == game.getHost().get(0).getId());

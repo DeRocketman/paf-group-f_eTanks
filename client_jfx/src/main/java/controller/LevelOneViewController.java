@@ -5,16 +5,10 @@ import javafx.animation.RotateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.RotateEvent;
 import javafx.util.Duration;
 import main.ETankApplication;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -52,8 +46,8 @@ public class LevelOneViewController implements Initializable {
             }
     }
 
-    public void moveTank(Group myTank, double newCourse) {
-        double speed = 10.0;
+    public static void moveTank(Group myTank, double newCourse) {
+        double speed = 5.0;
         RotateTransition rt = new RotateTransition(Duration.seconds(0.2), myTank);
         rt.setFromAngle(myTank.getRotate());
         rt.setToAngle(newCourse);

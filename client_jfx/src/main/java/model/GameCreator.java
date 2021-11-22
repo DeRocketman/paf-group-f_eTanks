@@ -37,5 +37,4 @@ public class GameCreator {
     public User getSignedUser(){
         return signedUser;
     }
-
 }

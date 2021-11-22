@@ -26,10 +26,18 @@
                               <Button fx:id="editName" mnemonicParsing="false" onAction="#editName" prefWidth="90.0" text="edit" />
                            </children>
                         </HBox>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Passwort" textAlignment="CENTER" />
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <TextField fx:id="password" />
+                              <Button fx:id="editPassword" mnemonicParsing="false" onAction="#editPassword" prefWidth="90.0" text="edit" />
+                           </children>
+                        </HBox>
                         <Button fx:id="saveProfil" mnemonicParsing="false" onAction="#saveProfil" text="Speichern" />
                      </children>
                   </VBox>
-               </children></AnchorPane>
+               </children>
+            </AnchorPane>
          </center>
          <left>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />

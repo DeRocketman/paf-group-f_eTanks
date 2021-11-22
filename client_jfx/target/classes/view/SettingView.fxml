@@ -38,14 +38,8 @@
                         </HBox>
                         <HBox prefHeight="50.0" prefWidth="309.0">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sound-Effekte" wrappingWidth="139.13671875" />
-                              <ToggleButton fx:id="effectSettings" mnemonicParsing="false" onAction="#changeEffect" text="An" />
-                           </children>
-                        </HBox>
-                        <HBox prefHeight="50.0" prefWidth="309.0">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Effekt - Lautstärke" wrappingWidth="139.13671875" />
-                              <Slider fx:id="effectVolumeSettings" onDragDone="#changeEffectVolume" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sound - Lautstärke" wrappingWidth="139.13671875" />
+                              <Slider fx:id="soundVolumeSettings" onDragDone="#changeSoundVolume" />
                            </children>
                         </HBox>
                               <Button mnemonicParsing="false" onAction="#saveSettings" text="Speichern" />

@@ -88,6 +88,7 @@ public class ETankApplication extends Application {
 
         SettingViewController settingsController = loader.getController();
         settingsController.setETankApplication(this);
+        settingsController.initialiseUserData();
 
         primaryStage.setScene(scene);
         primaryStage.show();

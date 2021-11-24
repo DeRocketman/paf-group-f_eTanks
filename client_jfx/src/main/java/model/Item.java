@@ -3,10 +3,10 @@ package model;
 public class Item extends LevelElement {
     private int points;
 
-    public Item(int points, int id, int  positionX, int positionY, String shapePath, boolean isVisible) {
-        super(id, positionX, positionY, shapePath, isVisible);
-        this.points = points;
+    public Item(double positionX, double positionY, String[] shapePaths, double rotations, boolean isVisible) {
+        super(positionX, positionY, shapePaths, rotations, isVisible);
     }
+
 
     public void showEffect() {
         //Do effects

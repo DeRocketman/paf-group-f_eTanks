@@ -3,11 +3,8 @@ package model;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
-import javafx.scene.input.KeyEvent;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 
 public class Game {
     /* todo: Uncomment, wenn StringPropertys nicht den gewünschten Effekt bringen! (Observable)

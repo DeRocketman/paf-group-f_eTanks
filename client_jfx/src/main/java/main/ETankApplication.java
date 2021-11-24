@@ -5,7 +5,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.User;
 
@@ -100,7 +99,6 @@ public class ETankApplication extends Application {
         loader.setLocation(getClass().getResource("../view/GameView.fxml"));
         rootLayout = loader.load();
         Scene scene = new Scene(rootLayout);
-
         GameViewController gameViewController = loader.getController();
 
         primaryStage.setScene(scene);

@@ -38,7 +38,7 @@ public class GameCreatorViewController {
     @FXML
     private ImageView imgViewMember3;
     @FXML
-    private TableColumn<Game, Integer> columnGameNumber;
+    private TableColumn<Game, Long> columnGameNumber;
     @FXML
     private TableColumn<Game, Integer> columnGameSeats;
 
@@ -58,7 +58,7 @@ public class GameCreatorViewController {
 
     @FXML
     public void hostGame() {
-        Game game = new Game(100003);
+        Game game = new Game(10000000);
         game.addHost(eTankApplication.getSignedUser());
         setDefaultView();
         gridPaneHosts.setVisible(true);

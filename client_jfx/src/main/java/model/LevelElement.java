@@ -1,23 +1,26 @@
 package model;
 
 public abstract class LevelElement {
-    private int id;
-    private int positionX;
-    private int positionY;
-    private String shapePath;
+    private double positionX;
+    private double positionY;
+    private String [] shapePaths;
+    private double [] rotations;
     private boolean isVisible;
 
-    public LevelElement(int id, int positionX, int positionY, String shapePath, boolean isVisible) {
-        this.id = id;
+    public LevelElement(double positionX, double positionY, String[] shapePaths, double[] rotations, boolean isVisible) {
         this.positionX = positionX;
         this.positionY = positionY;
-        this.shapePath = shapePath;
+        this.shapePaths = shapePaths;
+        this.rotations = rotations;
         this.isVisible = isVisible;
     }
-    
 
-    public int[] getPosition() {
-        return new int[]{this.positionX, this.positionY};
+    public double[] getPosition() {
+        return new double[]{this.positionX, this.positionY};
     }
 
+    public void setPositionX(double[] positions) {
+        this.positionX = positions[0];
+        this.positionY = positions[1];
+    }
 }

@@ -1,9 +1,6 @@
 package model;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -30,7 +27,7 @@ public class Game {
     }
      */
 
-    private final IntegerProperty gameId;
+    private LongProperty gameId;
     private final StringProperty gameTimestamp;
     private IntegerProperty seatCounter;
     private ObservableList<User> host;
@@ -38,8 +35,8 @@ public class Game {
     private ObservableList<UserGameStatistic> userGameStatistics;
 
 
-    public Game(int gameId) {
-       this.gameId = new SimpleIntegerProperty(gameId);
+    public Game(long gameID) {
+       this.gameId = new SimpleLongProperty(gameID);
        Timestamp gts = new Timestamp(System.currentTimeMillis());
        this.gameTimestamp = new SimpleStringProperty(gts.toString());
        this.host = FXCollections.observableArrayList();
@@ -57,11 +54,11 @@ public class Game {
         }
     }
 
-    public int getGameId() {
-        return gameId.get();
+    public void setGameId(long gameId) {
+        this.gameId.set(gameId);
     }
 
-    public IntegerProperty gameIdProperty() {
+    public LongProperty gameIdProperty() {
         return gameId;
     }
 
@@ -117,10 +114,6 @@ public class Game {
 
     public void setSeatCounter(int seatCounter) {
         this.seatCounter.set(seatCounter);
-    }
-
-    public void drawLevel() {
-        
     }
 
 }

@@ -64,11 +64,25 @@ public class LevelOneViewController implements Initializable {
                 }
             } else {
                 rt.play();
-
             }
         }
     }
 
+    public void keyTyped(KeyEvent keyEvent) {
+            Group myTank = tankOne;
+            if (keyEvent.getCode() == KeyCode.SPACE) {
+                fireMainWeapon(myTank);
+            }
+            if (keyEvent.getCode() == KeyCode.ENTER) {
+                fireSecondaryWeapon(myTank);
+            }
+    }
+
+    private void fireMainWeapon(Group myTank) {
+    }
+
+    private void fireSecondaryWeapon(Group myTank) {
+    }
 
 
     @Override

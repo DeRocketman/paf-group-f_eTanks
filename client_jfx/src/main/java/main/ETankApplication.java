@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.User;
 
@@ -122,6 +123,7 @@ public class ETankApplication extends Application {
 
             //  Adding EventListener to scene and push the KeyEvent in Controller
             scene.setOnKeyPressed(keyEvent -> controller.keyPressed(keyEvent));
+            scene.setOnKeyTyped(keyEvent -> controller.keyTyped(keyEvent));
         } catch (IOException e) {
             e.printStackTrace();
         }

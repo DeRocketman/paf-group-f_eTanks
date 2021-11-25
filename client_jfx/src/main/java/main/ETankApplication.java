@@ -5,7 +5,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import model.Game;
 import model.User;
 
 import java.io.IOException;
@@ -15,7 +17,6 @@ public class ETankApplication extends Application {
     Stage primaryStage;
     AnchorPane rootLayout;
     User signedUser;
-
 
     public static void main(String[] args) {
         launch(args);
@@ -94,31 +95,22 @@ public class ETankApplication extends Application {
         primaryStage.show();
     }
 
-    public void showGameView() throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../view/GameView.fxml"));
-        rootLayout = loader.load();
-        Scene scene = new Scene(rootLayout);
-        GameViewController gameViewController = loader.getController();
 
-        primaryStage.setScene(scene);
-        primaryStage.show();
-    }
-
-    public void showLevelOneView() {
+    public void showGameView() {
         try {
+
             // Load the fxml file and create the new stage for the popup dialog
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(ETankApplication.class.getResource("../view/LevelOneView.fxml"));
-            AnchorPane page = loader.load();
+            loader.setLocation(ETankApplication.class.getResource("../view/GameView.fxml"));
+            BorderPane page = loader.load();
 
             // Create the dialog Stage.
             Scene scene = new Scene(page);
             primaryStage.setScene(scene);
+            primaryStage.setResizable(false);
 
-            // Set the seminar into the controller.
-            LevelOneViewController controller = loader.getController();
-
+            // Set the controller to Stage
+            GameViewController controller = loader.getController();
             //  Adding EventListener to scene and push the KeyEvent in Controller
             scene.setOnKeyPressed(keyEvent -> controller.keyPressed(keyEvent));
             scene.setOnKeyTyped(keyEvent -> controller.keyTyped(keyEvent));

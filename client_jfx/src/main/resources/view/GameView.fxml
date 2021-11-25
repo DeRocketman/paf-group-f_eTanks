@@ -1,20 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="850.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Label layoutX="495.0" layoutY="6.0" maxHeight="40.0" maxWidth="60.0" minHeight="40.0" minWidth="30.0" prefHeight="40.0" prefWidth="60.0" text="180" textOverrun="CLIP" AnchorPane.leftAnchor="495.0" AnchorPane.rightAnchor="545.0" AnchorPane.topAnchor="6.0">
-         <font>
-            <Font size="26.0" />
-         </font>
-      </Label>
-      <Label layoutX="322.0" layoutY="10.0" prefHeight="31.0" prefWidth="170.0" text="Round Clock:" textOverrun="CLIP" AnchorPane.leftAnchor="322.0" AnchorPane.rightAnchor="608.0" AnchorPane.topAnchor="10.0">
-         <font>
-            <Font size="26.0" />
-         </font>
-      </Label>
-   </children>
-</AnchorPane>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1400.0" stylesheets="@../css/Application.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+fx:controller="controller.GameViewController">
+   <top>
+      <HBox prefHeight="50.0" prefWidth="1400.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" prefHeight="30.0" prefWidth="98.0" text="Username">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" text="username">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+         </children></HBox>
+   </top>
+   <center>
+      <GridPane fx:id="ground" BorderPane.alignment="CENTER" />
+   </center>
+   <right>
+      <VBox prefHeight="800.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </right>
+</BorderPane>

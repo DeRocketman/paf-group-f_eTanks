@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class GameCreatorViewController {
-
     @FXML
     private Label labelUserName1;
     @FXML
@@ -84,9 +83,7 @@ public class GameCreatorViewController {
 
     @FXML
     public void switchToGameView() throws IOException{
-        //TODO: Muss gefixt werden, da Views Übereinander liegen!
         eTankApplication.showGameView();
-        eTankApplication.showLevelOneView();
     }
 
     //TODO: Refactorn unbedingt-> Elemente vielleicht automatisch erstellen lassen foreach?!

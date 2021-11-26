@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1400.0" stylesheets="@../css/Application.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-fx:controller="controller.GameViewController">
+fx:controller="view.GameView">
    <top>
       <HBox prefHeight="50.0" prefWidth="1400.0" BorderPane.alignment="CENTER">
          <children>

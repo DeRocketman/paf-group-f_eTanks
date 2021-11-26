@@ -1,14 +1,18 @@
 package main;
 
 import controller.*;
+import de.saxsys.mvvmfx.FluentViewLoader;
+import de.saxsys.mvvmfx.ViewTuple;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
+//not used in MVVM javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import model.Game;
+//not used in MVVM import model.Game;
 import model.User;
+import view.GameView;
+import viewmodel.GameViewModel;
 
 import java.io.IOException;
 
@@ -97,7 +101,16 @@ public class ETankApplication extends Application {
 
 
     public void showGameView() {
+        ViewTuple<GameView, GameViewModel> viewTuple = FluentViewLoader.fxmlView(GameView.class).load();
+        Scene scene = new Scene(viewTuple.getView());
+        scene.setOnKeyPressed(keyEvent -> viewTuple.getViewModel().handle(keyEvent));
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        primaryStage.show();
+
+        /**
         try {
+
 
             // Load the fxml file and create the new stage for the popup dialog
             FXMLLoader loader = new FXMLLoader();
@@ -114,9 +127,11 @@ public class ETankApplication extends Application {
             //  Adding EventListener to scene and push the KeyEvent in Controller
             scene.setOnKeyPressed(keyEvent -> controller.keyPressed(keyEvent));
             scene.setOnKeyTyped(keyEvent -> controller.keyTyped(keyEvent));
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+         **/
     }
 
     public void showGameCreatorView() throws IOException {

@@ -1,73 +1,52 @@
-package controller;
+package viewmodel;
 
+import de.saxsys.mvvmfx.ViewModel;
 import javafx.animation.Animation;
 import javafx.animation.RotateTransition;
-import javafx.animation.Timeline;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 import main.ETankApplication;
 import model.Game;
-import model.Level;
+
 import java.util.Objects;
 
-
-public class GameViewController {
-    private ETankApplication eTankApplication;
-    private Game game;
-    private Level level;
-    private Timeline timeline;
-
-    public GameViewController() {
-
-    }
-    @FXML
-    private GridPane ground;
-
+public class GameViewModel implements ViewModel {
+    ETankApplication eTankApplication;
+    Game game;
     @FXML
     private Group tankOne;
 
-    @FXML
-    public void initialize() {
-        for (int row = 0; row < 20; row++) {
-            for (int col = 0; col < 30; col++) {
-                ImageView cell = new ImageView();
-                cell.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../img/images/levelBackground/Ground_Tile_02_A.png"))));
-                cell.setFitHeight(40.0);
-                cell.setFitWidth(40.0);
-                ground.add(cell, col, row);
-                System.out.println(col + " " +row);
-            }
-        }
-        ImageView tankHullA = new ImageView();
-        ImageView tankWeaponA = new ImageView();
-    }
 
-    public void keyPressed(KeyEvent keyEvent) {
+    public void handle(KeyEvent keyEvent) {
         Group myTank = tankOne;
         if (keyEvent.getCode() == KeyCode.W) {
             moveTank(myTank, 0.0);
+            System.out.println("Up: " + keyEvent.getCode());
         }
         if (keyEvent.getCode() == KeyCode.S) {
             moveTank(myTank, 180.0);
+            System.out.println("Down: " + keyEvent.getCode());
         }
         if (keyEvent.getCode() == KeyCode.D) {
             moveTank(myTank, 90.0);
+            System.out.println("Right: " + keyEvent.getCode());
         }
         if (keyEvent.getCode() == KeyCode.A) {
             moveTank(myTank, 270.0);
+            System.out.println("Left: " + keyEvent.getCode());
         }
         if (keyEvent.getCode() == KeyCode.SPACE) {
             fireMainWeapon(myTank);
             System.out.println("FEUERTASTE: " + keyEvent.getCode());
         }
     }
+
     //TODO auslagern nach Tank
     private void fireMainWeapon(Group myTank) {
         double[] bsp = setCorrectPosition(myTank);
@@ -116,7 +95,6 @@ public class GameViewController {
         return  bulletColours;
     }
 
-    //TODO Auslagern nach Tank
     public void moveTank(Group myTank, double newCourse) {
         double speed = 5.0;
         RotateTransition rt = new RotateTransition(Duration.seconds(0.2), myTank);
@@ -139,15 +117,7 @@ public class GameViewController {
         }
     }
 
-    public void keyTyped(KeyEvent keyEvent) {
-        Group myTank = tankOne;
-        if (keyEvent.getCode() == KeyCode.SPACE) {
-            fireMainWeapon(myTank);
-        }
-        if (keyEvent.getCode() == KeyCode.ENTER) {
-            fireSecondaryWeapon(myTank);
-        }
-    }
+
 
     public void setETankApplication(ETankApplication eTankApplication) {
         this.eTankApplication = eTankApplication;

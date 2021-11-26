@@ -1,7 +1,10 @@
 package view;
 
 import de.saxsys.mvvmfx.FxmlView;
+import de.saxsys.mvvmfx.InjectViewModel;
 import de.saxsys.mvvmfx.internal.viewloader.View;
+import javafx.beans.property.ObjectProperty;
+import javafx.collections.ObservableArray;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
@@ -15,8 +18,21 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class GameView implements FxmlView<GameViewModel>, Initializable {
+    @InjectViewModel
+    private GameView gameView;
+
     @FXML
     private GridPane ground;
+    @FXML
+    private Group tank1;
+    @FXML
+    private Group tank2;
+    @FXML
+    private Group tank3;
+    @FXML
+    private Group tank4;
+
+
 
 
     @Override
@@ -36,5 +52,14 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
                 System.out.println(col + " " +row);
             }
         }
+    }
+
+    private void initTank() {
+        //Hier sollen die Panzer an die jeweiligen Level angepasst werden
+
+    }
+
+    private void initElements() {
+        //Hier sollen die übrigen starren Items an die jeweiligen Level angepasst werden
     }
 }

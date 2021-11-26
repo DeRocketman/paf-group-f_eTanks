@@ -3,7 +3,6 @@ package viewmodel;
 import de.saxsys.mvvmfx.ViewModel;
 import javafx.animation.Animation;
 import javafx.animation.RotateTransition;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
@@ -19,10 +18,10 @@ import java.util.Objects;
 public class GameViewModel implements ViewModel {
     ETankApplication eTankApplication;
     Game game;
+
+    //TODO: DATABINDING FROM MODEL TO VIEW
     @FXML
-    private Group tankOne;
-
-
+    Group tankOne;
     public void handle(KeyEvent keyEvent) {
         Group myTank = tankOne;
         if (keyEvent.getCode() == KeyCode.W) {

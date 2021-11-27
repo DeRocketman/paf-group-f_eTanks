@@ -9,7 +9,6 @@ import model.data.UserGameStatistic;
 import java.sql.Timestamp;
 
 public class Game {
-
     private final LongProperty gameId;
     private final StringProperty gameTimestamp;
     private IntegerProperty seatCounter;
@@ -36,12 +35,9 @@ public class Game {
         }
     }
 
-
-
     public LongProperty gameIdProperty() {
         return gameId;
     }
-
 
     public StringProperty gameTimestampProperty() {
         return gameTimestamp;

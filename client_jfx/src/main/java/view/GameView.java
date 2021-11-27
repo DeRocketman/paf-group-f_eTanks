@@ -19,8 +19,9 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class GameView implements FxmlView<GameViewModel>, Initializable {
+
     @InjectViewModel
-    private GameView gameView;
+    private GameViewModel gameViewModel;
 
     @FXML
     private GridPane ground;
@@ -32,6 +33,23 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
     private StackPane tank3;
     @FXML
     private StackPane tank4;
+    @FXML
+    private ImageView tank1Hull;
+    @FXML
+    private ImageView tank1Weapon;
+    @FXML
+    private ImageView tank2Hull;
+    @FXML
+    private ImageView tank2Weapon;
+    @FXML
+    private ImageView tank3Hull;
+    @FXML
+    private ImageView tank3Weapon;
+    @FXML
+    private ImageView tank4Hull;
+    @FXML
+    private ImageView tank4Weapon;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -52,9 +70,10 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         }
     }
 
-    private void initTank() {
-        //Hier sollen die Panzer an die jeweiligen Level angepasst werden
+    private void initTank(int playerCount) {
+        if(playerCount == 4) {
 
+        }
     }
 
     private void initElements() {

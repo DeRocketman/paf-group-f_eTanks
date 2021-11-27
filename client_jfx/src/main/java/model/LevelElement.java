@@ -13,9 +13,13 @@ public abstract class LevelElement {
         this.isVisible = isVisible;
     }
 
-    public double[] getPosition() {
+    public double[] getPositions() {
         return new double[]{this.positionX, this.positionY};
     }
 
+    public void setPositions(double x, double y) {
+        positionX = x;
+        positionY = y;
+    }
 
 }

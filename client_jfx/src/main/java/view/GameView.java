@@ -11,6 +11,7 @@ import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import viewmodel.GameViewModel;
 
 import java.net.URL;
@@ -24,16 +25,13 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
     @FXML
     private GridPane ground;
     @FXML
-    private Group tank1;
+    private StackPane tank1;
     @FXML
-    private Group tank2;
+    private StackPane tank2;
     @FXML
-    private Group tank3;
+    private StackPane tank3;
     @FXML
-    private Group tank4;
-
-
-
+    private StackPane tank4;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

@@ -4,7 +4,7 @@
  *
  */
 
-package model;
+package model.data;
 
 //@todo: Es bleibt zu ueberlegen, ob die strings für die Steuerung noch zu ASCII "gemappt" werden muessen. (z.B. space)
 /**

@@ -1,4 +1,4 @@
-package model;
+package model.game;
 
 public class Item extends LevelElement {
     private int points;

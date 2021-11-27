@@ -11,7 +11,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
 import main.ETankApplication;
-import model.Game;
+import model.game.Game;
 
 import java.util.Objects;
 

@@ -1,6 +1,4 @@
-package model;
-
-import javafx.scene.Group;
+package model.game;
 
 public class BulletMainWeapon extends LevelElement{
 

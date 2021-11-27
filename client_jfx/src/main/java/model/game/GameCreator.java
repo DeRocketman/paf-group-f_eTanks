@@ -1,7 +1,10 @@
-package model;
+package model.game;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import model.data.User;
+import model.data.UserSettings;
+import model.data.UserStatistic;
 
 public class GameCreator {
 
@@ -17,8 +20,8 @@ public class GameCreator {
                 "../img/images/default-user-image.png", "passwort", testUserSetting, testUserStatistic);
         this.signedUser = new User(10002, "Mine-Laxi", "Pocketpen",
                 "../img/images/default-user-image.png", "passwort", testUserSetting, testUserStatistic);
-        gameList.add(new Game(100000));
-        gameList.add(new Game(100001));
+        gameList.add(new Game());
+        gameList.add(new Game());
         for (Game game: gameList) {
             game.addHost(testUser1);
             game.addParticipants(testUser);

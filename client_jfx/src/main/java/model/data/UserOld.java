@@ -1,6 +1,4 @@
-package model;
-
-import javafx.scene.image.Image;
+package model.data;
 
 public class UserOld {
     private final int id;

@@ -6,8 +6,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import main.ETankApplication;
-import model.Game;
-import model.GameCreator;
+import model.game.Game;
+import model.game.GameCreator;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -57,7 +57,7 @@ public class GameCreatorViewController {
 
     @FXML
     public void hostGame() {
-        Game game = new Game(10000000);
+        Game game = new Game();
         game.addHost(eTankApplication.getSignedUser());
         setDefaultView();
         gridPaneHosts.setVisible(true);

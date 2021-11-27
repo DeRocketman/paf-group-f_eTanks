@@ -9,8 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 //not used in MVVM javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-//not used in MVVM import model.Game;
-import model.User;
+//not used in MVVM import model.game.Game;
+import model.data.User;
 import view.GameView;
 import viewmodel.GameViewModel;
 

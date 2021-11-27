@@ -1,4 +1,4 @@
-package model;
+package model.game;
 
 public class GamePhysics {
     public static final double FRAMES_PER_SECOND = 60;

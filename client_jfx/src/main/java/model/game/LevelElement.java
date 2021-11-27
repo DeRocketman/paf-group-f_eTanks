@@ -1,4 +1,4 @@
-package model;
+package model.game;
 
 public abstract class LevelElement {
     private double positionX;

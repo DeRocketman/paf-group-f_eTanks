@@ -1,4 +1,4 @@
-package model;
+package model.data;
 
 //todo: Klaeren, ob noch gameWins and roundWins dazukommen sollen DS= ja
 public class UserGameStatistic {
@@ -26,7 +26,6 @@ public class UserGameStatistic {
         this.deaths = deaths;
         this.shots = shots;
         this.hitPoints = hitPoints;
-
         this.killDeathRate = killDeathRate();
         this.hitRate = hitRate();
 

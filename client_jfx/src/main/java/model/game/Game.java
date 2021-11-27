@@ -1,40 +1,25 @@
-package model;
+package model.game;
 
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import model.data.User;
+import model.data.UserGameStatistic;
 
 import java.sql.Timestamp;
 
 public class Game {
-    /* todo: Uncomment, wenn StringPropertys nicht den gewünschten Effekt bringen! (Observable)
-    private final int id;
-    private final Timestamp gameTimestamp;
-    private final User host;
-    private final ArrayList<User> participants;
-    private ArrayList<UserGameStatistic> userGameStatistics;
 
-    public Game(int id, User host, ArrayList<User> participants) {
-        this.id = id;
-        this.host = host;
-        this.participants = participants;
-        this.gameTimestamp = new Timestamp(System.currentTimeMillis());
-        drawLevel();
-        createUserGameStatistic();
-    }
-     */
-
-    private LongProperty gameId;
+    private final LongProperty gameId;
     private final StringProperty gameTimestamp;
     private IntegerProperty seatCounter;
     private ObservableList<User> host;
     private ObservableList<User> participants;
     private ObservableList<UserGameStatistic> userGameStatistics;
 
-
-    public Game(long gameID) {
-       this.gameId = new SimpleLongProperty(gameID);
+    public Game() {
        Timestamp gts = new Timestamp(System.currentTimeMillis());
+       this.gameId = new SimpleLongProperty(gts.getTime());
        this.gameTimestamp = new SimpleStringProperty(gts.toString());
        this.host = FXCollections.observableArrayList();
        this.participants = FXCollections.observableArrayList();
@@ -51,28 +36,15 @@ public class Game {
         }
     }
 
-    public void setGameId(long gameId) {
-        this.gameId.set(gameId);
-    }
+
 
     public LongProperty gameIdProperty() {
         return gameId;
     }
 
-    public void setGameId(int gameId) {
-        this.gameId.set(gameId);
-    }
-
-    public String getGameTimestamp() {
-        return gameTimestamp.get();
-    }
 
     public StringProperty gameTimestampProperty() {
         return gameTimestamp;
-    }
-
-    public void setGameTimestamp(String gameTimestamp) {
-        this.gameTimestamp.set(gameTimestamp);
     }
 
     public ObservableList<User> getHost() {

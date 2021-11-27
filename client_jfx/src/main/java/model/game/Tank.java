@@ -1,4 +1,6 @@
-package model;
+package model.game;
+
+import model.data.User;
 
 public class Tank extends LevelElement{
     private final User TANK_COMMANDER;

@@ -1,17 +1,9 @@
 package controller;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
-import main.ETankApplication;
-import model.User;
-
-import javax.swing.text.html.ImageView;
-import java.awt.*;
-import java.io.IOException;
 
 public class ProfilViewController extends ViewController {
 

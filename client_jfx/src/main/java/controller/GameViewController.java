@@ -13,8 +13,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 import main.ETankApplication;
-import model.Game;
-import model.Level;
+import model.game.Game;
+import model.game.Level;
 import java.util.Objects;
 
 

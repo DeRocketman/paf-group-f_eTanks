@@ -3,14 +3,35 @@ package thl.gruppef.etankrest.etankrestapi.entities;
 import javax.persistence.*;
 
 @Entity
-public class UserStatistics {
+public class UserGameStatistic {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(optional = false, fetch = FetchType.EAGER)
-    private User useridentifier;
+    @ManyToOne
+    private User userRef;
+
+    private int gamePoints;
+
+    private int playedGames;
+
+    private int gameWins;
+
+    private int roundWins;
+
+    private int kills;
+
+    private int deaths;
+
+    private int shots;
+
+    private int hitPoints;
+
+    private float killDeathRate;
+
+    private float hitRate;
+
 }
 
 /**

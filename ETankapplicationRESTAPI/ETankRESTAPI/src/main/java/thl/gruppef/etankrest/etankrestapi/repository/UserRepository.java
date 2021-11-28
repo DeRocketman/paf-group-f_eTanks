@@ -1,6 +1,6 @@
-package repository;
+package thl.gruppef.etankrest.etankrestapi.repository;
 
-import entities.User;
+import thl.gruppef.etankrest.etankrestapi.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

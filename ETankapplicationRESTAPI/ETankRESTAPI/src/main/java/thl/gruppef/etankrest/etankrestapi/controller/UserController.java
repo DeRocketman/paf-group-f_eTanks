@@ -1,10 +1,10 @@
-package controller;
+package thl.gruppef.etankrest.etankrestapi.controller;
 
-import entities.User;
+import thl.gruppef.etankrest.etankrestapi.entities.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import repository.UserRepository;
+import thl.gruppef.etankrest.etankrestapi.repository.UserRepository;
 
 import java.util.List;
 

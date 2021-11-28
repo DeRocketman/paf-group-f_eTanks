@@ -21,6 +21,7 @@ public class UserSettings {
     private String moveRightKey;
     private String fireMainWeaponKey;
     private String fireSecondaryWeaponKey;
+    private String showStatisticKey;
 
     /**
      * Instantiates a new User settings.
@@ -36,12 +37,13 @@ public class UserSettings {
         this.gameMusicVolume = 100;
         this.gameSoundOn = true;
         this.gameMusicOn = true;
-        this.moveUpKey = "w";
-        this.moveLeftKey = "a";
-        this.moveDownKey = "s";
-        this.moveRightKey = "d";
-        this.fireMainWeaponKey = "space";
-        this.fireSecondaryWeaponKey= "lctl";
+        this.moveUpKey = "W";
+        this.moveLeftKey = "A";
+        this.moveDownKey = "S";
+        this.moveRightKey = "D";
+        this.fireMainWeaponKey = "SPACE";
+        this.fireSecondaryWeaponKey= "LCTL";
+        this.showStatisticKey = "TAB";
     }
 
     /**

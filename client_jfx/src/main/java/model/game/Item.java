@@ -5,6 +5,7 @@ public class Item extends LevelElement {
 
     public Item(double positionX, double positionY, String[] shapePaths, boolean isVisible) {
         super(positionX, positionY, shapePaths, isVisible);
+        this.points = GamePhysics.ITEM_POINTS;
     }
 
 

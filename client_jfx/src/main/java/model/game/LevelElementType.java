@@ -1,5 +1,5 @@
 package model.game;
 
-public enum LevelElementTyp {
+public enum LevelElementType {
     BLOCK, TANK, BULLETMAINWEAPON, BULLETSECONDARYWEAPON, ITEM
 }

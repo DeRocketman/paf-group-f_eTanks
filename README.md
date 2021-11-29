@@ -36,13 +36,13 @@ Es sollen mindestens 2 Benutzer als Dummy angelegt sein (Zwecks Prüfung)
 
 # 3. Organisation
 ##  3.1. Sprache
--   Innerhalb des Codes, zb. Klassennamen, Methodenbezeichnungen, Dokumentation: englisch
+-   Innerhalb des Codes, z.B. Klassennamen, Methodenbezeichnungen, Dokumentation: englisch
 -   Außerhalb wie z.B. im GitLab-Repository: deutsch
 ## 3.2. Kommunikation
--   Es finden regelmäßige Gruppeninterne Meetings statt (Sonntags, 11 Uhr).
+-   Es finden regelmäßige gruppeninterne Meetings statt (Sonntags, 11 Uhr).
 -   Zwischenzeitlich soll die Signalgruppe für etwaige Klärung von Fragen oder Problemen sowie zur Absprache zusätzlicher Termine genutzt werden.
 ## 3.3. Vorgehen
--   Es wurde entschieden, soviel wie möglich im "Pair" oder "Mob" zu programmieren (Dabei "fährt" eine/einer während die anderen beiden kontrollieren und formulieren).
+-   Es wurde entschieden, so viel wie möglich im "Pair" oder "Mob" zu programmieren (Dabei "fährt" eine/einer während die anderen beiden kontrollieren und formulieren).
 -   Einzelergebnisse werden in der Gruppe im regelmäßigen Meeting vorgestellt.
 -   Es soll mit den Milestone- sowie Issue-Funktionen hier im Gitlabrepo gearbeitet werden, um immer einen einheitlichen Arbeitsstand zu haben.
 -   Es wird gemeinsam das Klassendiagramm erstellt.

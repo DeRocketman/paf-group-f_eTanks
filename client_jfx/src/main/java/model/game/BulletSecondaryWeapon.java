@@ -1,12 +1,11 @@
 package model.game;
 
-public class BulletMainWeapon extends LevelElement{
-
+public class BulletSecondaryWeapon extends LevelElement {
     private final Tank firingTank;
     double rotations;
     private boolean hit = false;
 
-    public BulletMainWeapon(double positionX, double positionY, String[] shapePaths, boolean isVisible,
+    public BulletSecondaryWeapon(double positionX, double positionY, String[] shapePaths, boolean isVisible,
                             double rotations, Tank firingTank) {
         super(positionX, positionY, shapePaths, isVisible);
         this.firingTank = firingTank;

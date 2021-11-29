@@ -3,15 +3,16 @@ package model.game;
 import model.data.User;
 
 public class Tank extends LevelElement{
-    private final User TANK_COMMANDER;
+    private User tankCommander;
     private double course;
     private double weaponCourse;
 
-    public Tank(double positionX, double positionY, String[] imagePaths, boolean isVisible, User TANK_COMMANDER, double course) {
+    public Tank(double positionX, double positionY, String[] imagePaths, boolean isVisible, double course, User tankCommander) {
         super(positionX, positionY, imagePaths, isVisible);
-        this.TANK_COMMANDER = TANK_COMMANDER;
-        this.course = course;
         this.weaponCourse = course;
+        this.course = course;
+        this.tankCommander = tankCommander;
+
     }
 
     public void moveTank(double direction) {
@@ -46,7 +47,10 @@ public class Tank extends LevelElement{
             return 0.0;
     }
 
+    public void setTankCommander(User commander) {
+        this.tankCommander = commander;
+    }
     public User getTankCommander() {
-        return TANK_COMMANDER;
+        return tankCommander;
     }
 }

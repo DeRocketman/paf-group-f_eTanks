@@ -10,4 +10,5 @@ public class GamePhysics {
     public static final long GAME_TIME = GAME_TIME_SECONDS * 1000000000L;
 
     public static final int KILL_POINTS = 1000;
+    public static final int ITEM_POINTS = 300;
 }

@@ -77,6 +77,9 @@ public class GameCreatorViewController {
         return selectedGameLobby;
     }
 
+    public void setStatusReady(ActionEvent actionEvent) {
+    }
+
     public void enterChatHandleS(KeyEvent keyEvent) {
     }
 
@@ -89,5 +92,8 @@ public class GameCreatorViewController {
     public void setETankApplication(ETankApplication eTankApplication) {
         this.eTankApplication = eTankApplication;
         tableGameList.setItems(gc.getGameList());
+    }
+
+    public void setRdyTrue(ActionEvent actionEvent) {
     }
 }

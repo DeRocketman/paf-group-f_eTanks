@@ -41,7 +41,7 @@
             </Button>
          </children>
       </VBox>
-      <VBox fx:id="vboxHost" alignment="TOP_CENTER" layoutX="200.0" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" spacing="20.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="100.0">
+      <VBox fx:id="vboxLobby" alignment="TOP_CENTER" layoutX="200.0" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" spacing="20.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="100.0">
          <children>
             <Text layoutX="313.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Host the Battle">
                <font>
@@ -66,10 +66,17 @@
                               <Insets right="10.0" />
                            </padding>
                         </TableView>
-                        <HBox alignment="TOP_CENTER" prefHeight="29.0" prefWidth="240.0" spacing="20.0">
+                        <HBox fx:id="hbxHostPanel" alignment="TOP_CENTER" prefHeight="29.0" prefWidth="240.0" spacing="20.0" visible="false">
                            <children>
                               <Button fx:id="btnGameStart" onAction="#switchToGameView" text="Start Game" />
                               <Button onAction="#switchBack" prefHeight="29.0" prefWidth="182.0" text="Close lobby" />
+                              <Separator prefWidth="200.0" visible="false" />
+                           </children>
+                        </HBox>
+                        <HBox fx:id="hbxJoinerPanel" alignment="TOP_CENTER" prefHeight="29.0" prefWidth="240.0" spacing="20.0" visible="false">
+                           <children>
+                              <Button id="btnSetRdy" fx:id="btnSetRdy" onAction="#setRdyTrue" text="Set Ready" />
+                              <Button onAction="#switchToInit" prefHeight="29.0" prefWidth="182.0" text="Close lobby" />
                               <Separator prefWidth="200.0" visible="false" />
                            </children>
                         </HBox>

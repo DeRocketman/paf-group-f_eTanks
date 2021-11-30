@@ -12,6 +12,12 @@ public class User {
     private UserSettings userSettings;
     private UserStatistic userStatistic;
 
+    //initial User Constructor
+    public User() {
+       this.id = new SimpleLongProperty(0);
+       this.userSettings = new UserSettings();
+       this.userStatistic = new UserStatistic();
+    }
 
     public User(long id, String userName, String publicName, String image, String password, UserSettings userSettings, UserStatistic userStatistic) {
         this.id = new SimpleLongProperty(id);

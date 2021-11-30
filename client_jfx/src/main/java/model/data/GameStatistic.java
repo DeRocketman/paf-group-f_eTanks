@@ -1,34 +1,30 @@
 package model.data;
 
 //todo: Klaeren, ob noch gameWins and roundWins dazukommen sollen DS= ja
-public class UserGameStatistic {
+public class GameStatistic {
+    private User user;
+    private long gameNumber;
     private int gamePoints;
-    private int playedGames;
-    private int gameWins;
-    private int roundWins;
     private int kills;
     private int deaths;
     private int shots;
     private int hitPoints;
     private float killDeathRate;
     private float hitRate;
+    private boolean winner;
 
-    public UserGameStatistic() {
+    public GameStatistic() {
 
     }
 
-    public UserGameStatistic(int gamePoints, int playedGames, int gameWins, int roundWins, int kills, int deaths, int shots, int hitPoints) {
+    public GameStatistic(int gamePoints, int playedGames, int gameWins, int roundWins, int kills, int deaths, int shots, int hitPoints) {
         this.gamePoints = gamePoints;
-        this.playedGames = playedGames;
-        this.gameWins = gameWins;
-        this.roundWins = roundWins;
         this.kills = kills;
         this.deaths = deaths;
         this.shots = shots;
         this.hitPoints = hitPoints;
         this.killDeathRate = killDeathRate();
         this.hitRate = hitRate();
-
     }
 
 
@@ -43,4 +39,6 @@ public class UserGameStatistic {
     public float hitRate() {
         return this.hitPoints / this.shots;
     }
+
+
 }

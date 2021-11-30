@@ -15,7 +15,7 @@ public class LevelElementFactory {
             return new Item(posX, posY, imagePaths, isVisible);
         } else if (type== LevelElementType.BLOCK) {
             return new Block(posX, posY, imagePaths, isVisible, lives);
-        } else if (type== LevelElementType.BULLETSECONDARYWEAPON) {
+        } else if (type== LevelElementType.BULLETSECONDARYWEAPON) { //Todo: Ist das wirklich notwendig?
             return new BulletSecondaryWeapon(posX, posY, imagePaths, isVisible, course, firedTank);
         }
 

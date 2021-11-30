@@ -4,7 +4,7 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.data.User;
-import model.data.UserGameStatistic;
+import model.data.GameStatistic;
 
 import java.sql.Timestamp;
 
@@ -14,7 +14,7 @@ public class Game {
     private IntegerProperty seatCounter;
     private ObservableList<User> host;
     private ObservableList<User> participants;
-    private ObservableList<UserGameStatistic> userGameStatistics;
+    private ObservableList<GameStatistic> userGameStatistics;
 
     public Game() {
        Timestamp gts = new Timestamp(System.currentTimeMillis());
@@ -30,7 +30,7 @@ public class Game {
     public void createUserGameStatistic() {
         int playerCount = participants.size() + 1;
         for (int i = 0; i < playerCount; i++) {
-            UserGameStatistic userGameStatistic = new UserGameStatistic();
+            GameStatistic userGameStatistic = new GameStatistic();
             this.userGameStatistics.add(userGameStatistic);
         }
     }
@@ -61,11 +61,11 @@ public class Game {
         setSeatCounter(getSeatCounter()+1);
     }
 
-    public ObservableList<UserGameStatistic> getUserGameStatistics() {
+    public ObservableList<GameStatistic> getUserGameStatistics() {
         return userGameStatistics;
     }
 
-    public void setUserGameStatistics(ObservableList<UserGameStatistic> userGameStatistics) {
+    public void setUserGameStatistics(ObservableList<GameStatistic> userGameStatistics) {
         this.userGameStatistics = userGameStatistics;
     }
 

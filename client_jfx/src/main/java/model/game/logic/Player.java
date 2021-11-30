@@ -1,4 +1,4 @@
-package model.game;
+package model.game.logic;
 
 import model.data.User;
 import model.data.UserSettings;

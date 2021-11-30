@@ -13,14 +13,14 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 import main.ETankApplication;
-import model.game.Game;
-import model.game.Level;
+import model.game.logic.GameLobby;
+import model.game.elements.Level;
 import java.util.Objects;
 
 
 public class GameViewController {
     private ETankApplication eTankApplication;
-    private Game game;
+    private GameLobby gameLobby;
     private Level level;
     private Timeline timeline;
 
@@ -153,7 +153,7 @@ public class GameViewController {
         this.eTankApplication = eTankApplication;
     }
 
-    public void setGame(Game game) {
-        this.game = game;
+    public void setGame(GameLobby gameLobby) {
+        this.gameLobby = gameLobby;
     }
 }

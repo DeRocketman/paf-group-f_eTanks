@@ -7,20 +7,18 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
 import main.ETankApplication;
-import model.game.Game;
-
-import java.util.Objects;
+import model.game.logic.GameLobby;
 
 public class GameViewModel implements ViewModel {
     ETankApplication eTankApplication;
-    Game game;
+    GameLobby gameLobby;
 
 
     //TODO: DATABINDING FROM MODEL TO VIEW
 
     public void handle(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.W) {
-            System.out.println(game.gameTimestampProperty());
+            System.out.println(gameLobby.gameTimestampProperty());
             System.out.println("Up: " + keyEvent.getCode());
         }
         if (keyEvent.getCode() == KeyCode.S) {
@@ -52,7 +50,7 @@ public class GameViewModel implements ViewModel {
         this.eTankApplication = eTankApplication;
     }
 
-    public void setGame(Game game) {
-        this.game = game;
+    public void setGame(GameLobby gameLobby) {
+        this.gameLobby = gameLobby;
     }
 }

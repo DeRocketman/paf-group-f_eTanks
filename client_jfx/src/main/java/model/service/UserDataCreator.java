@@ -1,4 +1,8 @@
-package model.data;
+package model.service;
+
+import model.data.User;
+import model.data.UserSettings;
+import model.data.UserStatistic;
 
 import java.util.ArrayList;
 import java.util.List;

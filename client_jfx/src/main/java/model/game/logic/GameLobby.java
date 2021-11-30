@@ -1,4 +1,4 @@
-package model.game;
+package model.game.logic;
 
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -8,7 +8,7 @@ import model.data.GameStatistic;
 
 import java.sql.Timestamp;
 
-public class Game {
+public class GameLobby {
     private final LongProperty gameId;
     private final StringProperty gameTimestamp;
     private IntegerProperty seatCounter;
@@ -16,7 +16,7 @@ public class Game {
     private ObservableList<User> participants;
     private ObservableList<GameStatistic> userGameStatistics;
 
-    public Game() {
+    public GameLobby() {
        Timestamp gts = new Timestamp(System.currentTimeMillis());
        this.gameId = new SimpleLongProperty(gts.getTime());
        this.gameTimestamp = new SimpleStringProperty(gts.toString());

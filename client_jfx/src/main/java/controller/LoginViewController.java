@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import main.ETankApplication;
-import model.data.UserDataCreator;
+import model.service.UserDataCreator;
 import model.data.User;
 
 import java.io.IOException;

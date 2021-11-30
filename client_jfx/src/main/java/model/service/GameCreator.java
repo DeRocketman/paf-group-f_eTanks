@@ -1,14 +1,15 @@
-package model.game;
+package model.service;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.data.User;
 import model.data.UserSettings;
 import model.data.UserStatistic;
+import model.game.logic.GameLobby;
 
 public class GameCreator {
 
-    private ObservableList<Game> gameList = FXCollections.observableArrayList();
+    private ObservableList<GameLobby> gameLobbyList = FXCollections.observableArrayList();
     User signedUser;
 
     public GameCreator() {
@@ -20,19 +21,19 @@ public class GameCreator {
                 "../img/images/default-user-image.png", "passwort", testUserSetting, testUserStatistic);
         this.signedUser = new User(10002, "Mine-Laxi", "Pocketpen",
                 "../img/images/default-user-image.png", "passwort", testUserSetting, testUserStatistic);
-        gameList.add(new Game());
-        gameList.add(new Game());
-        for (Game game: gameList) {
-            game.addHost(testUser1);
-            game.addParticipants(testUser);
+        gameLobbyList.add(new GameLobby());
+        gameLobbyList.add(new GameLobby());
+        for (GameLobby gameLobby : gameLobbyList) {
+            gameLobby.addHost(testUser1);
+            gameLobby.addParticipants(testUser);
         }
-        gameList.get(1).addParticipants(testUser);
-        gameList.get(1).addParticipants(testUser);
+        gameLobbyList.get(1).addParticipants(testUser);
+        gameLobbyList.get(1).addParticipants(testUser);
     }
 
 
-    public ObservableList<Game> getGameList(){
-        return gameList;
+    public ObservableList<GameLobby> getGameList(){
+        return gameLobbyList;
     }
 
     public User getSignedUser(){

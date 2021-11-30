@@ -1,4 +1,7 @@
-package model.game;
+package model.game.elements;
+
+import model.game.elements.LevelElement;
+import model.game.logic.GamePhysics;
 
 public class Item extends LevelElement {
     private int points;

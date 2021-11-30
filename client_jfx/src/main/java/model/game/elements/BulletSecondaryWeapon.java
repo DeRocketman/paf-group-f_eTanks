@@ -1,4 +1,4 @@
-package model.game;
+package model.game.elements;
 
 public class BulletSecondaryWeapon extends LevelElement {
     private final Tank firingTank;

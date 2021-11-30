@@ -1,6 +1,7 @@
-package model.game;
+package model.game.elements;
 
 import model.data.User;
+import model.game.logic.GamePhysics;
 
 public class Tank extends LevelElement{
     private User tankCommander;

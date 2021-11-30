@@ -1,45 +1,27 @@
 package controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import main.ETankApplication;
-import model.game.Game;
-import model.game.GameCreator;
+import model.game.logic.GameLobby;
+import model.service.GameCreator;
 import java.io.IOException;
 import java.util.Objects;
 
 public class GameCreatorViewController {
+
     @FXML
-    private Label labelUserName1;
+    private TableView<GameLobby> tableGameList;
+
     @FXML
-    private Label labelUserName2;
+    private TableColumn<GameLobby, Long> columnGameNumber;
     @FXML
-    private Label labelUserName3;
-    @FXML
-    private Label labelUserName4;
-    @FXML
-    private GridPane gridPaneHosts;
-    @FXML
-    private TableView<Game> tableGameList;
-    @FXML
-    private Button btnGameStart;
-    @FXML
-    private Button btnJoinSelectedGame;
-    @FXML
-    private ImageView imgViewHost;
-    @FXML
-    private ImageView imgViewMember1;
-    @FXML
-    private ImageView imgViewMember2;
-    @FXML
-    private ImageView imgViewMember3;
-    @FXML
-    private TableColumn<Game, Long> columnGameNumber;
-    @FXML
-    private TableColumn<Game, Integer> columnGameSeats;
+    private TableColumn<GameLobby, Integer> columnGameSeats;
 
 
     private ETankApplication eTankApplication;
@@ -57,23 +39,12 @@ public class GameCreatorViewController {
 
     @FXML
     public void hostGame() {
-        Game game = new Game();
-        game.addHost(eTankApplication.getSignedUser());
-        setDefaultView();
-        gridPaneHosts.setVisible(true);
-        boolean startIsDisabled = (game.getParticipants().size() == 0  && gc.getSignedUser().getId() == game.getHost().get(0).getId());
-        System.out.println("Anzahl User:" + game.getSeatCounter() + " Hosts:" + game.getHost().size() + " Part:" + game.getParticipants().size());
-        System.out.println(startIsDisabled);
-        btnGameStart.setDisable(startIsDisabled);
-        labelUserName1.setText(game.getHost().get(0).getPublicName());
-        imgViewHost.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(game.getHost().get(0).getImage()))));
+        GameLobby gameLobby = new GameLobby();
+        gameLobby.addHost(eTankApplication.getSignedUser());
     }
     @FXML
     public void joinGame() {
-        setDefaultView();
-        tableGameList.setVisible(true);
-        btnJoinSelectedGame.setVisible(true);
-        btnJoinSelectedGame.setDisable(false);
+
     }
 
     @FXML
@@ -88,51 +59,19 @@ public class GameCreatorViewController {
 
     //TODO: Refactorn unbedingt-> Elemente vielleicht automatisch erstellen lassen foreach?!
     @FXML
-    public Game joinSelectedGame() {
-        Game selectedGame = tableGameList.getSelectionModel().getSelectedItem();
-        if (selectedGame.getSeatCounter() < 4) {
-            selectedGame.addParticipants(gc.getSignedUser());
-            setDefaultView();
-            gridPaneHosts.setVisible(true);
-            labelUserName1.setText(selectedGame.getHost().get(0).getPublicName());
-            imgViewHost.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(selectedGame.getHost().get(0).getImage()))));
-            btnGameStart.setDisable(true);
-            if (selectedGame.getParticipants().size() == 1) {
-                labelUserName2.setText(selectedGame.getParticipants().get(0).getPublicName());
-                imgViewMember1.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(selectedGame.getParticipants().get(0).getImage()))));
-            } else if (selectedGame.getParticipants().size() == 2) {
-                labelUserName2.setText(selectedGame.getParticipants().get(0).getPublicName());
-                imgViewMember1.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(selectedGame.getParticipants().get(0).getImage()))));
-                labelUserName3.setText(selectedGame.getParticipants().get(1).getPublicName());
-                imgViewMember2.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(selectedGame.getParticipants().get(1).getImage()))));
-            } else if (selectedGame.getParticipants().size() == 3) {
-                labelUserName2.setText(selectedGame.getParticipants().get(0).getPublicName());
-                imgViewMember1.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(selectedGame.getParticipants().get(0).getImage()))));
-                labelUserName3.setText(selectedGame.getParticipants().get(1).getPublicName());
-                imgViewMember2.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(selectedGame.getParticipants().get(1).getImage()))));
-                labelUserName4.setText(selectedGame.getParticipants().get(2).getPublicName());
-                imgViewMember3.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(selectedGame.getParticipants().get(2).getImage()))));
-            }
-        } else {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Game ist schon voll");
-            alert.setHeaderText("Panzerfahrer, du kannst das Game joinen");
-            alert.setContentText("Bitte wählen ein anderes Game aus oder hoste selbst eins");
-            alert.showAndWait();
-        }
-        return selectedGame;
+    public GameLobby joinSelectedGame() {
+        GameLobby selectedGameLobby = tableGameList.getSelectionModel().getSelectedItem();
+
+        return selectedGameLobby;
     }
 
-    @FXML
-    public void setDefaultView() {
-        gridPaneHosts.setVisible(false);
-        tableGameList.setVisible(false);
-        btnJoinSelectedGame.setVisible(false);
-        btnJoinSelectedGame.setDisable(true);
-        labelUserName1.setText("Free");
-        labelUserName2.setText("Free");
-        labelUserName3.setText("Free");
-        labelUserName3.setText("Free");
+    public void enterChatHandleS(KeyEvent keyEvent) {
+    }
+
+    public void sendMessageS(ActionEvent actionEvent) {
+    }
+
+    public void switchToInit(ActionEvent actionEvent) {
     }
 
     public void setETankApplication(ETankApplication eTankApplication) {

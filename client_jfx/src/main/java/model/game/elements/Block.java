@@ -1,4 +1,4 @@
-package model.game;
+package model.game.elements;
 
 public class Block extends LevelElement {
     private final int lives;

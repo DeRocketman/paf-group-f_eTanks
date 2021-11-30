@@ -1,5 +1,7 @@
 package controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -8,13 +10,23 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import main.ETankApplication;
+import model.data.User;
 import model.game.logic.GameLobby;
+import model.game.logic.Player;
 import model.service.GameCreator;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class GameCreatorViewController {
 
+    private ETankApplication eTankApplication;
+
+    ObservableList<Player> playerList = FXCollections.observableArrayList();
+    ObservableList<GameLobby> lobbies = FXCollections.observableArrayList();
+
+    //TODO: Nur zum Testen erst einmal und solange Backend, Sockets ect nicht implementiert sind
+    GameCreator gc = new GameCreator();
     @FXML
     private TableView<GameLobby> tableGameList;
 
@@ -23,10 +35,9 @@ public class GameCreatorViewController {
     @FXML
     private TableColumn<GameLobby, Integer> columnGameSeats;
 
+    @FXML
+    private ListView<Player> playerListView;
 
-    private ETankApplication eTankApplication;
-    //TODO: Nur zum Testen erst einmal und solange Backend, Sockets ect nicht implementiert sind
-    GameCreator gc = new GameCreator();
 
     public GameCreatorViewController() {
     }
@@ -41,6 +52,7 @@ public class GameCreatorViewController {
     public void hostGame() {
         GameLobby gameLobby = new GameLobby();
         gameLobby.addHost(eTankApplication.getSignedUser());
+
     }
     @FXML
     public void joinGame() {

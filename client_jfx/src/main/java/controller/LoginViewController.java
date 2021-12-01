@@ -42,6 +42,10 @@ public class LoginViewController {
         loginBtn.setDisable(isDisabled);
     }
 
+    public void createUserView() throws IOException {
+        eTankApplication.showCreateUserView();
+    }
+
     public void changeView() throws IOException {
 
         int counter = 0;

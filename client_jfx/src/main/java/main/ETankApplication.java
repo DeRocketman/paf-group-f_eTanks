@@ -16,6 +16,8 @@ import viewmodel.GameViewModel;
 
 import java.io.IOException;
 
+
+
 public class ETankApplication extends Application {
 
     Stage primaryStage;
@@ -87,13 +89,26 @@ public class ETankApplication extends Application {
 
     public void showSettingsView() throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../view/SettingView.fxml"));
+        loader.setLocation(getClass().getResource("../view/CreateUserView.fxml"));
         rootLayout = loader.load();
         Scene scene = new Scene(rootLayout);
 
         SettingViewController settingsController = loader.getController();
         settingsController.setETankApplication(this);
         settingsController.initialiseUserData();
+
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    public void showCreateUserView() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../view/CreateUserView.fxml"));
+        rootLayout = loader.load();
+        Scene scene = new Scene(rootLayout);
+
+        CreateUserViewController createUserViewController = loader.getController();
+        createUserViewController.setETankApplication(this);
 
         primaryStage.setScene(scene);
         primaryStage.show();

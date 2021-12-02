@@ -9,66 +9,28 @@ import model.data.GameStatistic;
 import java.sql.Timestamp;
 
 public class GameLobby {
-    private final LongProperty gameId;
-    private final StringProperty gameTimestamp;
+    private IntegerProperty gameCounterID;
     private IntegerProperty seatCounter;
-    private ObservableList<User> host;
-    private ObservableList<User> participants;
-    private ObservableList<GameStatistic> userGameStatistics;
+    private ObservableList<Player> players;
 
     public GameLobby() {
-       Timestamp gts = new Timestamp(System.currentTimeMillis());
-       this.gameId = new SimpleLongProperty(gts.getTime());
-       this.gameTimestamp = new SimpleStringProperty(gts.toString());
-       this.host = FXCollections.observableArrayList();
-       this.participants = FXCollections.observableArrayList();
-       this.userGameStatistics = FXCollections.observableArrayList();
-       this.seatCounter = new SimpleIntegerProperty(host.size()+participants.size());
-       createUserGameStatistic();
+       this.players = FXCollections.observableArrayList();
+       this.seatCounter = new SimpleIntegerProperty(players.size());
     }
 
-    public void createUserGameStatistic() {
-        int playerCount = participants.size() + 1;
-        for (int i = 0; i < playerCount; i++) {
-            GameStatistic userGameStatistic = new GameStatistic();
-            this.userGameStatistics.add(userGameStatistic);
+    public void addPlayer(Player player) {
+        players.add(player);
+        setSeatCounter(getSeatCounter()+1);
+    }
+
+    public void removePlayer(Player player) {
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getId() == player.getId()) {
+                players.remove(i);
+                break;
+            }
         }
     }
-
-    public LongProperty gameIdProperty() {
-        return gameId;
-    }
-
-    public StringProperty gameTimestampProperty() {
-        return gameTimestamp;
-    }
-
-    public ObservableList<User> getHost() {
-        return host;
-    }
-
-    public void addHost(User user) {
-        host.add(user);
-        setSeatCounter(getSeatCounter()+1);
-    }
-
-    public ObservableList<User> getParticipants() {
-        return participants;
-    }
-
-    public void addParticipants(User user) {
-        participants.add(user);
-        setSeatCounter(getSeatCounter()+1);
-    }
-
-    public ObservableList<GameStatistic> getUserGameStatistics() {
-        return userGameStatistics;
-    }
-
-    public void setUserGameStatistics(ObservableList<GameStatistic> userGameStatistics) {
-        this.userGameStatistics = userGameStatistics;
-    }
-
     public int getSeatCounter() {
         return seatCounter.get();
     }

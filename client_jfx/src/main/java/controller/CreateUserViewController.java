@@ -8,12 +8,9 @@ import main.ETankApplication;
 
 import java.io.IOException;
 
-public class CreateUserViewController extends ViewController{
+public class CreateUserViewController{
 
     ETankApplication eTankApplication;
-
-    @FXML
-    TextField emailField;
 
     @FXML
     TextField usernameField;

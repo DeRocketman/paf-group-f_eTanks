@@ -6,7 +6,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import main.ETankApplication;
 
-public class CreateUserViewController {
+public class CreateUserViewController extends ViewController{
 
     ETankApplication eTankApplication;
 

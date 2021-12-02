@@ -32,8 +32,6 @@ public class ViewController {
         stage.show();
     }*/
 
-
-
     public void setETankApplication(ETankApplication eTankApplication) {
         this.eTankApplication = eTankApplication;
     }

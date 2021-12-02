@@ -6,6 +6,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import main.ETankApplication;
 
+import java.io.IOException;
+
 public class CreateUserViewController extends ViewController{
 
     ETankApplication eTankApplication;
@@ -24,6 +26,14 @@ public class CreateUserViewController extends ViewController{
 
     public void setETankApplication(ETankApplication eTankApplication) {
         this.eTankApplication = eTankApplication;
+    }
+
+    public void switchToLogin() throws IOException {
+        eTankApplication.showLoginView();
+    }
+
+    public void switchToMenu() throws IOException {
+        eTankApplication.showMenuView();
     }
 
     public void createUser(){

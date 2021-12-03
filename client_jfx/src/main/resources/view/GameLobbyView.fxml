@@ -68,15 +68,15 @@
                         </TableView>
                         <HBox fx:id="hbxHostPanel" alignment="TOP_CENTER" prefHeight="29.0" prefWidth="240.0" spacing="20.0" visible="false">
                            <children>
-                              <Button fx:id="btnGameStart" onAction="#switchToGameView" text="Start Game" />
-                              <Button onAction="#switchBack" prefHeight="29.0" prefWidth="182.0" text="Close lobby" />
+                              <Button fx:id="btnGameStart" onAction="#switchToGameView" text="Start Game" disable="true"/>
+                              <Button onAction="#closeLobby" prefHeight="29.0" prefWidth="182.0" text="Close lobby" />
                               <Separator prefWidth="200.0" visible="false" />
                            </children>
                         </HBox>
                         <HBox fx:id="hbxJoinerPanel" alignment="TOP_CENTER" prefHeight="29.0" prefWidth="240.0" spacing="20.0" visible="false">
                            <children>
                               <Button id="btnSetRdy" fx:id="btnSetRdy" onAction="#setRdyTrue" text="Set Ready" />
-                              <Button onAction="#switchToInit" prefHeight="29.0" prefWidth="182.0" text="Close lobby" />
+                              <Button onAction="#switchBackToInit" prefHeight="29.0" prefWidth="182.0" text="Close lobby" />
                               <Separator prefWidth="200.0" visible="false" />
                            </children>
                         </HBox>
@@ -97,7 +97,7 @@
             </HBox>
          </children>
       </VBox>
-      <VBox fx:id="vbxJoin" alignment="TOP_CENTER" layoutX="210.0" layoutY="110.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" spacing="20.0" visible="false">
+      <VBox fx:id="vbxJoin" alignment="TOP_CENTER" layoutX="210.0" layoutY="110.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" spacing="20.0" >
          <children>
             <Text layoutX="313.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Join Battle">
                <font>
@@ -108,10 +108,10 @@
             <Button disable="true" mnemonicParsing="false" onAction="#hostGame" prefHeight="35.0" prefWidth="200.0" text="Host a Game" />
             <Button disable="true" mnemonicParsing="false" onAction="#joinGame" prefHeight="35.0" prefWidth="200.0" text="Join a Game" />
             <Button mnemonicParsing="false" onAction="#switchToInit" prefHeight="35.0" prefWidth="200.0" text="Back" />
-            <TableView id="TableGameShow" fx:id="tableGameList" layoutX="335.0" layoutY="558.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="322.0">
+            <TableView id="TableGameShow" fx:id="tableLobbyList" layoutX="335.0" layoutY="558.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="322.0">
                <columns>
-                  <TableColumn fx:id="columLobbyNumber" prefWidth="94.0" text="Game Nummer" />
-                  <TableColumn fx:id="columnGameSeats" prefWidth="56.0" text="Plätze" />
+                  <TableColumn fx:id="columnLobbyNumber" prefWidth="94.0" text="Game Nummer" />
+                  <TableColumn fx:id="columnLobbySeats" prefWidth="56.0" text="Plätze" />
                </columns>
             </TableView>
             <Button fx:id="btnJoinSelectedGame" disable="true" layoutX="300.0" layoutY="770.0" mnemonicParsing="false" onMouseClicked="#joinSelectedGame" text="Dieser Schlacht anschließen" />

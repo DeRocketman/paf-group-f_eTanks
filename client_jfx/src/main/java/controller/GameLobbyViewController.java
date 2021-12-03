@@ -20,17 +20,17 @@ public class GameLobbyViewController {
     private ETankApplication eTankApplication;
 
     ObservableList<Player> playerList = FXCollections.observableArrayList();
-    ObservableList<GameLobby> lobbies = FXCollections.observableArrayList();
+    ObservableList<GameLobby> lobbyList = FXCollections.observableArrayList();
 
     //TODO: Nur zum Testen erst einmal und solange Backend, Sockets ect nicht implementiert sind
     GameCreator gc = new GameCreator();
     @FXML
-    private TableView<GameLobby> tableGameList;
+    private TableView<GameLobby> tableLobbyList;
 
     @FXML
-    private TableColumn<GameLobby, Long> columLobbyNumber;
+    private TableColumn<GameLobby, Long> columnLobbyNumber;
     @FXML
-    private TableColumn<GameLobby, Integer> columnGameSeats;
+    private TableColumn<GameLobby, Integer> columnLobbySeats;
 
     @FXML
     private ListView<Player> playerListView;
@@ -55,26 +55,51 @@ public class GameLobbyViewController {
 
     @FXML
     private void initialize() {
-        columLobbyNumber.setCellValueFactory(cellData -> cellData.getValue().gameLobbyIDProperty().asObject());
-        columnGameSeats.setCellValueFactory(cellData -> cellData.getValue().seatCounterProperty().asObject());
+        vbxInit.setVisible(true);
+        vbxJoin.setVisible(false);
+        vbxLobby.setVisible(false);
+        //tableLobbyList.setItems(gc.getGameList());
+        tableLobbyList.setItems(lobbyList);
+        columnLobbyNumber.setCellValueFactory(cellData -> cellData.getValue().gameLobbyIDProperty().asObject());
+        columnLobbySeats.setCellValueFactory(cellData -> cellData.getValue().seatCounterProperty().asObject());
     }
 
+    @FXML
+    public void switchToInit() {
+        vbxInit.setVisible(true);
+        vbxJoin.setVisible(false);
+        vbxLobby.setVisible(false);
+    }
     @FXML
     public void hostGame() {
         vbxInit.setVisible(false);
         vbxJoin.setVisible(false);
         vbxLobby.setVisible(true);
+        hbxHostPanel.setVisible(true);
 
         GameLobby lobby = new GameLobby();
+
         User sU = eTankApplication.getSignedUser();
         Player player = new Player(sU.getId(), sU.getUserName(), sU.getPublicName(), sU.getImage(), sU.getPassword(),
                                     sU.getUserSettings(), sU.getUserStatistic());
         lobby.addPlayer(player);
+        this.lobbyList.add(lobby);
+    }
+
+    @FXML
+    private void closeLobby() {
+        switchToInit();
+        for (GameLobby lobby: lobbyList) {
+            if(lobby.getPlayers().get(0).getId() == eTankApplication.getSignedUser().getId()) {
+                lobbyList.remove(lobby);
+                break;
+            }
+        }
     }
     @FXML
     public void joinGame() {
-        vbxInit.setVisible(false);
         vbxJoin.setVisible(true);
+        vbxInit.setVisible(false);
         vbxLobby.setVisible(false);
     }
 
@@ -86,12 +111,30 @@ public class GameLobbyViewController {
     @FXML
     public void switchToGameView() throws IOException{
         eTankApplication.showGameView();
+
     }
 
-    //TODO: Refactorn unbedingt-> Elemente vielleicht automatisch erstellen lassen foreach?!
+
+    @FXML
+    public void setRdyTrue() {
+    }
+
+    @FXML
+    public void switchBackToInit() {
+        switchToInit();
+        for (GameLobby lobby: this.lobbyList) {
+            for (Player player: lobby.getPlayers()) {
+                if(player.getId() == eTankApplication.getSignedUser().getId()) {
+                    lobby.removePlayer(player);
+                }
+            }
+        }
+    }
+
     @FXML
     public GameLobby joinSelectedGame() {
-        GameLobby selectedGameLobby = tableGameList.getSelectionModel().getSelectedItem();
+        GameLobby selectedGameLobby = tableLobbyList.getSelectionModel().getSelectedItem();
+
 
         return selectedGameLobby;
     }
@@ -105,14 +148,11 @@ public class GameLobbyViewController {
     public void sendMessageS(ActionEvent actionEvent) {
     }
 
-    public void switchToInit(ActionEvent actionEvent) {
-    }
+
 
     public void setETankApplication(ETankApplication eTankApplication) {
         this.eTankApplication = eTankApplication;
-        tableGameList.setItems(gc.getGameList());
     }
 
-    public void setRdyTrue(ActionEvent actionEvent) {
-    }
+
 }

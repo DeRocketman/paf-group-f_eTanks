@@ -18,7 +18,6 @@ public class GameViewModel implements ViewModel {
 
     public void handle(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.W) {
-            System.out.println(gameLobby.gameTimestampProperty());
             System.out.println("Up: " + keyEvent.getCode());
         }
         if (keyEvent.getCode() == KeyCode.S) {

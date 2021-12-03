@@ -114,7 +114,6 @@ public class ETankApplication extends Application {
         primaryStage.show();
     }
 
-
     public void showGameView() {
         ViewTuple<GameView, GameViewModel> viewTuple = FluentViewLoader.fxmlView(GameView.class).load();
         Scene scene = new Scene(viewTuple.getView());
@@ -151,12 +150,12 @@ public class ETankApplication extends Application {
 
     public void showGameCreatorView() throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../view/GameCreatorView.fxml"));
+        loader.setLocation(getClass().getResource("../view/GameLobbyView.fxml"));
         rootLayout = loader.load();
         Scene scene = new Scene(rootLayout);
 
-        GameCreatorViewController gameCreatorViewController = loader.getController();
-        gameCreatorViewController.setETankApplication(this);
+        GameLobbyViewController gameLobbyViewController = loader.getController();
+        gameLobbyViewController.setETankApplication(this);
 
         primaryStage.setScene(scene);
         primaryStage.show();

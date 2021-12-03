@@ -9,12 +9,13 @@ import model.data.GameStatistic;
 import java.sql.Timestamp;
 
 public class GameLobby {
-    private IntegerProperty gameCounterID;
+    private final LongProperty gameLobbyID;
     private IntegerProperty seatCounter;
     private ObservableList<Player> players;
 
     public GameLobby() {
        this.players = FXCollections.observableArrayList();
+       this.gameLobbyID = new SimpleLongProperty(buildLobbyID());
        this.seatCounter = new SimpleIntegerProperty(players.size());
     }
 
@@ -31,6 +32,13 @@ public class GameLobby {
             }
         }
     }
+
+    public long buildLobbyID() {
+        long time = System.currentTimeMillis();
+        long random = (long) (Math.random()*8001+1000);
+        return time*random;
+    }
+
     public int getSeatCounter() {
         return seatCounter.get();
     }
@@ -43,4 +51,15 @@ public class GameLobby {
         this.seatCounter.set(seatCounter);
     }
 
+    public long getGameLobbyID() {
+        return gameLobbyID.get();
+    }
+
+    public LongProperty gameLobbyIDProperty() {
+        return gameLobbyID;
+    }
+
+    public ObservableList<Player> getPlayers() {
+        return players;
+    }
 }

@@ -5,20 +5,17 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import main.ETankApplication;
 import model.data.User;
 import model.game.logic.GameLobby;
 import model.game.logic.Player;
 import model.service.GameCreator;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Objects;
 
-public class GameCreatorViewController {
+public class GameLobbyViewController {
 
     private ETankApplication eTankApplication;
 
@@ -31,32 +28,54 @@ public class GameCreatorViewController {
     private TableView<GameLobby> tableGameList;
 
     @FXML
-    private TableColumn<GameLobby, Long> columnGameNumber;
+    private TableColumn<GameLobby, Long> columLobbyNumber;
     @FXML
     private TableColumn<GameLobby, Integer> columnGameSeats;
 
     @FXML
     private ListView<Player> playerListView;
 
+    @FXML
+    private VBox vbxJoin;
 
-    public GameCreatorViewController() {
+    @FXML
+    private VBox vbxLobby;
+
+    @FXML
+    private VBox vbxInit;
+
+    @FXML
+    private HBox hbxHostPanel;
+
+    @FXML
+    private HBox hbxJoinerPanel;
+
+    public GameLobbyViewController() {
     }
 
     @FXML
     private void initialize() {
-        columnGameNumber.setCellValueFactory(cellData -> cellData.getValue().gameIdProperty().asObject());
+        columLobbyNumber.setCellValueFactory(cellData -> cellData.getValue().gameLobbyIDProperty().asObject());
         columnGameSeats.setCellValueFactory(cellData -> cellData.getValue().seatCounterProperty().asObject());
     }
 
     @FXML
     public void hostGame() {
-        GameLobby gameLobby = new GameLobby();
-        gameLobby.addHost(eTankApplication.getSignedUser());
+        vbxInit.setVisible(false);
+        vbxJoin.setVisible(false);
+        vbxLobby.setVisible(true);
 
+        GameLobby lobby = new GameLobby();
+        User sU = eTankApplication.getSignedUser();
+        Player player = new Player(sU.getId(), sU.getUserName(), sU.getPublicName(), sU.getImage(), sU.getPassword(),
+                                    sU.getUserSettings(), sU.getUserStatistic());
+        lobby.addPlayer(player);
     }
     @FXML
     public void joinGame() {
-
+        vbxInit.setVisible(false);
+        vbxJoin.setVisible(true);
+        vbxLobby.setVisible(false);
     }
 
     @FXML

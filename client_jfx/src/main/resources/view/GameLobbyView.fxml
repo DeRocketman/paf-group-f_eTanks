@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane stylesheets="@../css/Application.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GameCreatorViewController">
+<AnchorPane stylesheets="@../css/Application.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GameLobbyViewController">
    <children>
       <VBox fx:id="vbxInit" alignment="TOP_CENTER" layoutX="200.0" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" spacing="20.0" visible="false" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="100.0">
          <children>
@@ -41,7 +41,7 @@
             </Button>
          </children>
       </VBox>
-      <VBox fx:id="vboxLobby" alignment="TOP_CENTER" layoutX="200.0" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" spacing="20.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="100.0">
+      <VBox fx:id="vbxLobby" alignment="TOP_CENTER" layoutX="200.0" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" spacing="20.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="100.0">
          <children>
             <Text layoutX="313.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Host the Battle">
                <font>
@@ -110,7 +110,7 @@
             <Button mnemonicParsing="false" onAction="#switchToInit" prefHeight="35.0" prefWidth="200.0" text="Back" />
             <TableView id="TableGameShow" fx:id="tableGameList" layoutX="335.0" layoutY="558.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="322.0">
                <columns>
-                  <TableColumn fx:id="columnGameNumber" prefWidth="94.0" text="Game Nummer" />
+                  <TableColumn fx:id="columLobbyNumber" prefWidth="94.0" text="Game Nummer" />
                   <TableColumn fx:id="columnGameSeats" prefWidth="56.0" text="Plätze" />
                </columns>
             </TableView>

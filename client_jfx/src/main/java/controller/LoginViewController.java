@@ -5,9 +5,16 @@ import javafx.scene.control.*;
 
 import main.ETankApplication;
 import model.service.UserDataCreator;
-import model.data.User;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.http.HttpClient;
+
 
 public class LoginViewController {
 
@@ -46,25 +53,42 @@ public class LoginViewController {
         eTankApplication.showCreateUserView();
     }
 
+
+    //BearerToken wird angelegt und in der eTankapplication gespeichert
     public void changeView() throws IOException {
 
-        int counter = 0;
-        for (User u : eudc.getUserlist()) {
+        URL url = new URL("http://192.168.188.102:8080/auth/login");
+        //OpenConnection
+        HttpURLConnection con = (HttpURLConnection)url.openConnection();
+        con.setRequestMethod("POST");
+        con.setRequestProperty("Content-Type", "application/json; utf-8");
+        con.setRequestProperty("Accept", "application/json");
+        con.setDoOutput(true);
 
-            if (u.getUserName().equals(this.usernameField.getText()) && u.getPassword().equals(this.passwordField.getText())) {
-                eTankApplication.setSignedUser(u);
-                eTankApplication.showMenuView();
-                System.out.println(eTankApplication.getSignedUser().getUserName());
-            } else {
-                counter += 1;
-            }
-            if(counter == eudc.getUserlist().size()){
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Falsches Passwort oder Username");
-                alert.setContentText("Rekrut, bitte prüfe Passwort und/oder Username");
-                alert.showAndWait();
-            }
+        String username = usernameField.getText();
+        String password = passwordField.getText();
+
+        //Bearbeiten
+        String jsonInputString = "{\"username\" : \"" +username+ "\",\"password\" :\"" +password+ "\" }";
+
+
+        try(OutputStream os = con.getOutputStream()) {
+            byte[] input = jsonInputString.getBytes("utf-8");
+            os.write(input, 0, input.length);
         }
+
+        try(BufferedReader br = new BufferedReader(
+                new InputStreamReader(con.getInputStream(), "utf-8"))) {
+            StringBuilder response = new StringBuilder();
+            String responseLine = null;
+            while ((responseLine = br.readLine()) != null) {
+                response.append(responseLine.trim());
+            }
+            eTankApplication.setBearerToken(response.toString());
+            eTankApplication.showMenuView();
+            System.out.println(response.toString());
+        }
+
     }
 
 

@@ -36,6 +36,17 @@
             <artifactId>json</artifactId>
             <version>20210307</version>
         </dependency>
+        <dependency>
+            <groupId>be.fluid-it.tools.rundeck.plugins</groupId>
+            <artifactId>rundeck-httppost-plugin</artifactId>
+            <version>0.1-1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jsslutils</groupId>
+            <artifactId>jsslutils-extra-apachehttpclient3</artifactId>
+            <version>1.0.8</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

@@ -18,7 +18,7 @@ public class HttpRequest {
     //Method 2: java.net.HttpURLConnection -> use if java version < 11
 
     private static HttpURLConnection connection;
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
     /**
         BufferedReader reader;
@@ -59,6 +59,7 @@ public class HttpRequest {
         }
         **/
 
+/*
         HttpClient client = HttpClient.newHttpClient();
         java.net.http.HttpRequest request = java.net.http.HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/user")).build();
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -66,6 +67,31 @@ public class HttpRequest {
                 //.thenAccept(System.out::println)
                 .thenAccept(HttpRequest::parseJSON)
                 .join();
+*/
+
+        // Sending get request
+        URL url = new URL("http://192.168.188.102:8080/user");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+        conn.setRequestProperty("Authorization","Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXhpbWlsaWFtaTEiLCJpYXQiOjE2Mzg2NDYzNzAsImV4cCI6MTYzODczMjc3MH0.Od5_NG6980ti70eQUy2Xcfm_F0Jch6Vgx3Q7ovEPX1aYNSiQLxOGW3Z70ls39fUozy3tN1_xbe-f1D6Wbjk-_w");
+        // Aktueller Token eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXhpbWlsaWFtaTEiLCJpYXQiOjE2Mzg2NDYzNzAsImV4cCI6MTYzODczMjc3MH0.Od5_NG6980ti70eQUy2Xcfm_F0Jch6Vgx3Q7ovEPX1aYNSiQLxOGW3Z70ls39fUozy3tN1_xbe-f1D6Wbjk-_w
+
+        conn.setRequestProperty("Content-Type","application/json");
+        conn.setRequestMethod("GET");
+
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        String output;
+
+        StringBuffer response = new StringBuffer();
+        while ((output = in.readLine()) != null) {
+            response.append(output);
+        }
+
+        in.close();
+        // printing result from response
+        System.out.println("Response:-" + response.toString());
+
 
     }
 

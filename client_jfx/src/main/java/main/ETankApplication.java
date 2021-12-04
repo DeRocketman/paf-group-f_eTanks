@@ -23,6 +23,8 @@ public class ETankApplication extends Application {
     Stage primaryStage;
     AnchorPane rootLayout;
     User signedUser;
+    String BearerToken;
+
 
     public static void main(String[] args) {
         launch(args);
@@ -168,4 +170,14 @@ public class ETankApplication extends Application {
     public User getSignedUser() {
         return signedUser;
     }
+
+    public String getBearerToken() {
+        return BearerToken;
+    }
+
+    public void setBearerToken(String bearerToken) {
+        BearerToken = bearerToken;
+    }
+
+
 }

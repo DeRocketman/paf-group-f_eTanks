@@ -20,6 +20,7 @@ public class User extends IdentifiedEntity {
     private String publicName;
 
     @Column(length = 100, nullable = false)
+    @JsonIgnore
     private String password;
 
     @Lob

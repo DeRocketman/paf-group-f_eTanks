@@ -4,6 +4,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import main.ETankApplication;
+import model.data.User;
+import model.data.UserSettings;
+import model.data.UserStatistic;
 import model.service.UserDataCreator;
 
 import java.io.BufferedReader;
@@ -57,7 +60,7 @@ public class LoginViewController {
     //BearerToken wird angelegt und in der eTankapplication gespeichert
     public void changeView() throws IOException {
 
-        URL url = new URL("http://192.168.188.102:8080/auth/login");
+        URL url = new URL("http://127.0.0.1:8080/auth/login");
         //OpenConnection
         HttpURLConnection con = (HttpURLConnection)url.openConnection();
         con.setRequestMethod("POST");
@@ -86,7 +89,14 @@ public class LoginViewController {
             }
             eTankApplication.setBearerToken(response.toString());
             eTankApplication.showMenuView();
+
+            UserSettings userSettings = new UserSettings();
+            UserStatistic userStatistic = new UserStatistic();
+            eTankApplication.setSignedUser(new User(10000, "username", "KANALARBEITER",
+                    "../img/images/default-user-image.png", "passwort", userSettings, userStatistic));
             System.out.println(response.toString());
+        } catch (Exception e){
+            System.out.println("Hier");
         }
 
     }

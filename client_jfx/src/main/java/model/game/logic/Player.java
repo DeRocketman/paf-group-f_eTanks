@@ -1,5 +1,8 @@
 package model.game.logic;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableValue;
 import model.data.User;
 import model.data.UserSettings;
 import model.data.UserStatistic;
@@ -19,5 +22,9 @@ public class Player extends User {
 
     public void setReady(boolean ready) {
         isReady = ready;
+    }
+
+    public StringProperty getPublicNameAsProperty() {
+        return new SimpleStringProperty(super.getPublicName());
     }
 }

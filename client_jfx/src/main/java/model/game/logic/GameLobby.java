@@ -1,5 +1,6 @@
 package model.game.logic;
 
+import controller.GameLobbyViewController;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,6 +10,10 @@ import model.data.GameStatistic;
 import java.sql.Timestamp;
 
 public class GameLobby {
+
+    private static final int PORT = 9001;
+    private GameLobbyViewController controller;
+
     private final LongProperty gameLobbyID;
     private IntegerProperty seatCounter;
     private ObservableList<Player> players;

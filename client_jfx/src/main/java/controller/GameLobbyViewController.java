@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -17,23 +18,24 @@ import java.io.IOException;
 
 public class GameLobbyViewController {
 
-    private ETankApplication eTankApplication;
-
-    ObservableList<Player> playerList = FXCollections.observableArrayList();
-    ObservableList<GameLobby> lobbyList = FXCollections.observableArrayList();
-
     //TODO: Nur zum Testen erst einmal und solange Backend, Sockets ect nicht implementiert sind
     GameCreator gc = new GameCreator();
-    @FXML
-    private TableView<GameLobby> tableLobbyList;
+    private ETankApplication eTankApplication;
+    private Player signedPlayer;
 
+
+    ObservableList<GameLobby> lobbyList = FXCollections.observableArrayList();
+
+
+    @FXML
+    private TableView<GameLobby> lobbyTable;
     @FXML
     private TableColumn<GameLobby, Long> columnLobbyNumber;
     @FXML
     private TableColumn<GameLobby, Integer> columnLobbySeats;
 
     @FXML
-    private ListView<Player> playerListView;
+    private ListView playerList;
 
     @FXML
     private VBox vbxJoin;
@@ -51,32 +53,28 @@ public class GameLobbyViewController {
     private HBox hbxJoinerPanel;
 
     public GameLobbyViewController() {
+
     }
 
     @FXML
     private void initialize() {
-        vbxInit.setVisible(true);
-        vbxJoin.setVisible(false);
-        vbxLobby.setVisible(false);
-        //tableLobbyList.setItems(gc.getGameList());
-        tableLobbyList.setItems(lobbyList);
+        switchToInit();
+        lobbyTable.setItems(gc.getGameList());
+        //lobbyTable.setItems(lobbyList);
         columnLobbyNumber.setCellValueFactory(cellData -> cellData.getValue().gameLobbyIDProperty().asObject());
         columnLobbySeats.setCellValueFactory(cellData -> cellData.getValue().seatCounterProperty().asObject());
     }
 
     @FXML
     public void switchToInit() {
+        resetViews();
         vbxInit.setVisible(true);
-        vbxJoin.setVisible(false);
-        vbxLobby.setVisible(false);
     }
     @FXML
     public void hostGame() {
-        vbxInit.setVisible(false);
-        vbxJoin.setVisible(false);
+        resetViews();
         vbxLobby.setVisible(true);
         hbxHostPanel.setVisible(true);
-
         GameLobby lobby = new GameLobby();
 
         User sU = eTankApplication.getSignedUser();
@@ -98,9 +96,8 @@ public class GameLobbyViewController {
     }
     @FXML
     public void joinGame() {
+        resetViews();
         vbxJoin.setVisible(true);
-        vbxInit.setVisible(false);
-        vbxLobby.setVisible(false);
     }
 
     @FXML
@@ -113,7 +110,6 @@ public class GameLobbyViewController {
         eTankApplication.showGameView();
 
     }
-
 
     @FXML
     public void setRdyTrue() {
@@ -133,26 +129,44 @@ public class GameLobbyViewController {
 
     @FXML
     public GameLobby joinSelectedGame() {
-        GameLobby selectedGameLobby = tableLobbyList.getSelectionModel().getSelectedItem();
+        GameLobby selectedGameLobby = lobbyTable.getSelectionModel().getSelectedItem();
+        if(selectedGameLobby.getSeatCounter() < 4) {
+            System.out.println("joining game");
+            User sU = eTankApplication.getSignedUser();
+            Player player = new Player(sU.getId(), sU.getUserName(), sU.getPublicName(), sU.getImage(), sU.getPassword(),
+                    sU.getUserSettings(), sU.getUserStatistic());
+            selectedGameLobby.addPlayer(player);
+            resetViews();
+            vbxLobby.setVisible(true);
+            hbxJoinerPanel.setVisible(true);
 
-
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Schlacht ist schon voll");
+            alert.setContentText("Wähle eine andere oder erstelle selbst eine");
+            alert.showAndWait();
+        }
         return selectedGameLobby;
     }
 
-    public void setStatusReady(ActionEvent actionEvent) {
+    @FXML
+    private void setStatusReady(ActionEvent actionEvent) {
     }
 
+    public void resetViews() {
+        vbxLobby.setVisible(false);
+        vbxJoin.setVisible(false);
+        vbxInit.setVisible(false);
+        hbxHostPanel.setVisible(false);
+        hbxJoinerPanel.setVisible(false);
+    }
     public void enterChatHandleS(KeyEvent keyEvent) {
     }
 
     public void sendMessageS(ActionEvent actionEvent) {
     }
 
-
-
     public void setETankApplication(ETankApplication eTankApplication) {
         this.eTankApplication = eTankApplication;
     }
-
-
 }

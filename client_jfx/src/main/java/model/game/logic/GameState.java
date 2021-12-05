@@ -1,5 +1,5 @@
 package model.game.logic;
 
-public enum Status {
+public enum GameState {
     WAIT, PLAY,
 }

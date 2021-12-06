@@ -9,6 +9,6 @@ public class BroadcastMessageHandler extends MessageHandler {
     @Override
     public void onMessage(String message) {
         super.onMessage(message);
-        LobbySocketServer.broadcast(message);
+        //LobbySocketServer.broadcast(message);
     }
 }

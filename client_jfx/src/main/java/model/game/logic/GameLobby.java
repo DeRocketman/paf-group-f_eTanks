@@ -8,7 +8,7 @@ import model.data.User;
 import model.data.GameStatistic;
 
 import java.sql.Timestamp;
-
+//TODO Refactor this class and write this code in Controller!
 public class GameLobby {
 
     private static final int PORT = 9001;

@@ -1,8 +1,9 @@
+import java.awt.*;
 import java.io.Serializable;
 
 public class Player implements Serializable {
     String publicName;
-    String image;
+    Image image;
     boolean isRdy;
 
     public String getPublicName() {
@@ -14,11 +15,11 @@ public class Player implements Serializable {
         this.publicName = publicName;
     }
 
-    public String getImage() {
+    public Image getImage() {
         return this.image;
     }
 
-    public void setPicture(String image) {
+    public void setPicture(Image image) {
         this.image = image;
     }
 

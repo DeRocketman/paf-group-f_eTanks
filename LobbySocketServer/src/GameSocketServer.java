@@ -1,17 +1,17 @@
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 
-public class LobbySocketServer {
+public class GameSocketServer {
     public static final int PORT = 9001;
     private static ArrayList<Player> playerList;
     private static ArrayList<ObjectOutputStream> writers;
 
     public static void main(String[] args) throws IOException {
+        System.out.println("Server is runnin, well done");
         ServerSocket serverSocket = new ServerSocket(PORT);
         try {
 
@@ -50,7 +50,7 @@ public class LobbySocketServer {
                     Message incomingMsg = (Message) this.objectInputStream.readObject();
                     if(incomingMsg != null) {
                         if(incomingMsg.getMsgType() == MessageType.CONNECT) {
-                            System.out.println("Server: message with type connect");
+                            System.out.println("Server: message with type Connect");
                             Message msg = new Message();
                             msg.setTimestamp(getCurrentTimestamp());
                             if(playerList.size() == 4) {

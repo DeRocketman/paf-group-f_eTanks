@@ -2,16 +2,14 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 public class LobbySocketServer {
     public static final int PORT = 9001;
-    private ArrayList<Player> playerList;
-    private ArrayList<ObjectOutputStream> writers;
+    private static ArrayList<Player> playerList;
+    private static ArrayList<ObjectOutputStream> writers;
 
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = new ServerSocket(PORT);
@@ -26,5 +24,54 @@ public class LobbySocketServer {
         } finally {
             serverSocket.close();
         }
+    }
+
+    public static class Handler extends Thread {
+        private Socket socket;
+
+        private InputStream inputStream;
+        private ObjectInputStream objectInputStream;
+        private OutputStream outputStream;
+        private ObjectOutputStream objectOutputStream;
+
+        public Handler(Socket socket) {
+            this.socket = socket;
+        }
+
+        @Override
+        public void run() {
+            try {
+                this.inputStream = this.socket.getInputStream();
+                this.objectInputStream = new ObjectInputStream(this.inputStream);
+                this.outputStream = this.socket.getOutputStream();
+                this.objectOutputStream = new ObjectOutputStream(this.outputStream);
+
+                while(this.socket.isConnected()) {
+                    Message incomingMsg = (Message) this.objectInputStream.readObject();
+                    if(incomingMsg != null) {
+                        if(incomingMsg.getMsgType() == MessageType.CONNECT) {
+                            System.out.println("Server: message with type connect");
+                            Message msg = new Message();
+                            msg.setTimestamp(getCurrentTimestamp());
+                            if(playerList.size() == 4) {
+
+                            }
+
+                        }
+                    }
+
+                }
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public String getCurrentTimestamp() {
+            Date date = new Date(System.currentTimeMillis());
+            SimpleDateFormat timeForm = new SimpleDateFormat("[HH:mm:ss]");
+            String timestamp = timeForm.format(date);
+            return timestamp;
+        }
+
     }
 }

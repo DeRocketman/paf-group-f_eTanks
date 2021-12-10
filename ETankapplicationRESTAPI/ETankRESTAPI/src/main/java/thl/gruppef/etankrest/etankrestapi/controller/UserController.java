@@ -1,5 +1,6 @@
 package thl.gruppef.etankrest.etankrestapi.controller;
 
+import com.fasterxml.jackson.core.io.JsonStringEncoder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import thl.gruppef.etankrest.etankrestapi.entities.User;
@@ -22,6 +23,11 @@ public class UserController {
     @GetMapping("")
     public List<User> index() {
         return userRepository.findAll();
+    }
+
+    @PostMapping("/username")
+        public Optional<User> findUserByUsername(@RequestBody String username){
+        return this.userRepository.findUserByUsername(username);
     }
 
     @PostMapping("")

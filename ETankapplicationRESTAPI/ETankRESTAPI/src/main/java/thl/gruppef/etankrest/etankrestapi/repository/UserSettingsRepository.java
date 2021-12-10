@@ -6,5 +6,5 @@ import thl.gruppef.etankrest.etankrestapi.entities.UserSettings;
 import java.util.Optional;
 
 public interface UserSettingsRepository extends JpaRepository<UserSettings, Long> {
-
+    
 }

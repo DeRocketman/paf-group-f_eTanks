@@ -29,6 +29,14 @@ public class User {
         this.userStatistic = userStatistic;
     }
 
+    public User(long id, String userName, String publicName, UserSettings userSettings, UserStatistic userStatistic) {
+        this.id = new SimpleLongProperty(id);
+        this.userName = new SimpleStringProperty(userName);
+        this.publicName = new SimpleStringProperty(publicName);
+        this.userSettings = userSettings;
+        this.userStatistic = userStatistic;
+    }
+
     public long getId() {
         return id.get();
     }

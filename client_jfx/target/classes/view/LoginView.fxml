@@ -3409,7 +3409,7 @@
                         <Insets bottom="15.0" />
                      </VBox.margin>
                   </Label>
-                  <Button fx:id="loginBtn" mnemonicParsing="false" onAction="#changeView" prefHeight="37.0" prefWidth="221.0" text="Login" />
+                  <Button fx:id="loginBtn" mnemonicParsing="false" onAction="#login" prefHeight="37.0" prefWidth="221.0" text="Login" />
                </children>
             </VBox>
          </children>

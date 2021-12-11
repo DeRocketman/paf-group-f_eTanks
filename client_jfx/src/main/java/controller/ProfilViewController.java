@@ -37,7 +37,7 @@ public class ProfilViewController extends ViewController {
 
     public void saveProfil(ActionEvent actionEvent) {
         eTankApplication.getSignedUser().setPublicName(publicName.getText());
-        //eTankApplication.getSignedUser().setPassword(password.getText());
+        eTankApplication.getSignedUser().setPassword(password.getText());
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("Deine Änderungen wurden erfolgreich gespeichert!");

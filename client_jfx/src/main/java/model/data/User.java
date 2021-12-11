@@ -12,11 +12,15 @@ public class User {
     private UserSettings userSettings;
     private UserStatistic userStatistic;
 
+    //TODO Erweitern
     //initial User Constructor
     public User() {
        this.id = new SimpleLongProperty(0);
        this.userSettings = new UserSettings();
        this.userStatistic = new UserStatistic();
+       this.userName = new SimpleStringProperty("default");
+       this.publicName = new SimpleStringProperty("default");
+       this.password = new SimpleStringProperty("default");
     }
 
     public User(long id, String userName, String publicName, String image, String password, UserSettings userSettings, UserStatistic userStatistic) {
@@ -35,6 +39,10 @@ public class User {
         this.publicName = new SimpleStringProperty(publicName);
         this.userSettings = userSettings;
         this.userStatistic = userStatistic;
+    }
+
+    public String toJSON(){
+      return "{\"id\":\"" + this.getId() + "\",\"username\":\""+ this.getUserName() + "\",\"publicName\":\""+ this.getPublicName() +"\",\"password\":\"" + this.getPassword()+ "\" }";
     }
 
     public long getId() {
@@ -107,6 +115,10 @@ public class User {
 
     public void setUserStatistic(UserStatistic userStatistic) {
         this.userStatistic = userStatistic;
+    }
+
+    public String toString(){
+        return userName.get();
     }
 }
 

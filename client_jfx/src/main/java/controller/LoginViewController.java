@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
@@ -8,6 +9,7 @@ import model.data.GameStatistic;
 import model.data.User;
 import model.data.UserSettings;
 import model.data.UserStatistic;
+import model.service.HttpRequest;
 import model.service.UserDataCreator;
 import org.json.JSONObject;
 
@@ -16,6 +18,7 @@ import java.io.IOException;
 
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -25,7 +28,8 @@ import java.net.http.HttpClient;
 public class LoginViewController {
 
     ETankApplication eTankApplication;
-    UserDataCreator eudc = new UserDataCreator();
+    HttpRequest httpRequest = new HttpRequest();
+
 
     @FXML
     TextField usernameField;
@@ -47,10 +51,10 @@ public class LoginViewController {
     }
 
     public void keyRelased() {
-        String userName = usernameField.getText();
+        String username = usernameField.getText();
         String password = passwordField.getText();
 
-        boolean isDisabled = (userName.isEmpty() || password.isEmpty());
+        boolean isDisabled = (username.isEmpty() || password.isEmpty());
 
         loginBtn.setDisable(isDisabled);
     }
@@ -59,89 +63,29 @@ public class LoginViewController {
         eTankApplication.showCreateUserView();
     }
 
+    //Anmelden Token erhalten
+    public void login() {
 
-    //BearerToken wird angelegt und in der eTankapplication gespeichert
-    public void changeView() throws IOException {
-
-        URL url = new URL("http://127.0.0.1:8080/auth/login");
-        //OpenConnection
-        HttpURLConnection con = (HttpURLConnection)url.openConnection();
-        con.setRequestMethod("POST");
-        con.setRequestProperty("Content-Type", "application/json; utf-8");
-        con.setRequestProperty("Accept", "application/json");
-        con.setDoOutput(true);
-
-        String username = usernameField.getText();
-        String password = passwordField.getText();
-
-        //Bearbeiten
-        String jsonInputString = "{\"username\" : \"" +username+ "\",\"password\" :\"" +password+ "\" }";
+        setHttpRequestETankapplication();
 
 
-        try(OutputStream os = con.getOutputStream()) {
-            byte[] input = jsonInputString.getBytes("utf-8");
-            os.write(input, 0, input.length);
-        }
+        eTankApplication.getSignedUser().setUserName(usernameField.getText());
+        eTankApplication.getSignedUser().setPassword(passwordField.getText());
 
-        try(BufferedReader br = new BufferedReader(
-                new InputStreamReader(con.getInputStream(), "utf-8"))) {
-            StringBuilder response = new StringBuilder();
-            String responseLine = null;
-            while ((responseLine = br.readLine()) != null) {
-                response.append(responseLine.trim());
+        if(httpRequest.login()){
+            try {
+                eTankApplication.showMenuView();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            eTankApplication.setBearerToken(response.toString());
-            eTankApplication.showMenuView();
-
-            findUserByUsername(username);
-
-        } catch (Exception e){
-            e.printStackTrace();
+        } else {
+            System.out.println("Login fehlgeschlagen");
         }
-        con.disconnect();
+        setHttpRequestETankapplication();
     }
 
-    public void findUserByUsername(String username) throws IOException {
-        URL url = new URL("http://127.0.0.1:8080/user/username");
-        //OpenConnection
-        HttpURLConnection con = (HttpURLConnection)url.openConnection();
-        con.setRequestMethod("POST");
-
-        con.setRequestProperty("Authorization", "Bearer " + eTankApplication.getBearerToken());
-        con.setRequestProperty("Content-Type", "application/json; utf-8");
-        con.setRequestProperty("Accept", "application/json");
-        con.setDoOutput(true);
-
-        String jsonInputString = username;
-
-
-        try(OutputStream os = con.getOutputStream()) {
-            byte[] input = jsonInputString.getBytes("utf-8");
-            os.write(input, 0, input.length);
-        }
-
-        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-        String output;
-
-        StringBuffer response = new StringBuffer();
-        while ((output = in.readLine()) != null) {
-            response.append(output);
-        }
-
-        JSONObject jsonObject = new JSONObject(response.toString());
-        System.out.println(response);
-
-        //TODO UserSettings UserStatistics ordentlich Einbauen, auch in der API
-        String publicName = jsonObject.getString("publicName");
-        long id = jsonObject.getLong("id");
-        UserSettings userSettings = null;
-        UserStatistic userStatistic = new UserStatistic();
-
-        eTankApplication.setSignedUser(new User(id,username,publicName,userSettings, userStatistic));
-
-        in.close();
-        con.disconnect();
+    //ETankapplication bekannt machen
+    public void setHttpRequestETankapplication(){
+        httpRequest.setETankApplication(eTankApplication);
     }
-
-
 }

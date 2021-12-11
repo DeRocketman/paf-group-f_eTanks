@@ -25,15 +25,22 @@ public class ETankApplication extends Application {
     User signedUser;
     String BearerToken;
 
-
     public static void main(String[] args) {
         launch(args);
+
     }
+
+
 
     @Override
     public void start(Stage primaryStage) throws IOException {
         this.primaryStage = primaryStage;
         showLoginView();
+        createUser();
+    }
+
+    public void createUser(){
+        this.signedUser = new User();
     }
 
     public void showLoginView() throws IOException {
@@ -91,7 +98,7 @@ public class ETankApplication extends Application {
 
     public void showSettingsView() throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../view/CreateUserView.fxml"));
+        loader.setLocation(getClass().getResource("../view/RegisterUserView.fxml"));
         rootLayout = loader.load();
         Scene scene = new Scene(rootLayout);
 
@@ -105,12 +112,12 @@ public class ETankApplication extends Application {
 
     public void showCreateUserView() throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../view/CreateUserView.fxml"));
+        loader.setLocation(getClass().getResource("../view/RegisterUserView.fxml"));
         rootLayout = loader.load();
         Scene scene = new Scene(rootLayout);
 
-        CreateUserViewController createUserViewController = loader.getController();
-        createUserViewController.setETankApplication(this);
+        RegisterUserViewController registerUserViewController = loader.getController();
+        registerUserViewController.setETankApplication(this);
 
         primaryStage.setScene(scene);
         primaryStage.show();

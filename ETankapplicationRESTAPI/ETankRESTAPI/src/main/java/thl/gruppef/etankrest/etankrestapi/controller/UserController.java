@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.io.JsonStringEncoder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import thl.gruppef.etankrest.etankrestapi.entities.User;
+import thl.gruppef.etankrest.etankrestapi.entities.UserSettings;
 import thl.gruppef.etankrest.etankrestapi.repository.UserRepository;
+import thl.gruppef.etankrest.etankrestapi.repository.UserSettingsRepository;
 
 import java.util.List;
 import java.util.Optional;

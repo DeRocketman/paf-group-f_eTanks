@@ -17,6 +17,7 @@ public class User {
     public User() {
        this.id = new SimpleLongProperty(0);
        this.userSettings = new UserSettings();
+       this.userSettings.setDefaultSettings();
        this.userStatistic = new UserStatistic();
        this.userName = new SimpleStringProperty("default");
        this.publicName = new SimpleStringProperty("default");

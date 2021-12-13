@@ -3,6 +3,7 @@ package thl.gruppef.etankrest.etankrestapi.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import thl.gruppef.etankrest.etankrestapi.request.CreateUserRequest;
 
 import javax.persistence.*;
 import java.util.List;
@@ -25,12 +26,24 @@ public class User extends IdentifiedEntity {
 
     @Lob
     @JsonIgnore
-    private byte[] userImage;
+    private String userImage;
 
-    @OneToOne(mappedBy = "userRef")
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "userSettings_id")
     UserSettings userSettings;
 
     @OneToMany(mappedBy = "user")
     List<GameStatistic> gameStatistics;
 
+    public User(CreateUserRequest createUserRequest) {
+        this.username = createUserRequest.getUsername();
+        this.publicName = createUserRequest.getPublicName();
+        this.password = createUserRequest.getPassword();
+        this.userImage = createUserRequest.getImage();
+    }
+
+    public User() {
+
+    }
 }

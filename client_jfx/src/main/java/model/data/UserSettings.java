@@ -11,6 +11,9 @@ package model.data;
  * The type User settings.
  */
 public class UserSettings {
+
+    private long id;
+
     private int gameSoundVolume;
     private int gameMusicVolume;
     private boolean gameSoundOn;
@@ -29,10 +32,12 @@ public class UserSettings {
     public UserSettings() {
     }
 
+
     /**
      * Sets default settings.
      */
     public void setDefaultSettings() {
+        this.id = 0;
         this.gameSoundVolume = 100;
         this.gameMusicVolume = 100;
         this.gameSoundOn = true;
@@ -224,5 +229,27 @@ public class UserSettings {
      */
     public void setFireSecondaryWeaponKey(String fireSecondaryWeaponKey) {
         this.fireSecondaryWeaponKey = fireSecondaryWeaponKey;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getShowStatisticKey() {
+        return showStatisticKey;
+    }
+
+    public void setShowStatisticKey(String showStatisticKey) {
+        this.showStatisticKey = showStatisticKey;
+    }
+
+    public String toJSON() {
+        return "{\"id\":"+ this.getId() +",\"gameSoundVolume\":"+ this.getGameSoundVolume() +",\"gameMusicVolume\":"+this.gameMusicVolume+",\"gameSoundOn\":"+gameSoundOn+"," +
+                "\"gameMusicOn\":"+gameMusicOn+",\"moveUpKey\":\""+moveUpKey+"\",\"moveDownKey\":\""+moveDownKey+"\",\"moveLeftKey\":\""+moveLeftKey+"\",\"moveRightKey\":\""+moveRightKey+"\"," +
+                "\"fireMainWeaponKey\":\""+fireMainWeaponKey+"\",\"fireSecondaryWeaponKey\":\""+fireSecondaryWeaponKey+"\",\"showStatisticKey\":\""+showStatisticKey+"\"}";
     }
 }

@@ -16,6 +16,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HttpRequest {
 
@@ -124,14 +126,46 @@ public class HttpRequest {
 
         JSONObject jsonObject = new JSONObject(response.toString());
 
-        //TODO UserSettings UserStatistics ordentlich Einbauen, auch in der API
-        //TODO ID Kann nicht angepasst werden
+        //User aus JSON
+        String username = jsonObject.getString("username");
         String publicName = jsonObject.getString("publicName");
         long id = jsonObject.getLong("id");
 
-        UserSettings userSettings = null;
-        UserStatistic userStatistic = new UserStatistic();
+        //UserSettings aus JSON holen
+        JSONObject userSettingsJSON = (JSONObject) jsonObject.get("userSettings");
 
+        long userSettingsId = userSettingsJSON.getLong("id");
+        int gameMusicVolume = userSettingsJSON.getInt("gameMusicVolume");
+        int gameSoundVolume = userSettingsJSON.getInt("gameSoundVolume");
+        boolean gameMusicOn = userSettingsJSON.getBoolean("gameSoundOn");
+        boolean gameSoundOn = userSettingsJSON.getBoolean("gameSoundOn");
+        String moveUpKey = userSettingsJSON.getString("moveUpKey");
+        String moveDownKey = userSettingsJSON.getString("moveDownKey");
+        String moveLeftKey = userSettingsJSON.getString("moveLeftKey");
+        String moveRightKey = userSettingsJSON.getString("moveRightKey");
+        String showStatisticKey = userSettingsJSON.getString("showStatisticKey");
+        String fireMainWeaponKey = userSettingsJSON.getString("fireMainWeaponKey");
+        String fireSecondWeaponKey = userSettingsJSON.getString("fireSecondWeaponKey");
+
+        //UserSettings erstellen
+        UserSettings userSettings = new UserSettings();
+        userSettings.setId(userSettingsId);
+        userSettings.setGameMusicVolume(gameMusicVolume);
+        userSettings.setGameSoundVolume(gameSoundVolume);
+        userSettings.setGameMusicOn(gameMusicOn);
+        userSettings.setGameSoundOn(gameSoundOn);
+        userSettings.setMoveUpKey(moveUpKey);
+        userSettings.setMoveDownKey(moveDownKey);
+        userSettings.setMoveLeftKey(moveLeftKey);
+        userSettings.setMoveRightKey(moveRightKey);
+        userSettings.setShowStatisticKey(showStatisticKey);
+        userSettings.setFireMainWeaponKey(fireMainWeaponKey);
+        userSettings.setFireSecondaryWeaponKey(fireSecondWeaponKey);
+
+        eTankApplication.getSignedUser().setUserSettings(userSettings);
+
+        eTankApplication.getSignedUser().setId(id);
+        eTankApplication.getSignedUser().setUserName(username);
         eTankApplication.getSignedUser().setPublicName(publicName);
 
         con.disconnect();

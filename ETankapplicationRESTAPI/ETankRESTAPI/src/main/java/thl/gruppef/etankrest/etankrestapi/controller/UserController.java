@@ -14,10 +14,14 @@ import java.util.Optional;
 
 @RequestMapping("/user")
 public class UserController {
+
     private UserRepository userRepository;
 
-    public UserController(UserRepository userRepository) {
+
+    public UserController(UserRepository userRepository,
+    UserSettingsRepository userSettingsRepository) {
         this.userRepository = userRepository;
+
     }
 
     @GetMapping("")
@@ -28,19 +32,5 @@ public class UserController {
     @PostMapping("/username")
         public Optional<User> findUserByUsername(@RequestBody String username){
         return this.userRepository.findUserByUsername(username);
-    }
-
-    @PostMapping("")
-    public ResponseEntity<User> createUser(@RequestBody User user){
-
-        User newUser = new User();
-        newUser.setUsername(user.getUsername());
-        newUser.setUserImage(user.getUserImage());
-        newUser.setPassword(user.getPassword());
-        newUser.setPublicName(user.getPublicName());
-
-        User created = userRepository.save(newUser);
-
-        return ResponseEntity.ok(created);
     }
 }

@@ -14,7 +14,7 @@ import java.util.Collections;
 public class CustomUserDetailService implements UserDetailsService {
 
     //Benötigen wir um den User aus der Datenbank zu holen
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     public CustomUserDetailService(UserRepository userRepository) {
         this.userRepository = userRepository;

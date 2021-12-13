@@ -4,7 +4,7 @@ import javafx.beans.property.*;
 
 public class User {
 
-    private final LongProperty id;
+    private LongProperty id;
     private StringProperty userName;
     private StringProperty publicName;
     private StringProperty image;
@@ -42,8 +42,11 @@ public class User {
     }
 
     public String toJSON(){
-      return "{\"id\":\"" + this.getId() + "\",\"username\":\""+ this.getUserName() + "\",\"publicName\":\""+ this.getPublicName() +"\",\"password\":\"" + this.getPassword()+ "\" }";
+      return "{\"id\":" + this.getId() + ",\"username\":\""+ this.getUserName() + "\",\"publicName\":\""+ this.getPublicName() +
+              "\",\"password\":\"" + this.getPassword()+ "\",\"userSettings\":"+ userSettings.toJSON()+"}";
     }
+
+    public void setId (long id) {this.id.set(id);}
 
     public long getId() {
         return id.get();
@@ -117,9 +120,6 @@ public class User {
         this.userStatistic = userStatistic;
     }
 
-    public String toString(){
-        return userName.get();
-    }
 }
 
 

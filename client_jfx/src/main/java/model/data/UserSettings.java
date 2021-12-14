@@ -248,8 +248,8 @@ public class UserSettings {
     }
 
     public String toJSON() {
-        return "{\"id\":"+ this.getId() +",\"gameSoundVolume\":"+ this.getGameSoundVolume() +",\"gameMusicVolume\":"+this.gameMusicVolume+",\"gameSoundOn\":"+gameSoundOn+"," +
-                "\"gameMusicOn\":"+gameMusicOn+",\"moveUpKey\":\""+moveUpKey+"\",\"moveDownKey\":\""+moveDownKey+"\",\"moveLeftKey\":\""+moveLeftKey+"\",\"moveRightKey\":\""+moveRightKey+"\"," +
-                "\"fireMainWeaponKey\":\""+fireMainWeaponKey+"\",\"fireSecondaryWeaponKey\":\""+fireSecondaryWeaponKey+"\",\"showStatisticKey\":\""+showStatisticKey+"\"}";
+        return "{\"id\":"+ this.getId() +",\"gameSoundVolume\":"+ this.getGameSoundVolume() +",\"gameMusicVolume\":"+this.getGameMusicVolume()+",\"gameSoundOn\":"+this.isGameSoundOn()+"," +
+                "\"gameMusicOn\":"+this.isGameMusicOn()+",\"moveUpKey\":\""+this.getMoveUpKey()+"\",\"moveDownKey\":\""+this.getMoveDownKey()+"\",\"moveLeftKey\":\""+this.getMoveLeftKey()+"\",\"moveRightKey\":\""+this.getMoveRightKey()+"\"," +
+                "\"fireMainWeaponKey\":\""+this.getFireMainWeaponKey()+"\",\"fireSecondaryWeaponKey\":\""+this.getFireSecondaryWeaponKey()+"\",\"showStatisticKey\":\""+this.getShowStatisticKey()+"\"}";
     }
 }

@@ -6,13 +6,13 @@ public class User {
     private long id;
     private String userName;
     private String publicName;
-    private String image;
+    private String userImage;
     private String password;
     private UserSettings userSettings;
     private UserStatistic userStatistic;
 
     public User () {
-
+        this.setDefault();
     }
 
     public User(long id, String userName, String publicName, String image, String password,
@@ -20,7 +20,7 @@ public class User {
         this.id = id;
         this.userName = userName;
         this.publicName = publicName;
-        this.image = image;
+        this.userImage = image;
         this.password = password;
         this.userSettings = userSettings;
         this.userStatistic = userStatistic;
@@ -30,14 +30,25 @@ public class User {
         this.id = id;
         this.userName = userName;
         this.publicName = publicName;
-        this.image = image;
+        this.userImage = image;
         this.password = password;
         this.userSettings = userSettings;
     }
 
+    public void setDefault(){
+        this.id = 0;
+        this.userName = "default";
+        this.publicName = "default";
+        this.userImage = "Image";
+        this.password = "default";
+        this.userSettings = new UserSettings();
+        this.userSettings.setDefaultSettings();
+        this.userStatistic = new UserStatistic();
+    }
+
     public String toJSON(){
-        return "{\"id\":" + this.getId() + ",\"username\":\""+ this.getUserName() + "\",\"publicName\":\""+ this.getPublicName() +
-                "\",\"password\":\"" + this.getPassword()+ "\",\"userSettings\":"+ userSettings.toJSON()+"}";
+        return "{\"user\":{\"id\":" + this.getId() + ",\"username\":\""+ this.getUserName() + "\",\"userImage\":\""+this.getImage()+"\",\"publicName\":\""+ this.getPublicName() +
+                "\",\"password\":\"" + this.getPassword() + "\",\"userSettings\":"+ userSettings.toJSON()+"}}";
     }
 
     public long getId() {
@@ -65,11 +76,11 @@ public class User {
     }
 
     public String getImage() {
-        return image;
+        return userImage;
     }
 
     public void setImage(String image) {
-        this.image = image;
+        this.userImage = image;
     }
 
     public String getPassword() {

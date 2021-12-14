@@ -124,13 +124,15 @@ public class HttpRequest {
             e.printStackTrace();
         }
 
+
+        //TODO kann sicherlich vereinfacht werden
         JSONObject jsonObject = new JSONObject(response.toString());
 
         //User aus JSON
         String username = jsonObject.getString("username");
         String publicName = jsonObject.getString("publicName");
         long id = jsonObject.getLong("id");
-
+        String userImage = jsonObject.getString("userImage");
         //UserSettings aus JSON holen
         JSONObject userSettingsJSON = (JSONObject) jsonObject.get("userSettings");
 
@@ -146,6 +148,7 @@ public class HttpRequest {
         String showStatisticKey = userSettingsJSON.getString("showStatisticKey");
         String fireMainWeaponKey = userSettingsJSON.getString("fireMainWeaponKey");
         String fireSecondWeaponKey = userSettingsJSON.getString("fireSecondWeaponKey");
+
 
         //UserSettings erstellen
         UserSettings userSettings = new UserSettings();
@@ -167,6 +170,7 @@ public class HttpRequest {
         eTankApplication.getSignedUser().setId(id);
         eTankApplication.getSignedUser().setUserName(username);
         eTankApplication.getSignedUser().setPublicName(publicName);
+        eTankApplication.getSignedUser().setImage(userImage);
 
         con.disconnect();
 
@@ -241,7 +245,6 @@ public class HttpRequest {
             System.out.println("HIER NICHT");
             return false;
         } catch (IOException e) {
-            System.out.println("HIER");
             e.printStackTrace();
             return false;
         }
@@ -254,7 +257,6 @@ public class HttpRequest {
             os.write(input, 0, input.length);
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("HIER AUCH NICHT");
             return false;
         }
 
@@ -269,7 +271,11 @@ public class HttpRequest {
             }
 
         } catch (IOException e) {
-            System.out.println("Wieso");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Achtung");
+            alert.setHeaderText("Username bereits vergeben!");
+            alert.setContentText("Bitte versuchen Sie es erneut");
+            alert.showAndWait();
             e.printStackTrace();
             return false;
         }

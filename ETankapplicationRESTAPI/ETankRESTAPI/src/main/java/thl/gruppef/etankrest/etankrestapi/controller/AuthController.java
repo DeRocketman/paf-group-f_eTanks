@@ -85,13 +85,10 @@ public class AuthController {
     //User registrieren, default Settings anlegen USER übergeben
     @PostMapping(value = "/register/user")
     public ResponseEntity<User> register(@RequestBody UserRequest userRequest) {
+
         //Prüfen ob Username schon in der DB
-
-
-        System.out.println("Hallo"+userRequest.getUser().getUsername());
         Optional<User> userOptional = userRepository.findUserByUsername(userRequest.getUser().getUsername());
 
-        System.out.println(userRequest);
 
         if (userOptional.isPresent()) {
             return ResponseEntity.badRequest().build();
@@ -105,6 +102,7 @@ public class AuthController {
         user.setUsername(userRequest.getUser().getUsername());
         user.setPublicName(userRequest.getUser().getPublicName());
         user.setUserSettings(userSettings);
+        user.setUserImage(userRequest.getUser().getUserImage());
 
         User created = userRepository.save(user);
         return ResponseEntity.ok(created);

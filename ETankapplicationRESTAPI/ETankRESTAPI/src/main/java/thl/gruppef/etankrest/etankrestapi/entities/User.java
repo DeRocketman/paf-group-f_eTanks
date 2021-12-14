@@ -24,7 +24,6 @@ public class User extends IdentifiedEntity {
     private String password;
 
     @Lob
-    @JsonIgnore
     private String userImage;
 
 

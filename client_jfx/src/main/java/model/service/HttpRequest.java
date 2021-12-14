@@ -131,6 +131,7 @@ public class HttpRequest {
 
         Gson gson = new Gson();
         eTankApplication.setSignedUser(gson.fromJson(String.valueOf(response), User.class));
+        System.out.println(response);
         System.out.println(gson.toJson(eTankApplication.getSignedUser()));
 
         con.disconnect();

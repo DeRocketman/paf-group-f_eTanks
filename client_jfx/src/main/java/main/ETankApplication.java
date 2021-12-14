@@ -24,6 +24,7 @@ public class ETankApplication extends Application {
     AnchorPane rootLayout;
     User signedUser;
     String BearerToken;
+    HttpRequest httpRequest;
 
     public static void main(String[] args) {
         launch(args);
@@ -98,9 +99,10 @@ public class ETankApplication extends Application {
 
     public void showSettingsView() throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../view/RegisterUserView.fxml"));
+        loader.setLocation(getClass().getResource("../view/SettingView.fxml"));
         rootLayout = loader.load();
         Scene scene = new Scene(rootLayout);
+
 
         SettingViewController settingsController = loader.getController();
         settingsController.setETankApplication(this);

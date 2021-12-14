@@ -19,16 +19,6 @@ public class SettingViewController extends ViewController  {
     private Slider musicVolumeSettings;
 
 
-    public void initialize(){
-        soundVolumeSettings.setMin(0);
-        soundVolumeSettings.setMax(100);
-        soundVolumeSettings.setValue(50);
-
-        musicVolumeSettings.setMin(0);
-        musicVolumeSettings.setMax(100);
-        musicVolumeSettings.setValue(50);
-    }
-
     public void changeSound(ActionEvent actionEvent) {
         if (soundSettings.isSelected()){
             soundSettings.setText ("An");

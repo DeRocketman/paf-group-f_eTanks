@@ -45,5 +45,4 @@ public class HttpRequest {
         // printing result from response
         System.out.println("Response:-" + response.toString());
     }
-
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 public class User {
     private long id;
-    private String userName;
+    private String username;
     private String publicName;
     private String userImage;
     private String password;
@@ -18,10 +18,10 @@ public class User {
         this.setDefault();
     }
 
-    public User(long id, String userName, String publicName, String image, String password,
+    public User(long id, String username, String publicName, String image, String password,
                 UserSettings userSettings, List<GameStatistic> userStatistic) {
         this.id = id;
-        this.userName = userName;
+        this.username = username;
         this.publicName = publicName;
         this.userImage = image;
         this.password = password;
@@ -29,9 +29,9 @@ public class User {
         this.gameStatistics = userStatistic;
     }
 
-    public User(long id, String userName, String publicName, String image, String password, UserSettings userSettings) {
+    public User(long id, String username, String publicName, String image, String password, UserSettings userSettings) {
         this.id = id;
-        this.userName = userName;
+        this.username = username;
         this.publicName = publicName;
         this.userImage = image;
         this.password = password;
@@ -40,7 +40,7 @@ public class User {
 
     public void setDefault(){
 
-        this.userName = "default";
+        this.username = "default";
         this.publicName = "default";
         this.userImage = "Image";
         this.password = "default";
@@ -63,11 +63,11 @@ public class User {
     }
 
     public String getUserName() {
-        return userName;
+        return username;
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        this.username = userName;
     }
 
     public String getPublicName() {

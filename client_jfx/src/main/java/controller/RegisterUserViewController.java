@@ -5,9 +5,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import main.ETankApplication;
+import model.data.User;
 import model.service.HttpRequest;
 
 import java.io.IOException;
+
 
 public class RegisterUserViewController {
 
@@ -53,7 +55,12 @@ public class RegisterUserViewController {
     }
 
     public void registerUser() {
-        if(httpRequest.registerUser(usernameField.getText(), pubNameField.getText(), passwordField.getText())){
+        User tempUser = new User();
+        tempUser.setUserName(usernameField.getText());
+        tempUser.setPassword(passwordField.getText());
+        tempUser.setPublicName(pubNameField.getText());
+
+        if(httpRequest.registerUserByUser(tempUser)){
             try {
                 eTankApplication.showLoginView();
             } catch (IOException e) {

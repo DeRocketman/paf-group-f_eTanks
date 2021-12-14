@@ -3,7 +3,7 @@ package thl.gruppef.etankrest.etankrestapi.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
-import thl.gruppef.etankrest.etankrestapi.request.CreateUserRequest;
+import thl.gruppef.etankrest.etankrestapi.request.UserRequest;
 
 import javax.persistence.*;
 import java.util.List;
@@ -21,7 +21,6 @@ public class User extends IdentifiedEntity {
     private String publicName;
 
     @Column(length = 100, nullable = false)
-    @JsonIgnore
     private String password;
 
     @Lob
@@ -36,12 +35,6 @@ public class User extends IdentifiedEntity {
     @OneToMany(mappedBy = "user")
     List<GameStatistic> gameStatistics;
 
-    public User(CreateUserRequest createUserRequest) {
-        this.username = createUserRequest.getUsername();
-        this.publicName = createUserRequest.getPublicName();
-        this.password = createUserRequest.getPassword();
-        this.userImage = createUserRequest.getImage();
-    }
 
     public User() {
 

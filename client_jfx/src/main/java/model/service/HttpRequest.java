@@ -171,6 +171,7 @@ public class HttpRequest {
         con.disconnect();
 
         System.out.println(eTankApplication.getSignedUser().toJSON());
+        System.out.println(response);
     }
 
     public boolean registerUser(String username, String pubName, String password){
@@ -218,6 +219,113 @@ public class HttpRequest {
             }
 
         } catch (IOException e) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean registerUserByUser(User user){
+
+        HttpURLConnection con = null;
+        try {
+            URL url = new URL("http://127.0.0.1:8080/auth/register/user");
+
+            con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("content-Type", "application/json; utf-8");
+            con.setRequestProperty("Accept", "application/json");
+            con.setDoOutput(true);
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            System.out.println("HIER NICHT");
+            return false;
+        } catch (IOException e) {
+            System.out.println("HIER");
+            e.printStackTrace();
+            return false;
+        }
+
+        String jsonInputString = user.toJSON();
+
+        try {
+            OutputStream os = con.getOutputStream();
+            byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
+            os.write(input, 0, input.length);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("HIER AUCH NICHT");
+            return false;
+        }
+
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"));
+
+            StringBuilder response = new StringBuilder();
+            String responseLine = null;
+
+            while ((responseLine = br.readLine()) != null) {
+                response.append(responseLine.trim());
+            }
+
+        } catch (IOException e) {
+            System.out.println("Wieso");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean loginByUser() {
+
+        HttpURLConnection con = null;
+        try {
+            URL url = new URL("http://127.0.0.1:8080/auth/login/user");
+
+            con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("content-Type", "application/json; utf-8");
+            con.setRequestProperty("Accept", "application/json");
+            con.setDoOutput(true);
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        String jsonInputString = eTankApplication.getSignedUser().toJSON();
+
+        try {
+            OutputStream os = con.getOutputStream();
+            byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
+            os.write(input, 0, input.length);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"));
+
+            StringBuilder response = new StringBuilder();
+            String responseLine = null;
+
+            while ((responseLine = br.readLine()) != null) {
+                response.append(responseLine.trim());
+            }
+
+            eTankApplication.setBearerToken(response.toString());
+            findUserByUsername();
+
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Achtung");
+            alert.setHeaderText("Username && || Passwort falsch!");
+            alert.setContentText("Bitte versuchen Sie es erneut");
+            alert.showAndWait();
             return false;
         }
         return true;

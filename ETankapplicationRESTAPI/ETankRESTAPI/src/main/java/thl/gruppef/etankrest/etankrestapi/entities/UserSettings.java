@@ -3,7 +3,7 @@ package thl.gruppef.etankrest.etankrestapi.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
-import thl.gruppef.etankrest.etankrestapi.request.CreateUserRequest;
+import thl.gruppef.etankrest.etankrestapi.request.UserRequest;
 
 import javax.persistence.*;
 
@@ -44,20 +44,6 @@ public class UserSettings {
 
     private String fireSecondWeaponKey;
 
-    public UserSettings(CreateUserRequest createUserRequest) {
-
-        this.gameSoundVolume = createUserRequest.getGameSoundVolume();
-        this.gameMusicVolume = createUserRequest.getGameMusicVolume();
-        this.gameSoundOn = createUserRequest.isGameSoundOn();
-        this.gameMusicOn = createUserRequest.isGameMusicOn();
-        this.showStatisticKey = createUserRequest.getShowStatisticKey();
-        this.moveUpKey = createUserRequest.getMoveUpKey();
-        this.moveLeftKey = createUserRequest.getMoveLeftKey();
-        this.moveRightKey = createUserRequest.getMoveRightKey();
-        this.moveDownKey = createUserRequest.getMoveDownKey();
-        this.fireMainWeaponKey = createUserRequest.getFireMainWaeponKey();
-        this.fireSecondWeaponKey = createUserRequest.getFireSecondWeaponKey();
-    }
 
     public UserSettings() {
         this.gameSoundVolume = 100;

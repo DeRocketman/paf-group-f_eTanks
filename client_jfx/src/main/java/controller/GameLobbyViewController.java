@@ -79,7 +79,7 @@ public class GameLobbyViewController {
 
         User sU = eTankApplication.getSignedUser();
         Player player = new Player(sU.getId(), sU.getUserName(), sU.getPublicName(), sU.getImage(), sU.getPassword(),
-                                    sU.getUserSettings(), sU.getUserStatistic());
+                                    sU.getUserSettings());
         lobby.addPlayer(player);
         this.lobbyList.add(lobby);
     }
@@ -134,7 +134,7 @@ public class GameLobbyViewController {
             System.out.println("joining game");
             User sU = eTankApplication.getSignedUser();
             Player player = new Player(sU.getId(), sU.getUserName(), sU.getPublicName(), sU.getImage(), sU.getPassword(),
-                    sU.getUserSettings(), sU.getUserStatistic());
+                    sU.getUserSettings());
             selectedGameLobby.addPlayer(player);
             resetViews();
             vbxLobby.setVisible(true);

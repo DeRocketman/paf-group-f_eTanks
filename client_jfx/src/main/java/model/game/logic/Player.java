@@ -11,8 +11,8 @@ public class Player extends User {
 
     private boolean isReady;
 
-    public Player(long id, String userName, String publicName, String image, String password, UserSettings userSettings, UserStatistic userStatistic) {
-        super(id, userName, publicName, image, password, userSettings, userStatistic);
+    public Player(long id, String userName, String publicName, String image, String password, UserSettings userSettings) {
+        super(id, userName, publicName, image, password, userSettings);
         this.isReady = false;
     }
 
@@ -24,6 +24,7 @@ public class Player extends User {
         isReady = ready;
     }
 
+    //TODO: Maybe Build service class for change to property types
     public StringProperty getPublicNameAsProperty() {
         return new SimpleStringProperty(super.getPublicName());
     }

@@ -17,11 +17,11 @@ public class GameCreator {
         UserSettings testUserSetting = new UserSettings();
         UserStatistic testUserStatistic = new UserStatistic();
         Player testPlayer = new Player(1000, "Line-Maxi", "Rocket wo man",
-                    "../img/images/default-user-image.png", "passwort", testUserSetting, testUserStatistic);
+                    "../img/images/default-user-image.png", "passwort", testUserSetting);
         Player testPlayer2 = new Player(10001, "Maxi-Line", "Wocketwan",
-                "../img/images/default-user-image.png", "passwort", testUserSetting, testUserStatistic);
+                "../img/images/default-user-image.png", "passwort", testUserSetting);
         this.signedUser = new Player(10002, "Mine-Laxi", "Pocketpen",
-                "../img/images/default-user-image.png", "passwort", testUserSetting, testUserStatistic);
+                "../img/images/default-user-image.png", "passwort", testUserSetting);
         gameLobbyList.add(new GameLobby());
         gameLobbyList.add(new GameLobby());
         gameLobbyList.add(new GameLobby());

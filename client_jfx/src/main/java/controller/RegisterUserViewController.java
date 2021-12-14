@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import main.ETankApplication;
+import model.data.Authorisation;
 import model.data.User;
 import model.service.HttpRequest;
 
@@ -55,12 +56,9 @@ public class RegisterUserViewController {
     }
 
     public void registerUser() {
-        User tempUser = new User();
-        tempUser.setUserName(usernameField.getText());
-        tempUser.setPassword(passwordField.getText());
-        tempUser.setPublicName(pubNameField.getText());
+        Authorisation authorisation = new Authorisation(usernameField.getText(),pubNameField.getText(),passwordField.getText());
 
-        if(httpRequest.registerUserByUser(tempUser)){
+        if(httpRequest.registerUser(authorisation)){
             try {
                 eTankApplication.showLoginView();
             } catch (IOException e) {

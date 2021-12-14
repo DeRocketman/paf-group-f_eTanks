@@ -2,6 +2,9 @@ package model.data;
 
 import javafx.beans.property.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class User {
     private long id;
     private String userName;
@@ -9,21 +12,21 @@ public class User {
     private String userImage;
     private String password;
     private UserSettings userSettings;
-    private UserStatistic userStatistic;
+    private List<GameStatistic> gameStatistics;
 
     public User () {
         this.setDefault();
     }
 
     public User(long id, String userName, String publicName, String image, String password,
-                UserSettings userSettings, UserStatistic userStatistic) {
+                UserSettings userSettings, List<GameStatistic> userStatistic) {
         this.id = id;
         this.userName = userName;
         this.publicName = publicName;
         this.userImage = image;
         this.password = password;
         this.userSettings = userSettings;
-        this.userStatistic = userStatistic;
+        this.gameStatistics = userStatistic;
     }
 
     public User(long id, String userName, String publicName, String image, String password, UserSettings userSettings) {
@@ -36,14 +39,14 @@ public class User {
     }
 
     public void setDefault(){
-        this.id = 0;
+
         this.userName = "default";
         this.publicName = "default";
         this.userImage = "Image";
         this.password = "default";
         this.userSettings = new UserSettings();
         this.userSettings.setDefaultSettings();
-        this.userStatistic = new UserStatistic();
+        this.gameStatistics = new ArrayList<>();
     }
 
     public String toJSON(){
@@ -99,11 +102,19 @@ public class User {
         this.userSettings = userSettings;
     }
 
-    public UserStatistic getUserStatistic() {
-        return userStatistic;
+    public String getUserImage() {
+        return userImage;
     }
 
-    public void setUserStatistic(UserStatistic userStatistic) {
-        this.userStatistic = userStatistic;
+    public void setUserImage(String userImage) {
+        this.userImage = userImage;
+    }
+
+    public List<GameStatistic> getGameStatistics() {
+        return gameStatistics;
+    }
+
+    public void setGameStatistics(List<GameStatistic> gameStatistics) {
+        this.gameStatistics = gameStatistics;
     }
 }

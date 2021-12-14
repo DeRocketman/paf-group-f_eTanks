@@ -1,5 +1,6 @@
 package thl.gruppef.etankrest.etankrestapi.controller;
 
+import com.google.gson.Gson;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -82,32 +83,6 @@ public class AuthController {
         return ResponseEntity.ok(jwtTokenProvider.generateToken(authentication));
     }
 
-    //User registrieren, default Settings anlegen USER übergeben
-    @PostMapping(value = "/register/user")
-    public ResponseEntity<User> register(@RequestBody UserRequest userRequest) {
-
-        //Prüfen ob Username schon in der DB
-        Optional<User> userOptional = userRepository.findUserByUsername(userRequest.getUser().getUsername());
-
-
-        if (userOptional.isPresent()) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        UserSettings userSettings = new UserSettings();
-        userSettings = userSettingsRepository.save(userSettings);
-
-        User user = new User();
-        user.setPassword(passwordEncoder.encode(userRequest.getUser().getPassword()));
-        user.setUsername(userRequest.getUser().getUsername());
-        user.setPublicName(userRequest.getUser().getPublicName());
-        user.setUserSettings(userSettings);
-        user.setUserImage(userRequest.getUser().getUserImage());
-
-        User created = userRepository.save(user);
-        return ResponseEntity.ok(created);
-    }
-
     @PostMapping(value = "/login/user")
     public ResponseEntity<String> login(@RequestBody UserRequest userRequest){
 
@@ -120,6 +95,4 @@ public class AuthController {
         );
         return ResponseEntity.ok(jwtTokenProvider.generateToken(authentication));
     }
-
-
 }

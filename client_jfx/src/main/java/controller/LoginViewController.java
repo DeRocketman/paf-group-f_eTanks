@@ -5,10 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import main.ETankApplication;
-import model.data.GameStatistic;
-import model.data.User;
-import model.data.UserSettings;
-import model.data.UserStatistic;
+import model.data.*;
 import model.service.HttpRequest;
 import model.service.UserDataCreator;
 import org.json.JSONObject;
@@ -68,10 +65,9 @@ public class LoginViewController {
 
         setHttpRequestETankapplication();
 
-        eTankApplication.getSignedUser().setUserName(usernameField.getText());
-        eTankApplication.getSignedUser().setPassword(passwordField.getText());
+        Authorisation authorisation = new Authorisation(usernameField.getText(),passwordField.getText());
 
-        if(httpRequest.loginByUser()){
+        if(httpRequest.login(authorisation)){
             try {
                 eTankApplication.showMenuView();
             } catch (IOException e) {
@@ -80,7 +76,7 @@ public class LoginViewController {
         } else {
             System.out.println("Login fehlgeschlagen");
         }
-        setHttpRequestETankapplication();
+
     }
 
     //ETankapplication bekannt machen

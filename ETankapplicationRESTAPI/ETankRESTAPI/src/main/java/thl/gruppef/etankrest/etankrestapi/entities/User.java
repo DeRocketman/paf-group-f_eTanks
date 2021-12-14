@@ -6,6 +6,7 @@ import lombok.Setter;
 import thl.gruppef.etankrest.etankrestapi.request.UserRequest;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -36,6 +37,7 @@ public class User extends IdentifiedEntity {
 
 
     public User() {
-
+        this.userImage = "defaultImage";
+        gameStatistics = new ArrayList<>();
     }
 }

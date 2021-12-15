@@ -14,6 +14,9 @@ import model.data.User;
 import model.game.logic.GameLobby;
 import model.game.logic.Player;
 import model.service.GameCreator;
+import model.service.GameListener;
+import model.service.MessageState;
+
 import java.io.IOException;
 
 public class GameLobbyViewController {
@@ -22,6 +25,7 @@ public class GameLobbyViewController {
     GameCreator gc = new GameCreator();
     private ETankApplication eTankApplication;
     private Player signedPlayer;
+    private GameListener gameListener;
 
 
     ObservableList<GameLobby> lobbyList = FXCollections.observableArrayList();
@@ -63,6 +67,7 @@ public class GameLobbyViewController {
         //lobbyTable.setItems(lobbyList);
         columnLobbyNumber.setCellValueFactory(cellData -> cellData.getValue().gameLobbyIDProperty().asObject());
         columnLobbySeats.setCellValueFactory(cellData -> cellData.getValue().seatCounterProperty().asObject());
+        gameListener = new GameListener("localhost", 9001, this);
     }
 
     @FXML
@@ -71,15 +76,15 @@ public class GameLobbyViewController {
         vbxInit.setVisible(true);
     }
     @FXML
-    public void hostGame() {
+    public void hostGame() throws IOException {
         resetViews();
         vbxLobby.setVisible(true);
         hbxHostPanel.setVisible(true);
         GameLobby lobby = new GameLobby();
-
         User sU = eTankApplication.getSignedUser();
         Player player = new Player(sU.getId(), sU.getUserName(), sU.getPublicName(), sU.getImage(), sU.getPassword(),
-                                    sU.getUserSettings());
+                sU.getUserSettings());
+        GameListener.doThingsWithLobby(MessageState.JOIN_LOBBY, player, lobby, "");
         lobby.addPlayer(player);
         this.lobbyList.add(lobby);
     }

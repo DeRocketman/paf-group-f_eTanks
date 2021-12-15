@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Message implements Serializable {
+    private static final long serialVersionUID = 1L;
     public String msgContent;
     public MessageState msgState;
     public Player player;

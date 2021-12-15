@@ -16,25 +16,25 @@ public class GameLobby implements Serializable {
 
     private final LongProperty gameLobbyID;
     private IntegerProperty seatCounter;
-    private ObservableList<Player> players;
+    private ObservableList<Player> playerList;
 
     public static ObservableList<GameLobby> lobbyList;
 
     public GameLobby() {
-       this.players = FXCollections.observableArrayList();
+       this.playerList = FXCollections.observableArrayList();
        this.gameLobbyID = new SimpleLongProperty(buildLobbyID());
-       this.seatCounter = new SimpleIntegerProperty(players.size());
+       this.seatCounter = new SimpleIntegerProperty(playerList.size());
     }
 
     public void addPlayer(Player player) {
-        players.add(player);
+        playerList.add(player);
         setSeatCounter(getSeatCounter()+1);
     }
 
     public void removePlayer(Player player) {
-        for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).getId() == player.getId()) {
-                players.remove(i);
+        for (int i = 0; i < playerList.size(); i++) {
+            if (playerList.get(i).getId() == player.getId()) {
+                playerList.remove(i);
                 break;
             }
         }
@@ -67,7 +67,7 @@ public class GameLobby implements Serializable {
     }
 
     public ObservableList<Player> getPlayers() {
-        return players;
+        return playerList;
     }
 
 }

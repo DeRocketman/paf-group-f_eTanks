@@ -8,6 +8,8 @@ import model.game.logic.Player;
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class GameListener implements Runnable {
     private Socket socket;
@@ -53,13 +55,13 @@ public class GameListener implements Runnable {
 
                     }
                     if (message.getMsgState() == MessageState.HOST_LOBBY) {
-
+                        System.out.println("HOST_LOBBY Message receive");
                     }
                     if (message.getMsgState() == MessageState.CLOSE_LOBBY) {
 
                     }
                     if (message.getMsgState() == MessageState.JOIN_LOBBY) {
-
+                        System.out.println("JOIN_LOBBY Message receive");
                     }
                     if (message.getMsgState() == MessageState.LEAVE_LOBBY) {
 
@@ -77,6 +79,8 @@ public class GameListener implements Runnable {
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
+        } finally {
+            System.out.println("Error or Exception with Connection.");
         }
     }
 
@@ -98,5 +102,21 @@ public class GameListener implements Runnable {
         objectOutputStream.flush();
     }
 
+    public static void doThingsInGame(MessageState state, Player player) throws IOException {
+        Message msg = new Message();
+        msg.setMsgState(state);
+        msg.setPlayer(player);
 
+        //TODO SEND FURTHER DATA HERE!
+
+        objectOutputStream.writeObject(msg);
+        objectOutputStream.flush();
+    }
+
+    public String getCurrentTimestamp() {
+        Date date = new Date(System.currentTimeMillis());
+        SimpleDateFormat timeForm = new SimpleDateFormat("[HH:mm:ss]");
+        String timestamp = timeForm.format(date);
+        return timestamp;
+    }
 }

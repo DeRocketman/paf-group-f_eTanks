@@ -37,11 +37,12 @@ public class GameListener implements Runnable {
 
     }
 
+    @Override
     public void run() {
         try {
             System.out.println("HIER GEHTS IN SOCKET RUN");
             socket = new Socket(serverIP, serverPort);
-
+            System.out.println(socket.isConnected());
             outputStream = socket.getOutputStream();
             objectOutputStream = new ObjectOutputStream(outputStream);
             inputStream = socket.getInputStream();

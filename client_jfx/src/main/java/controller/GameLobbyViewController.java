@@ -68,7 +68,7 @@ public class GameLobbyViewController {
         //lobbyTable.setItems(lobbyList);
         columnLobbyNumber.setCellValueFactory(cellData -> cellData.getValue().gameLobbyIDProperty().asObject());
         columnLobbySeats.setCellValueFactory(cellData -> cellData.getValue().seatCounterProperty().asObject());
-        gameListener.run();
+        //gameListener.run();
 
     }
 

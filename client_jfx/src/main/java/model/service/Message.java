@@ -36,4 +36,12 @@ public class Message implements Serializable {
     public void setLobby(GameLobby lobby) {
         this.lobby = lobby;
     }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public GameLobby getLobby() {
+        return lobby;
+    }
 }

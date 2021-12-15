@@ -25,7 +25,7 @@ public class GameLobbyViewController {
     GameCreator gc = new GameCreator();
     private ETankApplication eTankApplication;
     private Player signedPlayer;
-    private GameListener gameListener;
+    GameListener gameListener = new GameListener("127.0.0.1", 9001 , this);
 
 
     ObservableList<GameLobby> lobbyList = FXCollections.observableArrayList();
@@ -67,7 +67,7 @@ public class GameLobbyViewController {
         //lobbyTable.setItems(lobbyList);
         columnLobbyNumber.setCellValueFactory(cellData -> cellData.getValue().gameLobbyIDProperty().asObject());
         columnLobbySeats.setCellValueFactory(cellData -> cellData.getValue().seatCounterProperty().asObject());
-        gameListener = new GameListener("localhost", 9001, this);
+
     }
 
     @FXML
@@ -77,14 +77,16 @@ public class GameLobbyViewController {
     }
     @FXML
     public void hostGame() throws IOException {
+
         resetViews();
         vbxLobby.setVisible(true);
         hbxHostPanel.setVisible(true);
         GameLobby lobby = new GameLobby();
+        lobby.buildLobbyID();
         User sU = eTankApplication.getSignedUser();
         Player player = new Player(sU.getId(), sU.getUserName(), sU.getPublicName(), sU.getImage(), sU.getPassword(),
                 sU.getUserSettings());
-        GameListener.doThingsWithLobby(MessageState.JOIN_LOBBY, player, lobby, "");
+        gameListener.doThingsWithLobby(MessageState.JOIN_LOBBY, player, lobby, "");
         lobby.addPlayer(player);
         this.lobbyList.add(lobby);
     }

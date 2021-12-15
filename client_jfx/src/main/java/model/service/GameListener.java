@@ -4,6 +4,7 @@ import controller.GameLobbyViewController;
 import model.game.logic.GameLobby;
 import model.game.logic.GamePlay;
 import model.game.logic.Player;
+import org.boon.core.Sys;
 
 import java.io.*;
 import java.net.Socket;
@@ -26,17 +27,21 @@ public class GameListener implements Runnable {
         this.serverIP = serverIP;
         this.serverPort = serverPort;
         this.lobbyViewController = lobbyViewController;
+        System.out.println(serverIP + " " + serverPort);
     }
 
     public GameListener(String serverIP, int serverPort, GamePlay gamePlay) {
         this.serverIP = serverIP;
         this.serverPort = serverPort;
         this.gamePlay = gamePlay;
+
     }
 
     public void run() {
         try {
+            System.out.println("HIER GEHTS IN SOCKET RUN");
             socket = new Socket(serverIP, serverPort);
+
             outputStream = socket.getOutputStream();
             objectOutputStream = new ObjectOutputStream(outputStream);
             inputStream = socket.getInputStream();
@@ -92,13 +97,17 @@ public class GameListener implements Runnable {
      * @param messageContent make it possible to send a chat message
      * @throws IOException in case something goes wrong
      */
-    public static void doThingsWithLobby(MessageState state, Player player, GameLobby lobby, String messageContent) throws IOException {
+    public void doThingsWithLobby(MessageState state, Player player, GameLobby lobby, String messageContent) throws IOException {
         Message msg = new Message();
         msg.setMsgState(state);
         msg.setPlayer(player);
         msg.setLobby(lobby);
-        msg.setMsgContent(messageContent);
-        objectOutputStream.writeObject(msg);
+        msg.setMsgContent("messageContent");
+        System.out.println(msg.getMsgState());
+        System.out.println(msg.getMsgContent());
+        System.out.println(msg.getLobby().getGameLobbyID());
+        System.out.println(msg.getPlayer().getPublicName());
+        objectOutputStream.writeObject(msg); //WHY IS THIS NULL?
         objectOutputStream.flush();
     }
 

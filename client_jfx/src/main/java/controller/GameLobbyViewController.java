@@ -28,6 +28,7 @@ public class GameLobbyViewController {
     GameListener gameListener = new GameListener("127.0.0.1", 9001 , this);
 
 
+
     ObservableList<GameLobby> lobbyList = FXCollections.observableArrayList();
 
 
@@ -67,6 +68,7 @@ public class GameLobbyViewController {
         //lobbyTable.setItems(lobbyList);
         columnLobbyNumber.setCellValueFactory(cellData -> cellData.getValue().gameLobbyIDProperty().asObject());
         columnLobbySeats.setCellValueFactory(cellData -> cellData.getValue().seatCounterProperty().asObject());
+        gameListener.run();
 
     }
 
@@ -86,7 +88,7 @@ public class GameLobbyViewController {
         User sU = eTankApplication.getSignedUser();
         Player player = new Player(sU.getId(), sU.getUserName(), sU.getPublicName(), sU.getImage(), sU.getPassword(),
                 sU.getUserSettings());
-        gameListener.doThingsWithLobby(MessageState.JOIN_LOBBY, player, lobby, "");
+        GameListener.doThingsWithLobby(MessageState.JOIN_LOBBY, player, lobby, "");
         lobby.addPlayer(player);
         this.lobbyList.add(lobby);
     }

@@ -97,7 +97,7 @@ public class GameListener implements Runnable {
      * @param messageContent make it possible to send a chat message
      * @throws IOException in case something goes wrong
      */
-    public void doThingsWithLobby(MessageState state, Player player, GameLobby lobby, String messageContent) throws IOException {
+    public static void doThingsWithLobby(MessageState state, Player player, GameLobby lobby, String messageContent) throws IOException {
         Message msg = new Message();
         msg.setMsgState(state);
         msg.setPlayer(player);

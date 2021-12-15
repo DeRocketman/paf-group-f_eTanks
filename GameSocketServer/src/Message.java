@@ -2,8 +2,9 @@ import java.io.Serializable;
 
 public class Message implements Serializable {
     private static final long serialVersionUID = 1L;
+    public String msgContent;
 
-    private MessageType msgType;
+    private MessageState state;
     private String timestamp;
     private String publicUserName;
     private String content;
@@ -14,21 +15,21 @@ public class Message implements Serializable {
     }
     public Message(String type, String timestamp, String publicUserName, String content)
     {
-        this.msgType = MessageType.valueOf(type);
+        this.state = MessageState.valueOf(type);
         this.timestamp = timestamp;
         this.publicUserName = publicUserName;
         this.content = content;
     }
-    public Message(MessageType msgType, String timestamp, String publicUserName, String content)
+    public Message(MessageState msgState, String timestamp, String publicUserName, String content)
     {
-        this.msgType = msgType;
+        this.state = msgState;
         this.timestamp = timestamp;
         this.publicUserName = publicUserName;
         this.content = content;
     }
 
-    public MessageType getMsgType() {return msgType;}
-    public void setMsgType(MessageType msgType) {this.msgType = msgType;}
+    public MessageState getMsgState() {return state;}
+    public void setMsgType(MessageState state) {this.state = state;}
     public String getTimestamp() {return timestamp;}
     public void setTimestamp(String timestamp) {this.timestamp = timestamp;}
     public String getPublicUserName() {return publicUserName;}
@@ -38,6 +39,6 @@ public class Message implements Serializable {
 
     public String toString()
     {
-        return this.timestamp + " " + this.publicUserName + "(" + this.msgType.toString() + "): " + this.content;
+        return this.timestamp + " " + this.publicUserName + "(" + this.state.toString() + "): " + this.content;
     }
 }

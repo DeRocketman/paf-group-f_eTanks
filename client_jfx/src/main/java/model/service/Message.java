@@ -1,10 +1,16 @@
 package model.service;
 
+import model.game.logic.GameLobby;
+import model.game.logic.Player;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Message implements Serializable {
     public String msgContent;
     public MessageState msgState;
+    public Player player;
+    public GameLobby lobby;
 
     public String getMsgContent() {
         return msgContent;
@@ -20,5 +26,13 @@ public class Message implements Serializable {
 
     public void setMsgState(MessageState msgState) {
         this.msgState = msgState;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public void setLobby(GameLobby lobby) {
+        this.lobby = lobby;
     }
 }

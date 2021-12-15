@@ -49,19 +49,36 @@ public class GameSocketServer {
                 while(this.socket.isConnected()) {
                     Message incomingMsg = (Message) this.objectInputStream.readObject();
                     if(incomingMsg != null) {
-                        if(incomingMsg.getMsgType() == MessageType.CONNECT) {
-                            System.out.println("Server: message with type Connect");
-                            Message msg = new Message();
-                            msg.setTimestamp(getCurrentTimestamp());
-                            if(playerList.size() == 4) {
+                            System.out.println("Message resieved: " + incomingMsg.msgContent + " with Type: " + incomingMsg.getMsgState());
+                            if (incomingMsg.getMsgState() == MessageState.SHOW_LOBBYLIST) {
+
+                            }
+                            if (incomingMsg.getMsgState() == MessageState.HOST_LOBBY) {
+
+                            }
+                            if (incomingMsg.getMsgState() == MessageState.CLOSE_LOBBY) {
+
+                            }
+                            if (incomingMsg.getMsgState() == MessageState.JOIN_LOBBY) {
+
+                            }
+                            if (incomingMsg.getMsgState() == MessageState.LEAVE_LOBBY) {
+
+                            }
+                            if (incomingMsg.getMsgState() == MessageState.CHAT_MSG) {
+
+                            }
+                            if (incomingMsg.getMsgState() == MessageState.ACTION) {
+
+                            }
+                            if (incomingMsg.getMsgState() == MessageState.START_GAME) {
 
                             }
                         }
                     }
 
-                }
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
+                } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
             }
         }
 

@@ -3,6 +3,7 @@ package model.service;
 import controller.GameLobbyViewController;
 import model.game.logic.GameLobby;
 import model.game.logic.GamePlay;
+import model.game.logic.Player;
 
 import java.io.*;
 import java.net.Socket;
@@ -48,8 +49,29 @@ public class GameListener implements Runnable {
 
                 if(message != null) {
                     System.out.println("Message resieved: " + message.msgContent + " with Type: " + message.getMsgState());
-                    if (message.getMsgState() == MessageState.PLAYER) {
-                        //usw
+                    if (message.getMsgState() == MessageState.SHOW_LOBBYLIST) {
+
+                    }
+                    if (message.getMsgState() == MessageState.HOST_LOBBY) {
+
+                    }
+                    if (message.getMsgState() == MessageState.CLOSE_LOBBY) {
+
+                    }
+                    if (message.getMsgState() == MessageState.JOIN_LOBBY) {
+
+                    }
+                    if (message.getMsgState() == MessageState.LEAVE_LOBBY) {
+
+                    }
+                    if (message.getMsgState() == MessageState.CHAT_MSG) {
+
+                    }
+                    if (message.getMsgState() == MessageState.ACTION) {
+
+                    }
+                    if (message.getMsgState() == MessageState.START_GAME) {
+
                     }
                 }
             }
@@ -57,4 +79,24 @@ public class GameListener implements Runnable {
             e.printStackTrace();
         }
     }
+
+    /**
+     * This function send messages to the socket-server to host/close or join/leave a Lobby
+     * @param state as an order of what should happen
+     * @param player who want the action
+     * @param lobby  with which one interacts
+     * @param messageContent make it possible to send a chat message
+     * @throws IOException in case something goes wrong
+     */
+    public static void doThingsWithLobby(MessageState state, Player player, GameLobby lobby, String messageContent) throws IOException {
+        Message msg = new Message();
+        msg.setMsgState(state);
+        msg.setPlayer(player);
+        msg.setLobby(lobby);
+        msg.setMsgContent(messageContent);
+        objectOutputStream.writeObject(msg);
+        objectOutputStream.flush();
+    }
+
+
 }

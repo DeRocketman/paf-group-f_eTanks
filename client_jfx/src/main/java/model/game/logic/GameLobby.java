@@ -7,16 +7,18 @@ import javafx.collections.ObservableList;
 import model.data.User;
 import model.data.GameStatistic;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
-//TODO Refactor this class and write this code in Controller!
-public class GameLobby {
 
-    private static final int PORT = 9001;
+public class GameLobby implements Serializable {
+
     private GameLobbyViewController controller;
 
     private final LongProperty gameLobbyID;
     private IntegerProperty seatCounter;
     private ObservableList<Player> players;
+
+    public static ObservableList<GameLobby> lobbyList;
 
     public GameLobby() {
        this.players = FXCollections.observableArrayList();
@@ -67,4 +69,5 @@ public class GameLobby {
     public ObservableList<Player> getPlayers() {
         return players;
     }
+
 }

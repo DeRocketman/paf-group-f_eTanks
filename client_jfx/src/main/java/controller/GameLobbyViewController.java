@@ -25,7 +25,7 @@ public class GameLobbyViewController {
     GameCreator gc = new GameCreator();
     private ETankApplication eTankApplication;
     private Player signedPlayer;
-    GameListener gameListener = new GameListener("127.0.0.1", 9001 , this);
+    GameListener gameListener = new GameListener("127.0.0.1", 9210 , this);
 
 
 
@@ -68,7 +68,7 @@ public class GameLobbyViewController {
         //lobbyTable.setItems(lobbyList);
         columnLobbyNumber.setCellValueFactory(cellData -> cellData.getValue().gameLobbyIDProperty().asObject());
         columnLobbySeats.setCellValueFactory(cellData -> cellData.getValue().seatCounterProperty().asObject());
-        //gameListener.run();
+        gameListener.run();
 
     }
 

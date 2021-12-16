@@ -38,7 +38,5 @@ public class GameCreator {
         return gameLobbyList;
     }
 
-    public User getSignedUser(){
-        return signedUser;
-    }
+
 }

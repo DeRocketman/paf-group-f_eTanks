@@ -39,21 +39,15 @@ public abstract class Server {
      *        broadcast and direct messages later
      * @param keepConnectionAlive Whether the connection should be kept alive using a ping package.
      *        The transmission interval can be set using <code>setPingInterval(int seconds)</code>.
-     * @param useSSL Whether SSL should be used to establish a secure connection
      * @param muted Whether the mute mode should be activated on startup
      */
     public Server(int port, boolean autoRegisterEveryClient, boolean keepConnectionAlive,
-                  boolean useSSL, boolean muted) {
+                   boolean muted) {
         this.clients = new ArrayList<RemoteClient>();
         this.port = port;
         this.autoRegisterEveryClient = autoRegisterEveryClient;
         this.muted = muted;
 
-        this.secureMode = useSSL;
-        if (secureMode) {
-            System.setProperty("javax.net.ssl.keyStore", "ssc.store");
-            System.setProperty("javax.net.ssl.keyStorePassword", "SimpleServerClient");
-        }
         if (autoRegisterEveryClient) {
             registerLoginMethod();
         }

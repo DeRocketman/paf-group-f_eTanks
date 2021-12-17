@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -15,7 +14,6 @@ import model.game.logic.GameLobby;
 import model.game.logic.Player;
 import model.service.GameCreator;
 import model.service.GameListener;
-import model.service.MessageState;
 
 import java.io.IOException;
 
@@ -25,7 +23,6 @@ public class GameLobbyViewController {
     GameCreator gc = new GameCreator();
     private ETankApplication eTankApplication;
     private Player signedPlayer;
-    GameListener gameListener = new GameListener("127.0.0.1", 9210 , this);
 
 
 
@@ -68,7 +65,6 @@ public class GameLobbyViewController {
         //lobbyTable.setItems(lobbyList);
         columnLobbyNumber.setCellValueFactory(cellData -> cellData.getValue().gameLobbyIDProperty().asObject());
         columnLobbySeats.setCellValueFactory(cellData -> cellData.getValue().seatCounterProperty().asObject());
-        gameListener.run();
 
     }
 
@@ -88,7 +84,6 @@ public class GameLobbyViewController {
         User sU = eTankApplication.getSignedUser();
         Player player = new Player(sU.getId(), sU.getUserName(), sU.getPublicName(), sU.getImage(), sU.getPassword(),
                 sU.getUserSettings());
-        GameListener.doThingsWithLobby(MessageState.JOIN_LOBBY, player, lobby, "");
         lobby.addPlayer(player);
         this.lobbyList.add(lobby);
     }

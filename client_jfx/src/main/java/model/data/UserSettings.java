@@ -47,7 +47,7 @@ public class UserSettings {
         this.moveDownKey = "S";
         this.moveRightKey = "D";
         this.fireMainWeaponKey = "SPACE";
-        this.fireSecondaryWeaponKey= "LCTL";
+        this.fireSecondaryWeaponKey= "L CTL";
         this.showStatisticKey = "TAB";
     }
 

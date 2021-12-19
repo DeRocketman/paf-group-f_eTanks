@@ -1,4 +1,4 @@
-from src.model.data.User import User
+from model.data.User import User
 
 
 class GameStatistic:

@@ -1,8 +1,10 @@
 from PyQt6 import uic
 from PyQt6.QtWidgets import QMainWindow, QApplication, QStackedWidget
 
-from LoginViewController import LoginViewController
-from RegisterUserViewController import RegisterUserViewController
+from controller.LoginViewController import LoginViewController
+from controller.RegisterUserViewController import RegisterUserViewController
+from controller.MainMenuViewController import MainMenuViewController
+from controller.ProfilViewController import ProfilViewController
 
 
 class MainViewController(QMainWindow):
@@ -11,9 +13,7 @@ class MainViewController(QMainWindow):
         uic.loadUi("../resources/view/MainView.ui", self)
         self.loginView = LoginViewController()
         self.registerUserView = RegisterUserViewController()
-        self.stackedWidget = QStackedWidget()
+        self.mainMenuView = MainMenuViewController()
+        self.profilView = ProfilViewController()
+        
 
-        self.setCentralWidget(self.stackedWidget)
-
-#       self.mainMenuView = MainMenuViewController()
-#       self.settingsView = UserSettingsViewController()

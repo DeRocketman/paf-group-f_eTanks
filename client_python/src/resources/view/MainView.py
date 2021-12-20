@@ -31,7 +31,7 @@ class Ui_MainWindow(object):
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.centralwidget.setStyleSheet(u"background: #8A8557;\n"
-"background-image: url(C:/Users/DirkS/IdeaProjects/paf-gruppe-f_eTanks_HOT/client_jfx/src/main/resources/img/images/menuBackground/eTanksTitle.png);")
+"background-image: url(/home/rocketman/IdeaProjects/paf-gruppe-f_eTank/client_python/src/resources/images/menuBackground/eTanksTitle.png);")
         self.stackedWidget = QStackedWidget(self.centralwidget)
         self.stackedWidget.setObjectName(u"stackedWidget")
         self.stackedWidget.setGeometry(QRect(0, 0, 1200, 850))

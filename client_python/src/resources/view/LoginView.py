@@ -24,7 +24,7 @@ class Ui_loginView(object):
             loginView.setObjectName(u"loginView")
         loginView.resize(1200, 850)
         loginView.setStyleSheet(u"background: #8A8557;\n"
-"    background-image: url(C:/Users/DirkS/IdeaProjects/paf-gruppe-f_eTanks_HOT/client_jfx/src/main/resources/img/images/menuBackground/eTanksTitle.png);")
+"    background-image: url(/home/rocketman/IdeaProjects/paf-gruppe-f_eTank/client_python/src/resources/images/menuBackground/eTanksTitle.png);")
         self.usernameTextfield = QLineEdit(loginView)
         self.usernameTextfield.setObjectName(u"usernameTextfield")
         self.usernameTextfield.setGeometry(QRect(490, 470, 311, 31))

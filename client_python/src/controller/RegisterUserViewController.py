@@ -1,8 +1,10 @@
-from PyQt6 import uic
-from PyQt6.QtWidgets import QWidget
+from PySide6.QtWidgets import QWidget
+
+from resources.view.RegisterUserView import Ui_registerUserView
 
 
 class RegisterUserViewController(QWidget):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        uic.loadUi("../resources/view/RegisterUserView.ui", self)
+    def __init__(self):
+        super().__init__()
+        self.registerUserView = Ui_registerUserView()
+        self.registerUserView.setupUi(self)

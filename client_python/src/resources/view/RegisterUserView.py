@@ -18,7 +18,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton,
     QSizePolicy, QWidget)
 
-class Ui_reisterUserView(object):
+class Ui_registerUserView(object):
     def setupUi(self, reisterUserView):
         if not reisterUserView.objectName():
             reisterUserView.setObjectName(u"reisterUserView")

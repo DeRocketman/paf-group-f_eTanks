@@ -1,8 +1,10 @@
-from PyQt6 import uic
-from PyQt6.QtWidgets import QWidget
+from PySide6.QtWidgets import QWidget
+
+from resources.view.ProfilView import Ui_profilView
 
 
 class ProfilViewController(QWidget):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        uic.loadUi("../resources/view/ProfilView.ui", self)
+    def __init__(self):
+        super().__init__()
+        self.profilView = Ui_profilView()
+        self.profilView.setupUi(self)

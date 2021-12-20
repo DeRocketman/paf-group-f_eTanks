@@ -1,4 +1,6 @@
-from PyQt6.QtWidgets import QApplication
+import sys
+
+from PySide6.QtWidgets import QApplication
 
 from controller.MainViewController import MainViewController
 
@@ -6,10 +8,10 @@ from controller.MainViewController import MainViewController
 class ETankApp:
 
     def __init__(self):
-        app = QApplication([])
+        app = QApplication(sys.argv)
         window = MainViewController()
         window.show()
-        app.exec()
+        sys.exit(app.exec())
 
 
 if __name__ == '__main__':

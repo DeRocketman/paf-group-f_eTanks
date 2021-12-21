@@ -19,6 +19,7 @@ from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton,
     QSizePolicy, QWidget)
 from resources.view import rc_ressourcesETanks
 
+
 class Ui_loginView(object):
     def setupUi(self, loginView):
         if not loginView.objectName():
@@ -77,14 +78,14 @@ class Ui_loginView(object):
         self.forgetPasswordButton.setFont(font2)
         self.forgetPasswordButton.setStyleSheet(u"color: blue\n"
                                                 "")
-        self.forgetPasswordButton.setFlat(False)
+        self.forgetPasswordButton.setFlat(True)
         self.openUserViewButton = QPushButton(loginView)
         self.openUserViewButton.setObjectName(u"openUserViewButton")
         self.openUserViewButton.setGeometry(QRect(488, 572, 61, 20))
         self.openUserViewButton.setFont(font2)
         self.openUserViewButton.setStyleSheet(u"color: blue\n"
                                               "")
-        self.openUserViewButton.setFlat(False)
+        self.openUserViewButton.setFlat(True)
         self.label.raise_()
         self.usernameTextfield.raise_()
         self.passwortField.raise_()

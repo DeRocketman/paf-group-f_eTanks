@@ -158,7 +158,7 @@ border-color: #111111;
     <string>Passwort vergessen?</string>
    </property>
    <property name="flat">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QPushButton" name="openUserViewButton">
@@ -183,7 +183,7 @@ border-color: #111111;
     <string>Neu hier?</string>
    </property>
    <property name="flat">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
   </widget>
   <zorder>label</zorder>

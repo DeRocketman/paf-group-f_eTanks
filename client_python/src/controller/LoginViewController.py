@@ -3,7 +3,6 @@ from PySide6.QtWidgets import QWidget, QLineEdit, QDialog
 from resources.view.LoginView import Ui_loginView
 
 
-
 class LoginViewController(QWidget):
     def __init__(self):
         super().__init__()
@@ -23,15 +22,12 @@ class LoginViewController(QWidget):
         self.passwordTxtField = self.loginView.passwortField
         self.passwordTxtField.setEchoMode(QLineEdit.Password)
 
-
-
-
     def login(self):
         username = self.usernameTxtField.text()
         password = self.passwordTxtField.text()
 
         if username != "" and password != "":
-          print(self.usernameTxtField.text(), "  ", self.passwordTxtField.text())
+            print(self.usernameTxtField.text(), "  ", self.passwordTxtField.text())
 
         elif username == "" and password != "":
             dlg = QDialog(self)
@@ -44,10 +40,8 @@ class LoginViewController(QWidget):
             dlg.setWindowIconText("Doch? Dann bitte eingeben")
             dlg.exec()
 
-
     def openCreateUserView(self):
         print("Tach")
 
     def openRestorePwView(self):
         print("toll")
-

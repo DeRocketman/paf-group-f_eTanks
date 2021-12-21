@@ -18,7 +18,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">background: #8A8557;
-background-image: url(:/background/eTanksTitle.png);</string>
+</string>
   </property>
   <widget class="QLineEdit" name="usernameTextfield">
    <property name="geometry">
@@ -159,6 +159,28 @@ border-color: #111111;
     <bool>false</bool>
    </property>
   </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>110</y>
+     <width>721</width>
+     <height>541</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/background/eTanksTitle.png) 0 0 0 0 stretch stretch;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <zorder>label</zorder>
+  <zorder>usernameTextfield</zorder>
+  <zorder>passwortField</zorder>
+  <zorder>forgotPwLbl</zorder>
+  <zorder>newUserLbl</zorder>
+  <zorder>loginButton</zorder>
  </widget>
  <resources>
   <include location="../src/resources/images/ressourcesETanks.qrc"/>

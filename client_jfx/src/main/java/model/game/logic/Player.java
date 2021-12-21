@@ -11,8 +11,8 @@ public class Player extends User {
 
     private boolean isReady;
 
-    public Player(long id, String userName, String publicName, String image, String password, UserSettings userSettings) {
-        super(id, userName, publicName, image, password, userSettings);
+    public Player(long id, String userName, String publicName, String image, String password, UserSettings userSettings, UserStatistic userStatistic) {
+        super(id, userName, publicName, image, password, userSettings, userStatistic);
         this.isReady = false;
     }
 

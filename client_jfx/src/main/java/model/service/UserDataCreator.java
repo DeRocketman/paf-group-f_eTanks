@@ -14,10 +14,14 @@ public class UserDataCreator {
    public UserDataCreator(){
       UserSettings testUserSetting = new UserSettings();
       testUserSetting.setDefaultSettings();
+
+      UserStatistic testUserStatistic = new UserStatistic();
+      testUserStatistic.setDefaultStatistic();
+
       User testUser1 = new User(10000, "username", "KANALARBEITER",
-              "../img/images/default-user-image.png", "passwort", testUserSetting);
+              "../img/images/default-user-image.png", "passwort", testUserSetting, testUserStatistic);
       User testUser = new User(10001, "Maxi-Line", "Wocketwan",
-              "../img/images/default-user-image.png", "passwort", testUserSetting);
+              "../img/images/default-user-image.png", "passwort", testUserSetting, testUserStatistic);
 
       userList.add(testUser);
       userList.add(testUser1);

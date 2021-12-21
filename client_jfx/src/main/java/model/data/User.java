@@ -12,7 +12,8 @@ public class User {
     private String userImage;
     private String password;
     private UserSettings userSettings;
-    private List<GameStatistic> gameStatistics;
+    private UserStatistic userStatistic;
+    //private List<GameStatistic> gameStatistics;
 
     public User () {
         this.setDefault();
@@ -26,16 +27,17 @@ public class User {
         this.userImage = image;
         this.password = password;
         this.userSettings = userSettings;
-        this.gameStatistics = userStatistic;
+       // this.gameStatistics = userStatistic;
     }
 
-    public User(long id, String username, String publicName, String image, String password, UserSettings userSettings) {
+    public User(long id, String username, String publicName, String image, String password, UserSettings userSettings, UserStatistic userStatistic) {
         this.id = id;
         this.username = username;
         this.publicName = publicName;
         this.userImage = image;
         this.password = password;
         this.userSettings = userSettings;
+        this.userStatistic = userStatistic;
     }
 
     public void setDefault(){
@@ -46,7 +48,9 @@ public class User {
         this.password = "default";
         this.userSettings = new UserSettings();
         this.userSettings.setDefaultSettings();
-        this.gameStatistics = new ArrayList<>();
+        this.userStatistic = new UserStatistic();
+        this.userStatistic.setDefaultStatistic();
+      //  this.gameStatistics = new ArrayList<>();
     }
 
     public String toJSON(){
@@ -110,11 +114,20 @@ public class User {
         this.userImage = userImage;
     }
 
-    public List<GameStatistic> getGameStatistics() {
+    public UserStatistic getUserStatistic() {
+        return userStatistic;
+    }
+
+    public void setUserStatistic(UserSettings userSettings) {
+        this.userStatistic = userStatistic;
+    }
+
+
+   /* public List<GameStatistic> getGameStatistics() {
         return gameStatistics;
     }
 
     public void setGameStatistics(List<GameStatistic> gameStatistics) {
         this.gameStatistics = gameStatistics;
-    }
+    }*/
 }

@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane stylesheets="@../css/Application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StatisticsViewController">
    <children>
@@ -12,6 +16,40 @@
             <AnchorPane id="btn-back" prefHeight="850.0" prefWidth="800.0" BorderPane.alignment="CENTER">
                <children>
                   <Button id="btn-back" layoutX="98.0" layoutY="95.0" mnemonicParsing="false" onAction="#switchToMenu" text="Zurück" />
+                  <Text layoutX="298.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Statistik" />
+                  <HBox layoutX="300.0" layoutY="349.0" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <VBox prefHeight="151.0" prefWidth="193.0">
+                           <children>
+                              <Label text="Played games" />
+                              <Label text="Game wins" />
+                              <Label text="Round wins" />
+                              <Label text="Gamepoints" />
+                              <Label text="Deaths" />
+                              <Label text="Kills" />
+                              <Label text="Shots" />
+                              <Label text="Hitpoints" />
+                              <Label text="Hitrate" />
+                              <Label text="K/D" />
+                           </children>
+                        </VBox>
+                        <Separator orientation="VERTICAL" prefHeight="200.0" />
+                        <VBox prefHeight="151.0" prefWidth="193.0">
+                           <children>
+                              <Label fx:id="playedGames" />
+                              <Label fx:id="gameWins" />
+                              <Label fx:id="roundWins" />
+                              <Label fx:id="gamePoints" />
+                              <Label fx:id="deaths" />
+                              <Label fx:id="kills" />
+                              <Label fx:id="shots" />
+                              <Label fx:id="hitPoints" />
+                              <Label fx:id="hitRate" />
+                              <Label fx:id="killDeathRate" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
                </children></AnchorPane>
          </center>
          <left>
@@ -23,4 +61,3 @@
       </BorderPane>
    </children>
 </AnchorPane>
-

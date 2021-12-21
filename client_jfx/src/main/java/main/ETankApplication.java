@@ -92,6 +92,7 @@ public class ETankApplication extends Application {
 
         StatisticsViewController statisticsController = loader.getController();
         statisticsController.setETankApplication(this);
+        statisticsController.initialiseUserData();
 
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -102,7 +103,6 @@ public class ETankApplication extends Application {
         loader.setLocation(getClass().getResource("../view/SettingView.fxml"));
         rootLayout = loader.load();
         Scene scene = new Scene(rootLayout);
-
 
         SettingViewController settingsController = loader.getController();
         settingsController.setETankApplication(this);

@@ -76,62 +76,14 @@
     <string>Passwort</string>
    </property>
   </widget>
-  <widget class="QLabel" name="forgotPwLbl">
-   <property name="geometry">
-    <rect>
-     <x>490</x>
-     <y>550</y>
-     <width>311</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="mouseTracking">
-    <bool>false</bool>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">Color: Blue</string>
-   </property>
-   <property name="text">
-    <string>Passwort vergessen?</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="newUserLbl">
-   <property name="geometry">
-    <rect>
-     <x>490</x>
-     <y>570</y>
-     <width>311</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="mouseTracking">
-    <bool>false</bool>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">Color: Blue</string>
-   </property>
-   <property name="text">
-    <string>Neu hier?</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="loginButton">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="geometry">
     <rect>
      <x>490</x>
-     <y>600</y>
+     <y>614</y>
      <width>311</width>
      <height>31</height>
     </rect>
@@ -158,6 +110,9 @@ border-color: #111111;
    <property name="autoDefault">
     <bool>false</bool>
    </property>
+   <property name="flat">
+    <bool>false</bool>
+   </property>
   </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
@@ -168,6 +123,12 @@ border-color: #111111;
      <height>541</height>
     </rect>
    </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <property name="styleSheet">
     <string notr="true">border-image: url(:/background/eTanksTitle.png) 0 0 0 0 stretch stretch;</string>
    </property>
@@ -175,12 +136,62 @@ border-color: #111111;
     <string/>
    </property>
   </widget>
+  <widget class="QPushButton" name="forgetPasswordButton">
+   <property name="geometry">
+    <rect>
+     <x>490</x>
+     <y>550</y>
+     <width>121</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <kerning>false</kerning>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: blue
+</string>
+   </property>
+   <property name="text">
+    <string>Passwort vergessen?</string>
+   </property>
+   <property name="flat">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="openUserViewButton">
+   <property name="geometry">
+    <rect>
+     <x>488</x>
+     <y>572</y>
+     <width>61</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <kerning>false</kerning>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: blue
+</string>
+   </property>
+   <property name="text">
+    <string>Neu hier?</string>
+   </property>
+   <property name="flat">
+    <bool>false</bool>
+   </property>
+  </widget>
   <zorder>label</zorder>
   <zorder>usernameTextfield</zorder>
   <zorder>passwortField</zorder>
-  <zorder>forgotPwLbl</zorder>
-  <zorder>newUserLbl</zorder>
   <zorder>loginButton</zorder>
+  <zorder>forgetPasswordButton</zorder>
+  <zorder>openUserViewButton</zorder>
  </widget>
  <resources>
   <include location="../src/resources/images/ressourcesETanks.qrc"/>

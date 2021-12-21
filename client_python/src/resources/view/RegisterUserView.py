@@ -19,17 +19,19 @@ from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton,
     QSizePolicy, QWidget)
 
 class Ui_registerUserView(object):
-    def setupUi(self, reisterUserView):
-        if not reisterUserView.objectName():
-            reisterUserView.setObjectName(u"reisterUserView")
-        reisterUserView.resize(1200, 850)
-        reisterUserView.setStyleSheet(u"background: #8A8557;")
-        self.publicNameField = QLineEdit(reisterUserView)
-        self.publicNameField.setObjectName(u"publicNameField")
-        self.publicNameField.setGeometry(QRect(480, 460, 361, 31))
+    def setupUi(self, registerUserView):
+        if not registerUserView.objectName():
+            registerUserView.setObjectName(u"registerUserView")
+        registerUserView.resize(1200, 850)
         sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(registerUserView.sizePolicy().hasHeightForWidth())
+        registerUserView.setSizePolicy(sizePolicy)
+        registerUserView.setStyleSheet(u"background: #8A8557;")
+        self.publicNameField = QLineEdit(registerUserView)
+        self.publicNameField.setObjectName(u"publicNameField")
+        self.publicNameField.setGeometry(QRect(480, 460, 361, 31))
         sizePolicy.setHeightForWidth(self.publicNameField.sizePolicy().hasHeightForWidth())
         self.publicNameField.setSizePolicy(sizePolicy)
         font = QFont()
@@ -37,8 +39,9 @@ class Ui_registerUserView(object):
         self.publicNameField.setFont(font)
         self.publicNameField.setStyleSheet(u"background: white;\n"
 "    ")
-        self.registerUserButton = QPushButton(reisterUserView)
+        self.registerUserButton = QPushButton(registerUserView)
         self.registerUserButton.setObjectName(u"registerUserButton")
+        self.registerUserButton.setEnabled(False)
         self.registerUserButton.setGeometry(QRect(530, 600, 261, 31))
         sizePolicy.setHeightForWidth(self.registerUserButton.sizePolicy().hasHeightForWidth())
         self.registerUserButton.setSizePolicy(sizePolicy)
@@ -46,14 +49,11 @@ class Ui_registerUserView(object):
         font1.setPointSize(12)
         self.registerUserButton.setFont(font1)
         self.registerUserButton.setStyleSheet(u"background-color: #47452E;\n"
-"     text-fill:#111111;\n"
-"     border-color: #111111;\n"
-"     border-width: 2;\n"
-"     pref-width:200;\n"
-"     pref-height: 30;\n"
+"border-color: #111111;\n"
+"\n"
 "")
         self.registerUserButton.setAutoDefault(False)
-        self.usernameTextfield = QLineEdit(reisterUserView)
+        self.usernameTextfield = QLineEdit(registerUserView)
         self.usernameTextfield.setObjectName(u"usernameTextfield")
         self.usernameTextfield.setGeometry(QRect(480, 370, 361, 34))
         sizePolicy.setHeightForWidth(self.usernameTextfield.sizePolicy().hasHeightForWidth())
@@ -61,29 +61,29 @@ class Ui_registerUserView(object):
         self.usernameTextfield.setFont(font)
         self.usernameTextfield.setStyleSheet(u"background: white;\n"
 "    ")
-        self.label = QLabel(reisterUserView)
+        self.label = QLabel(registerUserView)
         self.label.setObjectName(u"label")
-        self.label.setGeometry(QRect(480, 260, 321, 41))
+        self.label.setGeometry(QRect(450, 260, 431, 41))
         font2 = QFont()
-        font2.setPointSize(18)
+        font2.setPointSize(24)
         font2.setBold(True)
         self.label.setFont(font2)
-        self.label_2 = QLabel(reisterUserView)
+        self.label_2 = QLabel(registerUserView)
         self.label_2.setObjectName(u"label_2")
         self.label_2.setGeometry(QRect(480, 330, 151, 31))
         font3 = QFont()
         font3.setPointSize(24)
         font3.setBold(False)
         self.label_2.setFont(font3)
-        self.label_3 = QLabel(reisterUserView)
+        self.label_3 = QLabel(registerUserView)
         self.label_3.setObjectName(u"label_3")
         self.label_3.setGeometry(QRect(480, 420, 201, 31))
         self.label_3.setFont(font3)
-        self.label_4 = QLabel(reisterUserView)
+        self.label_4 = QLabel(registerUserView)
         self.label_4.setObjectName(u"label_4")
         self.label_4.setGeometry(QRect(480, 500, 201, 31))
         self.label_4.setFont(font3)
-        self.passwortField = QLineEdit(reisterUserView)
+        self.passwortField = QLineEdit(registerUserView)
         self.passwortField.setObjectName(u"passwortField")
         self.passwortField.setGeometry(QRect(480, 540, 361, 31))
         sizePolicy.setHeightForWidth(self.passwortField.sizePolicy().hasHeightForWidth())
@@ -91,37 +91,34 @@ class Ui_registerUserView(object):
         self.passwortField.setFont(font)
         self.passwortField.setStyleSheet(u"background: white;\n"
 "    ")
-        self.backToLoginBtn = QPushButton(reisterUserView)
+        self.backToLoginBtn = QPushButton(registerUserView)
         self.backToLoginBtn.setObjectName(u"backToLoginBtn")
         self.backToLoginBtn.setGeometry(QRect(30, 40, 181, 31))
         sizePolicy.setHeightForWidth(self.backToLoginBtn.sizePolicy().hasHeightForWidth())
         self.backToLoginBtn.setSizePolicy(sizePolicy)
         self.backToLoginBtn.setFont(font1)
         self.backToLoginBtn.setStyleSheet(u"background-color: #47452E;\n"
-"     text-fill:#111111;\n"
-"     border-color: #111111;\n"
-"     border-width: 2;\n"
-"     pref-width:200;\n"
-"     pref-height: 30;\n"
+"border-color: #111111;\n"
+" \n"
 "")
         self.backToLoginBtn.setAutoDefault(False)
 
-        self.retranslateUi(reisterUserView)
+        self.retranslateUi(registerUserView)
 
-        QMetaObject.connectSlotsByName(reisterUserView)
+        QMetaObject.connectSlotsByName(registerUserView)
     # setupUi
 
-    def retranslateUi(self, reisterUserView):
+    def retranslateUi(self, registerUserView):
         self.publicNameField.setText("")
-        self.publicNameField.setPlaceholderText(QCoreApplication.translate("reisterUserView", u"Anzeigenname", None))
-        self.registerUserButton.setText(QCoreApplication.translate("reisterUserView", u"Anmelden", None))
-        self.usernameTextfield.setPlaceholderText(QCoreApplication.translate("reisterUserView", u"Username", None))
-        self.label.setText(QCoreApplication.translate("reisterUserView", u"Willkommen bei eTanks", None))
-        self.label_2.setText(QCoreApplication.translate("reisterUserView", u"Username:", None))
-        self.label_3.setText(QCoreApplication.translate("reisterUserView", u"Publicname:", None))
-        self.label_4.setText(QCoreApplication.translate("reisterUserView", u"Password:", None))
-        self.passwortField.setPlaceholderText(QCoreApplication.translate("reisterUserView", u"Passwort", None))
-        self.backToLoginBtn.setText(QCoreApplication.translate("reisterUserView", u"Zur\u00fcck", None))
+        self.publicNameField.setPlaceholderText(QCoreApplication.translate("registerUserView", u"Anzeigenname", None))
+        self.registerUserButton.setText(QCoreApplication.translate("registerUserView", u"Anmelden", None))
+        self.usernameTextfield.setPlaceholderText(QCoreApplication.translate("registerUserView", u"Username", None))
+        self.label.setText(QCoreApplication.translate("registerUserView", u"Willkommen bei eTanks", None))
+        self.label_2.setText(QCoreApplication.translate("registerUserView", u"Username:", None))
+        self.label_3.setText(QCoreApplication.translate("registerUserView", u"Publicname:", None))
+        self.label_4.setText(QCoreApplication.translate("registerUserView", u"Password:", None))
+        self.passwortField.setPlaceholderText(QCoreApplication.translate("registerUserView", u"Passwort", None))
+        self.backToLoginBtn.setText(QCoreApplication.translate("registerUserView", u"Zur\u00fcck", None))
         pass
     # retranslateUi
 

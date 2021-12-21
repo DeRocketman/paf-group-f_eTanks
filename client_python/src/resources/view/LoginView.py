@@ -17,20 +17,23 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton,
     QSizePolicy, QWidget)
+from resources.view import rc_ressourcesETanks
 
 class Ui_loginView(object):
     def setupUi(self, loginView):
         if not loginView.objectName():
             loginView.setObjectName(u"loginView")
         loginView.resize(1200, 850)
-        loginView.setStyleSheet(u"background: #8A8557;\n"
-"    background-image: url(/home/rocketman/IdeaProjects/paf-gruppe-f_eTank/client_python/src/resources/images/menuBackground/eTanksTitle.png);")
-        self.usernameTextfield = QLineEdit(loginView)
-        self.usernameTextfield.setObjectName(u"usernameTextfield")
-        self.usernameTextfield.setGeometry(QRect(490, 470, 311, 31))
         sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(loginView.sizePolicy().hasHeightForWidth())
+        loginView.setSizePolicy(sizePolicy)
+        loginView.setStyleSheet(u"background: #8A8557;\n"
+"")
+        self.usernameTextfield = QLineEdit(loginView)
+        self.usernameTextfield.setObjectName(u"usernameTextfield")
+        self.usernameTextfield.setGeometry(QRect(490, 470, 311, 31))
         sizePolicy.setHeightForWidth(self.usernameTextfield.sizePolicy().hasHeightForWidth())
         self.usernameTextfield.setSizePolicy(sizePolicy)
         font = QFont()
@@ -62,6 +65,7 @@ class Ui_loginView(object):
         self.newUserLbl.setStyleSheet(u"Color: Blue")
         self.loginButton = QPushButton(loginView)
         self.loginButton.setObjectName(u"loginButton")
+        self.loginButton.setEnabled(False)
         self.loginButton.setGeometry(QRect(490, 600, 311, 31))
         sizePolicy.setHeightForWidth(self.loginButton.sizePolicy().hasHeightForWidth())
         self.loginButton.setSizePolicy(sizePolicy)
@@ -69,12 +73,19 @@ class Ui_loginView(object):
         font2.setPointSize(12)
         self.loginButton.setFont(font2)
         self.loginButton.setStyleSheet(u"background-color: #47452E;\n"
-"     text-fill:#111111;\n"
-"     border-color: #111111;\n"
-"     border-width: 2;\n"
-"     pref-width:200;\n"
-"     pref-height: 30;")
+"border-color: #111111;\n"
+" ")
         self.loginButton.setAutoDefault(False)
+        self.label = QLabel(loginView)
+        self.label.setObjectName(u"label")
+        self.label.setGeometry(QRect(270, 110, 721, 541))
+        self.label.setStyleSheet(u"border-image: url(:/background/eTanksTitle.png) 0 0 0 0 stretch stretch;")
+        self.label.raise_()
+        self.usernameTextfield.raise_()
+        self.passwortField.raise_()
+        self.forgotPwLbl.raise_()
+        self.newUserLbl.raise_()
+        self.loginButton.raise_()
 
         self.retranslateUi(loginView)
 
@@ -87,6 +98,7 @@ class Ui_loginView(object):
         self.forgotPwLbl.setText(QCoreApplication.translate("loginView", u"Passwort vergessen?", None))
         self.newUserLbl.setText(QCoreApplication.translate("loginView", u"Neu hier?", None))
         self.loginButton.setText(QCoreApplication.translate("loginView", u"Login", None))
+        self.label.setText("")
         pass
     # retranslateUi
 

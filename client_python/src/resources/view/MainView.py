@@ -17,6 +17,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QMainWindow, QSizePolicy, QStackedWidget,
     QWidget)
+from resources.view import rc_ressourcesETanks
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -30,11 +31,14 @@ class Ui_MainWindow(object):
         MainWindow.setSizePolicy(sizePolicy)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
+        sizePolicy.setHeightForWidth(self.centralwidget.sizePolicy().hasHeightForWidth())
+        self.centralwidget.setSizePolicy(sizePolicy)
         self.centralwidget.setStyleSheet(u"background: #8A8557;\n"
-"background-image: url(/home/rocketman/IdeaProjects/paf-gruppe-f_eTank/client_python/src/resources/images/menuBackground/eTanksTitle.png);")
+"")
         self.stackedWidget = QStackedWidget(self.centralwidget)
         self.stackedWidget.setObjectName(u"stackedWidget")
         self.stackedWidget.setGeometry(QRect(0, 0, 1200, 850))
+        self.stackedWidget.setStyleSheet(u"")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)

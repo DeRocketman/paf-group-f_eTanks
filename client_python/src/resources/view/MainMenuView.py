@@ -23,13 +23,15 @@ class Ui_mainMenuView(object):
         if not mainMenuView.objectName():
             mainMenuView.setObjectName(u"mainMenuView")
         mainMenuView.resize(1200, 850)
+        sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(mainMenuView.sizePolicy().hasHeightForWidth())
+        mainMenuView.setSizePolicy(sizePolicy)
         mainMenuView.setStyleSheet(u"background: #8A8557;")
         self.newGameButton = QPushButton(mainMenuView)
         self.newGameButton.setObjectName(u"newGameButton")
         self.newGameButton.setGeometry(QRect(470, 280, 261, 31))
-        sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.newGameButton.sizePolicy().hasHeightForWidth())
         self.newGameButton.setSizePolicy(sizePolicy)
         font = QFont()
@@ -37,15 +39,13 @@ class Ui_mainMenuView(object):
         self.newGameButton.setFont(font)
         self.newGameButton.setStyleSheet(u"background-color: #111111;\n"
 "color: rgb(171, 171, 0);\n"
-"text-fill: #8A8557;\n"
 "border-color: #47452E;\n"
-"pref-width:200;\n"
-"pref-height: 30;\n"
+"\n"
 "")
         self.newGameButton.setAutoDefault(False)
         self.label = QLabel(mainMenuView)
         self.label.setObjectName(u"label")
-        self.label.setGeometry(QRect(480, 210, 241, 41))
+        self.label.setGeometry(QRect(480, 210, 241, 51))
         font1 = QFont()
         font1.setPointSize(48)
         font1.setBold(False)
@@ -57,11 +57,9 @@ class Ui_mainMenuView(object):
         self.showProfilButton.setSizePolicy(sizePolicy)
         self.showProfilButton.setFont(font)
         self.showProfilButton.setStyleSheet(u"background-color: #47452E;\n"
-"     text-fill:#111111;\n"
-"     border-color: #111111;\n"
-"     border-width: 2;\n"
-"     pref-width:200;\n"
-"     pref-height: 30;\n"
+"border-color: #111111;\n"
+"    \n"
+"\n"
 "")
         self.showProfilButton.setAutoDefault(False)
         self.showStatisticButton = QPushButton(mainMenuView)
@@ -71,11 +69,8 @@ class Ui_mainMenuView(object):
         self.showStatisticButton.setSizePolicy(sizePolicy)
         self.showStatisticButton.setFont(font)
         self.showStatisticButton.setStyleSheet(u"background-color: #47452E;\n"
-"     text-fill:#111111;\n"
-"     border-color: #111111;\n"
-"     border-width: 2;\n"
-"     pref-width:200;\n"
-"     pref-height: 30;\n"
+"border-color: #111111;\n"
+"\n"
 "")
         self.showStatisticButton.setAutoDefault(False)
         self.showSettingsButton = QPushButton(mainMenuView)
@@ -85,11 +80,8 @@ class Ui_mainMenuView(object):
         self.showSettingsButton.setSizePolicy(sizePolicy)
         self.showSettingsButton.setFont(font)
         self.showSettingsButton.setStyleSheet(u"background-color: #47452E;\n"
-"     text-fill:#111111;\n"
-"     border-color: #111111;\n"
-"     border-width: 2;\n"
-"     pref-width:200;\n"
-"     pref-height: 30;\n"
+"border-color: #111111;\n"
+"   \n"
 "")
         self.showSettingsButton.setAutoDefault(False)
 

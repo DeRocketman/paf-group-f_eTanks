@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import QWidget
 
 from resources.view.LoginView import Ui_loginView
+from resources.view import rc_ressourcesETanks
 
 
 class LoginViewController(QWidget):
@@ -14,7 +15,7 @@ class LoginViewController(QWidget):
         self.loginBtn.clicked.connect(self.login)
 
         self.createUserLbl = self.loginView.newUserLbl
-        self.createUserLbl.clicked.connect()
+        # self.createUserLbl.clicked.connect()
 
     def login(self):
         print("Ich muss raus!")

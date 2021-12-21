@@ -22,7 +22,7 @@ class MainViewController(QMainWindow):
 
         # add always the initialized views to the page stack
         self.mainView.stackedWidget.addWidget(self.loginView)
+        self.mainView.stackedWidget.addWidget(self.profilView)
         self.mainView.stackedWidget.addWidget(self.registerUserView)
         self.mainView.stackedWidget.addWidget(self.mainMenuView)
-        self.mainView.stackedWidget.addWidget(self.profilView)
 

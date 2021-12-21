@@ -8,3 +8,6 @@ class RegisterUserViewController(QWidget):
         super().__init__()
         self.registerUserView = Ui_registerUserView()
         self.registerUserView.setupUi(self)
+
+        self.registerUserButton = self.registerUserView.registerUserButton
+        self.backButton = self.registerUserView.backToLoginBtn

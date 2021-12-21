@@ -35,11 +35,8 @@
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: #47452E;
-     text-fill:#111111;
-     border-color: #111111;
-     border-width: 2;
-     pref-width:200;
-     pref-height: 30;
+border-color: #111111;
+  
 </string>
    </property>
    <property name="text">
@@ -71,11 +68,8 @@
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: #47452E;
-     text-fill:#111111;
-     border-color: #111111;
-     border-width: 2;
-     pref-width:200;
-     pref-height: 30;
+border-color: #111111;
+
 </string>
    </property>
    <property name="text">
@@ -107,11 +101,8 @@
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: #47452E;
-     text-fill:#111111;
-     border-color: #111111;
-     border-width: 2;
-     pref-width:200;
-     pref-height: 30;
+border-color: #111111;
+
 </string>
    </property>
    <property name="text">
@@ -122,6 +113,9 @@
    </property>
   </widget>
   <widget class="QLineEdit" name="publicNameTextField">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>470</x>
@@ -138,6 +132,9 @@
    </property>
   </widget>
   <widget class="QLineEdit" name="passwordTextField">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>470</x>
@@ -151,16 +148,6 @@
    </property>
    <property name="placeholderText">
     <string>passwort</string>
-   </property>
-  </widget>
-  <widget class="QGraphicsView" name="userImageView">
-   <property name="geometry">
-    <rect>
-     <x>520</x>
-     <y>50</y>
-     <width>250</width>
-     <height>250</height>
-    </rect>
    </property>
   </widget>
   <widget class="QPushButton" name="selectUserImageBtn">
@@ -185,12 +172,8 @@
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: #47452E;
-     text-fill:#111111;
-     border-color: #111111;
-     border-width: 2;
-     pref-width:200;
-     pref-height: 30;
-</string>
+border-color: #111111;
+   </string>
    </property>
    <property name="text">
     <string>Fresse wählen</string>
@@ -200,6 +183,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="changePasswordButton_2">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>510</x>
@@ -221,11 +207,8 @@
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: #47452E;
-     text-fill:#111111;
-     border-color: #111111;
-     border-width: 2;
-     pref-width:200;
-     pref-height: 30;
+border-color: #111111;
+
 </string>
    </property>
    <property name="text">
@@ -246,7 +229,6 @@
    </property>
    <property name="font">
     <font>
-     <family>Stencil</family>
      <pointsize>12</pointsize>
     </font>
    </property>
@@ -272,7 +254,26 @@
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Passwort:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
+  <widget class="QLabel" name="userImage">
+   <property name="geometry">
+    <rect>
+     <x>530</x>
+     <y>70</y>
+     <width>250</width>
+     <height>250</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/userImage/default-user-image.png) 0 0 0 0 stretch stretch;
+</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../src/resources/images/ressourcesETanks.qrc"/>
+ </resources>
  <connections/>
 </ui>

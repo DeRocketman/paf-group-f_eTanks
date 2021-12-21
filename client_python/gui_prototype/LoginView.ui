@@ -12,7 +12,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">background: #8A8557;
-    background-image: url(C:/Users/DirkS/IdeaProjects/paf-gruppe-f_eTanks_HOT/client_jfx/src/main/resources/img/images/menuBackground/eTanksTitle.png);</string>
+background-image: url(:/backgroundImages/menuBackground/eTanksTitle.png);</string>
   </property>
   <widget class="QLineEdit" name="usernameTextfield">
    <property name="geometry">
@@ -119,6 +119,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="loginButton">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>490</x>
@@ -154,6 +157,8 @@
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../src/resources/images/ressourcesETanks.qrc"/>
+ </resources>
  <connections/>
 </ui>

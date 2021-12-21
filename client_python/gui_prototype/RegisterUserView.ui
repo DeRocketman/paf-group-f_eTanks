@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>reisterUserView</class>
- <widget class="QWidget" name="reisterUserView">
+ <class>registerUserView</class>
+ <widget class="QWidget" name="registerUserView">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -45,6 +45,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="registerUserButton">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>530</x>
@@ -66,11 +69,8 @@
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: #47452E;
-     text-fill:#111111;
-     border-color: #111111;
-     border-width: 2;
-     pref-width:200;
-     pref-height: 30;
+border-color: #111111;
+
 </string>
    </property>
    <property name="text">
@@ -111,15 +111,16 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>480</x>
+     <x>450</x>
      <y>260</y>
-     <width>321</width>
+     <width>431</width>
      <height>41</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>18</pointsize>
+     <family>Stencil</family>
+     <pointsize>24</pointsize>
      <bold>true</bold>
     </font>
    </property>
@@ -234,11 +235,8 @@
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: #47452E;
-     text-fill:#111111;
-     border-color: #111111;
-     border-width: 2;
-     pref-width:200;
-     pref-height: 30;
+border-color: #111111;
+ 
 </string>
    </property>
    <property name="text">

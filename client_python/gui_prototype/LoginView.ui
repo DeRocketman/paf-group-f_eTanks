@@ -10,9 +10,15 @@
     <height>850</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="styleSheet">
    <string notr="true">background: #8A8557;
-background-image: url(:/backgroundImages/menuBackground/eTanksTitle.png);</string>
+background-image: url(:/background/eTanksTitle.png);</string>
   </property>
   <widget class="QLineEdit" name="usernameTextfield">
    <property name="geometry">
@@ -143,11 +149,8 @@ background-image: url(:/backgroundImages/menuBackground/eTanksTitle.png);</strin
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: #47452E;
-     text-fill:#111111;
-     border-color: #111111;
-     border-width: 2;
-     pref-width:200;
-     pref-height: 30;</string>
+border-color: #111111;
+ </string>
    </property>
    <property name="text">
     <string>Login</string>

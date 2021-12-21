@@ -10,6 +10,12 @@
     <height>850</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="styleSheet">
    <string notr="true">background: #8A8557;</string>
   </property>
@@ -58,7 +64,6 @@ border-color: #47452E;
    </property>
    <property name="font">
     <font>
-     <family>Stencil</family>
      <pointsize>48</pointsize>
      <bold>false</bold>
     </font>

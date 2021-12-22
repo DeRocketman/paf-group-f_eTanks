@@ -152,7 +152,6 @@ public class HttpRequest {
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            System.out.println("HIER NICHT");
             return false;
         } catch (IOException e) {
             e.printStackTrace();
@@ -266,8 +265,6 @@ public class HttpRequest {
 
         Gson gson = new Gson();
         String jsonInputString = gson.toJson(usersettings);
-        System.out.println(jsonInputString);
-
 
         try {
             OutputStream os = con.getOutputStream();
@@ -290,7 +287,6 @@ public class HttpRequest {
             e.printStackTrace();
         }
 
-        System.out.println(response);
         eTankApplication.getSignedUser().setUserSettings(gson.fromJson(String.valueOf(response), UserSettings.class));
 
         con.disconnect();

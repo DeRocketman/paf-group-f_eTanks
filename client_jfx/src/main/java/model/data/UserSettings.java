@@ -246,10 +246,4 @@ public class UserSettings {
     public void setShowStatisticKey(String showStatisticKey) {
         this.showStatisticKey = showStatisticKey;
     }
-
-    public String toJSON() {
-        return "{\"id\":"+ this.getId() +",\"gameSoundVolume\":"+ this.getGameSoundVolume() +",\"gameMusicVolume\":"+this.getGameMusicVolume()+",\"gameSoundOn\":"+this.isGameSoundOn()+"," +
-                "\"gameMusicOn\":"+this.isGameMusicOn()+",\"moveUpKey\":\""+this.getMoveUpKey()+"\",\"moveDownKey\":\""+this.getMoveDownKey()+"\",\"moveLeftKey\":\""+this.getMoveLeftKey()+"\",\"moveRightKey\":\""+this.getMoveRightKey()+"\"," +
-                "\"fireMainWeaponKey\":\""+this.getFireMainWeaponKey()+"\",\"fireSecondaryWeaponKey\":\""+this.getFireSecondaryWeaponKey()+"\",\"showStatisticKey\":\""+this.getShowStatisticKey()+"\"}";
-    }
 }

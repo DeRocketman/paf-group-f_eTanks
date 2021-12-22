@@ -81,8 +81,10 @@ public class SettingViewController extends ViewController {
             }else if(tempButton.getId().equals("fireMainKey")){
                 eTankApplication.getSignedUser().getUserSettings().setFireMainWeaponKey(event.getCode().toString());
             }else if(tempButton.getId().equals("fireSecondKey")){
-                System.out.println("geht");
                 eTankApplication.getSignedUser().getUserSettings().setFireSecondaryWeaponKey(event.getCode().toString());
+               Gson gson = new Gson();
+              String string =  gson.toJson(eTankApplication.getSignedUser().getUserSettings());
+                System.out.println(string);
             } else{System.out.println("geht nicht");}
             tempButton.setOnKeyReleased(null);
             tempButton.setStyle("");
@@ -106,12 +108,7 @@ public class SettingViewController extends ViewController {
         eTankApplication.getSignedUser().getUserSettings().setGameMusicVolume((int) musicVolumeSettings.getValue());
         eTankApplication.getSignedUser().getUserSettings().setGameSoundVolume((int) soundVolumeSettings.getValue());
 
-        System.out.println(eTankApplication.getBearerToken());
-
         httpRequest.setETankApplication(eTankApplication);
-
-        Gson gson = new Gson();
-        gson.toJson(eTankApplication.getSignedUser().getUserSettings());
 
         if(httpRequest.saveSettings(eTankApplication.getSignedUser().getUserSettings())){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -125,7 +122,7 @@ public class SettingViewController extends ViewController {
     }
 
     public void initialiseUserData() {
-        if (eTankApplication.getSignedUser().getUserSettings().isGameMusicOn() == true) {
+        if (eTankApplication.getSignedUser().getUserSettings().isGameMusicOn()) {
             musicSettings.setSelected(true);
             musicSettings.setText("An");
         } else {
@@ -133,7 +130,7 @@ public class SettingViewController extends ViewController {
             musicSettings.setText("Aus");
         }
 
-        if (eTankApplication.getSignedUser().getUserSettings().isGameSoundOn() == true) {
+        if (eTankApplication.getSignedUser().getUserSettings().isGameSoundOn()) {
             soundSettings.setSelected(true);
             soundSettings.setText("An");
         } else {

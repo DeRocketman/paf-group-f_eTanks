@@ -42,7 +42,7 @@ public class UserSettings {
 
     private String fireMainWeaponKey;
 
-    private String fireSecondWeaponKey;
+    private String fireSecondaryWeaponKey;
 
 
     public UserSettings() {
@@ -56,6 +56,6 @@ public class UserSettings {
         this.moveRightKey = "R";
         this.moveDownKey = "S";
         this.fireMainWeaponKey = "N";
-        this.fireSecondWeaponKey = "M";
+        this.fireSecondaryWeaponKey = "M";
     }
 }

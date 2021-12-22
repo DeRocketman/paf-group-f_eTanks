@@ -5,9 +5,6 @@ import thl.gruppef.etankrest.etankrestapi.entities.GameStatistic;
 
 //TODO: Refactoring
 public interface GameStatisticRepository extends JpaRepository<GameStatistic, Long> {
-
-
-
 }
 
 

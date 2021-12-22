@@ -235,11 +235,11 @@ public class HttpRequest {
 
         System.out.println(response);
         con.disconnect();
+        return true;
 
         //TODO: Profilbild
         //TODO: Passwort gesichert ändern
 
-        return true;
     }
 
     public boolean saveSettings(UserSettings usersettings){

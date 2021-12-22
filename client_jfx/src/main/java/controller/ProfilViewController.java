@@ -47,7 +47,6 @@ public class ProfilViewController extends ViewController {
 
         setHttpRequestETankapplication();
 
-        //if(httpRequest.saveUser(eTankApplication.getSignedUser().getUserName(), eTankApplication.getSignedUser().getPublicName())){
         if(httpRequest.saveUser(eTankApplication.getSignedUser())){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("Deine Änderungen wurden erfolgreich gespeichert!");

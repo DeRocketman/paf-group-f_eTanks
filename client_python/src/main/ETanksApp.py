@@ -4,7 +4,7 @@ from PySide6.QtWidgets import QApplication
 
 from controller.MainViewController import MainViewController
 from model.data.User import User
-from model.service.HTTPRequest import HttpRequest
+from model.service.HttpRequest import HttpRequest
 
 
 class ETankApp:
@@ -12,10 +12,6 @@ class ETankApp:
     def __init__(self):
         app = QApplication(sys.argv)
         window = MainViewController()
-
-        self.signedUser = User()
-        self.httpRequest = HttpRequest(self.signedUser)
-
         window.show()
         sys.exit(app.exec())
 

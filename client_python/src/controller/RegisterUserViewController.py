@@ -1,7 +1,8 @@
 from PySide6.QtWidgets import QWidget
 
+from controller.MainMenuViewController import MainMenuViewController
 from model.data.User import User
-from model.service.HTTPRequest import HttpRequest
+from model.service.HttpRequest import HttpRequest
 from resources.view.RegisterUserView import Ui_registerUserView
 
 
@@ -13,8 +14,7 @@ class RegisterUserViewController(QWidget):
         self.registerUserView.setupUi(self)
 
         self.stackedWidget = stackedWidget
-        self.tempUser = User()
-        self.httpRequest = HttpRequest(self.tempUser)
+        self.httpRequest = HttpRequest()
 
         self.registerUserView.registerUserButton.clicked.connect(self.registerUser)
         self.registerUserView.backToLoginBtn.clicked.connect(self.showLoginView)
@@ -23,22 +23,18 @@ class RegisterUserViewController(QWidget):
         self.passwordField = self.registerUserView.passwortField
 
     def registerUser(self):
-        print("Erstellen Button geklickt!")
         if self.usernameTxtField.text() != "" and self.publicNameTxtField.text() != "" \
                 and self.passwordField.text() != "":
 
             self.httpRequest.user.username = self.usernameTxtField.text()
             self.httpRequest.user.publicName = self.publicNameTxtField.text()
             self.httpRequest.user.password = self.passwordField.text()
-            returnValue = False
-            returnValue = self.httpRequest.httpReq(False)
 
-            if returnValue:
+            if self.httpRequest.httpReq(False):
+                mainMenuViewController = MainMenuViewController(self.httpRequest.user)
+                self.stackedWidget.addWidget(mainMenuViewController)
                 self.stackedWidget.setCurrentIndex(3)
-                print("Umgeschaltet in Main Menu?")
-            else:
-                print("nö")
-                print(returnValue)
+
 
     def showLoginView(self):
         self.stackedWidget.setCurrentIndex(0)

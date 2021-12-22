@@ -1,4 +1,8 @@
 from PySide6.QtWidgets import QWidget, QLineEdit, QDialog
+
+from controller.MainMenuViewController import MainMenuViewController
+from model.data.User import User
+from model.service.HttpRequest import HttpRequest
 from resources.view.LoginView import Ui_loginView
 
 
@@ -7,6 +11,8 @@ class LoginViewController(QWidget):
         super().__init__()
 
         self.stackedWidget = stackedWidget
+        self.httpRequest = HttpRequest()
+
         self.loginView = Ui_loginView()
         self.loginView.setupUi(self)
 
@@ -24,14 +30,16 @@ class LoginViewController(QWidget):
         self.passwordTxtField.setEchoMode(QLineEdit.Password)
 
     def login(self):
-        username = self.usernameTxtField.text()
-        password = self.passwordTxtField.text()
-        # TODO: implement patterns, maybe
-        if username != "" and password != "":
-            # TODO: http request to login an user
-            pass
 
-        elif username == "" and password != "":
+        # TODO: implement patterns, maybe
+        if self.usernameTxtField.text() != "" and self.passwordTxtField.text() != "":
+            self.httpRequest.user.username = self.usernameTxtField.text()
+            self.httpRequest.user.password = self.passwordTxtField.text()
+            if self.httpRequest.httpReq(True):
+                mainMenuViewController = MainMenuViewController(self.httpRequest.user)
+                self.stackedWidget.addWidget(mainMenuViewController)
+                self.stackedWidget.setCurrentIndex(3)
+        elif self.usernameTxtField.text() == "" and self.passwordTxtField.text() != "":
             dlg = QDialog(self)
             dlg.setWindowTitle("Hast du keinen Usernamen?")
             dlg.setToolTip("Dann Bitte gib diesen ein")

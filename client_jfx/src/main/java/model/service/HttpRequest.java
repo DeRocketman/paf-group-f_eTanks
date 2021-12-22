@@ -23,7 +23,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HttpRequest {
+public class    HttpRequest {
 
     ETankApplication eTankApplication;
 

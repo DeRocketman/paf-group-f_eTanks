@@ -53,11 +53,6 @@ public class User {
       //  this.gameStatistics = new ArrayList<>();
     }
 
-    public String toJSON(){
-        return "{\"user\":{\"id\":" + this.getId() + ",\"username\":\""+ this.getUserName() + "\",\"userImage\":\""+this.getImage()+"\",\"publicName\":\""+ this.getPublicName() +
-                "\",\"password\":\"" + this.getPassword() + "\",\"userSettings\":"+ userSettings.toJSON()+"}}";
-    }
-
     public long getId() {
         return id;
     }

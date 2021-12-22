@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane stylesheets="@../css/Application.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SettingViewController">
@@ -52,24 +51,24 @@
                         </Label>
                         <HBox>
                            <children>
-                              <Label text="moveLeft">
+                              <Label prefHeight="60.0" prefWidth="60.0" text="moveLeft">
                                  <padding>
                                     <Insets top="43.0" />
                                  </padding>
                               </Label>
-                              <Rectangle fx:id="moveUpKey" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" stroke="BLACK" strokeType="INSIDE" width="60.0">
+                              <Button fx:id="moveUpKey" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#handleChangKey" prefHeight="60.0" prefWidth="55.0" text="W">
                                  <HBox.margin>
-                                    <Insets left="8.0" />
+                                    <Insets />
                                  </HBox.margin>
-                              </Rectangle>
-                              <Label text="Label">
+                              </Button>
+                              <Label prefHeight="17.0" prefWidth="80.0" text="moveRight">
                                  <HBox.margin>
                                     <Insets left="3.0" top="43.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label text="FireOne">
+                              <Label prefHeight="17.0" prefWidth="49.0" text="FireOne">
                                  <HBox.margin>
-                                    <Insets left="66.0" top="43.0" />
+                                    <Insets top="43.0" />
                                  </HBox.margin>
                               </Label>
                               <Label text="FireTwo">
@@ -81,15 +80,15 @@
                         </HBox>
                         <HBox>
                            <children>
-                              <Rectangle fx:id="moveLeftKey" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" stroke="BLACK" strokeType="INSIDE" width="60.0" />
-                              <Rectangle fx:id="moveDownKey" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" stroke="BLACK" strokeType="INSIDE" width="60.0" />
-                              <Rectangle fx:id="moveRigthKEy" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" stroke="BLACK" strokeType="INSIDE" width="60.0" />
-                              <Rectangle fx:id="fireMainKey" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" stroke="BLACK" strokeType="INSIDE" width="60.0">
+                              <Button fx:id="moveLeftKey" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#handleChangKey" prefHeight="60.0" prefWidth="60.0" text="A" />
+                              <Button fx:id="moveDownKey" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#handleChangKey" prefHeight="60.0" prefWidth="60.0" text="S" />
+                              <Button fx:id="moveRightKey" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#handleChangKey" prefHeight="60.0" prefWidth="60.0" text="D" />
+                              <Button fx:id="fireMainKey" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#handleChangKey" prefHeight="60.0" prefWidth="60.0" text="N">
                                  <HBox.margin>
-                                    <Insets left="30.0" />
+                                    <Insets left="20.0" />
                                  </HBox.margin>
-                              </Rectangle>
-                              <Rectangle fx:id="fireSecondKey" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" stroke="BLACK" strokeType="INSIDE" width="60.0" />
+                              </Button>
+                              <Button fx:id="fireSecondKey" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#handleChangKey" prefHeight="60.0" prefWidth="60.0" text="M" />
                            </children>
                         </HBox>
                         <VBox prefHeight="0.0" prefWidth="330.0">

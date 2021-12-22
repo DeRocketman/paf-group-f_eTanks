@@ -83,6 +83,7 @@ public class HttpRequest {
             alert.showAndWait();
             return false;
         }
+        con.disconnect();
         return true;
     }
 
@@ -131,8 +132,6 @@ public class HttpRequest {
 
         Gson gson = new Gson();
         eTankApplication.setSignedUser(gson.fromJson(String.valueOf(response), User.class));
-        System.out.println(response);
-        System.out.println(gson.toJson(eTankApplication.getSignedUser()));
 
         con.disconnect();
     }
@@ -191,27 +190,30 @@ public class HttpRequest {
         return true;
     }
 
-    public boolean loginByUser() {
+    public boolean saveSettings(UserSettings usersettings){
 
+
+        URL url = null;
         HttpURLConnection con = null;
         try {
-            URL url = new URL("http://127.0.0.1:8080/auth/login/user");
-
+            url = new URL("http://127.0.0.1:8080/user_settings/update_settings");
             con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("POST");
-            con.setRequestProperty("content-Type", "application/json; utf-8");
+
+            con.setRequestProperty("Authorization", "Bearer " + eTankApplication.getBearerToken());
+            con.setRequestProperty("Content-Type", "application/json; utf-8");
             con.setRequestProperty("Accept", "application/json");
             con.setDoOutput(true);
-
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            return false;
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
         }
 
-        String jsonInputString = eTankApplication.getSignedUser().toJSON();
+        Gson gson = new Gson();
+        String jsonInputString = gson.toJson(usersettings);
+        System.out.println(jsonInputString);
+
 
         try {
             OutputStream os = con.getOutputStream();
@@ -219,30 +221,26 @@ public class HttpRequest {
             os.write(input, 0, input.length);
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
         }
 
+        StringBuffer response = null;
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"));
+            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String output;
 
-            StringBuilder response = new StringBuilder();
-            String responseLine = null;
-
-            while ((responseLine = br.readLine()) != null) {
-                response.append(responseLine.trim());
+            response = new StringBuffer();
+            while ((output = br.readLine()) != null) {
+                response.append(output);
             }
-
-            eTankApplication.setBearerToken(response.toString());
-            //findUserByUsername(new Authorisation());
-
         } catch (IOException e) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Achtung");
-            alert.setHeaderText("Username && || Passwort falsch!");
-            alert.setContentText("Bitte versuchen Sie es erneut");
-            alert.showAndWait();
-            return false;
+            e.printStackTrace();
         }
+
+        System.out.println(response);
+        eTankApplication.getSignedUser().setUserSettings(gson.fromJson(String.valueOf(response), UserSettings.class));
+
+        con.disconnect();
+
         return true;
     }
 }

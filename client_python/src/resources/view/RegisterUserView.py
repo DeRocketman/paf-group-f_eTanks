@@ -18,6 +18,16 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton,
     QSizePolicy, QWidget)
 
+from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
+                            QMetaObject, QObject, QPoint, QRect,
+                            QSize, QTime, QUrl, Qt)
+from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
+                           QFont, QFontDatabase, QGradient, QIcon,
+                           QImage, QKeySequence, QLinearGradient, QPainter,
+                           QPalette, QPixmap, QRadialGradient, QTransform)
+from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton,
+                               QSizePolicy, QWidget)
+
 class Ui_registerUserView(object):
     def setupUi(self, registerUserView):
         if not registerUserView.objectName():
@@ -38,10 +48,10 @@ class Ui_registerUserView(object):
         font.setPointSize(16)
         self.publicNameField.setFont(font)
         self.publicNameField.setStyleSheet(u"background: white;\n"
-"    ")
+                                           "    ")
         self.registerUserButton = QPushButton(registerUserView)
         self.registerUserButton.setObjectName(u"registerUserButton")
-        self.registerUserButton.setEnabled(False)
+        self.registerUserButton.setEnabled(True)
         self.registerUserButton.setGeometry(QRect(530, 600, 261, 31))
         sizePolicy.setHeightForWidth(self.registerUserButton.sizePolicy().hasHeightForWidth())
         self.registerUserButton.setSizePolicy(sizePolicy)
@@ -49,9 +59,9 @@ class Ui_registerUserView(object):
         font1.setPointSize(12)
         self.registerUserButton.setFont(font1)
         self.registerUserButton.setStyleSheet(u"background-color: #47452E;\n"
-"border-color: #111111;\n"
-"\n"
-"")
+                                              "border-color: #111111;\n"
+                                              "\n"
+                                              "")
         self.registerUserButton.setAutoDefault(False)
         self.usernameTextfield = QLineEdit(registerUserView)
         self.usernameTextfield.setObjectName(u"usernameTextfield")
@@ -60,7 +70,7 @@ class Ui_registerUserView(object):
         self.usernameTextfield.setSizePolicy(sizePolicy)
         self.usernameTextfield.setFont(font)
         self.usernameTextfield.setStyleSheet(u"background: white;\n"
-"    ")
+                                             "    ")
         self.label = QLabel(registerUserView)
         self.label.setObjectName(u"label")
         self.label.setGeometry(QRect(450, 260, 431, 41))
@@ -90,7 +100,7 @@ class Ui_registerUserView(object):
         self.passwortField.setSizePolicy(sizePolicy)
         self.passwortField.setFont(font)
         self.passwortField.setStyleSheet(u"background: white;\n"
-"    ")
+                                         "    ")
         self.backToLoginBtn = QPushButton(registerUserView)
         self.backToLoginBtn.setObjectName(u"backToLoginBtn")
         self.backToLoginBtn.setGeometry(QRect(30, 40, 181, 31))
@@ -98,9 +108,9 @@ class Ui_registerUserView(object):
         self.backToLoginBtn.setSizePolicy(sizePolicy)
         self.backToLoginBtn.setFont(font1)
         self.backToLoginBtn.setStyleSheet(u"background-color: #47452E;\n"
-"border-color: #111111;\n"
-" \n"
-"")
+                                          "border-color: #111111;\n"
+                                          " \n"
+                                          "")
         self.backToLoginBtn.setAutoDefault(False)
 
         self.retranslateUi(registerUserView)

@@ -19,8 +19,8 @@ class HttpRequest:
             requestedURL = "/user/username"
             payload = self.user.username
             print("Letzte Runde Anfang")
-        else:
-            return False
+
+
         request = requests.post("http://127.0.0.1:8080" + requestedURL, headers=headers, json=payload)
         if request.status_code == 200:
             if not reqForLogin:

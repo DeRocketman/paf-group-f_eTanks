@@ -24,7 +24,6 @@ public class ETankApplication extends Application {
     AnchorPane rootLayout;
     User signedUser;
     String BearerToken;
-    HttpRequest httpRequest;
 
     public static void main(String[] args) {
         launch(args);

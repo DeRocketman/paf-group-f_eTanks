@@ -8,12 +8,14 @@ import model.data.User;
 import model.data.UserSettings;
 import model.data.UserStatistic;
 import org.apache.commons.httpclient.HttpConnection;
+import org.boon.core.Sys;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -187,6 +189,58 @@ public class HttpRequest {
             alert.showAndWait();
             return false;
         }
+        return true;
+    }
+
+    //public boolean saveUser(String userName, String publicName){
+    public boolean saveUser(User user){
+
+        HttpURLConnection con = null;
+        try {
+            URL url = new URL("http://127.0.0.1:8080/user/save");
+            con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Authorization", "Bearer " + eTankApplication.getBearerToken());
+            con.setRequestProperty("Content-Type", "application/json; utf-8");
+            con.setRequestProperty("Accept", "application/json");
+            con.setDoOutput(true);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Gson gson = new Gson();
+        String jsonInputString = gson.toJson(user);
+        System.out.println(jsonInputString);
+
+        try {
+            OutputStream os = con.getOutputStream();
+            byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
+            os.write(input, 0, input.length);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        StringBuffer response = null;
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String output;
+            response = new StringBuffer();
+            while ((output = br.readLine()) != null) {
+                response.append(output);
+            }
+        } catch (IOException e) {
+            System.out.println("Blöder Response!");
+            e.printStackTrace();
+        }
+
+        System.out.println(response);
+        con.disconnect();
+
+        //TODO: Profilbild
+        //TODO: Passwort gesichert ändern
+
         return true;
     }
 

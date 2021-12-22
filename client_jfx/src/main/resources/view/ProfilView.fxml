@@ -26,7 +26,7 @@
                               <Button fx:id="editName" mnemonicParsing="false" onAction="#editName" prefWidth="90.0" text="edit" />
                            </children>
                         </HBox>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Passwort" textAlignment="CENTER" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" />
                         <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
                               <TextField fx:id="password" />

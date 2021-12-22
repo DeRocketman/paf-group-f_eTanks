@@ -51,7 +51,6 @@ public class HttpRequest {
 
         Gson gson = new Gson();
         String jsonInputString = gson.toJson(authorisation);
-        System.out.println(jsonInputString);
 
         try {
             OutputStream os = con.getOutputStream();
@@ -189,7 +188,7 @@ public class HttpRequest {
         return true;
     }
 
-    public boolean saveSettings(UserSettings usersettings){
+    public boolean saveSettings(UserSettings usersettings)     {
 
 
         URL url = null;

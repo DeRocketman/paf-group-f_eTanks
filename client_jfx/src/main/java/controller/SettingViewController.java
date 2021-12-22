@@ -82,10 +82,7 @@ public class SettingViewController extends ViewController {
                 eTankApplication.getSignedUser().getUserSettings().setFireMainWeaponKey(event.getCode().toString());
             }else if(tempButton.getId().equals("fireSecondKey")){
                 eTankApplication.getSignedUser().getUserSettings().setFireSecondaryWeaponKey(event.getCode().toString());
-               Gson gson = new Gson();
-              String string =  gson.toJson(eTankApplication.getSignedUser().getUserSettings());
-                System.out.println(string);
-            } else{System.out.println("geht nicht");}
+            }
             tempButton.setOnKeyReleased(null);
             tempButton.setStyle("");
         });

@@ -33,6 +33,15 @@ public class UserController {
 
     @PostMapping("/username")
         public Optional<User> findUserByUsername(@RequestBody String username){
+
+        Optional<User> userOptional = userRepository.findUserByUsername(username);
+
+        if(!userOptional.isPresent()){
+            User user = new User();
+            user.setUsername("DER FALSCHE KERL");
+            return Optional.of(user);
+        }
+
         return this.userRepository.findUserByUsername(username);
     }
 }

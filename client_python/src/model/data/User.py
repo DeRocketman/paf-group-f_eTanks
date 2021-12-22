@@ -1,7 +1,7 @@
 import base64
-import UserSettings
+import json
 
-from UserSettings import *
+from model.data.UserSettings import UserSettings
 
 
 class User:
@@ -14,6 +14,7 @@ class User:
         self.userSettings = UserSettings()
         self.userStatistics = []
         self.userImage = "../../resources/images/default-user-image.png"
+        self.authToken = ""
 
     def convertImageToByte(self):
         with open(self.userImage, "rb") as image:

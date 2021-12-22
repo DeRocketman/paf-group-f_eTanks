@@ -53,7 +53,6 @@ public class HttpRequest {
 
         Gson gson = new Gson();
         String jsonInputString = gson.toJson(authorisation);
-        System.out.println(jsonInputString);
 
         try {
             OutputStream os = con.getOutputStream();

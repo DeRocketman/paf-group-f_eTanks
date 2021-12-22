@@ -20,10 +20,9 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
 
 
-    public UserController(UserRepository userRepository,
-    UserSettingsRepository userSettingsRepository) {
+    public UserController(UserRepository userRepository, UserSettingsRepository userSettingsRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("")
@@ -52,9 +51,9 @@ public class UserController {
 
         if (!user.isPresent()) { return ResponseEntity.badRequest().build(); }
 
-        /* User userTest = changedUser;
+         User userTest = changedUser;
         userTest.setPassword(passwordEncoder.encode(changedUser.getPassword()));
-        */
+
         userRepository.save(changedUser);
         return ResponseEntity.ok(changedUser);
         /* return userRepository.findUserByUsername(changedUser.getUsername())

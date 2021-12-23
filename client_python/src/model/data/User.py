@@ -13,11 +13,11 @@ class User:
         self.password = "password"
         self.userSettings = UserSettings()
         self.userStatistics = []
-        self.userImage = "../../resources/images/default-user-image.png"
+        self.userImage = 1
         self.authToken = ""
 
-    def convertImageToByte(self):
-        with open(self.userImage, "rb") as image:
+    def convertImageToByte(self, path):
+        with open(path, "rb") as image:
             return base64.encodebytes(image.read()).decode("utf-8")
 
     def buildUserJSON(self):

@@ -14,15 +14,14 @@ class MainMenuViewController(QWidget):
 
         self.stackedWidget = stackedWidget
         self.signedUser = user
+        print(self.signedUser.username)
         self.stackedWidget.addWidget(self)
-        self.profilViewController = ProfilViewController(self.stackedWidget, self.signedUser)
-
+        self.profilViewController = ProfilViewController(self)
 
         self.mainMenuView.newGameButton.clicked.connect(self.openGameLobbyView)
         self.mainMenuView.showProfilButton.clicked.connect(self.openProfilView)
         self.mainMenuView.showSettingsButton.clicked.connect(self.openSettingsView)
         self.mainMenuView.showStatisticButton.clicked.connect(self.openStatisticView)
-
 
     def openGameLobbyView(self):
         pass

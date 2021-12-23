@@ -1,6 +1,3 @@
-import json
-from types import SimpleNamespace
-
 import requests
 
 from model.data.User import User
@@ -43,9 +40,9 @@ class HttpRequest:
                 print("Ende 2. Runde")
             else:
                 print("Nur Request Text " + request.text)
-                self.user = request.json(object_hook=lambda l: SimpleNamespace(**l))
+                userData = request.json()
+                self.mapResponseToUser(userData)
 
-                print("direkt "+self.user.username + " " + self.user.publicName)
                 print("Ende 3. Runde")
                 success = True
         elif request.status_code == 400 and not reqForLogin:
@@ -59,5 +56,21 @@ class HttpRequest:
             success = False
         return success
 
-
-
+    def mapResponseToUser(self, jsonData):
+        self.user.id = jsonData["id"]
+        self.user.userImage = jsonData["username"]
+        self.user.publicName = jsonData["publicName"]
+        self.user.userImage = jsonData["userImage"]
+        self.user.userSettings.id = jsonData["userSettings"]["id"]
+        self.user.userSettings.gameSoundVolume = jsonData["userSettings"]["gameSoundVolume"]
+        self.user.userSettings.gameMusicVolume = jsonData["userSettings"]["gameMusicVolume"]
+        self.user.userSettings.gameSoundOn = jsonData["userSettings"]["gameSoundOn"]
+        self.user.userSettings.gameMusicOn = jsonData["userSettings"]["gameMusicOn"]
+        self.user.userSettings.showStatisticKey = jsonData["userSettings"]["showStatisticKey"]
+        self.user.userSettings.moveUpKey = jsonData["userSettings"]["moveUpKey"]
+        self.user.userSettings.moveDownKey = jsonData["userSettings"]["moveDownKey"]
+        self.user.userSettings.moveLeftKey = jsonData["userSettings"]["moveLeftKey"]
+        self.user.userSettings.moveRightKey = jsonData["userSettings"]["moveRightKey"]
+        self.user.userSettings.fireMainWeaponKey = jsonData["userSettings"]["fireMainWeaponKey"]
+        self.user.userSettings.fireSecondaryWeaponKey = jsonData["userSettings"]["fireSecondaryWeaponKey"]
+        self.user.userStatistics = jsonData["gameStatistics"]

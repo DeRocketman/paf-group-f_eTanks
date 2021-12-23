@@ -30,19 +30,19 @@ class Ui_profilView(object):
         sizePolicy.setHeightForWidth(profilView.sizePolicy().hasHeightForWidth())
         profilView.setSizePolicy(sizePolicy)
         profilView.setStyleSheet(u"background: #8A8557;")
-        self.showProfilButton = QPushButton(profilView)
-        self.showProfilButton.setObjectName(u"showProfilButton")
-        self.showProfilButton.setGeometry(QRect(120, 40, 201, 31))
-        sizePolicy.setHeightForWidth(self.showProfilButton.sizePolicy().hasHeightForWidth())
-        self.showProfilButton.setSizePolicy(sizePolicy)
+        self.showMainMenuButton = QPushButton(profilView)
+        self.showMainMenuButton.setObjectName(u"showMainMenuButton")
+        self.showMainMenuButton.setGeometry(QRect(120, 40, 201, 31))
+        sizePolicy.setHeightForWidth(self.showMainMenuButton.sizePolicy().hasHeightForWidth())
+        self.showMainMenuButton.setSizePolicy(sizePolicy)
         font = QFont()
         font.setPointSize(12)
-        self.showProfilButton.setFont(font)
-        self.showProfilButton.setStyleSheet(u"background-color: #47452E;\n"
-"border-color: #111111;\n"
-"  \n"
-"")
-        self.showProfilButton.setAutoDefault(False)
+        self.showMainMenuButton.setFont(font)
+        self.showMainMenuButton.setStyleSheet(u"background-color: #47452E;\n"
+                                              "border-color: #111111;\n"
+                                              "  \n"
+                                              "")
+        self.showMainMenuButton.setAutoDefault(False)
         self.changePublicNameButton = QPushButton(profilView)
         self.changePublicNameButton.setObjectName(u"changePublicNameButton")
         self.changePublicNameButton.setGeometry(QRect(690, 360, 171, 31))
@@ -50,9 +50,9 @@ class Ui_profilView(object):
         self.changePublicNameButton.setSizePolicy(sizePolicy)
         self.changePublicNameButton.setFont(font)
         self.changePublicNameButton.setStyleSheet(u"background-color: #47452E;\n"
-"border-color: #111111;\n"
-"\n"
-"")
+                                                  "border-color: #111111;\n"
+                                                  "\n"
+                                                  "")
         self.changePublicNameButton.setAutoDefault(False)
         self.changePasswordButton = QPushButton(profilView)
         self.changePasswordButton.setObjectName(u"changePasswordButton")
@@ -61,9 +61,9 @@ class Ui_profilView(object):
         self.changePasswordButton.setSizePolicy(sizePolicy)
         self.changePasswordButton.setFont(font)
         self.changePasswordButton.setStyleSheet(u"background-color: #47452E;\n"
-"border-color: #111111;\n"
-"\n"
-"")
+                                                "border-color: #111111;\n"
+                                                "\n"
+                                                "")
         self.changePasswordButton.setAutoDefault(False)
         self.publicNameTextField = QLineEdit(profilView)
         self.publicNameTextField.setObjectName(u"publicNameTextField")
@@ -82,21 +82,21 @@ class Ui_profilView(object):
         self.selectUserImageBtn.setSizePolicy(sizePolicy)
         self.selectUserImageBtn.setFont(font)
         self.selectUserImageBtn.setStyleSheet(u"background-color: #47452E;\n"
-"border-color: #111111;\n"
-"   ")
+                                              "border-color: #111111;\n"
+                                              "   ")
         self.selectUserImageBtn.setAutoDefault(False)
-        self.changePasswordButton_2 = QPushButton(profilView)
-        self.changePasswordButton_2.setObjectName(u"changePasswordButton_2")
-        self.changePasswordButton_2.setEnabled(False)
-        self.changePasswordButton_2.setGeometry(QRect(510, 580, 291, 31))
-        sizePolicy.setHeightForWidth(self.changePasswordButton_2.sizePolicy().hasHeightForWidth())
-        self.changePasswordButton_2.setSizePolicy(sizePolicy)
-        self.changePasswordButton_2.setFont(font)
-        self.changePasswordButton_2.setStyleSheet(u"background-color: #47452E;\n"
-"border-color: #111111;\n"
-"\n"
-"")
-        self.changePasswordButton_2.setAutoDefault(False)
+        self.writeChangesButton = QPushButton(profilView)
+        self.writeChangesButton.setObjectName(u"writeChangesButton")
+        self.writeChangesButton.setEnabled(False)
+        self.writeChangesButton.setGeometry(QRect(510, 580, 291, 31))
+        sizePolicy.setHeightForWidth(self.writeChangesButton.sizePolicy().hasHeightForWidth())
+        self.writeChangesButton.setSizePolicy(sizePolicy)
+        self.writeChangesButton.setFont(font)
+        self.writeChangesButton.setStyleSheet(u"background-color: #47452E;\n"
+                                              "border-color: #111111;\n"
+                                              "\n"
+                                              "")
+        self.writeChangesButton.setAutoDefault(False)
         self.label = QLabel(profilView)
         self.label.setObjectName(u"label")
         self.label.setGeometry(QRect(470, 330, 391, 21))
@@ -109,7 +109,7 @@ class Ui_profilView(object):
         self.userImage.setObjectName(u"userImage")
         self.userImage.setGeometry(QRect(530, 70, 250, 250))
         self.userImage.setStyleSheet(u"border-image: url(:/userImage/default-user-image.png) 0 0 0 0 stretch stretch;\n"
-"")
+                                     "")
 
         self.retranslateUi(profilView)
 
@@ -117,16 +117,15 @@ class Ui_profilView(object):
     # setupUi
 
     def retranslateUi(self, profilView):
-        self.showProfilButton.setText(QCoreApplication.translate("profilView", u"Zur\u00fcck", None))
+        self.showMainMenuButton.setText(QCoreApplication.translate("profilView", u"Zur\u00fcck", None))
         self.changePublicNameButton.setText(QCoreApplication.translate("profilView", u"editieren", None))
         self.changePasswordButton.setText(QCoreApplication.translate("profilView", u"editieren", None))
         self.publicNameTextField.setPlaceholderText(QCoreApplication.translate("profilView", u"\u00f6ffentlicher Name", None))
         self.passwordTextField.setPlaceholderText(QCoreApplication.translate("profilView", u"passwort", None))
         self.selectUserImageBtn.setText(QCoreApplication.translate("profilView", u"Fresse w\u00e4hlen", None))
-        self.changePasswordButton_2.setText(QCoreApplication.translate("profilView", u"speichern", None))
+        self.writeChangesButton.setText(QCoreApplication.translate("profilView", u"speichern", None))
         self.label.setText(QCoreApplication.translate("profilView", u"<html><head/><body><p align=\"center\">\u00d6ffentlicher Name:</p></body></html>", None))
         self.label_2.setText(QCoreApplication.translate("profilView", u"<html><head/><body><p align=\"center\">Passwort:</p></body></html>", None))
         self.userImage.setText("")
         pass
     # retranslateUi
-

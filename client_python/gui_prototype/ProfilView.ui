@@ -19,7 +19,7 @@
   <property name="styleSheet">
    <string notr="true">background: #8A8557;</string>
   </property>
-  <widget class="QPushButton" name="showProfilButton">
+  <widget class="QPushButton" name="showMainMenuButton">
    <property name="geometry">
     <rect>
      <x>120</x>
@@ -188,7 +188,7 @@ border-color: #111111;
     <bool>false</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="changePasswordButton_2">
+  <widget class="QPushButton" name="writeChangesButton">
    <property name="enabled">
     <bool>false</bool>
    </property>

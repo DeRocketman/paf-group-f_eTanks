@@ -16,13 +16,10 @@ class MainViewController(QMainWindow):
         self.mainView.setupUi(self)
         # init new views with a controller here
         self.loginView = LoginViewController(self.mainView.stackedWidget)
-        self.mainMenuView = MainMenuViewController(self.mainView.stackedWidget)
         self.registerUserView = RegisterUserViewController(self.mainView.stackedWidget)
-        self.profilView = ProfilViewController(self.mainView.stackedWidget)
 
         # add always the initialized views to the page stack
         self.mainView.stackedWidget.addWidget(self.loginView)
-        self.mainView.stackedWidget.addWidget(self.profilView)
         self.mainView.stackedWidget.addWidget(self.registerUserView)
 
 

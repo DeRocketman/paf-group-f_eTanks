@@ -1,7 +1,6 @@
 from PySide6.QtWidgets import QWidget, QLineEdit, QDialog
 
 from controller.MainMenuViewController import MainMenuViewController
-from model.data.User import User
 from model.service.HttpRequest import HttpRequest
 from resources.view.LoginView import Ui_loginView
 
@@ -36,9 +35,8 @@ class LoginViewController(QWidget):
             self.httpRequest.user.username = self.usernameTxtField.text()
             self.httpRequest.user.password = self.passwordTxtField.text()
             if self.httpRequest.httpReq(True):
-                mainMenuViewController = MainMenuViewController(self.httpRequest.user)
-                self.stackedWidget.addWidget(mainMenuViewController)
-                self.stackedWidget.setCurrentIndex(3)
+                self.buildAndChangeView()
+
         elif self.usernameTxtField.text() == "" and self.passwordTxtField.text() != "":
             dlg = QDialog(self)
             dlg.setWindowTitle("Hast du keinen Usernamen?")
@@ -51,7 +49,12 @@ class LoginViewController(QWidget):
             dlg.exec()
 
     def openCreateUserView(self):
-        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(1)
 
     def openRestorePwView(self):
         pass
+
+    def buildAndChangeView(self):
+        mainMenuViewController = MainMenuViewController(self.stackedWidget, self.httpRequest.user)
+        self.stackedWidget.addWidget(mainMenuViewController)
+        self.stackedWidget.setCurrentIndex(2)

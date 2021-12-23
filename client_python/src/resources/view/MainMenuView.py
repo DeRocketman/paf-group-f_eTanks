@@ -9,14 +9,15 @@
 ################################################################################
 
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,
-    QSize, QTime, QUrl, Qt)
+                            QMetaObject, QObject, QPoint, QRect,
+                            QSize, QTime, QUrl, Qt)
 from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
-    QFont, QFontDatabase, QGradient, QIcon,
-    QImage, QKeySequence, QLinearGradient, QPainter,
-    QPalette, QPixmap, QRadialGradient, QTransform)
+                           QFont, QFontDatabase, QGradient, QIcon,
+                           QImage, QKeySequence, QLinearGradient, QPainter,
+                           QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QLabel, QPushButton, QSizePolicy,
-    QWidget)
+                               QWidget)
+
 
 class Ui_mainMenuView(object):
     def setupUi(self, mainMenuView):
@@ -35,18 +36,20 @@ class Ui_mainMenuView(object):
         sizePolicy.setHeightForWidth(self.newGameButton.sizePolicy().hasHeightForWidth())
         self.newGameButton.setSizePolicy(sizePolicy)
         font = QFont()
+        font.setFamilies([u"Stencil"])
         font.setPointSize(12)
         self.newGameButton.setFont(font)
         self.newGameButton.setStyleSheet(u"background-color: #111111;\n"
-"color: rgb(171, 171, 0);\n"
-"border-color: #47452E;\n"
-"\n"
-"")
+                                         "color: rgb(171, 171, 0);\n"
+                                         "border-color: #47452E;\n"
+                                         "\n"
+                                         "")
         self.newGameButton.setAutoDefault(False)
         self.label = QLabel(mainMenuView)
         self.label.setObjectName(u"label")
         self.label.setGeometry(QRect(480, 210, 241, 51))
         font1 = QFont()
+        font1.setFamilies([u"Stencil"])
         font1.setPointSize(48)
         font1.setBold(False)
         self.label.setFont(font1)
@@ -57,10 +60,10 @@ class Ui_mainMenuView(object):
         self.showProfilButton.setSizePolicy(sizePolicy)
         self.showProfilButton.setFont(font)
         self.showProfilButton.setStyleSheet(u"background-color: #47452E;\n"
-"border-color: #111111;\n"
-"    \n"
-"\n"
-"")
+                                            "border-color: #111111;\n"
+                                            "    \n"
+                                            "\n"
+                                            "")
         self.showProfilButton.setAutoDefault(False)
         self.showStatisticButton = QPushButton(mainMenuView)
         self.showStatisticButton.setObjectName(u"showStatisticButton")
@@ -69,9 +72,9 @@ class Ui_mainMenuView(object):
         self.showStatisticButton.setSizePolicy(sizePolicy)
         self.showStatisticButton.setFont(font)
         self.showStatisticButton.setStyleSheet(u"background-color: #47452E;\n"
-"border-color: #111111;\n"
-"\n"
-"")
+                                               "border-color: #111111;\n"
+                                               "\n"
+                                               "")
         self.showStatisticButton.setAutoDefault(False)
         self.showSettingsButton = QPushButton(mainMenuView)
         self.showSettingsButton.setObjectName(u"showSettingsButton")
@@ -80,14 +83,21 @@ class Ui_mainMenuView(object):
         self.showSettingsButton.setSizePolicy(sizePolicy)
         self.showSettingsButton.setFont(font)
         self.showSettingsButton.setStyleSheet(u"background-color: #47452E;\n"
-"border-color: #111111;\n"
-"   \n"
-"")
+                                              "border-color: #111111;\n"
+                                              "   \n"
+                                              "")
         self.showSettingsButton.setAutoDefault(False)
+        self.logoutButton = QPushButton(mainMenuView)
+        self.logoutButton.setObjectName(u"logoutButton")
+        self.logoutButton.setGeometry(QRect(50, 780, 141, 21))
+        font2 = QFont()
+        font2.setFamilies([u"Stencil"])
+        self.logoutButton.setFont(font2)
 
         self.retranslateUi(mainMenuView)
 
         QMetaObject.connectSlotsByName(mainMenuView)
+
     # setupUi
 
     def retranslateUi(self, mainMenuView):
@@ -96,6 +106,6 @@ class Ui_mainMenuView(object):
         self.showProfilButton.setText(QCoreApplication.translate("mainMenuView", u"Profil", None))
         self.showStatisticButton.setText(QCoreApplication.translate("mainMenuView", u"Statisik", None))
         self.showSettingsButton.setText(QCoreApplication.translate("mainMenuView", u"Einstellungen", None))
+        self.logoutButton.setText(QCoreApplication.translate("mainMenuView", u"Abmelden vom Dienst", None))
         pass
     # retranslateUi
-

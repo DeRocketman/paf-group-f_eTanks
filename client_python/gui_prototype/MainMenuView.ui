@@ -36,6 +36,7 @@
    </property>
    <property name="font">
     <font>
+     <family>Stencil</family>
      <pointsize>12</pointsize>
     </font>
    </property>
@@ -64,6 +65,7 @@ border-color: #47452E;
    </property>
    <property name="font">
     <font>
+     <family>Stencil</family>
      <pointsize>48</pointsize>
      <bold>false</bold>
     </font>
@@ -89,6 +91,7 @@ border-color: #47452E;
    </property>
    <property name="font">
     <font>
+     <family>Stencil</family>
      <pointsize>12</pointsize>
     </font>
    </property>
@@ -123,6 +126,7 @@ border-color: #111111;
    </property>
    <property name="font">
     <font>
+     <family>Stencil</family>
      <pointsize>12</pointsize>
     </font>
    </property>
@@ -156,6 +160,7 @@ border-color: #111111;
    </property>
    <property name="font">
     <font>
+     <family>Stencil</family>
      <pointsize>12</pointsize>
     </font>
    </property>
@@ -170,6 +175,24 @@ border-color: #111111;
    </property>
    <property name="autoDefault">
     <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="logoutButton">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>780</y>
+     <width>141</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Stencil</family>
+    </font>
+   </property>
+   <property name="text">
+    <string>Abmelden vom Dienst</string>
    </property>
   </widget>
  </widget>

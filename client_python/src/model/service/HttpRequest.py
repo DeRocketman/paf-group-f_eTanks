@@ -1,3 +1,6 @@
+import json
+from types import SimpleNamespace
+
 import requests
 
 from model.data.User import User
@@ -11,7 +14,7 @@ class HttpRequest:
         success = False
         headers = {"Accept": "application/json", "content-Type": "application/json; utf-8",
                    "Authorization": "Bearer " + self.user.authToken}
-        payload = {"username": self.user.username, "password": self.user.username, "publicName": self.user.password}
+        payload = {"username": self.user.username, "password": self.user.password, "publicName": self.user.publicName}
         if not reqForLogin:
             requestedURL = "/auth/register"
             request = requests.post("http://127.0.0.1:8080" + requestedURL, headers=headers, json=payload)
@@ -39,11 +42,11 @@ class HttpRequest:
                     success = True
                 print("Ende 2. Runde")
             else:
-                print(request)
+                print("Nur Request Text " + request.text)
+                self.user = request.json(object_hook=lambda l: SimpleNamespace(**l))
 
-                print(request.text)
+                print("direkt "+self.user.username + " " + self.user.publicName)
                 print("Ende 3. Runde")
-                self.getSignedUser(request.json)
                 success = True
         elif request.status_code == 400 and not reqForLogin:
             print("Aha:Der Benutzername ist schon vergeben")
@@ -56,9 +59,5 @@ class HttpRequest:
             success = False
         return success
 
-    def getSignedUser(self, json):
-        pass
-        #self.user.username = json("username")
-        #self.user.publicName = json("publicName")
-        #self.user.userImage = json("userImage")
-        #self.user.id = json("id")
+
+

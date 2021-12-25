@@ -1,3 +1,6 @@
+import base64
+
+from PySide6 import QtGui, QtCore
 from PySide6.QtWidgets import QWidget, QLineEdit, QFileDialog
 
 from model.data.User import User
@@ -24,14 +27,22 @@ class ProfilViewController(QWidget):
         self.publicNameField = self.profilView.publicNameTextField
         self.publicNameField.setText(mainMenuViewController.signedUser.username)
         self.passwordField = self.profilView.passwordTextField
+        self.passwordField.setText(mainMenuViewController.signedUser.password)
         self.passwordField.setEchoMode(QLineEdit.Password)
+
+        self.pm = QtGui.QPixmap()
+        self.pm.loadFromData(base64.b64decode(self.mainMenuViewController.signedUser.userImage))
+        self.pm = self.pm.scaled(250, 250, QtCore.Qt.IgnoreAspectRatio)
+        self.profilView.userImage.setPixmap(self.pm)
 
     def openSelectImageDialog(self):
         selectedImage, dialog = QFileDialog.getOpenFileName(parent=self, caption="Image auswählen", dir="/home/",
                                                             filter="Image Dateien (*.png *.jpg *.bmp)")
 
-        self.profilView.userImage.setStyleSheet("border-image: url(" + selectedImage + ") 0 0 0 0 stretch stretch;")
         self.tempUserChanges.userImage = self.tempUserChanges.convertImageToByte(selectedImage)
+        self.pm.loadFromData(base64.b64decode(self.tempUserChanges.userImage))
+        self.pm = self.pm.scaled(250, 250, QtCore.Qt.IgnoreAspectRatio)
+        self.profilView.userImage.setPixmap(self.pm)
 
         if self.mainMenuViewController.signedUser.userImage != self.tempUserChanges.userImage:
             self.profilView.writeChangesButton.setEnabled(True)

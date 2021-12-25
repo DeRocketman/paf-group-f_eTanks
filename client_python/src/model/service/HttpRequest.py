@@ -1,4 +1,4 @@
-from enum import Enum
+
 
 import requests
 
@@ -31,6 +31,7 @@ class HttpRequest:
         elif requestCode == requestCode.UPDATE_USER:
             print(requestCode.UPDATE_USER)
             requestedURL = "/user/save"
+            payload = self.mapUserToPayload()
             request = requests.post("http://127.0.0.1:8080" + requestedURL, headers=headers, json=payload)
         else:
             print(requestCode.DELETE_USER)
@@ -74,7 +75,7 @@ class HttpRequest:
 
     def mapResponseToUser(self, jsonData):
         self.user.id = jsonData["id"]
-        self.user.userImage = jsonData["username"]
+        self.user.username = jsonData["username"]
         self.user.publicName = jsonData["publicName"]
         self.user.userImage = jsonData["userImage"]
         self.user.userSettings.id = jsonData["userSettings"]["id"]
@@ -90,3 +91,27 @@ class HttpRequest:
         self.user.userSettings.fireMainWeaponKey = jsonData["userSettings"]["fireMainWeaponKey"]
         self.user.userSettings.fireSecondaryWeaponKey = jsonData["userSettings"]["fireSecondaryWeaponKey"]
         self.user.userStatistics = jsonData["gameStatistics"]
+
+    def mapUserToPayload(self):
+        return {
+            "id": self.user.id,
+            "userImage": self.user.userImage,
+            "publicName": self.user.publicName,
+            "username": self.user.username,
+            "password": self.user.password,
+            "userSettings": {
+                "id": self.user.userSettings.id,
+                "gameSoundVolume": self.user.userSettings.gameSoundVolume,
+                "gameMusicVolume": self.user.userSettings.gameMusicVolume,
+                "gameSoundOn": self.user.userSettings.gameSoundOn,
+                "gameMusicOn": self.user.userSettings.gameMusicOn,
+                "showStatisticKey": self.user.userSettings.showStatisticKey,
+                "moveUpKey": self.user.userSettings.moveUpKey,
+                "moveDownKey": self.user.userSettings.moveDownKey,
+                "moveLeftKey": self.user.userSettings.moveLeftKey,
+                "moveRightKey": self.user.userSettings.moveRightKey,
+                "fireMainWeaponKey": self.user.userSettings.fireMainWeaponKey,
+                "fireSecondaryWeaponKey": self.user.userSettings.fireSecondaryWeaponKey
+            },
+            "gameStatistics": self.user.userStatistics
+        }

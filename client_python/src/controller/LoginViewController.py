@@ -2,6 +2,7 @@ from PySide6.QtWidgets import QWidget, QLineEdit, QDialog
 
 from controller.MainMenuViewController import MainMenuViewController
 from model.service.HttpRequest import HttpRequest
+from model.service.RequestCode import RequestCode
 from resources.view.LoginView import Ui_loginView
 
 
@@ -34,7 +35,7 @@ class LoginViewController(QWidget):
         if self.usernameTxtField.text() != "" and self.passwordTxtField.text() != "":
             self.httpRequest.user.username = self.usernameTxtField.text()
             self.httpRequest.user.password = self.passwordTxtField.text()
-            if self.httpRequest.httpReq(True):
+            if self.httpRequest.httpReq(RequestCode.GET_TOKEN):
                 self.buildAndChangeView()
 
         elif self.usernameTxtField.text() == "" and self.passwordTxtField.text() != "":

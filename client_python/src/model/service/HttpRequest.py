@@ -1,54 +1,70 @@
+from enum import Enum
+
 import requests
 
 from model.data.User import User
+from model.service.RequestCode import RequestCode
 
 
 class HttpRequest:
     def __init__(self):
         self.user = User()
 
-    def httpReq(self, reqForLogin):
+    def httpReq(self, requestCode=RequestCode):
         success = False
         headers = {"Accept": "application/json", "content-Type": "application/json; utf-8",
                    "Authorization": "Bearer " + self.user.authToken}
         payload = {"username": self.user.username, "password": self.user.password, "publicName": self.user.publicName}
-        if not reqForLogin:
+        if requestCode == requestCode.CREATE_USER:
+            print(requestCode.CREATE_USER)
             requestedURL = "/auth/register"
             request = requests.post("http://127.0.0.1:8080" + requestedURL, headers=headers, json=payload)
+        elif requestCode == requestCode.GET_TOKEN:
+            print(requestCode.GET_TOKEN)
+            requestedURL = "/auth/login"
+            request = requests.post("http://127.0.0.1:8080" + requestedURL, headers=headers, json=payload)
+        elif requestCode == requestCode.LOGIN:
+            print(requestCode.LOGIN)
+            requestedURL = "/user/username"
+            payload = self.user.username
+            request = requests.post("http://127.0.0.1:8080" + requestedURL, headers=headers, data=payload)
+        elif requestCode == requestCode.UPDATE_USER:
+            print(requestCode.UPDATE_USER)
+            requestedURL = "/user/save"
+            request = requests.post("http://127.0.0.1:8080" + requestedURL, headers=headers, json=payload)
         else:
-            if self.user.authToken == "":
-                requestedURL = "/auth/login"
-                request = requests.post("http://127.0.0.1:8080" + requestedURL, headers=headers, json=payload)
-            else:
-                requestedURL = "/user/username"
-                payload = self.user.username
-                request = requests.post("http://127.0.0.1:8080" + requestedURL, headers=headers, data=payload)
-                print("Letzte Runde Anfang")
+            print(requestCode.DELETE_USER)
+            requestedURL = "/user/delete"
+            request = requests.post("http://127.0.0.1:8080" + requestedURL, headers=headers, json=payload)
 
         if request.status_code == 200:
-            if not reqForLogin:
+            if requestCode == requestCode.CREATE_USER:
                 print("User-Erstellung erfolgreich!")
                 print("Beginne Autologin!")
-                if self.httpReq(True):
+                if self.httpReq(requestCode.GET_TOKEN):
                     success = True
                 print("Ende 1. Runde")
-            elif self.user.authToken == "" and reqForLogin:
+            elif requestCode == requestCode.GET_TOKEN:
                 print(request.text)
                 self.user.authToken = request.text
-                if self.httpReq(True):
+                if self.httpReq(requestCode.LOGIN):
                     success = True
                 print("Ende 2. Runde")
-            else:
+            elif requestCode == requestCode.LOGIN:
                 print("Nur Request Text " + request.text)
                 userData = request.json()
                 self.mapResponseToUser(userData)
-
                 print("Ende 3. Runde")
                 success = True
-        elif request.status_code == 400 and not reqForLogin:
+            elif requestCode == requestCode.UPDATE_USER:
+                print("Update User Response:")
+                print("---------------------")
+                print(request.text)
+                success = True
+        elif request.status_code >= 400 and requestCode == requestCode.CREATE_USER:
             print("Aha:Der Benutzername ist schon vergeben")
             success = False
-        elif request.status_code == 400 and reqForLogin:
+        elif request.status_code >= 400 and requestCode == requestCode.GET_TOKEN:
             print("Aha: Passwort oder Benutzer falsch")
             success = False
         else:

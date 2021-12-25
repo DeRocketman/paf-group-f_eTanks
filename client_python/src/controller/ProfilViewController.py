@@ -1,15 +1,20 @@
 from PySide6.QtWidgets import QWidget, QLineEdit, QFileDialog
+
+from model.data.User import User
+from model.service.HttpRequest import HttpRequest
+from model.service.RequestCode import RequestCode
 from resources.view.ProfilView import Ui_profilView
 
 
 class ProfilViewController(QWidget):
 
-    def __init__(self, mmViewController):
+    def __init__(self, mainMenuViewController):
         super().__init__()
         self.profilView = Ui_profilView()
         self.profilView.setupUi(self)
+        self.tempUserChanges = User()
 
-        self.mainMenuViewController = mmViewController
+        self.mainMenuViewController = mainMenuViewController
         self.profilView.selectUserImageBtn.clicked.connect(self.openSelectImageDialog)
         self.profilView.changePublicNameButton.clicked.connect(self.enablePublicNameEdit)
         self.profilView.changePasswordButton.clicked.connect(self.enablePwEdit)
@@ -17,17 +22,19 @@ class ProfilViewController(QWidget):
         self.profilView.showMainMenuButton.clicked.connect(self.showMainMenuView)
 
         self.publicNameField = self.profilView.publicNameTextField
+        self.publicNameField.setText(mainMenuViewController.signedUser.username)
         self.passwordField = self.profilView.passwordTextField
         self.passwordField.setEchoMode(QLineEdit.Password)
-        self.publicNameField.setText(mmViewController.signedUser.username)
 
     def openSelectImageDialog(self):
         selectedImage, dialog = QFileDialog.getOpenFileName(parent=self, caption="Image auswählen", dir="/home/",
                                                             filter="Image Dateien (*.png *.jpg *.bmp)")
 
         self.profilView.userImage.setStyleSheet("border-image: url(" + selectedImage + ") 0 0 0 0 stretch stretch;")
-        self.mainMenuViewController.signedUser.userImage = \
-            self.mainMenuViewController.signedUser.convertImageToByte(selectedImage)
+        self.tempUserChanges.userImage = self.tempUserChanges.convertImageToByte(selectedImage)
+
+        if self.mainMenuViewController.signedUser.userImage != self.tempUserChanges.userImage:
+            self.profilView.writeChangesButton.setEnabled(True)
 
     def enablePublicNameEdit(self):
         self.publicNameField.setEnabled(True)
@@ -38,7 +45,21 @@ class ProfilViewController(QWidget):
         self.profilView.writeChangesButton.setEnabled(True)
 
     def writeChanges(self):
-        pass
+        updateChanges = HttpRequest()
+        updateChanges.user = self.mainMenuViewController.signedUser
+
+        self.tempUserChanges.publicName = self.publicNameField.text()
+        self.tempUserChanges.password = self.passwordField.text()
+
+        if self.tempUserChanges.publicName != self.mainMenuViewController.signedUser.publicName:
+            updateChanges.user.publicName = self.tempUserChanges.publicName
+        if self.tempUserChanges.userImage != self.mainMenuViewController.signedUser.userImage:
+            updateChanges.user.userImage = self.tempUserChanges.userImage
+        if self.tempUserChanges.password != self.mainMenuViewController.signedUser.password:
+            updateChanges.user.password = self.tempUserChanges.password
+
+        if updateChanges.httpReq(RequestCode.UPDATE_USER):
+            self.mainMenuViewController.stackedWidget.setCurrentWidget(self.mainMenuViewController)
 
     def showMainMenuView(self):
         self.mainMenuViewController.stackedWidget.setCurrentWidget(self.mainMenuViewController)

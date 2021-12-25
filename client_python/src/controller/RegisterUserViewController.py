@@ -2,6 +2,7 @@ from PySide6.QtWidgets import QWidget
 
 from controller.MainMenuViewController import MainMenuViewController
 from model.service.HttpRequest import HttpRequest
+from model.service.RequestCode import RequestCode
 from resources.view.RegisterUserView import Ui_registerUserView
 
 
@@ -29,7 +30,7 @@ class RegisterUserViewController(QWidget):
             self.httpRequest.user.publicName = self.publicNameTxtField.text()
             self.httpRequest.user.password = self.passwordField.text()
 
-            if self.httpRequest.httpReq(False):
+            if self.httpRequest.httpReq(RequestCode.CREATE_USER):
                 self.buildAndChangeView()
 
     def showLoginView(self):

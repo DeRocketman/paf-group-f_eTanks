@@ -19,7 +19,7 @@ from PySide6.QtWidgets import (QApplication, QFormLayout, QLabel, QPushButton,
                                QSizePolicy, QSlider, QWidget)
 from resources.view import rc_ressourcesETanks
 
-class Ui_profilView(object):
+class Ui_settingsView(object):
     def setupUi(self, profilView):
         if not profilView.objectName():
             profilView.setObjectName(u"profilView")

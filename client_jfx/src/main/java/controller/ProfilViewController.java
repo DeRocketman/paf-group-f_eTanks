@@ -91,4 +91,18 @@ public class ProfilViewController extends ViewController {
     public void setHttpRequestETankapplication(){
         httpRequest.setETankApplication(eTankApplication);
     }
+
+    @FXML
+    private void editImage() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Bitte neues Bild auswählen");
+        File file = fileChooser.showOpenDialog(eTankApplication.getPrimaryStage());
+        String filename = file.getAbsolutePath();
+        System.out.println(filename);
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("All Images", "*.*"),
+                new FileChooser.ExtensionFilter("JPG", "*.jpg"),
+                new FileChooser.ExtensionFilter("PNG", "*.png")
+        );
+    }
 }

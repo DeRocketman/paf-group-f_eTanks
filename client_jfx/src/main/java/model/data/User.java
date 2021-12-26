@@ -21,7 +21,9 @@ public class User {
     private String password;
     private UserSettings userSettings;
     private UserStatistic userStatistic;
-    //private List<GameStatistic> gameStatistics;
+    private List<GameStatistic> gameStatistics;
+
+    //TODO: Refactor constructor after all is fine
 
     public User () {
         this.username = "default";
@@ -43,7 +45,7 @@ public class User {
         this.userImage = decodeImage(image);
         this.password = password;
         this.userSettings = userSettings;
-       // this.gameStatistics = userStatistic;
+        this.gameStatistics = userStatistic;
     }
 
     public User(long id, String username, String publicName, String image, String password, UserSettings userSettings, UserStatistic userStatistic) {

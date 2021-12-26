@@ -58,7 +58,7 @@ public class User {
         this.userStatistic = userStatistic;
     }
 
-    private String decodeImage(String imagePath) {
+    public String decodeImage(String imagePath) {
 
         String base64 = null;
         try {

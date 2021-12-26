@@ -1,9 +1,7 @@
 package thl.gruppef.etankrest.etankrestapi.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
-import thl.gruppef.etankrest.etankrestapi.request.UserRequest;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -27,7 +25,6 @@ public class User extends IdentifiedEntity {
     @Lob
     private String userImage;
 
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "userSettings_id")
     UserSettings userSettings;
@@ -37,7 +34,7 @@ public class User extends IdentifiedEntity {
 
 
     public User() {
-        this.userImage = "defaultImage";
+        userImage = "default";
         gameStatistics = new ArrayList<>();
     }
 }

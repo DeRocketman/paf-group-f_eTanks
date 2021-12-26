@@ -42,6 +42,10 @@ public class ETankApplication extends Application {
         this.signedUser = new User();
     }
 
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
     public void showLoginView() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("../view/LoginView.fxml"));

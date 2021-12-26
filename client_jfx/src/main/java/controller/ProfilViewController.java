@@ -3,11 +3,27 @@ package controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
+import model.data.User;
 import model.service.HttpRequest;
+
+import java.io.File;
+import java.util.Arrays;
+import java.util.Base64;
+
 
 public class ProfilViewController extends ViewController {
 
+    User tempUser;
+
+    @FXML
+    ImageView userImage;
+    @FXML
+    Button editName;
     @FXML
     private TextField publicName;
     @FXML
@@ -60,6 +76,16 @@ public class ProfilViewController extends ViewController {
 
     public void initialiseUserData(){
         publicName.setText(eTankApplication.getSignedUser().getPublicName());
+        setUserImage();
+    }
+
+    private void setUserImage() {
+        if(eTankApplication.getSignedUser().getUserImage().equals("default")){
+            userImage = new ImageView(String.valueOf(getClass().getResource("../img/images/default-user-image.png")));
+            System.out.println("Default  Bild geladen");
+        } else {
+            userImage = new ImageView(new Image(Arrays.toString(Base64.getDecoder().decode(eTankApplication.getSignedUser().getUserImage()))));
+        }
     }
 
     public void setHttpRequestETankapplication(){

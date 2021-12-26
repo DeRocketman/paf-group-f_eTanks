@@ -82,7 +82,7 @@ public class GameLobbyViewController {
         GameLobby lobby = new GameLobby();
         lobby.buildLobbyID();
         User sU = eTankApplication.getSignedUser();
-        Player player = new Player(sU.getId(), sU.getUserName(), sU.getPublicName(), sU.getImage(), sU.getPassword(),
+        Player player = new Player(sU.getId(), sU.getUserName(), sU.getPublicName(), sU.getUserImage(), sU.getPassword(),
                 sU.getUserSettings(),  sU.getUserStatistic());
         lobby.addPlayer(player);
         this.lobbyList.add(lobby);
@@ -137,7 +137,7 @@ public class GameLobbyViewController {
         if(selectedGameLobby.getSeatCounter() < 4) {
             System.out.println("joining game");
             User sU = eTankApplication.getSignedUser();
-            Player player = new Player(sU.getId(), sU.getUserName(), sU.getPublicName(), sU.getImage(), sU.getPassword(),
+            Player player = new Player(sU.getId(), sU.getUserName(), sU.getPublicName(), sU.getUserImage(), sU.getPassword(),
                     sU.getUserSettings(),  sU.getUserStatistic());
             selectedGameLobby.addPlayer(player);
             resetViews();

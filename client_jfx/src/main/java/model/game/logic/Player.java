@@ -16,6 +16,7 @@ public class Player extends User {
         this.isReady = false;
     }
 
+
     public boolean isReady() {
         return isReady;
     }

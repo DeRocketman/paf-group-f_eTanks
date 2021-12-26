@@ -1,7 +1,15 @@
 package model.data;
 
 import javafx.beans.property.*;
+import org.apache.commons.codec.binary.Base64;
 
+import javax.xml.bind.DatatypeConverter;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +24,15 @@ public class User {
     //private List<GameStatistic> gameStatistics;
 
     public User () {
-        this.setDefault();
+        this.username = "default";
+        this.publicName = "default";
+        this.userImage = "default";
+        this.password = "default";
+        this.userSettings = new UserSettings();
+        this.userSettings.setDefaultSettings();
+        this.userStatistic = new UserStatistic();
+        this.userStatistic.setDefaultStatistic();
+        this.gameStatistics = new ArrayList<>();
     }
 
     public User(long id, String username, String publicName, String image, String password,
@@ -24,7 +40,7 @@ public class User {
         this.id = id;
         this.username = username;
         this.publicName = publicName;
-        this.userImage = image;
+        this.userImage = decodeImage(image);
         this.password = password;
         this.userSettings = userSettings;
        // this.gameStatistics = userStatistic;
@@ -34,24 +50,25 @@ public class User {
         this.id = id;
         this.username = username;
         this.publicName = publicName;
-        this.userImage = image;
+        this.userImage = decodeImage(image);
         this.password = password;
         this.userSettings = userSettings;
         this.userStatistic = userStatistic;
     }
 
-    public void setDefault(){
+    private String decodeImage(String imagePath) {
 
-        this.username = "default";
-        this.publicName = "default";
-        this.userImage = "Image";
-        this.password = "default";
-        this.userSettings = new UserSettings();
-        this.userSettings.setDefaultSettings();
-        this.userStatistic = new UserStatistic();
-        this.userStatistic.setDefaultStatistic();
-      //  this.gameStatistics = new ArrayList<>();
+        String base64 = null;
+        try {
+            base64 = DatatypeConverter.printBase64Binary(Files.readAllBytes(
+                    Paths.get(imagePath)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return base64;
     }
+
 
     public long getId() {
         return id;
@@ -75,14 +92,6 @@ public class User {
 
     public void setPublicName(String publicName) {
         this.publicName = publicName;
-    }
-
-    public String getImage() {
-        return userImage;
-    }
-
-    public void setImage(String image) {
-        this.userImage = image;
     }
 
     public String getPassword() {

@@ -35,6 +35,7 @@ public class UserController {
 
         Optional<User> userOptional = userRepository.findUserByUsername(username);
 
+        //TODO Entfernen oder verbessern DEBUG
         if(!userOptional.isPresent()){
             User user = new User();
             user.setUsername("DER FALSCHE KERL");

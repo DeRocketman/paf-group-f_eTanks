@@ -4,6 +4,7 @@ import model.data.User;
 import model.data.UserSettings;
 import model.data.UserStatistic;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ public class UserDataCreator {
 
    private List<User> userList = new ArrayList<User>();
 
-   public UserDataCreator(){
+   public UserDataCreator() throws IOException {
       UserSettings testUserSetting = new UserSettings();
       testUserSetting.setDefaultSettings();
 

@@ -14,6 +14,7 @@ class MainMenuViewController(QWidget):
 
         self.stackedWidget = stackedWidget
         self.signedUser = user
+        self.checkDefaultUserImage()
         print(self.signedUser.username)
         self.stackedWidget.addWidget(self)
         self.profilViewController = ProfilViewController(self)
@@ -38,4 +39,9 @@ class MainMenuViewController(QWidget):
     # TODO: implement connection to SettingsView
     def openStatisticView(self):
         pass
+
     # TODO: implement connection to StatisticView
+    def checkDefaultUserImage(self):
+        if self.signedUser.userImage == "default":
+            self.signedUser.userImage = self.signedUser.convertImageToByte("../resources/images/default-user-image"
+                                                                           ".png")

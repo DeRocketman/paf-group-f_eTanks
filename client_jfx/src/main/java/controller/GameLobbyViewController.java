@@ -54,7 +54,7 @@ public class GameLobbyViewController {
     @FXML
     private HBox hbxJoinerPanel;
 
-    public GameLobbyViewController() {
+    public GameLobbyViewController() throws IOException {
 
     }
 
@@ -132,7 +132,7 @@ public class GameLobbyViewController {
     }
 
     @FXML
-    public GameLobby joinSelectedGame() {
+    public GameLobby joinSelectedGame() throws IOException {
         GameLobby selectedGameLobby = lobbyTable.getSelectionModel().getSelectedItem();
         if(selectedGameLobby.getSeatCounter() < 4) {
             System.out.println("joining game");

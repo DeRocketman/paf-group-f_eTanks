@@ -8,12 +8,14 @@ import model.data.UserStatistic;
 import model.game.logic.GameLobby;
 import model.game.logic.Player;
 
+import java.io.IOException;
+
 public class GameCreator {
 
     private ObservableList<GameLobby> gameLobbyList = FXCollections.observableArrayList();
     User signedUser;
 
-    public GameCreator() {
+    public GameCreator() throws IOException {
         UserSettings testUserSetting = new UserSettings();
         UserStatistic testUserStatistic = new UserStatistic();
 

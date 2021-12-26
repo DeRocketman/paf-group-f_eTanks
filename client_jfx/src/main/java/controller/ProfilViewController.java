@@ -11,7 +11,11 @@ import javafx.stage.FileChooser;
 import model.data.User;
 import model.service.HttpRequest;
 
+import javax.xml.bind.DatatypeConverter;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Base64;
 
@@ -82,9 +86,11 @@ public class ProfilViewController extends ViewController {
     private void setUserImage() {
         if(eTankApplication.getSignedUser().getUserImage().equals("default")){
             userImage = new ImageView(String.valueOf(getClass().getResource("../img/images/default-user-image.png")));
-            System.out.println("Default  Bild geladen");
+            System.out.println("Default Bild geladen");
         } else {
-            userImage = new ImageView(new Image(Arrays.toString(Base64.getDecoder().decode(eTankApplication.getSignedUser().getUserImage()))));
+            byte[] name = Base64.getDecoder().decode(new String(eTankApplication.getSignedUser().getUserImage().getBytes(StandardCharsets.UTF_8)));
+            Image img = new Image(new ByteArrayInputStream(name));
+            userImage = new ImageView(img);
         }
     }
 
@@ -93,16 +99,18 @@ public class ProfilViewController extends ViewController {
     }
 
     @FXML
-    private void editImage() {
+    private void editImage() throws IOException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Bitte neues Bild auswählen");
         File file = fileChooser.showOpenDialog(eTankApplication.getPrimaryStage());
-        String filename = file.getAbsolutePath();
+        String filename = file.getAbsolutePath();;
         System.out.println(filename);
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("All Images", "*.*"),
                 new FileChooser.ExtensionFilter("JPG", "*.jpg"),
                 new FileChooser.ExtensionFilter("PNG", "*.png")
         );
+        System.out.println(tempUser.decodeImage("filename"));
+        System.out.println(tempUser.getUserImage());
     }
 }

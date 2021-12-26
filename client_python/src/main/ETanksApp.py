@@ -3,8 +3,6 @@ import sys
 from PySide6.QtWidgets import QApplication
 
 from controller.MainViewController import MainViewController
-from model.data.User import User
-from model.service.HttpRequest import HttpRequest
 
 
 class ETankApp:

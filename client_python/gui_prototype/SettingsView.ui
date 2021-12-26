@@ -36,6 +36,7 @@
    </property>
    <property name="font">
     <font>
+     <family>Stencil</family>
      <pointsize>12</pointsize>
     </font>
    </property>
@@ -58,9 +59,9 @@ border-color: #111111;
    </property>
    <property name="geometry">
     <rect>
-     <x>510</x>
+     <x>650</x>
      <y>580</y>
-     <width>291</width>
+     <width>151</width>
      <height>31</height>
     </rect>
    </property>
@@ -72,6 +73,7 @@ border-color: #111111;
    </property>
    <property name="font">
     <font>
+     <family>Stencil</family>
      <pointsize>12</pointsize>
     </font>
    </property>
@@ -92,10 +94,15 @@ border-color: #111111;
    <property name="geometry">
     <rect>
      <x>560</x>
-     <y>454</y>
+     <y>452</y>
      <width>51</width>
      <height>51</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Stencil</family>
+    </font>
    </property>
    <property name="text">
     <string>W</string>
@@ -110,6 +117,11 @@ border-color: #111111;
      <height>51</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Stencil</family>
+    </font>
+   </property>
    <property name="text">
     <string>S</string>
    </property>
@@ -117,11 +129,16 @@ border-color: #111111;
   <widget class="QPushButton" name="moveRightButton">
    <property name="geometry">
     <rect>
-     <x>610</x>
+     <x>612</x>
      <y>504</y>
      <width>51</width>
      <height>51</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Stencil</family>
+    </font>
    </property>
    <property name="text">
     <string>D</string>
@@ -130,11 +147,16 @@ border-color: #111111;
   <widget class="QPushButton" name="moveLeftButton">
    <property name="geometry">
     <rect>
-     <x>510</x>
+     <x>509</x>
      <y>504</y>
      <width>51</width>
      <height>51</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Stencil</family>
+    </font>
    </property>
    <property name="text">
     <string>A</string>
@@ -143,11 +165,16 @@ border-color: #111111;
   <widget class="QPushButton" name="mainWeaponButton">
    <property name="geometry">
     <rect>
-     <x>700</x>
+     <x>699</x>
      <y>504</y>
      <width>51</width>
      <height>51</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Stencil</family>
+    </font>
    </property>
    <property name="text">
     <string>N</string>
@@ -156,11 +183,16 @@ border-color: #111111;
   <widget class="QPushButton" name="secondaryWeaponButton">
    <property name="geometry">
     <rect>
-     <x>750</x>
+     <x>751</x>
      <y>504</y>
      <width>51</width>
      <height>51</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Stencil</family>
+    </font>
    </property>
    <property name="text">
     <string>M</string>
@@ -177,7 +209,8 @@ border-color: #111111;
    </property>
    <property name="font">
     <font>
-     <pointsize>8</pointsize>
+     <family>Stencil</family>
+     <pointsize>6</pointsize>
     </font>
    </property>
    <property name="text">
@@ -195,7 +228,8 @@ border-color: #111111;
    </property>
    <property name="font">
     <font>
-     <pointsize>8</pointsize>
+     <family>Stencil</family>
+     <pointsize>6</pointsize>
     </font>
    </property>
    <property name="text">
@@ -213,7 +247,8 @@ border-color: #111111;
    </property>
    <property name="font">
     <font>
-     <pointsize>8</pointsize>
+     <family>Stencil</family>
+     <pointsize>6</pointsize>
     </font>
    </property>
    <property name="text">
@@ -231,7 +266,8 @@ border-color: #111111;
    </property>
    <property name="font">
     <font>
-     <pointsize>8</pointsize>
+     <family>Stencil</family>
+     <pointsize>6</pointsize>
     </font>
    </property>
    <property name="text">
@@ -249,7 +285,8 @@ border-color: #111111;
    </property>
    <property name="font">
     <font>
-     <pointsize>8</pointsize>
+     <family>Stencil</family>
+     <pointsize>6</pointsize>
     </font>
    </property>
    <property name="text">
@@ -259,7 +296,7 @@ border-color: #111111;
   <widget class="QLabel" name="label_10">
    <property name="geometry">
     <rect>
-     <x>754</x>
+     <x>756</x>
      <y>484</y>
      <width>51</width>
      <height>18</height>
@@ -267,14 +304,15 @@ border-color: #111111;
    </property>
    <property name="font">
     <font>
-     <pointsize>8</pointsize>
+     <family>Stencil</family>
+     <pointsize>6</pointsize>
     </font>
    </property>
    <property name="text">
     <string>fire sec</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>510</x>
@@ -288,6 +326,7 @@ border-color: #111111;
      <widget class="QLabel" name="label">
       <property name="font">
        <font>
+        <family>Stencil</family>
         <pointsize>14</pointsize>
        </font>
       </property>
@@ -298,6 +337,11 @@ border-color: #111111;
     </item>
     <item row="0" column="1">
      <widget class="QPushButton" name="soundOnButton">
+      <property name="font">
+       <font>
+        <family>Stencil</family>
+       </font>
+      </property>
       <property name="text">
        <string>An</string>
       </property>
@@ -307,6 +351,7 @@ border-color: #111111;
      <widget class="QLabel" name="label_2">
       <property name="font">
        <font>
+        <family>Stencil</family>
         <pointsize>14</pointsize>
        </font>
       </property>
@@ -317,6 +362,11 @@ border-color: #111111;
     </item>
     <item row="1" column="1">
      <widget class="QPushButton" name="musicOnButton">
+      <property name="font">
+       <font>
+        <family>Stencil</family>
+       </font>
+      </property>
       <property name="text">
        <string>An</string>
       </property>
@@ -326,6 +376,7 @@ border-color: #111111;
      <widget class="QLabel" name="label_4">
       <property name="font">
        <font>
+        <family>Stencil</family>
         <pointsize>14</pointsize>
        </font>
       </property>
@@ -354,6 +405,7 @@ border-color: #111111;
      <widget class="QLabel" name="label_3">
       <property name="font">
        <font>
+        <family>Stencil</family>
         <pointsize>14</pointsize>
        </font>
       </property>
@@ -379,6 +431,39 @@ border-color: #111111;
      </widget>
     </item>
    </layout>
+  </widget>
+  <widget class="QPushButton" name="setDefaultButton">
+   <property name="geometry">
+    <rect>
+     <x>510</x>
+     <y>580</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #47452E;
+border-color: #111111;
+  
+</string>
+   </property>
+   <property name="text">
+    <string>Standard</string>
+   </property>
+   <property name="autoDefault">
+    <bool>false</bool>
+   </property>
   </widget>
  </widget>
  <resources>

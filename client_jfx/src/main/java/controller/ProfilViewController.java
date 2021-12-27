@@ -11,11 +11,10 @@ import javafx.stage.FileChooser;
 import model.data.User;
 import model.service.HttpRequest;
 
-import javax.xml.bind.DatatypeConverter;
-import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Base64;
 
@@ -85,12 +84,19 @@ public class ProfilViewController extends ViewController {
 
     private void setUserImage() {
         if(eTankApplication.getSignedUser().getUserImage().equals("default")){
-            userImage = new ImageView(String.valueOf(getClass().getResource("../img/images/default-user-image.png")));
-            System.out.println("Default Bild geladen");
+            try {
+                //Er findet die scheiss Datei nicht
+                // file:...paf-gruppe-f_eTanks_HOT\client_jfx\target\classes\img\images\default-user-image.png (Die Syntax für den Dateinamen, Verzeichnisnamen oder die Datenträgerbezeichnung ist falsch)
+                FileInputStream input = new FileInputStream(String.valueOf(getClass().getClassLoader().getResources("../img/images/default-user-image.png")));
+                Image image = new Image(input);
+                userImage.setImage(image);
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+
+            System.out.println("Default  Bild geladen");
         } else {
-            byte[] name = Base64.getDecoder().decode(new String(eTankApplication.getSignedUser().getUserImage().getBytes(StandardCharsets.UTF_8)));
-            Image img = new Image(new ByteArrayInputStream(name));
-            userImage = new ImageView(img);
+            userImage = new ImageView(new Image(Arrays.toString(Base64.getDecoder().decode(eTankApplication.getSignedUser().getUserImage()))));
         }
     }
 
@@ -99,18 +105,17 @@ public class ProfilViewController extends ViewController {
     }
 
     @FXML
-    private void editImage() throws IOException {
+    private void editImage() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Bitte neues Bild auswählen");
-        File file = fileChooser.showOpenDialog(eTankApplication.getPrimaryStage());
-        String filename = file.getAbsolutePath();;
+        File file = fileChooser.showOpenDialog(null);
+        String filename = file.getAbsolutePath();
         System.out.println(filename);
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("All Images", "*.*"),
                 new FileChooser.ExtensionFilter("JPG", "*.jpg"),
                 new FileChooser.ExtensionFilter("PNG", "*.png")
         );
-        System.out.println(tempUser.decodeImage("filename"));
-        System.out.println(tempUser.getUserImage());
+
     }
 }

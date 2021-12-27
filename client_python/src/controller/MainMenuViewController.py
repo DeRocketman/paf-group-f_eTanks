@@ -39,9 +39,10 @@ class MainMenuViewController(QWidget):
     # TODO: implement connection to SettingsView
     def openStatisticView(self):
         pass
-
     # TODO: implement connection to StatisticView
+
     def checkDefaultUserImage(self):
         if self.signedUser.userImage == "default":
             self.signedUser.userImage = self.signedUser.convertImageToByte("../resources/images/default-user-image"
                                                                            ".png")
+

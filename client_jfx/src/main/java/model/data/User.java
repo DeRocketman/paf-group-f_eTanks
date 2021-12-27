@@ -1,9 +1,16 @@
 package model.data;
 
-import org.apache.commons.io.FileUtils;
-import java.io.*;
+import javafx.beans.property.*;
+import org.apache.commons.codec.binary.Base64;
+
+import javax.xml.bind.DatatypeConverter;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 public class User {
@@ -31,36 +38,37 @@ public class User {
     }
 
     public User(long id, String username, String publicName, String image, String password,
-                UserSettings userSettings, List<GameStatistic> userStatistic) throws IOException {
+                UserSettings userSettings, List<GameStatistic> userStatistic) {
         this.id = id;
         this.username = username;
         this.publicName = publicName;
-        this.userImage = decodeImage(image);
+        this.userImage = encodeImage(image);
         this.password = password;
         this.userSettings = userSettings;
         this.gameStatistics = userStatistic;
     }
 
-    public User(long id, String username, String publicName, String image, String password, UserSettings userSettings, UserStatistic userStatistic) throws IOException {
+    public User(long id, String username, String publicName, String image, String password, UserSettings userSettings, UserStatistic userStatistic) {
         this.id = id;
         this.username = username;
         this.publicName = publicName;
-        this.userImage = decodeImage(image);
+        this.userImage = encodeImage(image);
         this.password = password;
         this.userSettings = userSettings;
         this.userStatistic = userStatistic;
     }
 
-    public String decodeImage(String imagePath) {
+    public String encodeImage(String imagePath) {
+
+        String base64 = null;
         try {
-            System.out.println(new File(".").getAbsoluteFile());
-            byte[] fileContent = FileUtils.readFileToByteArray(new File(imagePath));
-            String encodedString = Base64.getEncoder().encodeToString(fileContent);
-            return encodedString;
+            base64 = DatatypeConverter.printBase64Binary(Files.readAllBytes(
+                    Paths.get(imagePath)));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "default";
+
+        return base64;
     }
 
 

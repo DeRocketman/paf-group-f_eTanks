@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import QWidget
 
 from controller.ProfilViewController import ProfilViewController
+from controller.SettingsViewController import SettingsViewController
 from model.data.User import User
 from resources.view.MainMenuView import Ui_mainMenuView
 
@@ -18,6 +19,7 @@ class MainMenuViewController(QWidget):
         print(self.signedUser.username)
         self.stackedWidget.addWidget(self)
         self.profilViewController = ProfilViewController(self)
+        self.settingsViewController = SettingsViewController(self)
 
         self.mainMenuView.newGameButton.clicked.connect(self.openGameLobbyView)
         self.mainMenuView.showProfilButton.clicked.connect(self.openProfilView)
@@ -34,7 +36,8 @@ class MainMenuViewController(QWidget):
         self.stackedWidget.setCurrentWidget(self.profilViewController)
 
     def openSettingsView(self):
-        pass
+        self.stackedWidget.addWidget(self.settingsViewController)
+        self.stackedWidget.setCurrentWidget(self.settingsViewController)
 
     # TODO: implement connection to SettingsView
     def openStatisticView(self):

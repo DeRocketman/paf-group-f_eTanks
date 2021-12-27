@@ -2,9 +2,10 @@ from enum import Enum
 
 from PySide6.QtWidgets import QWidget
 
+from model.data.UserSettings import UserSettings
 from model.service.HttpRequest import HttpRequest
 from resources.view.SettingsView import Ui_settingsView
-
+import keyboard
 
 class SettingsViewController(QWidget):
     def __init__(self, mainMenuController):
@@ -12,16 +13,16 @@ class SettingsViewController(QWidget):
 
         self.mainMenuController = mainMenuController
         self.httpRequest = HttpRequest()
-
+        self.tempSetting = UserSettings()
         self.settingsView = Ui_settingsView()
         self.settingsView.setupUi(self)
 
         self.settingsView.musicVolSlider.setValue(self.mainMenuController.signedUser.userSettings.gameMusicVolume)
         self.settingsView.soundVolSlider.setValue(self.mainMenuController.signedUser.userSettings.gameSoundVolume)
-        self.settingsView.soundOnButton.setText(self.checkValue(ButtonType.SOUND_ON))
-        self.settingsView.musicOnButton.setText(self.checkValue(ButtonType.MUSIC_ON))
-        self.settingsView.moveUpButton.setText(self.checkValue(ButtonType.MOVE_UP))
-        self.settingsView.moveDownButton.setText(self.checkValue(ButtonType.MOVE_DOWN))
+        self.settingsView.soundOnButton.setText(self.setValue(ButtonType.SOUND_ON))
+        self.settingsView.musicOnButton.setText(self.setValue(ButtonType.MUSIC_ON))
+        self.settingsView.moveUpButton.setText(self.setValue(ButtonType.MOVE_UP))
+        self.settingsView.moveDownButton.setText(self.setValue(ButtonType.MOVE_DOWN))
 
         self.settingsView.moveUpButton.clicked.connect(self.changeKey)
         self.settingsView.moveDownButton.clicked.connect(self.changeKey)
@@ -48,8 +49,29 @@ class SettingsViewController(QWidget):
     def changeVol(self):
         pass
 
-    def checkValue(self, buttonType):
-        pass
+    def setValue(self, buttonType):
+        if buttonType == buttonType.SOUND_ON:
+            if self.mainMenuController.signedUser.userSettings.gameSoundOn:
+                self.settingsView.soundOnButton.setText("AN")
+                self.settingsView.soundOnButton.setStyleSheet("Background-Color: green;")
+            else:
+                self.settingsView.soundOnButton.setText("AUS")
+                self.settingsView.soundOnButton.setStyleSheet("Background-Color: grey;")
+        elif buttonType == buttonType.MUSIC_ON:
+            pass
+        elif buttonType == buttonType.MOVE_UP:
+            pass
+        elif buttonType == buttonType.MOVE_DOWN:
+            pass
+        elif buttonType == buttonType.MOVE_LEFT:
+            pass
+        elif buttonType == buttonType.MOVE_RIGHT:
+            pass
+        elif buttonType == buttonType.FIRE_MAIN:
+            pass
+        elif buttonType == buttonType.FIRE_SECONDARY:
+            pass
+
 
 class ButtonType(Enum):
     MOVE_UP = "MOVE_UP"
@@ -61,4 +83,3 @@ class ButtonType(Enum):
 
     SOUND_ON = "SOUND_ON"
     MUSIC_ON = "MUSIC_ON"
-

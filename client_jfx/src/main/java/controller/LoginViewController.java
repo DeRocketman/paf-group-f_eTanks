@@ -69,6 +69,7 @@ public class LoginViewController {
 
         if(httpRequest.login(authorisation)){
             try {
+                eTankApplication.getSignedUser().setPassword(passwordField.getText());
                 eTankApplication.showMenuView();
             } catch (IOException e) {
                 e.printStackTrace();

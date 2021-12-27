@@ -8,20 +8,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
-import model.data.User;
 import model.service.HttpRequest;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Base64;
 
 
 public class ProfilViewController extends ViewController {
-
-    User tempUser;
 
     @FXML
     ImageView userImage;
@@ -31,7 +28,6 @@ public class ProfilViewController extends ViewController {
     private TextField publicName;
     @FXML
     private TextField password;
-    boolean passwordChanged = false;
 
     HttpRequest httpRequest = new HttpRequest();
 
@@ -84,19 +80,10 @@ public class ProfilViewController extends ViewController {
 
     private void setUserImage() {
         if(eTankApplication.getSignedUser().getUserImage().equals("default")){
-            try {
-                //Er findet die scheiss Datei nicht
-                // file:...paf-gruppe-f_eTanks_HOT\client_jfx\target\classes\img\images\default-user-image.png (Die Syntax für den Dateinamen, Verzeichnisnamen oder die Datenträgerbezeichnung ist falsch)
-                FileInputStream input = new FileInputStream(String.valueOf(getClass().getClassLoader().getResources("../img/images/default-user-image.png")));
-                Image image = new Image(input);
-                userImage.setImage(image);
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
-
-            System.out.println("Default  Bild geladen");
+            userImage.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/images/default-user-image.png")));
         } else {
-            userImage = new ImageView(new Image(Arrays.toString(Base64.getDecoder().decode(eTankApplication.getSignedUser().getUserImage()))));
+            userImage.setImage(new Image(Arrays.toString(Base64.getDecoder().decode(eTankApplication.getSignedUser().getUserImage()))));
+            System.out.println("ownimage");
         }
     }
 
@@ -116,6 +103,7 @@ public class ProfilViewController extends ViewController {
                 new FileChooser.ExtensionFilter("JPG", "*.jpg"),
                 new FileChooser.ExtensionFilter("PNG", "*.png")
         );
+
 
     }
 }

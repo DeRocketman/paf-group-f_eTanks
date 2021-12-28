@@ -199,7 +199,6 @@ class Ui_settingsView(object):
         font5 = QFont()
         font5.setFamilies([u"Stencil"])
         self.soundVolLcd.setFont(font5)
-        self.soundVolLcd.setStyleSheet(u"textcolor: black;")
 
         self.retranslateUi(profilView)
 

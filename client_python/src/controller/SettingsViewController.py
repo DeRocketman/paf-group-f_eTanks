@@ -8,6 +8,7 @@ from PySide6.QtWidgets import QWidget
 
 from model.data.UserSettings import UserSettings
 from model.service.HttpRequest import HttpRequest
+from model.service.RequestCode import RequestCode
 from resources.view.SettingsView import Ui_settingsView
 
 
@@ -16,7 +17,6 @@ class SettingsViewController(QWidget):
         super().__init__()
 
         self.mainMenuController = mainMenuController
-        self.httpRequest = HttpRequest()
         self.tempSetting = UserSettings()
         self.settingsView = Ui_settingsView()
         self.settingsView.setupUi(self)
@@ -25,12 +25,13 @@ class SettingsViewController(QWidget):
         self.settingsView.soundVolSlider.setValue(self.mainMenuController.signedUser.userSettings.gameSoundVolume)
         self.setInitValue(ButtonType.SOUND_ON)
         self.setInitValue(ButtonType.MUSIC_ON)
-        self.setInitValue(ButtonType.MOVE_UP)
-        self.setInitValue(ButtonType.MOVE_DOWN)
-        self.setInitValue(ButtonType.MOVE_LEFT)
-        self.setInitValue(ButtonType.MOVE_RIGHT)
-        self.setInitValue(ButtonType.FIRE_MAIN)
-        self.setInitValue(ButtonType.FIRE_SECONDARY)
+        self.settingsView.moveUpButton.setText(self.mainMenuController.signedUser.userSettings.moveUpKey)
+        self.settingsView.moveDownButton.setText(self.mainMenuController.signedUser.userSettings.moveDownKey)
+        self.settingsView.moveLeftButton.setText(self.mainMenuController.signedUser.userSettings.moveLeftKey)
+        self.settingsView.moveRightButton.setText(self.mainMenuController.signedUser.userSettings.moveRightKey)
+        self.settingsView.mainWeaponButton.setText(self.mainMenuController.signedUser.userSettings.fireMainWeaponKey)
+        self.settingsView.secondaryWeaponButton.setText(
+            self.mainMenuController.signedUser.userSettings.fireSecondaryWeaponKey)
 
         self.settingsView.moveUpButton.clicked.connect(self.changeMoveUpKey)
         self.settingsView.moveDownButton.clicked.connect(self.changeMoveDownKey())
@@ -39,55 +40,113 @@ class SettingsViewController(QWidget):
         self.settingsView.mainWeaponButton.clicked.connect(self.changeFireMainKey())
         self.settingsView.secondaryWeaponButton.clicked.connect(self.changeFireSecKey())
 
-        self.settingsView.soundVolSlider.sliderReleased.connect(self.changeVol)
-        self.settingsView.musicVolSlider.sliderReleased.connect(self.changeVol)
+        self.settingsView.soundVolSlider.valueChanged.connect(self.settingsView.soundVolLcd)
+        self.settingsView.musicVolSlider.valueChanged.connect(self.settingsView.musicVolLcd)
 
         self.settingsView.musicOnButton.clicked.connect(self.switchMusic)
         self.settingsView.soundOnButton.clicked.connect(self.switchSound)
 
+        self.settingsView.writeChangesButton.clicked.connect(self.writeChanges)
+
+    def writeChanges(self):
+        updateChanges = HttpRequest()
+        updateChanges.user = self.mainMenuController.signedUser
+
+        updateChanges.user.userSettings.moveUpKey = self.settingsView.moveUpButton.text()
+        updateChanges.user.userSettings.moveDownKey = self.settingsView.moveDownButton.text()
+        updateChanges.user.userSettings.moveLeftKey = self.settingsView.moveLeftButton.text()
+        updateChanges.user.userSettings.moveRightKey = self.settingsView.moveRightButton.text()
+        updateChanges.user.userSettings.fireMainWeaponKey = self.settingsView.mainWeaponButton.text()
+        updateChanges.user.userSettings.fireSecondaryWeaponKey = self.settingsView.secondaryWeaponButton.text()
+
+        updateChanges.user.userSettings.gameMusicVolume = self.settingsView.musicVolLcd.value()
+        updateChanges.user.userSettings.gameSoundVolume = self.settingsView.soundVolLcd.value()
+
+        if self.settingsView.musicOnButton.text() == "AN":
+            updateChanges.user.userSettings.gameMusicOn = True
+        else:
+            updateChanges.user.userSettings.gameMusicOn = False
+
+        if self.settingsView.soundOnButton.text() == "AN":
+            updateChanges.user.userSettings.gameSoundOn = True
+        else:
+            updateChanges.user.userSettings.gameSoundOn = False
+
+        if updateChanges.httpReq(RequestCode.UPDATE_USER):
+            self.mainMenuController.stacked.Widget.setCurrentWidget(self.mainMenuController)
+
     def changeMoveUpKey(self):
+        newValue = ""
         self.settingsView.moveUpButton.setText("NEU")
-        self.settingsView.moveUpButton.setStyleSheet("Background-Color: blue;")
-        self.setValue(ButtonType.MOVE_UP)
+        while newValue == "":
+            newValue = str.capitalize(keyboard.read_key())
 
-
+        self.settingsView.moveUpButton.setText(newValue)
 
     def changeMoveDownKey(self):
-        pass
+        newValue = ""
+        self.settingsView.moveDownButton.setText("NEU")
+        while newValue == "":
+            newValue = str.capitalize(keyboard.read_key())
+
+        self.settingsView.moveDownButton.setText(newValue)
+        self.tempSetting.moveUpKey = newValue
 
     def changeMoveRightKey(self):
-        pass
+        newValue = ""
+        self.settingsView.moveRightButton.setText("NEU")
+        while newValue == "":
+            newValue = str.capitalize(keyboard.read_key())
+
+        self.settingsView.moveRightButton.setText(newValue)
+        self.tempSetting.moveDownKey = newValue
 
     def changeMoveLeftKey(self):
-        pass
+        newValue = ""
+        self.settingsView.moveLeftButton.setText("NEU")
+        while newValue == "":
+            newValue = str.capitalize(keyboard.read_key())
+
+        self.settingsView.moveLeftButton.setText(newValue)
+        self.tempSetting.moveLeftKey = newValue
 
     def changeFireMainKey(self):
-        pass
+        newValue = ""
+        self.settingsView.mainWeaponButton.setText("NEU")
+        while newValue == "":
+            newValue = str.capitalize(keyboard.read_key())
+
+        self.settingsView.mainWeaponButton.setText(newValue)
+        self.tempSetting.fireMainWeaponKey = newValue
 
     def changeFireSecKey(self):
-        pass
+        newValue = ""
+        self.settingsView.secondaryWeaponButton.setText("NEU")
+        while newValue == "":
+            newValue = str.capitalize(keyboard.read_key())
 
-    def getKey(self, pushButton):
-        pass
+        self.settingsView.secondaryWeaponButton.setText(newValue)
+        self.tempSetting.fireSecondaryWeaponKey = newValue
 
     def switchMusic(self):
         if self.settingsView.musicOnButton.text() == "AN":
             self.settingsView.musicOnButton.setText("Aus")
             self.settingsView.musicOnButton.setStyleSheet("Background-Color: grey;")
+            self.tempSetting.gameMusicOn = False
         else:
             self.settingsView.musicOnButton.setText("AN")
             self.settingsView.musicOnButton.setStyleSheet("Background-Color: green;")
+            self.tempSetting.gameMusicOn = True
 
     def switchSound(self):
         if self.settingsView.soundOnButton.text() == "AN":
             self.settingsView.soundOnButton.setText("Aus")
             self.settingsView.soundOnButton.setStyleSheet("Background-Color: grey;")
+            self.tempSetting.gameSoundOn = False
         else:
             self.settingsView.soundOnButton.setText("AN")
             self.settingsView.soundOnButton.setStyleSheet("Background-Color: green;")
-
-    def changeVol(self):
-        pass
+            self.tempSetting.gameSoundOn = True
 
     def setInitValue(self, buttonType):
         if buttonType == buttonType.SOUND_ON:
@@ -104,7 +163,6 @@ class SettingsViewController(QWidget):
             else:
                 self.settingsView.musicOnButton.setText("AUS")
                 self.settingsView.musicOnButton.setStyleSheet("Background-Color: grey")
-
 
 
 class ButtonType(Enum):

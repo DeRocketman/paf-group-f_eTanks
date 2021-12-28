@@ -1,9 +1,6 @@
 from enum import Enum
 
-import PySide6
 import keyboard as keyboard
-from PySide6 import QtGui
-from PySide6.QtGui import QKeyEvent
 from PySide6.QtWidgets import QWidget
 
 from model.data.UserSettings import UserSettings
@@ -34,14 +31,11 @@ class SettingsViewController(QWidget):
             self.mainMenuController.signedUser.userSettings.fireSecondaryWeaponKey)
 
         self.settingsView.moveUpButton.clicked.connect(self.changeMoveUpKey)
-        self.settingsView.moveDownButton.clicked.connect(self.changeMoveDownKey())
-        self.settingsView.moveLeftButton.clicked.connect(self.changeMoveLeftKey())
-        self.settingsView.moveRightButton.clicked.connect(self.changeMoveRightKey())
-        self.settingsView.mainWeaponButton.clicked.connect(self.changeFireMainKey())
-        self.settingsView.secondaryWeaponButton.clicked.connect(self.changeFireSecKey())
-
-        self.settingsView.soundVolSlider.valueChanged.connect(self.settingsView.soundVolLcd)
-        self.settingsView.musicVolSlider.valueChanged.connect(self.settingsView.musicVolLcd)
+        self.settingsView.moveDownButton.clicked.connect(self.changeMoveDownKey)
+        self.settingsView.moveLeftButton.clicked.connect(self.changeMoveLeftKey)
+        self.settingsView.moveRightButton.clicked.connect(self.changeMoveRightKey)
+        self.settingsView.mainWeaponButton.clicked.connect(self.changeFireMainKey)
+        self.settingsView.secondaryWeaponButton.clicked.connect(self.changeFireSecKey)
 
         self.settingsView.musicOnButton.clicked.connect(self.switchMusic)
         self.settingsView.soundOnButton.clicked.connect(self.switchSound)

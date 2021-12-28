@@ -8,17 +8,24 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
+import model.data.User;
 import model.service.HttpRequest;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
+import javax.xml.bind.DatatypeConverter;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Base64;
 
 
 public class ProfilViewController extends ViewController {
+
+    User tempUser;
 
     @FXML
     ImageView userImage;
@@ -28,6 +35,7 @@ public class ProfilViewController extends ViewController {
     private TextField publicName;
     @FXML
     private TextField password;
+    boolean passwordChanged = false;
 
     HttpRequest httpRequest = new HttpRequest();
 
@@ -73,17 +81,18 @@ public class ProfilViewController extends ViewController {
         }
     }
 
-    public void initialiseUserData(){
+    public void initialiseUserData() throws IOException {
         publicName.setText(eTankApplication.getSignedUser().getPublicName());
         setUserImage();
     }
 
-    private void setUserImage() {
+    public void setUserImage() throws IOException {
         if(eTankApplication.getSignedUser().getUserImage().equals("default")){
-            userImage.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/images/default-user-image.png")));
+            userImage = new ImageView(String.valueOf(getClass().getResource("../img/images/default-user-image.png")));
+            System.out.println("Default Bild geladen");
         } else {
-            userImage.setImage(new Image(Arrays.toString(Base64.getDecoder().decode(eTankApplication.getSignedUser().getUserImage()))));
-            System.out.println("ownimage");
+            //TODO Umbauen mit Rückgabe
+            getImageFromBase64String(eTankApplication.getSignedUser().getUserImage());
         }
     }
 
@@ -92,18 +101,40 @@ public class ProfilViewController extends ViewController {
     }
 
     @FXML
-    private void editImage() {
+    private void editImage() throws IOException {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Bitte neues Bild auswählen");
-        File file = fileChooser.showOpenDialog(null);
-        String filename = file.getAbsolutePath();
-        System.out.println(filename);
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("All Images", "*.*"),
                 new FileChooser.ExtensionFilter("JPG", "*.jpg"),
                 new FileChooser.ExtensionFilter("PNG", "*.png")
         );
+        fileChooser.setTitle("Bitte neues Bild auswählen");
+        File file = fileChooser.showOpenDialog(eTankApplication.getPrimaryStage());
+        String filePath = file.getAbsolutePath();
 
+        eTankApplication.getSignedUser().setUserImage(decodeImage(filePath));
+        System.out.println(eTankApplication.getSignedUser().getUserImage());
 
+        getImageFromBase64String(eTankApplication.getSignedUser().getUserImage());
+    }
+
+    //TODO umbauen dass es schön ist mit Rückgabe
+    private void getImageFromBase64String(String newValue) throws IOException {
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64.getDecoder().decode(newValue));
+        Image img = new Image(inputStream);
+        this.userImage.setImage(img);
+    }
+
+    private String decodeImage(String imagePath) {
+
+        String base64 = null;
+        try {
+            base64 = DatatypeConverter.printBase64Binary(Files.readAllBytes(
+                    Paths.get(imagePath)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return base64;
     }
 }

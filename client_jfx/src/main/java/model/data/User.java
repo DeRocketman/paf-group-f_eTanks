@@ -70,7 +70,6 @@ public class User {
         return base64;
     }
 
-
     public long getId() {
         return id;
     }

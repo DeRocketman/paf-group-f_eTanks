@@ -91,8 +91,7 @@ public class ProfilViewController extends ViewController {
             userImage = new ImageView(String.valueOf(getClass().getResource("../img/images/default-user-image.png")));
             System.out.println("Default Bild geladen");
         } else {
-            //TODO Umbauen mit Rückgabe
-            getImageFromBase64String(eTankApplication.getSignedUser().getUserImage());
+            userImage.setImage(getImageFromBase64String(eTankApplication.getSignedUser().getUserImage()));
         }
     }
 
@@ -113,28 +112,26 @@ public class ProfilViewController extends ViewController {
         String filePath = file.getAbsolutePath();
 
         eTankApplication.getSignedUser().setUserImage(decodeImage(filePath));
-        System.out.println(eTankApplication.getSignedUser().getUserImage());
 
-        getImageFromBase64String(eTankApplication.getSignedUser().getUserImage());
+        userImage.setImage(getImageFromBase64String(eTankApplication.getSignedUser().getUserImage()));
     }
 
-    //TODO umbauen dass es schön ist mit Rückgabe
-    private void getImageFromBase64String(String newValue) throws IOException {
+    private Image getImageFromBase64String(String newValue) throws IOException {
         ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64.getDecoder().decode(newValue));
         Image img = new Image(inputStream);
-        this.userImage.setImage(img);
+        return img;
     }
 
     private String decodeImage(String imagePath) {
 
-        String base64 = null;
+        String base64Image = null;
         try {
-            base64 = DatatypeConverter.printBase64Binary(Files.readAllBytes(
+            base64Image = DatatypeConverter.printBase64Binary(Files.readAllBytes(
                     Paths.get(imagePath)));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return base64;
+        return base64Image;
     }
 }

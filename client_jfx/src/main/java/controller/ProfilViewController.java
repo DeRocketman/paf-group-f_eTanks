@@ -25,8 +25,6 @@ import java.util.Base64;
 
 public class ProfilViewController extends ViewController {
 
-    User tempUser;
-
     @FXML
     ImageView userImage;
     @FXML
@@ -35,7 +33,11 @@ public class ProfilViewController extends ViewController {
     private TextField publicName;
     @FXML
     private TextField password;
-    boolean passwordChanged = false;
+
+    User tempUser;
+
+    boolean userImageEdited = false;
+    String changedImagePath;
 
     HttpRequest httpRequest = new HttpRequest();
 
@@ -67,6 +69,9 @@ public class ProfilViewController extends ViewController {
         if(!password.getText().isEmpty()){
             eTankApplication.getSignedUser().setPassword(password.getText());
         }
+        if(userImageEdited){
+            eTankApplication.getSignedUser().setUserImage(decodeImage(changedImagePath));
+        }
 
         setHttpRequestETankapplication();
 
@@ -84,11 +89,12 @@ public class ProfilViewController extends ViewController {
     public void initialiseUserData() throws IOException {
         publicName.setText(eTankApplication.getSignedUser().getPublicName());
         setUserImage();
+        password.setText(eTankApplication.getSignedUser().getPassword());
     }
 
     public void setUserImage() throws IOException {
         if(eTankApplication.getSignedUser().getUserImage().equals("default")){
-            userImage = new ImageView(String.valueOf(getClass().getResource("../img/images/default-user-image.png")));
+            userImage.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/images/default-user-image.png")));
             System.out.println("Default Bild geladen");
         } else {
             userImage.setImage(getImageFromBase64String(eTankApplication.getSignedUser().getUserImage()));
@@ -110,10 +116,9 @@ public class ProfilViewController extends ViewController {
         fileChooser.setTitle("Bitte neues Bild auswählen");
         File file = fileChooser.showOpenDialog(eTankApplication.getPrimaryStage());
         String filePath = file.getAbsolutePath();
-
-        eTankApplication.getSignedUser().setUserImage(decodeImage(filePath));
-
-        userImage.setImage(getImageFromBase64String(eTankApplication.getSignedUser().getUserImage()));
+        userImageEdited = true;
+        changedImagePath = filePath;
+        userImage.setImage(getImageFromBase64String(decodeImage(filePath)));
     }
 
     private Image getImageFromBase64String(String newValue) throws IOException {

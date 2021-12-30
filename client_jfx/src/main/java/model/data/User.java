@@ -67,10 +67,8 @@ public class User {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return base64;
     }
-
 
     public long getId() {
         return id;

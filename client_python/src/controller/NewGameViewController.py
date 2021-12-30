@@ -17,7 +17,7 @@ class NewGameViewController(QWidget):
         self.newGameView.logoutButton.clicked.connect(self.logoutFromGame)
 
     def hostGame(self):
-        pass
+        lobbyHostView = LobbyHostViewController()
 
     def joinGame(self):
         pass

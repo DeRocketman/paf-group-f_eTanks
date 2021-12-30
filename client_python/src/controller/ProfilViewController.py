@@ -18,11 +18,6 @@ class ProfilViewController(QWidget):
         self.tempUserChanges = User()
 
         self.mainMenuViewController = mainMenuViewController
-        self.profilView.selectUserImageBtn.clicked.connect(self.openSelectImageDialog)
-        self.profilView.changePublicNameButton.clicked.connect(self.enablePublicNameEdit)
-        self.profilView.changePasswordButton.clicked.connect(self.enablePwEdit)
-        self.profilView.writeChangesButton.clicked.connect(self.writeChanges)
-        self.profilView.showMainMenuButton.clicked.connect(self.showMainMenuView)
 
         self.publicNameField = self.profilView.publicNameTextField
         self.publicNameField.setText(mainMenuViewController.signedUser.username)
@@ -34,6 +29,12 @@ class ProfilViewController(QWidget):
         self.pm.loadFromData(base64.b64decode(self.mainMenuViewController.signedUser.userImage))
         self.pm = self.pm.scaled(250, 250, QtCore.Qt.IgnoreAspectRatio)
         self.profilView.userImage.setPixmap(self.pm)
+
+        self.profilView.selectUserImageBtn.clicked.connect(self.openSelectImageDialog)
+        self.profilView.changePublicNameButton.clicked.connect(self.enablePublicNameEdit)
+        self.profilView.changePasswordButton.clicked.connect(self.enablePwEdit)
+        self.profilView.writeChangesButton.clicked.connect(self.writeChanges)
+        self.profilView.showMainMenuButton.clicked.connect(self.showMainMenuView)
 
     def openSelectImageDialog(self):
         selectedImage, dialog = QFileDialog.getOpenFileName(parent=self, caption="Image auswählen", dir="/home/",

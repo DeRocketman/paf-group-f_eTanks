@@ -16,7 +16,8 @@ class User:
         self.userImage = 1
         self.authToken = ""
 
-    def convertImageToByte(self, path):
+    @staticmethod
+    def convertImageToByte(path):
         with open(path, "rb") as image:
             return base64.encodebytes(image.read()).decode("utf-8")
 
@@ -25,7 +26,7 @@ class User:
             "username": self.username,
             "publicName": self.publicName,
             "password": self.password,
-            "userImage": self.convertImageToByte(),
+            "userImage": self.userImage,
         }
 
         return json.dumps(userDict)

@@ -1,5 +1,7 @@
 from PySide6.QtWidgets import QWidget
 
+from controller.JoinGameViewController import JoinGameViewController
+from controller.LobbyHostViewController import LobbyHostViewController
 from resources.view.NewGameView import Ui_newGameView
 
 
@@ -17,14 +19,17 @@ class NewGameViewController(QWidget):
         self.newGameView.logoutButton.clicked.connect(self.logoutFromGame)
 
     def hostGame(self):
-        lobbyHostView = LobbyHostViewController()
+        lobbyHostView = LobbyHostViewController(self)
+        self.mainMenuViewController.stackedWidget.addWidget(lobbyHostView)
+        self.mainMenuViewController.stackedWidget.setCurrentWidget(lobbyHostView)
 
     def joinGame(self):
-        pass
+        joinGameView = JoinGameViewController(self)
+        self.mainMenuViewController.stackedWidget.addWidget(joinGameView)
+        self.mainMenuViewController.stackedWidget.setCurrentWidget(joinGameView)
 
     def showMainMenu(self):
-        pass
+        self.mainMenuViewController.stackedWidget.setCurrentWidget(self.mainMenuViewController)
 
     def logoutFromGame(self):
         pass
-

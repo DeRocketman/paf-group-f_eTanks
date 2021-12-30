@@ -13,6 +13,6 @@ class LobbyHostViewController(QWidget):
         self.newGameViewController = newGameViewController
         self.hostname = socket.gethostname()
         self.ip = socket.gethostbyname(self.hostname)
+
         self.lobbyHostView.ipAdressLbl.setText(self.ip)
 
-        self.

@@ -1,5 +1,6 @@
 from PySide6.QtWidgets import QWidget
 
+from controller.NewGameViewController import NewGameViewController
 from controller.ProfilViewController import ProfilViewController
 from controller.SettingsViewController import SettingsViewController
 from model.data.User import User
@@ -20,16 +21,16 @@ class MainMenuViewController(QWidget):
         self.stackedWidget.addWidget(self)
         self.profilViewController = ProfilViewController(self)
         self.settingsViewController = SettingsViewController(self)
+        self.newGameViewController = NewGameViewController(self)
 
-        self.mainMenuView.newGameButton.clicked.connect(self.openGameLobbyView)
+        self.mainMenuView.newGameButton.clicked.connect(self.openNewGameView)
         self.mainMenuView.showProfilButton.clicked.connect(self.openProfilView)
         self.mainMenuView.showSettingsButton.clicked.connect(self.openSettingsView)
         self.mainMenuView.showStatisticButton.clicked.connect(self.openStatisticView)
 
-    def openGameLobbyView(self):
-        pass
-
-    # TODO: implement connection to GameLobbyView
+    def openNewGameView(self):
+        self.stackedWidget.addWidget(self.newGameViewController)
+        self.stackedWidget.setCurrentWidget(self.newGameViewController)
 
     def openProfilView(self):
         self.stackedWidget.addWidget(self.profilViewController)
@@ -42,10 +43,10 @@ class MainMenuViewController(QWidget):
     # TODO: implement connection to SettingsView
     def openStatisticView(self):
         pass
+
     # TODO: implement connection to StatisticView
 
     def checkDefaultUserImage(self):
         if self.signedUser.userImage == "default":
             self.signedUser.userImage = self.signedUser.convertImageToByte("../resources/images/default-user-image"
                                                                            ".png")
-

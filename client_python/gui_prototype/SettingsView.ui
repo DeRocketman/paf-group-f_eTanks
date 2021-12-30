@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>profilView</class>
- <widget class="QWidget" name="profilView">
+ <class>settingsView</class>
+ <widget class="QWidget" name="settingsView">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -36,6 +36,7 @@
    </property>
    <property name="font">
     <font>
+     <family>Stencil</family>
      <pointsize>12</pointsize>
     </font>
    </property>
@@ -72,6 +73,7 @@ border-color: #111111;
    </property>
    <property name="font">
     <font>
+     <family>Stencil</family>
      <pointsize>12</pointsize>
     </font>
    </property>
@@ -439,7 +441,6 @@ border-color: #111111;
    </property>
    <property name="font">
     <font>
-     <family>Stencil</family>
      <pointsize>12</pointsize>
     </font>
    </property>
@@ -482,9 +483,7 @@ border-color: #111111;
     </rect>
    </property>
    <property name="font">
-    <font>
-     <family>Stencil</family>
-    </font>
+    <font/>
    </property>
    <property name="styleSheet">
     <string notr="true">textcolor: black;</string>

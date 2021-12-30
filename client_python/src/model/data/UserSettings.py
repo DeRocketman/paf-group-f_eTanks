@@ -13,7 +13,7 @@ class UserSettings:
         self.moveDownKey = "S"
         self.moveRightKey = "D"
         self.fireMainWeaponKey = "SPACE"
-        self.fireSecondaryWeaponKey = "L CTL"
+        self.fireSecondaryWeaponKey = "CTL"
         self.showStatisticKey = "TAB"
 
     def buildSettingJson(self):

@@ -35,8 +35,6 @@ public class SocketClient {
     protected HashMap<String, Executable> idMethods = new HashMap<String, Executable>();
 
     protected int errorCount;
-
-    protected boolean secureMode;
     protected boolean muted;
     protected boolean stopped;
 

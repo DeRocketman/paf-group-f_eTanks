@@ -1,8 +1,9 @@
+import base64
 import random
 import socket
 import time
 
-from PySide6 import QtGui
+from PySide6 import QtGui, QtCore
 from PySide6.QtWidgets import QWidget
 
 from model.data.User import User
@@ -30,13 +31,20 @@ class LobbyHostViewController(QWidget):
 
     def updatePlayerList(self):
         for user in self.playerList:
-            item = QtGui.QStandardItem(user.publicName, )
-            self.model.appendRow(item)
+            self.model.appendRow(self.buildListViewItem(user))
 
-    def buildListViewItem(self, user=User()):
-        pass
+    @staticmethod
+    def buildListViewItem(user=User()):
+        pixmap = QtGui.QPixmap()
+        if user.userImage == "default":
+            pixmap.load("../resources/images/default-user-image.png")
+        else:
+            pixmap.loadFromData(base64.b64decode(user.userImage))
+        pixmap = pixmap.scaled(36, 36, QtCore.Qt.IgnoreAspectRatio)
+
+        return QtGui.QStandardItem(pixmap, user.publicName + "NICHT BEREIT")
 
     @staticmethod
     def createLobbyId():
         currentNanoTime = time.time_ns()
-        return str(currentNanoTime*random.randint(1000, 9999))
+        return str(currentNanoTime * random.randint(1000, 9999))

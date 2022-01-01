@@ -42,7 +42,7 @@ class LobbyHostViewController(QWidget):
             pixmap.loadFromData(base64.b64decode(user.userImage))
         pixmap = pixmap.scaled(36, 36, QtCore.Qt.IgnoreAspectRatio)
 
-        return QtGui.QStandardItem(pixmap, user.publicName + "NICHT BEREIT")
+        return QtGui.QStandardItem(pixmap, user.publicName)
 
     @staticmethod
     def createLobbyId():

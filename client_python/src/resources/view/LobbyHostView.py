@@ -16,7 +16,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
                            QImage, QKeySequence, QLinearGradient, QPainter,
                            QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QListView,
-                               QPushButton, QSizePolicy, QTextEdit, QWidget)
+                               QPushButton, QSizePolicy, QTextEdit, QWidget, QTableView)
 
 class Ui_lobbyHostView(object):
     def setupUi(self, lobbyHostView):
@@ -73,9 +73,6 @@ class Ui_lobbyHostView(object):
                                             "   \n"
                                             "")
         self.closeLobbyButton.setAutoDefault(False)
-        self.playerListView = QListView(lobbyHostView)
-        self.playerListView.setObjectName(u"playerListView")
-        self.playerListView.setGeometry(QRect(161, 350, 391, 251))
         self.chatField = QTextEdit(lobbyHostView)
         self.chatField.setObjectName(u"chatField")
         self.chatField.setGeometry(QRect(551, 350, 401, 251))
@@ -108,6 +105,9 @@ class Ui_lobbyHostView(object):
         self.setRdyButton.setGeometry(QRect(321, 600, 101, 31))
         self.setRdyButton.setStyleSheet(u"background-color: grey;\n"
                                         "color: red;")
+        self.playerTableView = QTableView(lobbyHostView)
+        self.playerTableView.setObjectName(u"playerTableView")
+        self.playerTableView.setGeometry(QRect(160, 350, 391, 251))
 
         self.retranslateUi(lobbyHostView)
 

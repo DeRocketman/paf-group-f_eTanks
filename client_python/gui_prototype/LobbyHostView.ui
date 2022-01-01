@@ -141,16 +141,6 @@ border-color: #111111;
     <bool>false</bool>
    </property>
   </widget>
-  <widget class="QListView" name="playerListView">
-   <property name="geometry">
-    <rect>
-     <x>161</x>
-     <y>350</y>
-     <width>391</width>
-     <height>251</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QTextEdit" name="chatField">
    <property name="geometry">
     <rect>
@@ -273,6 +263,16 @@ color: red;</string>
    </property>
    <property name="text">
     <string>Nicht Bereit</string>
+   </property>
+  </widget>
+  <widget class="QTableView" name="playerTableView">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>350</y>
+     <width>391</width>
+     <height>251</height>
+    </rect>
    </property>
   </widget>
  </widget>

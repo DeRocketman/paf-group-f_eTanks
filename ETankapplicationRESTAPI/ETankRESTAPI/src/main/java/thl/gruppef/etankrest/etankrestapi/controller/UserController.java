@@ -4,8 +4,10 @@ import com.fasterxml.jackson.core.io.JsonStringEncoder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import thl.gruppef.etankrest.etankrestapi.entities.GameStatistic;
 import thl.gruppef.etankrest.etankrestapi.entities.User;
 import thl.gruppef.etankrest.etankrestapi.entities.UserSettings;
+import thl.gruppef.etankrest.etankrestapi.repository.GameStatisticRepository;
 import thl.gruppef.etankrest.etankrestapi.repository.UserRepository;
 import thl.gruppef.etankrest.etankrestapi.repository.UserSettingsRepository;
 
@@ -18,11 +20,13 @@ public class UserController {
 
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
+    private GameStatisticRepository gameStatisticRepository;
 
 
-    public UserController(UserRepository userRepository, UserSettingsRepository userSettingsRepository, PasswordEncoder passwordEncoder) {
+    public UserController(UserRepository userRepository, UserSettingsRepository userSettingsRepository, PasswordEncoder passwordEncoder, GameStatisticRepository gameStatisticRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.gameStatisticRepository = gameStatisticRepository;
     }
 
     @GetMapping("")
@@ -45,28 +49,16 @@ public class UserController {
         return this.userRepository.findUserByUsername(username);
     }
 
-    //Userdaten ändern
     @PostMapping("/save")
     public ResponseEntity<User> saveUser(@RequestBody User changedUser) {
         Optional<User> user = userRepository.findUserByUsername(changedUser.getUsername());
 
         if (!user.isPresent()) { return ResponseEntity.badRequest().build(); }
 
-         User userTest = changedUser;
+        User userTest = changedUser;
         userTest.setPassword(passwordEncoder.encode(changedUser.getPassword()));
 
         userRepository.save(changedUser);
         return ResponseEntity.ok(changedUser);
-        /* return userRepository.findUserByUsername(changedUser.getUsername())
-                .map(user -> {
-                    userRepository.save(user);
-                    return ResponseEntity.ok(user);
-                })
-                .orElseGet(() -> {
-                    return ResponseEntity.badRequest().build();
-                });
-                  }*/
-
     }
-
 }

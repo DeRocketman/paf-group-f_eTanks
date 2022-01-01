@@ -1,12 +1,6 @@
 package model.data;
 
-import javafx.beans.property.*;
-import org.apache.commons.codec.binary.Base64;
-
 import javax.xml.bind.DatatypeConverter;
-import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -21,7 +15,7 @@ public class User {
     private String password;
     private UserSettings userSettings;
     private UserStatistic userStatistic;
-    private List<GameStatistic> gameStatistics;
+    private List <GameStatistic> gameStatistics;
 
     //TODO: Refactor constructor after all is fine
 
@@ -32,34 +26,35 @@ public class User {
         this.password = "default";
         this.userSettings = new UserSettings();
         this.userSettings.setDefaultSettings();
-        this.userStatistic = new UserStatistic();
-        this.userStatistic.setDefaultStatistic();
+        //this.userStatistic = new UserStatistic();
+        //this.userStatistic.setDefaultStatistic();
+        //this.gameStatistics = new ArrayList<>();
         this.gameStatistics = new ArrayList<>();
     }
 
-    public User(long id, String username, String publicName, String image, String password,
-                UserSettings userSettings, List<GameStatistic> userStatistic) {
+    public User(long id, String username, String publicName, String imagePath, String password,
+                UserSettings userSettings, List<GameStatistic> gameStatistics)  {
         this.id = id;
         this.username = username;
         this.publicName = publicName;
-        this.userImage = encodeImage(image);
+        this.userImage = encodeImage(imagePath);
         this.password = password;
         this.userSettings = userSettings;
-        this.gameStatistics = userStatistic;
+        this.gameStatistics = gameStatistics;
     }
 
-    public User(long id, String username, String publicName, String image, String password, UserSettings userSettings, UserStatistic userStatistic) {
+    public User(long id, String username, String publicName, String imagePath, String password, UserSettings userSettings, UserStatistic userStatistic) {
         this.id = id;
         this.username = username;
         this.publicName = publicName;
-        this.userImage = encodeImage(image);
+        this.userImage = encodeImage(imagePath);
         this.password = password;
         this.userSettings = userSettings;
         this.userStatistic = userStatistic;
     }
 
+    //Image File to String
     public String encodeImage(String imagePath) {
-
         String base64 = null;
         try {
             base64 = DatatypeConverter.printBase64Binary(Files.readAllBytes(
@@ -122,10 +117,17 @@ public class User {
         return userStatistic;
     }
 
-    public void setUserStatistic(UserSettings userSettings) {
+    public void setUserStatistic(UserStatistic userStatistic) {
         this.userStatistic = userStatistic;
     }
 
+    public void setGameStatistics(GameStatistic gameStatistic){
+        this.gameStatistics.add(gameStatistic);
+    }
+
+    public List<GameStatistic> getGameStatistics(){
+        return gameStatistics;
+    }
 
    /* public List<GameStatistic> getGameStatistics() {
         return gameStatistics;

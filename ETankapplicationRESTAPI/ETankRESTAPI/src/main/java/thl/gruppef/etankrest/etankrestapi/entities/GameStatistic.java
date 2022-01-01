@@ -11,14 +11,16 @@ import javax.persistence.*;
 public class GameStatistic extends IdentifiedEntity {
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     private Long gameNumber;
 
-    private int gamePoints;
+    private boolean winner;
 
-    private int gameWins;
+    private int roundWins;
+
+    private int gamePoints;
 
     private int kills;
 
@@ -27,11 +29,4 @@ public class GameStatistic extends IdentifiedEntity {
     private int shots;
 
     private int hitPoints;
-
-    private float killDeathRate;
-
-    private float hitRate;
-
-    private boolean winner;
-
 }

@@ -30,8 +30,7 @@ public class User extends IdentifiedEntity {
     UserSettings userSettings;
 
     @OneToMany(mappedBy = "user")
-    List<GameStatistic> gameStatistics;
-
+    private List<GameStatistic> gameStatistics;
 
     public User() {
         userImage = "default";

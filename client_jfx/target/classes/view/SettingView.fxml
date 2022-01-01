@@ -35,13 +35,13 @@
                         <HBox prefHeight="50.0" prefWidth="309.0">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Musik- Lautstärke" wrappingWidth="139.13671875" />
-                              <Slider fx:id="musicVolumeSettings" value="100.0" />
+                              <Slider fx:id="musicVolumeSettings" onDragDone="#changeMusicVolume" value="100.0" />
                            </children>
                         </HBox>
                         <HBox prefHeight="50.0" prefWidth="309.0">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sound - Lautstärke" wrappingWidth="139.13671875" />
-                              <Slider fx:id="soundVolumeSettings" value="100.0" />
+                              <Slider fx:id="soundVolumeSettings" onDragDone="#changeSoundVolume" value="100.0" />
                            </children>
                         </HBox>
                         <Label text="moveUp">

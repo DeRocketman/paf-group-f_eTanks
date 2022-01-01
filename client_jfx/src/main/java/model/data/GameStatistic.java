@@ -1,30 +1,42 @@
 package model.data;
 
-//todo: Klaeren, ob noch gameWins and roundWins dazukommen sollen DS= ja
+//todo: Klaeren, ob noch gameWins and roundWins dazukommen sollen DS= ja ; Line: roundwinds ja, gamewins ergibt sich aus winner
 public class GameStatistic {
     private User user;
     private long gameNumber;
+    private boolean winner;
+    private int roundWins;
     private int gamePoints;
     private int kills;
     private int deaths;
     private int shots;
     private int hitPoints;
-    private float killDeathRate;
-    private float hitRate;
-    private boolean winner;
 
     public GameStatistic() {
 
     }
 
-    public GameStatistic(int gamePoints, int playedGames, int gameWins, int roundWins, int kills, int deaths, int shots, int hitPoints) {
+    public GameStatistic(long gameNumber, User  user, boolean winner, int roundWins, int gamePoints, int kills, int deaths, int shots, int hitPoints) {
+        this.gameNumber = gameNumber;
+        this.user = user;
+        this.winner = winner;
+        this.roundWins = roundWins;
         this.gamePoints = gamePoints;
         this.kills = kills;
         this.deaths = deaths;
         this.shots = shots;
         this.hitPoints = hitPoints;
-        this.killDeathRate = killDeathRate();
-        this.hitRate = hitRate();
+    }
+
+    public void setDefaultStatistic() {
+        this.gameNumber = 2;
+        this.winner = true;
+        this.roundWins= 20;
+        this.gamePoints = 0;
+        this.kills = 4;
+        this.deaths = 0;
+        this.shots = 20;
+        this.hitPoints = 100;
     }
 
 
@@ -40,5 +52,11 @@ public class GameStatistic {
         return this.hitPoints / this.shots;
     }
 
+    public String toJSON() {
+        return "{\"deaths\":"+ this.deaths +",\"game_number\":"+ this.gameNumber +",\"game_Points\":"+this.gamePoints+
+                "\"hitPoints\":"+this.hitPoints+"\",\"kills\":\""+this.kills+",\"round_wins\":"+this.roundWins+"," +
+                "\",\"shots\":\""+this.shots+"\"," +
+                "\"winner\":\""+this.winner+"\"}";
+    }
 
 }

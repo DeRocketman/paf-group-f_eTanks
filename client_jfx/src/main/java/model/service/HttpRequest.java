@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import javafx.scene.control.Alert;
 import main.ETankApplication;
 import model.data.*;
+import org.boon.core.Sys;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,6 +14,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class HttpRequest {
 
     ETankApplication eTankApplication;
@@ -291,8 +296,10 @@ public class HttpRequest {
             con.setDoOutput(true);
         } catch (MalformedURLException e) {
             e.printStackTrace();
+            return false;
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
 
         Gson gson = new Gson();
@@ -305,6 +312,7 @@ public class HttpRequest {
             os.write(input, 0, input.length);
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
 
         StringBuffer response = null;
@@ -318,6 +326,7 @@ public class HttpRequest {
         } catch (IOException e) {
             System.out.println("Blöder Response!");
             e.printStackTrace();
+            return false;
         }
 
         System.out.println(response);

@@ -10,6 +10,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import main.ETankApplication;
+import model.service.HttpRequest;
 
 import java.io.IOException;
 
@@ -20,6 +21,7 @@ public class ViewController {
     private Parent root;*/
 
     ETankApplication eTankApplication;
+    HttpRequest httpRequest = new HttpRequest();
 
     /*public void switchToLoginView(Stage primaryStage) throws IOException{
         stage = primaryStage;
@@ -55,6 +57,10 @@ public class ViewController {
 
     public void switchToGameCreator() throws IOException {
         eTankApplication.showGameCreatorView();
+    }
+
+    public void setHttpRequestETankapplication(){
+        httpRequest.setETankApplication(eTankApplication);
     }
 
 }

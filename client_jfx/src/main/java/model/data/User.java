@@ -14,8 +14,8 @@ public class User {
     private String userImage;
     private String password;
     private UserSettings userSettings;
-    private UserStatistic userStatistic;
-    private List <GameStatistic> gameStatistic;
+    //private UserStatistic userStatistic;
+   // private List <GameStatistic> gameStatistic;
 
     //TODO: Refactor constructor after all is fine
 
@@ -29,29 +29,28 @@ public class User {
         //this.userStatistic = new UserStatistic();
         //this.userStatistic.setDefaultStatistic();
         //this.gameStatistics = new ArrayList<>();
-        this.gameStatistic = new ArrayList<>();
+       // this.gameStatistic = new ArrayList<>();
     }
 
-    public User(long id, String username, String publicName, String imagePath, String password,
-                UserSettings userSettings, List<GameStatistic> gameStatistics)  {
+    public User(long id, String username, String publicName, String imagePath, String password, UserSettings userSettings)  {
         this.id = id;
         this.username = username;
         this.publicName = publicName;
         this.userImage = encodeImage(imagePath);
         this.password = password;
         this.userSettings = userSettings;
-        this.gameStatistic = gameStatistics;
+      //  this.gameStatistic = gameStatistics;
     }
 
-    public User(long id, String username, String publicName, String imagePath, String password, UserSettings userSettings, UserStatistic userStatistic) {
+   /* public User(long id, String username, String publicName, String imagePath, String password, UserSettings userSettings) {
         this.id = id;
         this.username = username;
         this.publicName = publicName;
         this.userImage = encodeImage(imagePath);
         this.password = password;
         this.userSettings = userSettings;
-        this.userStatistic = userStatistic;
-    }
+      //  this.userStatistic = userStatistic;
+    }*/
 
     //Image File to String
     public String encodeImage(String imagePath) {
@@ -113,7 +112,7 @@ public class User {
         this.userImage = userImage;
     }
 
-    public UserStatistic getUserStatistic() {
+  /*  public UserStatistic getUserStatistic() {
         return userStatistic;
     }
 
@@ -121,19 +120,19 @@ public class User {
         this.userStatistic = userStatistic;
     }
 
-    public void setGameStatistic(GameStatistic gameStatistic){
+    public void newGameStatistic(GameStatistic gameStatistic){
         this.gameStatistic.add(gameStatistic);
     }
 
     public List<GameStatistic> getGameStatistic(){
         return gameStatistic;
-    }
+    }*/
 
    /* public List<GameStatistic> getGameStatistics() {
         return gameStatistics;
     }
 
     public void setGameStatistics(List<GameStatistic> gameStatistics) {
-        this.gameStatistics = gameStatistics;
+        this.gameStatistic = gameStatistics;
     }*/
 }

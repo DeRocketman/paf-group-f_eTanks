@@ -15,7 +15,7 @@ public class User {
     private String password;
     private UserSettings userSettings;
     private UserStatistic userStatistic;
-    private List <GameStatistic> gameStatistics;
+    private List <GameStatistic> gameStatistic;
 
     //TODO: Refactor constructor after all is fine
 
@@ -29,7 +29,7 @@ public class User {
         //this.userStatistic = new UserStatistic();
         //this.userStatistic.setDefaultStatistic();
         //this.gameStatistics = new ArrayList<>();
-        this.gameStatistics = new ArrayList<>();
+        this.gameStatistic = new ArrayList<>();
     }
 
     public User(long id, String username, String publicName, String imagePath, String password,
@@ -40,7 +40,7 @@ public class User {
         this.userImage = encodeImage(imagePath);
         this.password = password;
         this.userSettings = userSettings;
-        this.gameStatistics = gameStatistics;
+        this.gameStatistic = gameStatistics;
     }
 
     public User(long id, String username, String publicName, String imagePath, String password, UserSettings userSettings, UserStatistic userStatistic) {
@@ -121,12 +121,12 @@ public class User {
         this.userStatistic = userStatistic;
     }
 
-    public void setGameStatistics(GameStatistic gameStatistic){
-        this.gameStatistics.add(gameStatistic);
+    public void setGameStatistic(GameStatistic gameStatistic){
+        this.gameStatistic.add(gameStatistic);
     }
 
-    public List<GameStatistic> getGameStatistics(){
-        return gameStatistics;
+    public List<GameStatistic> getGameStatistic(){
+        return gameStatistic;
     }
 
    /* public List<GameStatistic> getGameStatistics() {

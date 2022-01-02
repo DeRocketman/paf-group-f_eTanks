@@ -2,11 +2,8 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
-import main.ETankApplication;
 import model.data.GameStatistic;
 import model.service.HttpRequest;
-
-import java.io.IOException;
 
 public class MenuViewController extends ViewController {
 
@@ -18,11 +15,10 @@ public class MenuViewController extends ViewController {
         GameStatistic gameStatistic = new GameStatistic();
         gameStatistic.setDefaultStatistic();
 
-        eTankApplication.getSignedUser().setGameStatistics(gameStatistic);
+        eTankApplication.getSignedUser().setGameStatistic(gameStatistic);
 
         setHttpRequestETankapplication();
 
-        //if(httpRequest.saveGameStatistic(gameStatistic, eTankApplication.getSignedUser())){
         if(httpRequest.saveGameStatistic(gameStatistic, eTankApplication.getSignedUser().getId())){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("Deine Änderungen wurden erfolgreich gespeichert!");

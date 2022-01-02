@@ -90,7 +90,7 @@ class HttpRequest:
         self.user.userSettings.moveRightKey = jsonData["userSettings"]["moveRightKey"]
         self.user.userSettings.fireMainWeaponKey = jsonData["userSettings"]["fireMainWeaponKey"]
         self.user.userSettings.fireSecondaryWeaponKey = jsonData["userSettings"]["fireSecondaryWeaponKey"]
-        self.user.userStatistics = jsonData["gameStatistics"]
+        #self.user.userStatistics = jsonData["gameStatistics"]
 
     def mapUserToPayload(self):
         return {

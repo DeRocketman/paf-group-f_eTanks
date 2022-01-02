@@ -161,7 +161,7 @@ border-color: #111111;
    <property name="geometry">
     <rect>
      <x>551</x>
-     <y>600</y>
+     <y>609</y>
      <width>321</width>
      <height>31</height>
     </rect>
@@ -171,7 +171,7 @@ border-color: #111111;
    <property name="geometry">
     <rect>
      <x>871</x>
-     <y>600</y>
+     <y>609</y>
      <width>81</width>
      <height>31</height>
     </rect>
@@ -238,8 +238,8 @@ border-color: #111111;
    </property>
    <property name="geometry">
     <rect>
-     <x>161</x>
-     <y>600</y>
+     <x>240</x>
+     <y>610</y>
      <width>87</width>
      <height>31</height>
     </rect>
@@ -251,8 +251,8 @@ border-color: #111111;
   <widget class="QPushButton" name="setRdyButton">
    <property name="geometry">
     <rect>
-     <x>321</x>
-     <y>600</y>
+     <x>410</x>
+     <y>610</y>
      <width>101</width>
      <height>31</height>
     </rect>
@@ -265,14 +265,36 @@ color: red;</string>
     <string>Nicht Bereit</string>
    </property>
   </widget>
-  <widget class="QTableView" name="playerTableView">
+  <widget class="QListWidget" name="playerList">
    <property name="geometry">
     <rect>
-     <x>160</x>
+     <x>190</x>
      <y>350</y>
-     <width>391</width>
+     <width>281</width>
      <height>251</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-style: none</string>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="rdyList">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>350</y>
+     <width>51</width>
+     <height>251</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-style: none;</string>
+   </property>
+   <property name="flow">
+    <enum>QListView::TopToBottom</enum>
+   </property>
+   <property name="viewMode">
+    <enum>QListView::ListMode</enum>
    </property>
   </widget>
  </widget>

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'LobbyHostViewpHtRwW.ui'
+## Form generated from reading UI file 'LobbyHostViewipBeVW.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.2.2
 ##
@@ -16,7 +16,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
                            QImage, QKeySequence, QLinearGradient, QPainter,
                            QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QListView,
-                               QPushButton, QSizePolicy, QTextEdit, QWidget, QTableView)
+                               QListWidget, QListWidgetItem, QPushButton, QSizePolicy,
+                               QTextEdit, QWidget)
 
 class Ui_lobbyHostView(object):
     def setupUi(self, lobbyHostView):
@@ -80,10 +81,10 @@ class Ui_lobbyHostView(object):
         self.chatField.setReadOnly(True)
         self.chatMsgTextField = QLineEdit(lobbyHostView)
         self.chatMsgTextField.setObjectName(u"chatMsgTextField")
-        self.chatMsgTextField.setGeometry(QRect(551, 600, 321, 31))
+        self.chatMsgTextField.setGeometry(QRect(551, 609, 321, 31))
         self.sendMsgButton = QPushButton(lobbyHostView)
         self.sendMsgButton.setObjectName(u"sendMsgButton")
-        self.sendMsgButton.setGeometry(QRect(871, 600, 81, 31))
+        self.sendMsgButton.setGeometry(QRect(871, 609, 81, 31))
         self.label_2 = QLabel(lobbyHostView)
         self.label_2.setObjectName(u"label_2")
         self.label_2.setGeometry(QRect(40, 260, 61, 18))
@@ -99,15 +100,22 @@ class Ui_lobbyHostView(object):
         self.startGameButton = QPushButton(lobbyHostView)
         self.startGameButton.setObjectName(u"startGameButton")
         self.startGameButton.setEnabled(False)
-        self.startGameButton.setGeometry(QRect(161, 600, 87, 31))
+        self.startGameButton.setGeometry(QRect(240, 610, 87, 31))
         self.setRdyButton = QPushButton(lobbyHostView)
         self.setRdyButton.setObjectName(u"setRdyButton")
-        self.setRdyButton.setGeometry(QRect(321, 600, 101, 31))
+        self.setRdyButton.setGeometry(QRect(410, 610, 101, 31))
         self.setRdyButton.setStyleSheet(u"background-color: grey;\n"
                                         "color: red;")
-        self.playerTableView = QTableView(lobbyHostView)
-        self.playerTableView.setObjectName(u"playerTableView")
-        self.playerTableView.setGeometry(QRect(160, 350, 391, 251))
+        self.playerList = QListWidget(lobbyHostView)
+        self.playerList.setObjectName(u"playerList")
+        self.playerList.setGeometry(QRect(190, 350, 281, 251))
+        self.playerList.setStyleSheet(u"border-style: none")
+        self.rdyList = QListWidget(lobbyHostView)
+        self.rdyList.setObjectName(u"rdyList")
+        self.rdyList.setGeometry(QRect(480, 350, 51, 251))
+        self.rdyList.setStyleSheet(u"border-style: none;")
+        self.rdyList.setFlow(QListView.TopToBottom)
+        self.rdyList.setViewMode(QListView.ListMode)
 
         self.retranslateUi(lobbyHostView)
 

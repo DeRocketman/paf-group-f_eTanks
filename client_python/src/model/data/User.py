@@ -12,9 +12,9 @@ class User:
         self.publicName = "publicName"
         self.password = "password"
         self.userSettings = UserSettings()
-        self.userStatistics = []
         self.userImage = 1
         self.authToken = ""
+        self.isRdy = False
 
     @staticmethod
     def convertImageToByte(path):

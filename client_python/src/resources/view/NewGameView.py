@@ -91,4 +91,3 @@ class Ui_newGameView(object):
         self.logoutButton.setText(QCoreApplication.translate("newGameView", u"Abmelden vom Dienst", None))
         pass
     # retranslateUi
-

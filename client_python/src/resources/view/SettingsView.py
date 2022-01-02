@@ -197,7 +197,7 @@ class Ui_settingsView(object):
         self.soundVolLcd.setObjectName(u"soundVolLcd")
         self.soundVolLcd.setGeometry(QRect(810, 340, 64, 23))
         self.soundVolLcd.setFont(font1)
-        self.soundVolLcd.setStyleSheet(u"textcolor: black;")
+        self.soundVolLcd.setStyleSheet(u"text-color: black;")
 
         self.retranslateUi(settingsView)
 

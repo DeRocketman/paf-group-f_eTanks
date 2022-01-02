@@ -4,14 +4,14 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import model.data.User;
+import model.data.UserSettings;
 import model.service.HttpRequest;
 
 
 public class SettingViewController extends ViewController {
 
     HttpRequest httpRequest = new HttpRequest();
-    User tempUser;
+    UserSettings tempUserSettings = new UserSettings();
 
     @FXML
     private ToggleButton soundSettings;
@@ -58,17 +58,17 @@ public class SettingViewController extends ViewController {
         tempButton.setOnKeyReleased(event -> {
             tempButton.setText(event.getCode().toString());
             if(tempButton.getId().equals("moveUpKey")) {
-                tempUser.getUserSettings().setMoveUpKey(event.getCode().toString());
+                tempUserSettings.setMoveUpKey(event.getCode().toString());
             } else if(tempButton.getId().equals("moveDownKey")){
-                tempUser.getUserSettings().setMoveDownKey(event.getCode().toString());
+                tempUserSettings.setMoveDownKey(event.getCode().toString());
             }else if(tempButton.getId().equals("moveLeftKey")){
-                tempUser.getUserSettings().setMoveLeftKey(event.getCode().toString());
+                tempUserSettings.setMoveLeftKey(event.getCode().toString());
             }else if(tempButton.getId().equals("moveRightKey")){
-                tempUser.getUserSettings().setMoveRightKey(event.getCode().toString());
+                tempUserSettings.setMoveRightKey(event.getCode().toString());
             }else if(tempButton.getId().equals("fireMainKey")){
-                tempUser.getUserSettings().setFireMainWeaponKey(event.getCode().toString());
+                tempUserSettings.setFireMainWeaponKey(event.getCode().toString());
             }else if(tempButton.getId().equals("fireSecondKey")){
-                tempUser.getUserSettings().setFireSecondaryWeaponKey(event.getCode().toString());
+                tempUserSettings.setFireSecondaryWeaponKey(event.getCode().toString());
             }
             tempButton.setOnKeyReleased(null);
             tempButton.setStyle("");
@@ -91,12 +91,12 @@ public class SettingViewController extends ViewController {
 
         eTankApplication.getSignedUser().getUserSettings().setGameMusicVolume((int) musicVolumeSettings.getValue());
         eTankApplication.getSignedUser().getUserSettings().setGameSoundVolume((int) soundVolumeSettings.getValue());
-        eTankApplication.getSignedUser().getUserSettings().setMoveUpKey(tempUser.getUserSettings().getMoveUpKey());
-        eTankApplication.getSignedUser().getUserSettings().setMoveDownKey(tempUser.getUserSettings().getMoveDownKey());
-        eTankApplication.getSignedUser().getUserSettings().setMoveLeftKey(tempUser.getUserSettings().getMoveLeftKey());
-        eTankApplication.getSignedUser().getUserSettings().setMoveRightKey(tempUser.getUserSettings().getMoveRightKey());
-        eTankApplication.getSignedUser().getUserSettings().setFireMainWeaponKey(tempUser.getUserSettings().getFireMainWeaponKey());
-        eTankApplication.getSignedUser().getUserSettings().setFireSecondaryWeaponKey(tempUser.getUserSettings().getFireSecondaryWeaponKey());
+        eTankApplication.getSignedUser().getUserSettings().setMoveUpKey(tempUserSettings.getMoveUpKey());
+        eTankApplication.getSignedUser().getUserSettings().setMoveDownKey(tempUserSettings.getMoveDownKey());
+        eTankApplication.getSignedUser().getUserSettings().setMoveLeftKey(tempUserSettings.getMoveLeftKey());
+        eTankApplication.getSignedUser().getUserSettings().setMoveRightKey(tempUserSettings.getMoveRightKey());
+        eTankApplication.getSignedUser().getUserSettings().setFireMainWeaponKey(tempUserSettings.getFireMainWeaponKey());
+        eTankApplication.getSignedUser().getUserSettings().setFireSecondaryWeaponKey(tempUserSettings.getFireSecondaryWeaponKey());
 
         httpRequest.setETankApplication(eTankApplication);
 
@@ -112,9 +112,6 @@ public class SettingViewController extends ViewController {
     }
 
     public void initialiseUserData() {
-
-        tempUser = new User();
-        tempUser.setUserSettings(eTankApplication.getSignedUser().getUserSettings());
 
         if (eTankApplication.getSignedUser().getUserSettings().isGameMusicOn()) {
             musicSettings.setSelected(true);

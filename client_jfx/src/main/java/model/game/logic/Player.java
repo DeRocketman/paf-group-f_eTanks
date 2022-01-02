@@ -13,8 +13,8 @@ public class Player extends User {
 
     private boolean isReady;
 
-    public Player(long id, String userName, String publicName, String image, String password, UserSettings userSettings, UserStatistic userStatistic) throws IOException {
-        super(id, userName, publicName, image, password, userSettings, userStatistic);
+    public Player(long id, String userName, String publicName, String image, String password, UserSettings userSettings) throws IOException {
+        super(id, userName, publicName, image, password, userSettings);
         this.isReady = false;
     }
 

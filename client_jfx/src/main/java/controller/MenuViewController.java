@@ -15,7 +15,7 @@ public class MenuViewController extends ViewController {
         GameStatistic gameStatistic = new GameStatistic();
         gameStatistic.setDefaultStatistic();
 
-        eTankApplication.getSignedUser().setGameStatistic(gameStatistic);
+      //  eTankApplication.getSignedUser().newGameStatistic(gameStatistic);
 
         setHttpRequestETankapplication();
 

@@ -10,12 +10,13 @@ import javafx.scene.layout.AnchorPane;
 //not used in MVVM javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 //not used in MVVM import model.game.Game;
+import model.data.GameStatistic;
 import model.data.User;
 import view.GameView;
 import viewmodel.GameViewModel;
 
 import java.io.IOException;
-
+import java.util.List;
 
 
 public class ETankApplication extends Application {
@@ -23,13 +24,12 @@ public class ETankApplication extends Application {
     Stage primaryStage;
     AnchorPane rootLayout;
     User signedUser;
+    List<GameStatistic> gameStatistic;
     String BearerToken;
 
     public static void main(String[] args) {
         launch(args);
     }
-
-
 
     @Override
     public void start(Stage primaryStage) throws IOException {
@@ -180,6 +180,14 @@ public class ETankApplication extends Application {
 
     public User getSignedUser() {
         return signedUser;
+    }
+
+    public List<GameStatistic> getGameStatistic() {
+        return gameStatistic;
+    }
+
+    public void setGameStatistic(List<GameStatistic> gameStatistic) {
+        this.gameStatistic = gameStatistic;
     }
 
     public String getBearerToken() {

@@ -7,6 +7,7 @@ from PySide6 import QtGui, QtCore
 from PySide6.QtWidgets import QWidget, QListWidgetItem
 
 from model.data.User import User
+from model.service.ClientSocket import ClientSocket
 from resources.view.LobbyHostView import Ui_lobbyHostView
 
 
@@ -29,7 +30,8 @@ class LobbyHostViewController(QWidget):
         self.fillPlayerTable()
 
         self.lobbyHostView.setRdyButton.clicked.connect(self.setRdy)
-        self.lobbyHostView.startGameButton(self.startGame)
+        self.lobbyHostView.sendMsgButton.clicked.connect(self.sendChatMsg)
+        self.lobbyHostView.startGameButton.clicked.connect(self.startGame)
 
     def fillPlayerTable(self):
         for player in self.playerList:
@@ -38,19 +40,20 @@ class LobbyHostViewController(QWidget):
 
     def setRdy(self):
         for player in self.playerList:
-            allPlayerRdy = False
             if player.id == self.newGameViewController.mainMenuViewController.signedUser.id:
                 if player.isRdy:
                     player.isRdy = False
                 else:
                     player.isRdy = True
-            if player.isRdy:
-                allPlayerRdy = True
-            else:
-                allPlayerRdy = False
+
         self.playerListView.clear()
         self.playerRdyView.clear()
         self.fillPlayerTable()
+
+    def sendChatMsg(self):
+        mysocket = ClientSocket()
+        print("Try send Msg with Text: " + self.lobbyHostView.chatMsgTextField.text())
+        mysocket.sendMsg(self.lobbyHostView.chatMsgTextField.text())
 
     def startGame(self):
         countPlayerNotRdy = 0

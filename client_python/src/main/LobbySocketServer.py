@@ -1,30 +1,34 @@
 import socket
+import os
+from _thread import *
+
+ServerSocket = socket.socket()
+host = "localhost"
+port = 9910
+ThreadCount = 0
+try:
+    ServerSocket.bind((host, port))
+except socket.error as e:
+    print(str(e))
+
+print('Waiting for a Connectionaction..')
+ServerSocket.listen(4)
 
 
-class LobbySocketServer:
-    def __init__(self):
-        self.socketServer = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server = "localhost"
-        self.port = 55550
-        self.currentId = 0
+def threaded_client(connection):
+    connection.send(str.encode('Welcome to the Servern'))
+    while True:
+        data = connection.recv(2048)
+        reply = 'Server Says: ' + data.decode('utf-8')
+        if not data:
+            break
+        connection.sendall(str.encode(reply))
+    connection.close()
 
-    def runServer(self):
-        try:
-            self.socketServer.bind((self.server, self.port))
-        except socket.error as e:
-            print(str(e))
 
-        self.socketServer.listen(4)
-        print("[Server] grats i am runnin")
-        print("[Server] Waiting for connection")
-
-    def threaded_client(self, connection):
-        connection.send(int.encode(self.currentId))
-        self.currentId += 1
-        reply = ""
-        while True:
-            data = connection.recv(4096)
-            reply = data.decode("utf-8")
-            if not data:
-                connection.send(str.encode("Goodbye"))
-                break
+while True:
+    Client, address = ServerSocket.accept()
+    print('Connected to: ' + address[0] + ':' + str(address[1]))
+    start_new_thread(threaded_client, (Client,))
+    ThreadCount += 1
+    print('Thread Number: ' + str(ThreadCount))

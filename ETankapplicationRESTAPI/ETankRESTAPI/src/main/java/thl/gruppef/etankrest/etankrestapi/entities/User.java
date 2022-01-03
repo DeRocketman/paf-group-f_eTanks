@@ -1,6 +1,5 @@
 package thl.gruppef.etankrest.etankrestapi.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,12 +29,13 @@ public class User extends IdentifiedEntity {
     @JoinColumn(name = "userSettings_id")
     UserSettings userSettings;
 
+    /*
     @OneToMany(mappedBy = "user")
     @JsonIgnore
-    private List<GameStatistic> gameStatistics;
+    private List<GameStatistic> gameStatistics;*/
 
     public User() {
         userImage = "default";
-        gameStatistics = new ArrayList<>();
+     //   gameStatistics = new ArrayList<>();
     }
 }

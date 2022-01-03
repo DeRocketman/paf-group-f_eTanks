@@ -10,9 +10,9 @@ import javax.persistence.*;
 @Setter
 public class GameStatistic extends IdentifiedEntity {
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    private Long userId;
+
+    private String userName;
 
     private Long gameNumber;
 

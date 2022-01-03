@@ -1,15 +1,20 @@
 package model.service;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import javafx.scene.control.Alert;
 import main.ETankApplication;
 import model.data.*;
 import org.boon.core.Sys;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -68,6 +73,7 @@ public class HttpRequest {
                 response.append(responseLine.trim());
             }
 
+            System.out.println(response.toString());
             eTankApplication.setBearerToken(response.toString());
             findUserByUsername(authorisation);
 
@@ -330,6 +336,54 @@ public class HttpRequest {
         }
 
         System.out.println(response);
+        con.disconnect();
+        return true;
+    }
+
+    public boolean getGameStatisticList(Long userId) {
+        String line;
+        StringBuilder responseContent = new StringBuilder();
+        HttpURLConnection con = null;
+        try {
+            URL url = new URL("http://127.0.0.1:8080/user_game_statistic/" + userId);
+            con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            con.setRequestProperty("Authorization", "Bearer " + eTankApplication.getBearerToken());
+            con.setRequestProperty("Content-Type", "application/json; utf-8");
+            con.setRequestProperty("Accept", "application/json");
+            con.setDoOutput(true);
+
+            BufferedReader reader;
+            int status = con.getResponseCode();
+            if (status >= 300) {
+                reader = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+                while ((line = reader.readLine()) != null) {
+                    responseContent.append(line);
+                }
+                reader.close();
+            }
+            else {
+                reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                while ((line = reader.readLine()) != null) {
+                    responseContent.append(line);
+                }
+                reader.close();
+            }
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        //Response to gameStatistic List
+        Gson gson = new Gson();
+        Type gameStatisticType = new TypeToken<ArrayList<GameStatistic>>(){}.getType();
+        ArrayList<GameStatistic> list = gson.fromJson(String.valueOf(responseContent), gameStatisticType);
+        eTankApplication.setGameStatistic(list);
+
         con.disconnect();
         return true;
     }

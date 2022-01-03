@@ -16,6 +16,7 @@ import view.GameView;
 import viewmodel.GameViewModel;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,7 +25,7 @@ public class ETankApplication extends Application {
     Stage primaryStage;
     AnchorPane rootLayout;
     User signedUser;
-    List<GameStatistic> gameStatistic;
+    List<GameStatistic> gameStatistics;
     String BearerToken;
 
     public static void main(String[] args) {
@@ -40,6 +41,7 @@ public class ETankApplication extends Application {
 
     public void createUser(){
         this.signedUser = new User();
+        this.gameStatistics = new ArrayList<>();
     }
 
     public Stage getPrimaryStage() {
@@ -182,12 +184,12 @@ public class ETankApplication extends Application {
         return signedUser;
     }
 
-    public List<GameStatistic> getGameStatistic() {
-        return gameStatistic;
+    public List<GameStatistic> getGameStatistics() {
+        return gameStatistics;
     }
 
-    public void setGameStatistic(List<GameStatistic> gameStatistic) {
-        this.gameStatistic = gameStatistic;
+    public void setGameStatistic(List<GameStatistic> gameStatistics) {
+        this.gameStatistics = gameStatistics;
     }
 
     public String getBearerToken() {

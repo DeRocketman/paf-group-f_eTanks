@@ -1,5 +1,4 @@
 package thl.gruppef.etankrest.etankrestapi.controller;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import thl.gruppef.etankrest.etankrestapi.entities.GameStatistic;
@@ -14,21 +13,21 @@ import java.util.Optional;
 @RequestMapping("/user_game_statistic")
 public class GameStatisticController {
 
-    private GameStatisticRepository userGameStatisticRepository;
+    private GameStatisticRepository gameStatisticRepository;
     private UserRepository userRepository;
 
     public GameStatisticController(GameStatisticRepository userGameStatisticRepository,UserRepository userRepository) {
-        this.userGameStatisticRepository = userGameStatisticRepository;
+        this.gameStatisticRepository = userGameStatisticRepository;
         this.userRepository = userRepository;
     }
 
     @GetMapping("")
     public List<GameStatistic> index() {
-        return userGameStatisticRepository.findAll();
+        return gameStatisticRepository.findAll();
     }
 
     @PostMapping("new/{userId}")
-    public ResponseEntity<GameStatistic> test( @RequestBody GameStatistic gameStatistic, @PathVariable Long userId){
+    public ResponseEntity<GameStatistic> newStatistic( @RequestBody GameStatistic gameStatistic, @PathVariable Long userId){
 
         Optional<User> userOptional = userRepository.findUserById(userId);
         if (!userOptional.isPresent()) {
@@ -37,9 +36,15 @@ public class GameStatisticController {
         User user =  userRepository.findUserById(userId).get();
 
         GameStatistic newGameStatistic = gameStatistic;
-        newGameStatistic.setUser(user);
-        newGameStatistic = userGameStatisticRepository.save(newGameStatistic);
+        newGameStatistic.setUserId(user.getId());
+        newGameStatistic.setUserName(user.getUsername());
+        newGameStatistic = gameStatisticRepository.save(newGameStatistic);
 
         return ResponseEntity.ok(gameStatistic);
+    }
+
+    @GetMapping("/{userId}")
+    public List<GameStatistic> gameStatistics(@PathVariable Long userId) {
+        return gameStatisticRepository.findGameStatisticByUserId(userId);
     }
 }

@@ -2,7 +2,7 @@ package model.data;
 
 //todo: Klaeren, ob noch gameWins and roundWins dazukommen sollen DS= ja ; Line: roundwinds ja, gamewins ergibt sich aus winner
 public class GameStatistic {
-    private User user;
+    private long userId;
     private long gameNumber;
     private boolean winner;
     private int roundWins;
@@ -16,9 +16,9 @@ public class GameStatistic {
 
     }
 
-    public GameStatistic(long gameNumber, User  user, boolean winner, int roundWins, int gamePoints, int kills, int deaths, int shots, int hitPoints) {
+    public GameStatistic(long gameNumber, long userId, boolean winner, int roundWins, int gamePoints, int kills, int deaths, int shots, int hitPoints) {
         this.gameNumber = gameNumber;
-        this.user = user;
+        this.userId = userId;
         this.winner = winner;
         this.roundWins = roundWins;
         this.gamePoints = gamePoints;
@@ -53,10 +53,81 @@ public class GameStatistic {
     }
 
     public String toJSON() {
-        return "{\"deaths\":"+ this.deaths +",\"game_number\":"+ this.gameNumber +",\"game_Points\":"+this.gamePoints+
+        return "{\"userId\":"+ this.userId + ",\"deaths\":"+ this.deaths +",\"game_number\":"+ this.gameNumber +",\"game_Points\":"+this.gamePoints+
                 "\"hitPoints\":"+this.hitPoints+"\",\"kills\":\""+this.kills+",\"round_wins\":"+this.roundWins+"," +
                 "\",\"shots\":\""+this.shots+"\"," +
                 "\"winner\":\""+this.winner+"\"}";
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public long getGameNumber() {
+        return gameNumber;
+    }
+
+    public void setGameNumber(long gameNumber) {
+        this.gameNumber = gameNumber;
+    }
+
+    public boolean isWinner() {
+        return winner;
+    }
+
+    public void setWinner(boolean winner) {
+        this.winner = winner;
+    }
+
+    public int getRoundWins() {
+        return roundWins;
+    }
+
+    public void setRoundWins(int roundWins) {
+        this.roundWins = roundWins;
+    }
+
+    public int getGamePoints() {
+        return gamePoints;
+    }
+
+    public void setGamePoints(int gamePoints) {
+        this.gamePoints = gamePoints;
+    }
+
+    public int getKills() {
+        return kills;
+    }
+
+    public void setKills(int kills) {
+        this.kills = kills;
+    }
+
+    public int getDeaths() {
+        return deaths;
+    }
+
+    public void setDeaths(int deaths) {
+        this.deaths = deaths;
+    }
+
+    public int getShots() {
+        return shots;
+    }
+
+    public void setShots(int shots) {
+        this.shots = shots;
+    }
+
+    public int getHitPoints() {
+        return hitPoints;
+    }
+
+    public void setHitPoints(int hitPoints) {
+        this.hitPoints = hitPoints;
+    }
 }

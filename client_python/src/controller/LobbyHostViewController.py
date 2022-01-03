@@ -21,10 +21,12 @@ class LobbyHostViewController(QWidget):
         self.hostname = socket.gethostname()
         self.ip = socket.gethostbyname(self.hostname)
         self.playerList = []
-        self.playerList.append(self.newGameViewController.mainMenuViewController.signedUser)
+        self.lobbysocket = ClientSocket()
+
         self.signedPlayer = self.newGameViewController.mainMenuViewController.signedUser
+        self.playerList.append(self.signedPlayer)
         self.playerListView = self.lobbyHostView.playerList
-        self.playerRdyView = self.lobbyHostView.rdyList
+        self.playerRdyListView = self.lobbyHostView.rdyList
         self.lobbyHostView.ipAdressLbl.setText(self.ip)
         self.lobbyHostView.gameNumberLbl.setText(self.lobbyId)
         self.fillPlayerTable()
@@ -33,13 +35,12 @@ class LobbyHostViewController(QWidget):
         self.lobbyHostView.sendMsgButton.clicked.connect(self.sendChatMsg)
         self.lobbyHostView.startGameButton.clicked.connect(self.startGame)
 
-        self.lobbysocket = ClientSocket()
-        self.lobbyHostView.chatMsgTextField.setText(self.lobbysocket.connect())
+        self.lobbyHostView.chatField.append("Server: " + self.lobbysocket.connect())
 
     def fillPlayerTable(self):
         for player in self.playerList:
             self.playerListView.addItem(self.buildPlayerIconItem(player))
-            self.playerRdyView.addItem(self.buildPlayerRdyIconItem(player))
+            self.playerRdyListView.addItem(self.buildPlayerRdyIconItem(player))
 
     def setRdy(self):
         for player in self.playerList:
@@ -50,15 +51,15 @@ class LobbyHostViewController(QWidget):
                     player.isRdy = True
 
         self.playerListView.clear()
-        self.playerRdyView.clear()
+        self.playerRdyListView.clear()
         self.fillPlayerTable()
 
     def sendChatMsg(self):
         print("Try send Msg with Text: " + self.lobbyHostView.chatMsgTextField.text())
         msgText = str(self.lobbyHostView.chatMsgTextField.text())
-        self.lobbyHostView.chatField.setText((self.lobbysocket.sendMsg(str(self.signedPlayer.publicName + ": " + msgText)+"\n")))
+        self.lobbyHostView.chatField.append((self.lobbysocket.sendMsg(str(self.signedPlayer.publicName
+                                                                          + ": " + msgText))))
         self.lobbyHostView.chatMsgTextField.clear()
-
 
     def startGame(self):
         countPlayerNotRdy = 0

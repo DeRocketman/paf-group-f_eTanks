@@ -18,8 +18,8 @@ print("Server ist bereit und heiß auf Connections")
 
 
 def threaded_client(con):
+    con.send(str.encode("Du hast die Lobby erfolgreich betreten"))
     while True:
-        con.send(str.encode("Du hast die Lobby erfolgreich betreten"))
         msg = con.recv(2048)
         reply = msg.decode("utf-8")
         con.send(str.encode(reply))

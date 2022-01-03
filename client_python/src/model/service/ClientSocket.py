@@ -5,18 +5,18 @@ class ClientSocket:
     def __init__(self):
         self.clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.host = "localhost"
-        self.port = 9910
-        self.response = self.clientSocket.recv(1024)
+        self.port = 3333
 
-        print("Waiting for connection")
-        try:
-            self.clientSocket.connect((self.host, self.port))
-        except socket.error as e:
-            print(str(e))
+        print("Auf Antwort warten")
+
+    def connect(self):
+        self.clientSocket.connect((self.host, self.port))
+        return self.clientSocket.recv(2048).decode()
 
     def sendMsg(self, msg):
-        while True:
+        try:
             self.clientSocket.send(str.encode(msg))
-            responseMsg = self.clientSocket.recv(1024)
-            print(responseMsg.decode("utf-8"))
-            return responseMsg.decode("utf-8")
+            reply = self.clientSocket.recv(2048).decode()
+            return reply
+        except socket.error as e:
+            return str(e)

@@ -22,7 +22,7 @@ class LobbyHostViewController(QWidget):
         self.ip = socket.gethostbyname(self.hostname)
         self.playerList = []
         self.playerList.append(self.newGameViewController.mainMenuViewController.signedUser)
-
+        self.signedPlayer = self.newGameViewController.mainMenuViewController.signedUser
         self.playerListView = self.lobbyHostView.playerList
         self.playerRdyView = self.lobbyHostView.rdyList
         self.lobbyHostView.ipAdressLbl.setText(self.ip)
@@ -32,6 +32,9 @@ class LobbyHostViewController(QWidget):
         self.lobbyHostView.setRdyButton.clicked.connect(self.setRdy)
         self.lobbyHostView.sendMsgButton.clicked.connect(self.sendChatMsg)
         self.lobbyHostView.startGameButton.clicked.connect(self.startGame)
+
+        self.lobbysocket = ClientSocket()
+        self.lobbyHostView.chatMsgTextField.setText(self.lobbysocket.connect())
 
     def fillPlayerTable(self):
         for player in self.playerList:
@@ -51,9 +54,11 @@ class LobbyHostViewController(QWidget):
         self.fillPlayerTable()
 
     def sendChatMsg(self):
-        mysocket = ClientSocket()
         print("Try send Msg with Text: " + self.lobbyHostView.chatMsgTextField.text())
-        mysocket.sendMsg(self.lobbyHostView.chatMsgTextField.text())
+        msgText = str(self.lobbyHostView.chatMsgTextField.text())
+        self.lobbyHostView.chatField.setText((self.lobbysocket.sendMsg(str(self.signedPlayer.publicName + ": " + msgText)+"\n")))
+        self.lobbyHostView.chatMsgTextField.clear()
+
 
     def startGame(self):
         countPlayerNotRdy = 0

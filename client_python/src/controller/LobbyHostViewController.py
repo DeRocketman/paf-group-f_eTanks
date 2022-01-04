@@ -16,12 +16,14 @@ class LobbyHostViewController(QWidget):
         super().__init__()
         self.lobbyHostView = Ui_lobbyHostView()
         self.lobbyHostView.setupUi(self)
+        self.playerList = []
+        self.lobbysocket = ClientSocket()
+
         self.newGameViewController = newGameViewController
         self.lobbyId = self.createLobbyId()
         self.hostname = socket.gethostname()
         self.ip = socket.gethostbyname(self.hostname)
-        self.playerList = []
-        self.lobbysocket = ClientSocket()
+
 
         self.signedPlayer = self.newGameViewController.mainMenuViewController.signedUser
         self.playerList.append(self.signedPlayer)
@@ -44,11 +46,15 @@ class LobbyHostViewController(QWidget):
 
     def setRdy(self):
         for player in self.playerList:
-            if player.id == self.newGameViewController.mainMenuViewController.signedUser.id:
+            if player.id == self.signedPlayer.id:
                 if player.isRdy:
                     player.isRdy = False
+                    self.lobbyHostView.setRdyButton.setText("Nicht Bereit!")
+                    self.lobbyHostView.setRdyButton.setStyleSheet("Background-Color: grey; Color: red")
                 else:
                     player.isRdy = True
+                    self.lobbyHostView.setRdyButton.setText("Bereit!")
+                    self.lobbyHostView.setRdyButton.setStyleSheet("Background-Color: green;")
 
         self.playerListView.clear()
         self.playerRdyListView.clear()

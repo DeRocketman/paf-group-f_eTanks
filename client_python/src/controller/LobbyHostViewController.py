@@ -1,4 +1,5 @@
 import base64
+import json
 import random
 import socket
 import threading
@@ -8,7 +9,10 @@ from PySide6 import QtGui, QtCore
 from PySide6.QtWidgets import QWidget, QListWidgetItem
 
 from model.data.User import User
+from model.service import SocketMessageCode
 from model.service.ClientSocket import ClientSocket
+from model.service.Message import Message
+from model.service.SocketMessageCode import SocketCode
 from resources.view.LobbyHostView import Ui_lobbyHostView
 
 
@@ -18,15 +22,13 @@ class LobbyHostViewController(QWidget):
         self.lobbyHostView = Ui_lobbyHostView()
         self.lobbyHostView.setupUi(self)
         self.playerList = []
-        self.lobbysocket = ClientSocket()
-
         self.newGameViewController = newGameViewController
+        self.signedPlayer = self.newGameViewController.mainMenuViewController.signedUser
+        self.lobbySocket = self.newGameViewController.clientSocket
         self.lobbyId = self.createLobbyId()
         self.hostname = socket.gethostname()
         self.ip = socket.gethostbyname(self.hostname)
 
-
-        self.signedPlayer = self.newGameViewController.mainMenuViewController.signedUser
         self.playerList.append(self.signedPlayer)
         self.playerListView = self.lobbyHostView.playerList
         self.playerRdyListView = self.lobbyHostView.rdyList
@@ -37,11 +39,11 @@ class LobbyHostViewController(QWidget):
         self.lobbyHostView.setRdyButton.clicked.connect(self.setRdy)
         self.lobbyHostView.sendMsgButton.clicked.connect(self.sendChatMsg)
         self.lobbyHostView.startGameButton.clicked.connect(self.startGame)
-        self.lobbyHostView.chatField.append("Server: " + self.lobbysocket.connect())
-        self.threadSendMsg = threading.Thread(target=self.sendChatMsg())
+        self.threadSendMsg = threading.Thread(target=self.sendMsg)
         self.threadSendMsg.start()
         self.threadReceiveMsg = threading.Thread(target=self.receiveMsg)
         self.threadReceiveMsg.start()
+        self.registerLobbyToServer()
 
     def fillPlayerTable(self):
         for player in self.playerList:
@@ -66,16 +68,32 @@ class LobbyHostViewController(QWidget):
 
     def sendChatMsg(self):
         print("Try send Msg with Text: " + self.lobbyHostView.chatMsgTextField.text())
-        msgText = str(self.lobbyHostView.chatMsgTextField.text())
-        #self.lobbyHostView.chatField.append((self.lobbysocket.sendMsg(str(self.signedPlayer.publicName
-                                                                           #+ ": " + msgText))))
-        self.lobbysocket.sendMsg(str(self.signedPlayer.publicName + ": " + msgText))
+        chatMsg = Message()
+        chatMsg.messageType = "CHAT_MSG"
+        chatMsg.gameLobbyNumber = self.lobbyHostView.gameNumberLbl.text()
+        chatMsg.senderId = self.signedPlayer.id
+        chatMsg.senderPublicName = self.signedPlayer.publicName
+        chatMsg.payload = self.lobbyHostView.chatMsgTextField.text()
+        self.sendMsg(chatMsg)
         self.lobbyHostView.chatMsgTextField.clear()
+
+    def registerLobbyToServer(self):
+        registerLobbyMsg = Message()
+        registerLobbyMsg.messageType = "REGISTER_LOBBY"
+        registerLobbyMsg.gameLobbyNumber = self.lobbyId
+        registerLobbyMsg.senderId = self.signedPlayer.id
+        registerLobbyMsg.senderPublicName = self.signedPlayer.publicName
+        self.sendMsg(registerLobbyMsg)
+
+    def sendMsg(self, msg):
+        data_as_dict = vars(msg)
+        msgJSON = json.dumps(data_as_dict)
+        self.lobbySocket.sendMsg(msgJSON)
+        print("Gesendet:"+msgJSON)
 
     def receiveMsg(self):
         while True:
-            self.lobbyHostView.chatField.append(self.lobbysocket.reseiveMsg())
-
+            self.lobbyHostView.chatField.append(self.lobbySocket.receiveMsg())
 
     def startGame(self):
         countPlayerNotRdy = 0
@@ -85,6 +103,9 @@ class LobbyHostViewController(QWidget):
         if countPlayerNotRdy == 0:
             pass
             # todo: Add GameStart here!
+
+
+
 
     @staticmethod
     def buildPlayerIconItem(user=User()):

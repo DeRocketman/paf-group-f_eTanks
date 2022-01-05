@@ -2,7 +2,9 @@ package model.data;
 
 //todo: Klaeren, ob noch gameWins and roundWins dazukommen sollen DS= ja ; Line: roundwinds ja, gamewins ergibt sich aus winner
 public class GameStatistic {
+
     private long userId;
+    private String userName;
     private long gameNumber;
     private boolean winner;
     private int roundWins;
@@ -26,6 +28,19 @@ public class GameStatistic {
         this.deaths = deaths;
         this.shots = shots;
         this.hitPoints = hitPoints;
+    }
+
+    public GameStatistic(long gameNumber, long userId, boolean winner, int roundWins, int gamePoints, int kills, int deaths, int shots, int hitPoints, String userName) {
+        this.gameNumber = gameNumber;
+        this.userId = userId;
+        this.winner = winner;
+        this.roundWins = roundWins;
+        this.gamePoints = gamePoints;
+        this.kills = kills;
+        this.deaths = deaths;
+        this.shots = shots;
+        this.hitPoints = hitPoints;
+        this.userName = userName;
     }
 
     public void setDefaultStatistic() {
@@ -129,5 +144,13 @@ public class GameStatistic {
 
     public void setHitPoints(int hitPoints) {
         this.hitPoints = hitPoints;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

@@ -3,6 +3,7 @@ package controller;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,8 +14,10 @@ import main.ETankApplication;
 import model.service.HttpRequest;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class ViewController {
+public class ViewController implements Initializable {
 
     /*private Stage stage;
     private Scene scene;
@@ -22,6 +25,11 @@ public class ViewController {
 
     ETankApplication eTankApplication;
     HttpRequest httpRequest = new HttpRequest();
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
 
     /*public void switchToLoginView(Stage primaryStage) throws IOException{
         stage = primaryStage;
@@ -62,5 +70,4 @@ public class ViewController {
     public void setHttpRequestETankapplication(){
         httpRequest.setETankApplication(eTankApplication);
     }
-
 }

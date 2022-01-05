@@ -16,7 +16,8 @@ class ClientSocket:
     def sendMsg(self, msg):
         try:
             self.clientSocket.send(str.encode(msg))
-            reply = self.clientSocket.recv(2048).decode()
-            return reply
         except socket.error as e:
             return str(e)
+
+    def reseiveMsg(self):
+        return self.clientSocket.recv(2048).decode()

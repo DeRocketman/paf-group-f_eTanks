@@ -1,6 +1,7 @@
 import base64
 import random
 import socket
+import threading
 import time
 
 from PySide6 import QtGui, QtCore
@@ -36,8 +37,11 @@ class LobbyHostViewController(QWidget):
         self.lobbyHostView.setRdyButton.clicked.connect(self.setRdy)
         self.lobbyHostView.sendMsgButton.clicked.connect(self.sendChatMsg)
         self.lobbyHostView.startGameButton.clicked.connect(self.startGame)
-
         self.lobbyHostView.chatField.append("Server: " + self.lobbysocket.connect())
+        self.threadSendMsg = threading.Thread(target=self.sendChatMsg())
+        self.threadSendMsg.start()
+        self.threadReceiveMsg = threading.Thread(target=self.receiveMsg)
+        self.threadReceiveMsg.start()
 
     def fillPlayerTable(self):
         for player in self.playerList:
@@ -63,9 +67,15 @@ class LobbyHostViewController(QWidget):
     def sendChatMsg(self):
         print("Try send Msg with Text: " + self.lobbyHostView.chatMsgTextField.text())
         msgText = str(self.lobbyHostView.chatMsgTextField.text())
-        self.lobbyHostView.chatField.append((self.lobbysocket.sendMsg(str(self.signedPlayer.publicName
-                                                                          + ": " + msgText))))
+        #self.lobbyHostView.chatField.append((self.lobbysocket.sendMsg(str(self.signedPlayer.publicName
+                                                                           #+ ": " + msgText))))
+        self.lobbysocket.sendMsg(str(self.signedPlayer.publicName + ": " + msgText))
         self.lobbyHostView.chatMsgTextField.clear()
+
+    def receiveMsg(self):
+        while True:
+            self.lobbyHostView.chatField.append(self.lobbysocket.reseiveMsg())
+
 
     def startGame(self):
         countPlayerNotRdy = 0

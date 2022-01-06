@@ -1,4 +1,8 @@
 package thl.gruppef.etankrest.etankrestapi.controller;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import thl.gruppef.etankrest.etankrestapi.entities.GameStatistic;
@@ -46,5 +50,17 @@ public class GameStatisticController {
     @GetMapping("/{userId}")
     public List<GameStatistic> gameStatistics(@PathVariable Long userId) {
         return gameStatisticRepository.findGameStatisticByUserId(userId);
+    }
+
+    @GetMapping("/sorted")
+    public List<GameStatistic> sorted() {
+        return gameStatisticRepository.OrderByGamePointsDesc();
+    }
+
+    @GetMapping("/highscorelist/{size}")
+    public List<GameStatistic> highscorelist(@PathVariable int size){
+        Page<GameStatistic> gameStatisticPageTest = gameStatisticRepository.findAll(PageRequest.of(0, size, Sort.Direction.DESC, "gamePoints"));
+        List<GameStatistic> gameStatisticsTop = gameStatisticPageTest.getContent();
+        return gameStatisticsTop;
     }
 }

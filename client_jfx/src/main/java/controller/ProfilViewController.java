@@ -87,8 +87,9 @@ public class ProfilViewController extends ViewController {
     }
 
     public void initialiseUserData() throws IOException {
-        publicName.setText(eTankApplication.getSignedUser().getPublicName());
         setUserImage();
+        publicName.setText(eTankApplication.getSignedUser().getPublicName());
+        //TODO: hidden Passwort
         password.setText(eTankApplication.getSignedUser().getPassword());
     }
 

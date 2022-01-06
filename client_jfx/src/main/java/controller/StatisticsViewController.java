@@ -1,10 +1,18 @@
 package controller;
 
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
 import model.data.GameStatistic;
-import model.service.HttpRequest;
+import java.util.List;
 
 public class StatisticsViewController extends ViewController {
 
@@ -29,9 +37,25 @@ public class StatisticsViewController extends ViewController {
     @FXML
     private Label shots;
 
-    public void initialiseUserData() {
-        setHttpRequestETankapplication();
+    @FXML
+    private TableView<GameStatistic> tableView;
+    @FXML
+    private TableColumn<GameStatistic, GameStatistic> positionColumn;
+    @FXML
+    private TableColumn<GameStatistic, String> nameColumn;
+    @FXML
+    private TableColumn<GameStatistic, Integer> gamePointsColumn;
 
+    public StatisticsViewController() {
+    }
+
+    public void initialiseUserData() {
+       setHttpRequestETankapplication();
+        getUserStatistic();
+        getHighscoreList();
+    }
+
+    public void getUserStatistic() {
         int totalDeaths = 0;
         int totalGamePoints = 0;
         int totalGameWins = 0;
@@ -79,5 +103,19 @@ public class StatisticsViewController extends ViewController {
         kills.setText(String.valueOf(totalKills));
         playedGames.setText(String.valueOf(totalPlayedGames));
         shots.setText(String.valueOf(totalShots));
+    }
+
+    public void getHighscoreList() {
+
+        int listSize = 3;
+        List<GameStatistic> highscorelist = httpRequest.getHighscoreList(listSize);
+        ObservableList<GameStatistic> observableList = FXCollections.observableArrayList(httpRequest.getHighscoreList(listSize));
+        for(GameStatistic gameStatistic : highscorelist) {}
+        if(highscorelist!=null){
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("Die Highscore Liste konnten leider nicht geladen werden.");
+            alert.showAndWait();
+        }
     }
 }

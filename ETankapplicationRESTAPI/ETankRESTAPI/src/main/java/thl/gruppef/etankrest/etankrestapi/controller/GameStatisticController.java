@@ -6,7 +6,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import thl.gruppef.etankrest.etankrestapi.entities.GameStatistic;
-import thl.gruppef.etankrest.etankrestapi.entities.GameStatisticPage;
 import thl.gruppef.etankrest.etankrestapi.entities.User;
 import thl.gruppef.etankrest.etankrestapi.repository.GameStatisticRepository;
 import thl.gruppef.etankrest.etankrestapi.repository.UserRepository;
@@ -59,7 +58,7 @@ public class GameStatisticController {
     }
 
     @GetMapping("/highscorelist/{size}")
-    public List<GameStatistic> highscorelist(@PathVariable int size, GameStatisticPage gameStatisticPage){
+    public List<GameStatistic> highscorelist(@PathVariable int size){
         Page<GameStatistic> gameStatisticPageTest = gameStatisticRepository.findAll(PageRequest.of(0, size, Sort.Direction.DESC, "gamePoints"));
         List<GameStatistic> gameStatisticsTop = gameStatisticPageTest.getContent();
         return gameStatisticsTop;

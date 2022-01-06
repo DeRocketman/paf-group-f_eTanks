@@ -1,10 +1,16 @@
 package controller;
 
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
 import model.data.GameStatistic;
 import java.util.List;
 
@@ -34,7 +40,7 @@ public class StatisticsViewController extends ViewController {
     @FXML
     private TableView<GameStatistic> tableView;
     @FXML
-    private TableColumn<Integer, Integer> positionColumn;
+    private TableColumn<GameStatistic, GameStatistic> positionColumn;
     @FXML
     private TableColumn<GameStatistic, String> nameColumn;
     @FXML
@@ -103,6 +109,8 @@ public class StatisticsViewController extends ViewController {
 
         int listSize = 3;
         List<GameStatistic> highscorelist = httpRequest.getHighscoreList(listSize);
+        ObservableList<GameStatistic> observableList = FXCollections.observableArrayList(httpRequest.getHighscoreList(listSize));
+        for(GameStatistic gameStatistic : highscorelist) {}
         if(highscorelist!=null){
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

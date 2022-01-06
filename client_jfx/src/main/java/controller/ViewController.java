@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ViewController implements Initializable {
+public class ViewController {
 
     /*private Stage stage;
     private Scene scene;
@@ -25,11 +25,6 @@ public class ViewController implements Initializable {
 
     ETankApplication eTankApplication;
     HttpRequest httpRequest = new HttpRequest();
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
 
     /*public void switchToLoginView(Stage primaryStage) throws IOException{
         stage = primaryStage;

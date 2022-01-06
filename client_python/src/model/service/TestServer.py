@@ -63,6 +63,15 @@ def threadedClient(exConnData):
                 if player.lobbyId == msgJson["gameLobbyNumber"]:
                     player.connection.send(str.encode(reply))
 
+        elif msgJson["messageType"] == "GET_LOBBIES":
+            for player in playerList:
+                if player.isLobbyHost:
+                    seatCount = 0
+                    for otherPlayer in playerList:
+                        if player.lobbyId == otherPlayer.lobbyId:
+                            seatCount += 1
+                    replyForLobbyList = json.dumps(buildLobbyData(player, seatCount, msgJson))
+                    exConnData.connection.send(str.encode(replyForLobbyList))
 
 
 def sendPlayerData(exConnData, msgJson, msgType):
@@ -85,6 +94,12 @@ def registerLobby(exConnData, msgJson):
     exConnData.lobbyId = msgJson["gameLobbyNumber"]
     exConnData.isLobbyHost = True
     msgJson["payload"] = "Server: Lobby erfolgreich erstellt"
+    return msgJson
+
+
+def buildLobbyData(player, seatCount, msgJson):
+    msgJson["gameLobbyNumber"] = player.lobbyId
+    msgJson["payload"] = seatCount
     return msgJson
 
 

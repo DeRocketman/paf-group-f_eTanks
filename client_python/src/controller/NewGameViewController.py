@@ -1,8 +1,11 @@
+import json
+
 from PySide6.QtWidgets import QWidget
 
 from controller.JoinGameViewController import JoinGameViewController
 from controller.LobbyHostViewController import LobbyHostViewController
 from model.service.ClientSocket import ClientSocket
+from model.service.Message import Message
 from resources.view.NewGameView import Ui_newGameView
 
 
@@ -21,6 +24,7 @@ class NewGameViewController(QWidget):
 
         self.clientSocket = ClientSocket()
         self.clientSocket.connect()
+        self.sendExtendUserData()
 
     def hostGame(self):
         lobbyHostView = LobbyHostViewController(self)
@@ -37,3 +41,15 @@ class NewGameViewController(QWidget):
 
     def logoutFromGame(self):
         pass
+
+    def sendExtendUserData(self):
+        msg = Message()
+        msg.messageType = "LOGIN"
+        msg.playerId = self.mainMenuViewController.signedUser.id
+        msg.playerPublicName = self.mainMenuViewController.signedUser.publicName
+        msg.playerImage = self.mainMenuViewController.signedUser.userImage
+        msg.playerIsRdy = self.mainMenuViewController.signedUser.isRdy
+        data_as_dict = vars(msg)
+        msgJSON = json.dumps(data_as_dict)
+        self.clientSocket.sendMsg(msgJSON)
+        print("Gesendet:" + msgJSON)

@@ -3,10 +3,14 @@ import socket
 from _thread import *
 
 
-class ExtendedConnectionInfo:
+class ExtendedConnectionData:
     connection = None
     isLobbyHost = None
     lobbyId = None
+    playerId = None
+    playerPubName = None
+    playerImage = None
+    playerIsRdy = None
 
 
 serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -26,22 +30,68 @@ serverSocket.listen(10)
 print("Server ist bereit und heiß auf Connections")
 
 
-def threaded_client(exConnInfo):
-    # con.send(str.encode("Du hast die Lobby erfolgreich betreten"))
+def threadedClient(exConnData):
     while True:
-        msg = exConnInfo.connection.recv(2048)
+        msg = exConnData.connection.recv(4096)
         reply = msg.decode("utf-8")
         print(reply)
-        data_variable = json.loads(reply)
-        if data_variable["messageType"] == "CHAT_MSG":
+        msgJson = json.loads(reply)
+        if msgJson["messageType"] == "LOGIN":
+            setExPlayerData(exConnData, msgJson)
+            msgJson["payload"] = "SUCCESS"
+
+        elif msgJson["messageType"] == "REGISTER_LOBBY":
+            replyAsDict = registerLobby(exConnData, msgJson)
+            reply = json.dumps(replyAsDict)
+            print(replyAsDict)
+            print(reply)
+            exConnData.connection.send(str.encode(reply))
+
+        elif msgJson["messageType"] == "JOIN":
+            exConnData.lobbyId = msgJson["gameLobbyNumber"]
             for player in playerList:
-                player.connection.send(str.encode(reply))
+                if player.lobbyId == msgJson["gameLobbyNumber"]:
+                    reply = json.dumps(sendPlayerData(player, msgJson, "JOIN"))
+                    replyForLobby = json.dumps(sendPlayerData(exConnData, msgJson, "JOINED_PLAYER"))
+                    exConnData.connection.send(str.encode(reply))
+                    player.connection.send(str.encode(replyForLobby))
+
+        elif msgJson["messageType"] == "CHAT_MSG" or msgJson["messageType"] == "RDY_STATUS":
+            if msgJson["messageType"] == "RDY_STATUS":
+                exConnData.playerIsRdy = msgJson["playerIsRdy"]
+            for player in playerList:
+                if player.lobbyId == msgJson["gameLobbyNumber"]:
+                    player.connection.send(str.encode(reply))
+
+
+
+def sendPlayerData(exConnData, msgJson, msgType):
+    msgJson["messageType"] = msgType
+    msgJson["playerId"] = exConnData.playerId
+    msgJson["playerPublicName"] = exConnData.playerPubName
+    msgJson["playerIsRdy"] = exConnData.playerIsRdy
+    msgJson["playerImage"] = exConnData.playerImage
+    return msgJson
+
+
+def setExPlayerData(exConnData, msgJson):
+    exConnData.playerId = msgJson["playerId"]
+    exConnData.playerPubName = msgJson["playerPublicName"]
+    exConnData.playerImage = msgJson["payload"]
+    exConnData.playerIsRdy = msgJson["playerIsRdy"]
+
+
+def registerLobby(exConnData, msgJson):
+    exConnData.lobbyId = msgJson["gameLobbyNumber"]
+    exConnData.isLobbyHost = True
+    msgJson["payload"] = "Server: Lobby erfolgreich erstellt"
+    return msgJson
 
 
 while True:
-    extendedConnInfo = ExtendedConnectionInfo()
+    extendedConnInfo = ExtendedConnectionData()
     extendedConnInfo.connection, address = serverSocket.accept()
     print("Connected to: ", address)
     playerList.append(extendedConnInfo)
-    start_new_thread(threaded_client, (extendedConnInfo,))
+    start_new_thread(threadedClient, (extendedConnInfo,))
     threadCount += 1

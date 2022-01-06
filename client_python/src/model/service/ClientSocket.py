@@ -1,3 +1,4 @@
+import json
 import socket
 
 
@@ -7,11 +8,9 @@ class ClientSocket:
         self.host = "localhost"
         self.port = 3333
 
-        print("Auf Antwort warten")
 
     def connect(self):
         self.clientSocket.connect((self.host, self.port))
-        #return self.clientSocket.recv(2048).decode()
 
     def sendMsg(self, msg):
         try:
@@ -20,4 +19,6 @@ class ClientSocket:
             return str(e)
 
     def receiveMsg(self):
-        return self.clientSocket.recv(2048).decode()
+        msg = self.clientSocket.recv(4096)
+        msgDec = msg.decode("utf-8")
+        return json.loads(msgDec)

@@ -10,6 +10,7 @@ class JoinGameViewController(QWidget):
         self.joinGameView = Ui_joinGameView()
         self.joinGameView.setupUi(self)
         self.newGameViewController = newGameViewController
+        self.signedUser = self.newGameViewController.mainMenuViewController.signedUser
 
         self.joinGameView.toNewGameView.clicked.connect(self.showNewGameView)
 

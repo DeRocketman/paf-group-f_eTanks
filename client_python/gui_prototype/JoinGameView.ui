@@ -22,8 +22,8 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>405</x>
-     <y>107</y>
+     <x>406</x>
+     <y>101</y>
      <width>391</width>
      <height>81</height>
     </rect>
@@ -160,19 +160,6 @@ border-color: #111111;
     <string>Abmelden vom Dienst</string>
    </property>
   </widget>
-  <widget class="QTableView" name="availableGamesTable">
-   <property name="geometry">
-    <rect>
-     <x>420</x>
-     <y>350</y>
-     <width>361</width>
-     <height>211</height>
-    </rect>
-   </property>
-   <attribute name="horizontalHeaderVisible">
-    <bool>true</bool>
-   </attribute>
-  </widget>
   <widget class="QPushButton" name="joinSelectedButton">
    <property name="enabled">
     <bool>false</bool>
@@ -189,25 +176,44 @@ border-color: #111111;
     <string>Dieser Schlacht beitreten</string>
    </property>
   </widget>
-  <widget class="QTableWidget" name="tableWidget">
+  <widget class="QListWidget" name="gameList">
    <property name="geometry">
     <rect>
      <x>420</x>
-     <y>620</y>
-     <width>361</width>
+     <y>360</y>
+     <width>261</width>
      <height>192</height>
     </rect>
    </property>
-   <column>
-    <property name="text">
-     <string>Spielnummer</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Plätze</string>
-    </property>
-   </column>
+   <property name="styleSheet">
+    <string notr="true">border: none;</string>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="seatsList">
+   <property name="geometry">
+    <rect>
+     <x>700</x>
+     <y>360</y>
+     <width>71</width>
+     <height>192</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border: none;</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="refreshGameListButton">
+   <property name="geometry">
+    <rect>
+     <x>800</x>
+     <y>450</y>
+     <width>75</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Erneuern</string>
+   </property>
   </widget>
  </widget>
  <resources/>

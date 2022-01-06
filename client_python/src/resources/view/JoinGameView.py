@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'JoinGameViewliDATp.ui'
+## Form generated from reading UI file 'JoinGameViewcSQzUI.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.2.2
 ##
@@ -15,9 +15,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
                            QFont, QFontDatabase, QGradient, QIcon,
                            QImage, QKeySequence, QLinearGradient, QPainter,
                            QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QHeaderView, QLabel, QPushButton,
-                               QSizePolicy, QTableView, QTableWidget, QTableWidgetItem,
-                               QWidget)
+from PySide6.QtWidgets import (QApplication, QLabel, QListWidget, QListWidgetItem,
+                               QPushButton, QSizePolicy, QWidget)
 
 class Ui_joinGameView(object):
     def setupUi(self, joinGameView):
@@ -32,7 +31,7 @@ class Ui_joinGameView(object):
         joinGameView.setStyleSheet(u"background: #8A8557;")
         self.label = QLabel(joinGameView)
         self.label.setObjectName(u"label")
-        self.label.setGeometry(QRect(405, 107, 391, 81))
+        self.label.setGeometry(QRect(406, 101, 391, 81))
         font = QFont()
         font.setPointSize(48)
         font.setBold(False)
@@ -80,23 +79,21 @@ class Ui_joinGameView(object):
         self.logoutButton.setGeometry(QRect(50, 780, 181, 21))
         font2 = QFont()
         self.logoutButton.setFont(font2)
-        self.availableGamesTable = QTableView(joinGameView)
-        self.availableGamesTable.setObjectName(u"availableGamesTable")
-        self.availableGamesTable.setGeometry(QRect(420, 350, 361, 211))
-        self.availableGamesTable.horizontalHeader().setVisible(True)
         self.joinSelectedButton = QPushButton(joinGameView)
         self.joinSelectedButton.setObjectName(u"joinSelectedButton")
         self.joinSelectedButton.setEnabled(False)
         self.joinSelectedButton.setGeometry(QRect(420, 580, 361, 26))
-        self.tableWidget = QTableWidget(joinGameView)
-        if (self.tableWidget.columnCount() < 2):
-            self.tableWidget.setColumnCount(2)
-        __qtablewidgetitem = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(0, __qtablewidgetitem)
-        __qtablewidgetitem1 = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(1, __qtablewidgetitem1)
-        self.tableWidget.setObjectName(u"tableWidget")
-        self.tableWidget.setGeometry(QRect(420, 620, 361, 192))
+        self.gameList = QListWidget(joinGameView)
+        self.gameList.setObjectName(u"gameList")
+        self.gameList.setGeometry(QRect(420, 360, 261, 192))
+        self.gameList.setStyleSheet(u"border: none;")
+        self.seatsList = QListWidget(joinGameView)
+        self.seatsList.setObjectName(u"seatsList")
+        self.seatsList.setGeometry(QRect(700, 360, 71, 192))
+        self.seatsList.setStyleSheet(u"border: none;")
+        self.refreshGameListButton = QPushButton(joinGameView)
+        self.refreshGameListButton.setObjectName(u"refreshGameListButton")
+        self.refreshGameListButton.setGeometry(QRect(800, 450, 75, 24))
 
         self.retranslateUi(joinGameView)
 
@@ -110,10 +107,9 @@ class Ui_joinGameView(object):
         self.toNewGameView.setText(QCoreApplication.translate("joinGameView", u"Zur\u00fcck", None))
         self.logoutButton.setText(QCoreApplication.translate("joinGameView", u"Abmelden vom Dienst", None))
         self.joinSelectedButton.setText(QCoreApplication.translate("joinGameView", u"Dieser Schlacht beitreten", None))
-        ___qtablewidgetitem = self.tableWidget.horizontalHeaderItem(0)
-        ___qtablewidgetitem.setText(QCoreApplication.translate("joinGameView", u"Spielnummer", None));
-        ___qtablewidgetitem1 = self.tableWidget.horizontalHeaderItem(1)
-        ___qtablewidgetitem1.setText(QCoreApplication.translate("joinGameView", u"Pl\u00e4tze", None));
+        self.refreshGameListButton.setText(QCoreApplication.translate("joinGameView", u"Erneuern", None))
         pass
     # retranslateUi
+
+
 

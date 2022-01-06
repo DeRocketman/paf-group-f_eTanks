@@ -12,7 +12,7 @@ class User:
         self.publicName = "publicName"
         self.password = "password"
         self.userSettings = UserSettings()
-        self.userImage = 1
+        self.userImage = "default"
         self.authToken = ""
         self.isRdy = False
 

@@ -36,7 +36,7 @@ class LobbyHostViewController(QWidget):
         self.lobbyHostView.gameNumberLbl.setText(self.lobbyId)
         self.fillPlayerTable()
 
-        self.lobbyHostView.setRdyButton.clicked.connect(self.setRdy)
+        self.lobbyHostView.setRdyButton.clicked.connect(self.sendRdyStatus)
         self.lobbyHostView.sendMsgButton.clicked.connect(self.sendChatMsg)
         self.lobbyHostView.startGameButton.clicked.connect(self.startGame)
         self.threadSendMsg = threading.Thread(target=self.sendMsg)
@@ -50,29 +50,45 @@ class LobbyHostViewController(QWidget):
             self.playerListView.addItem(self.buildPlayerIconItem(player))
             self.playerRdyListView.addItem(self.buildPlayerRdyIconItem(player))
 
-    def setRdy(self):
-        for player in self.playerList:
-            if player.id == self.signedPlayer.id:
-                if player.isRdy:
-                    player.isRdy = False
-                    self.lobbyHostView.setRdyButton.setText("Nicht Bereit!")
-                    self.lobbyHostView.setRdyButton.setStyleSheet("Background-Color: grey; Color: red")
-                else:
-                    player.isRdy = True
-                    self.lobbyHostView.setRdyButton.setText("Bereit!")
-                    self.lobbyHostView.setRdyButton.setStyleSheet("Background-Color: green;")
+    def rdyStatus(self, playerFromMsg):
+        if playerFromMsg.id == self.signedPlayer.id:
+            if playerFromMsg.isRdy:
+                self.lobbyHostView.setRdyButton.setText("Bereit!")
+                self.lobbyHostView.setRdyButton.setStyleSheet("Background-Color: green;")
+            else:
+                self.lobbyHostView.setRdyButton.setText("Nicht Bereit!")
+                self.lobbyHostView.setRdyButton.setStyleSheet("Background-Color: grey; Color: red")
+        else:
+            for player in self.playerList:
+                if playerFromMsg.id == player.id:
+                    player.isRdy = playerFromMsg.isRdy
 
         self.playerListView.clear()
         self.playerRdyListView.clear()
         self.fillPlayerTable()
+
+    def sendRdyStatus(self):
+        if self.signedPlayer.isRdy:
+            self.signedPlayer.isRdy = False
+        else:
+            self.signedPlayer.isRdy = True
+
+        rdyMsg = Message()
+        rdyMsg.messageType = "RDY_STATUS"
+        rdyMsg.gameLobbyNumber = self.lobbyHostView.gameNumberLbl.text()
+        rdyMsg.playerId = self.signedPlayer.id
+        rdyMsg.playerPublicName = self.signedPlayer.publicName
+        rdyMsg.playerIsRdy = self.signedPlayer.isRdy
+        rdyMsg.payload = self.lobbyHostView.chatMsgTextField.text()
+        self.sendMsg(rdyMsg)
 
     def sendChatMsg(self):
         print("Try send Msg with Text: " + self.lobbyHostView.chatMsgTextField.text())
         chatMsg = Message()
         chatMsg.messageType = "CHAT_MSG"
         chatMsg.gameLobbyNumber = self.lobbyHostView.gameNumberLbl.text()
-        chatMsg.senderId = self.signedPlayer.id
-        chatMsg.senderPublicName = self.signedPlayer.publicName
+        chatMsg.playerId = self.signedPlayer.id
+        chatMsg.playerPublicName = self.signedPlayer.publicName
         chatMsg.payload = self.lobbyHostView.chatMsgTextField.text()
         self.sendMsg(chatMsg)
         self.lobbyHostView.chatMsgTextField.clear()
@@ -81,19 +97,42 @@ class LobbyHostViewController(QWidget):
         registerLobbyMsg = Message()
         registerLobbyMsg.messageType = "REGISTER_LOBBY"
         registerLobbyMsg.gameLobbyNumber = self.lobbyId
-        registerLobbyMsg.senderId = self.signedPlayer.id
-        registerLobbyMsg.senderPublicName = self.signedPlayer.publicName
+        registerLobbyMsg.playerId = self.signedPlayer.id
+        registerLobbyMsg.playerPublicName = self.signedPlayer.publicName
         self.sendMsg(registerLobbyMsg)
 
     def sendMsg(self, msg):
         data_as_dict = vars(msg)
         msgJSON = json.dumps(data_as_dict)
         self.lobbySocket.sendMsg(msgJSON)
-        print("Gesendet:"+msgJSON)
+        print("Gesendet:" + msgJSON)
 
     def receiveMsg(self):
         while True:
-            self.lobbyHostView.chatField.append(self.lobbySocket.receiveMsg())
+            msg = self.lobbySocket.receiveMsg()
+            print(msg)
+            if msg is not None:
+                if msg["messageType"] == "REGISTER_LOBBY":
+                    self.lobbyHostView.chatField.append(msg["payload"])
+                elif msg["messageType"] == "JOINED_PLAYER":
+                    self.playerJoined(msg)
+                elif msg["messageType"] == "CHAT_MSG":
+                    self.lobbyHostView.chatField.append(msg["playerPublicName"] + ": "
+                                                        + msg["payload"])
+                elif msg["messageType"] == "RDY_STATUS":
+                    player = User()
+                    player.id = msg["playerId"]
+                    player.isRdy = msg["playerIsRdy"]
+                    self.rdyStatus(player)
+
+    def playerJoined(self, msg):
+        newPlayer = User()
+        newPlayer.id = msg["playerId"]
+        newPlayer.publicName = msg["playerPublicName"]
+        newPlayer.playerIsRdy = msg["playerIsRdy"]
+        newPlayer.userImage = msg["playerImage"]
+        self.playerList.append(newPlayer)
+        self.fillPlayerTable()
 
     def startGame(self):
         countPlayerNotRdy = 0
@@ -104,9 +143,6 @@ class LobbyHostViewController(QWidget):
             pass
             # todo: Add GameStart here!
 
-
-
-
     @staticmethod
     def buildPlayerIconItem(user=User()):
         pixmap = QtGui.QPixmap()
@@ -114,7 +150,7 @@ class LobbyHostViewController(QWidget):
             pixmap.load("../resources/images/default-user-image.png")
         else:
             pixmap.loadFromData(base64.b64decode(user.userImage))
-        pixmap = pixmap.scaled(36, 36, QtCore.Qt.IgnoreAspectRatio)
+        pixmap = pixmap.scaled(50, 50, QtCore.Qt.IgnoreAspectRatio)
 
         return QListWidgetItem(pixmap, user.publicName)
 

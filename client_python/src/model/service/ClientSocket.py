@@ -11,7 +11,7 @@ class ClientSocket:
 
     def connect(self):
         self.clientSocket.connect((self.host, self.port))
-        return self.clientSocket.recv(2048).decode()
+        #return self.clientSocket.recv(2048).decode()
 
     def sendMsg(self, msg):
         try:
@@ -19,5 +19,5 @@ class ClientSocket:
         except socket.error as e:
             return str(e)
 
-    def reseiveMsg(self):
+    def receiveMsg(self):
         return self.clientSocket.recv(2048).decode()

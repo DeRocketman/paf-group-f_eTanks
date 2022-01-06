@@ -8,7 +8,6 @@ class ClientSocket:
         self.host = "localhost"
         self.port = 3333
 
-
     def connect(self):
         self.clientSocket.connect((self.host, self.port))
 
@@ -19,6 +18,6 @@ class ClientSocket:
             return str(e)
 
     def receiveMsg(self):
-        msg = self.clientSocket.recv(4096)
+        msg = self.clientSocket.recv(8192)
         msgDec = msg.decode("utf-8")
         return json.loads(msgDec)

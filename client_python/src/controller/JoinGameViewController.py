@@ -3,7 +3,7 @@ import threading
 
 from PySide6 import QtGui, QtCore
 from PySide6.QtWidgets import QWidget, QListWidgetItem
-
+from controller.LobbyJoinViewController import LobbyJoinViewController
 from model.data.Lobby import Lobby
 from model.service.Message import Message
 from resources.view.JoinGameView import Ui_joinGameView
@@ -31,11 +31,14 @@ class JoinGameViewController(QWidget):
         self.getLobbyList()
 
     def joinSelectedGameLobby(self):
-        self.fillLobbyList()
         selectedLobbyId = self.joinGameView.gameList.currentItem().text()
+        self.fillLobbyList()
         for lobby in self.gameLobbyList:
             if lobby.id == selectedLobbyId and lobby.seats < 4:
-                pass
+                lobbyJoinViewController = LobbyJoinViewController(self.newGameViewController, lobby.id)
+                self.newGameViewController.mainMenuViewController.stackedWidget.addWidget(lobbyJoinViewController)
+                self.newGameViewController.mainMenuViewController.stackedWidget.setCurrentWidget(lobbyJoinViewController)
+                self.close()
 
     def fillLobbyList(self):
         for lobby in self.gameLobbyList:

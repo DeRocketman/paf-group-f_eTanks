@@ -8,7 +8,6 @@ class ClientSocket:
         self.host = "localhost"
         self.port = 3333
 
-
     def connect(self):
         self.clientSocket.connect((self.host, self.port))
 

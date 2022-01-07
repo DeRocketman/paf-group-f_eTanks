@@ -35,7 +35,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Host Gamelobby</string>
+    <string>Joined Gamelobby</string>
    </property>
   </widget>
   <widget class="QPushButton" name="hostGameButton">
@@ -100,6 +100,7 @@ border-color: #111111;
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: #47452E;
+border-color: #111111;
 
 </string>
    </property>
@@ -137,20 +138,10 @@ border-color: #111111;
 </string>
    </property>
    <property name="text">
-    <string>Spiel verlassen</string>
+    <string>Lobby verlassen</string>
    </property>
    <property name="autoDefault">
     <bool>false</bool>
-   </property>
-  </widget>
-  <widget class="QListView" name="playerListView">
-   <property name="geometry">
-    <rect>
-     <x>161</x>
-     <y>350</y>
-     <width>391</width>
-     <height>251</height>
-    </rect>
    </property>
   </widget>
   <widget class="QTextEdit" name="chatField">
@@ -173,7 +164,7 @@ border-color: #111111;
    <property name="geometry">
     <rect>
      <x>551</x>
-     <y>600</y>
+     <y>609</y>
      <width>321</width>
      <height>31</height>
     </rect>
@@ -183,7 +174,7 @@ border-color: #111111;
    <property name="geometry">
     <rect>
      <x>871</x>
-     <y>600</y>
+     <y>609</y>
      <width>81</width>
      <height>31</height>
     </rect>
@@ -247,8 +238,8 @@ border-color: #111111;
   <widget class="QPushButton" name="setRdyButton">
    <property name="geometry">
     <rect>
-     <x>321</x>
-     <y>600</y>
+     <x>410</x>
+     <y>610</y>
      <width>101</width>
      <height>31</height>
     </rect>
@@ -259,6 +250,38 @@ color: red;</string>
    </property>
    <property name="text">
     <string>Nicht Bereit</string>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="playerList">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>350</y>
+     <width>281</width>
+     <height>251</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-style: none</string>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="rdyList">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>350</y>
+     <width>51</width>
+     <height>251</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-style: none;</string>
+   </property>
+   <property name="flow">
+    <enum>QListView::TopToBottom</enum>
+   </property>
+   <property name="viewMode">
+    <enum>QListView::ListMode</enum>
    </property>
   </widget>
  </widget>

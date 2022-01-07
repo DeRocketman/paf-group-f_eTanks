@@ -51,9 +51,7 @@ def threadedClient(exConnData):
             exConnData.lobbyId = msgJson["gameLobbyNumber"]
             for player in playerList:
                 if player.lobbyId == msgJson["gameLobbyNumber"]:
-                    reply = json.dumps(sendPlayerData(player, msgJson, "JOIN"))
                     replyForLobby = json.dumps(sendPlayerData(exConnData, msgJson, "JOINED_PLAYER"))
-                    exConnData.connection.send(str.encode(reply))
                     player.connection.send(str.encode(replyForLobby))
 
         elif msgJson["messageType"] == "CHAT_MSG" or msgJson["messageType"] == "RDY_STATUS":

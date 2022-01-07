@@ -4,7 +4,6 @@ from PySide6.QtWidgets import QWidget
 
 from controller.JoinGameViewController import JoinGameViewController
 from controller.LobbyHostViewController import LobbyHostViewController
-from controller.LobbyJoinViewController import LobbyJoinViewController
 from model.service.ClientSocket import ClientSocket
 from model.service.Message import Message
 from resources.view.NewGameView import Ui_newGameView
@@ -17,15 +16,15 @@ class NewGameViewController(QWidget):
         self.newGameView = Ui_newGameView()
         self.newGameView.setupUi(self)
         self.mainMenuViewController = mainMenuViewController
+        self.clientSocket = ClientSocket()
+        self.clientSocket.connect()
 
         self.newGameView.hostGameButton.clicked.connect(self.hostGame)
         self.newGameView.joinGameButton.clicked.connect(self.joinGame)
         self.newGameView.showMainMenuButton.clicked.connect(self.showMainMenu)
         self.newGameView.logoutButton.clicked.connect(self.logoutFromGame)
         self.lobbyHostView = LobbyHostViewController(self)
-        self.lobbyJoinView = LobbyJoinViewController(self)
         self.joinGameView = JoinGameViewController(self)
-        self.clientSocket = ClientSocket(self)
         self.sendExtendUserData()
 
     def hostGame(self):
@@ -52,4 +51,3 @@ class NewGameViewController(QWidget):
         data_as_dict = vars(msg)
         msgJSON = json.dumps(data_as_dict)
         self.clientSocket.sendMsg(msgJSON)
-        print("Gesendet:" + msgJSON)

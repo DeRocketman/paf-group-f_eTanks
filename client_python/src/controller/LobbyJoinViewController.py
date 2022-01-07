@@ -102,7 +102,7 @@ class LobbyJoinViewController(QWidget):
     def receiveMsg(self):
         while True:
             msg = self.lobbySocket.receiveMsg()
-            print(msg)
+            print("Nachricht in Lobby Empfangen: ", msg)
             if msg is not None:
                 if msg["messageType"] == "JOIN":
                     self.playerJoined(msg)
@@ -118,12 +118,19 @@ class LobbyJoinViewController(QWidget):
                     self.rdyStatus(player)
 
     def playerJoined(self, msg):
-        newPlayer = User()
-        newPlayer.id = msg["playerId"]
-        newPlayer.publicName = msg["playerPublicName"]
-        newPlayer.playerIsRdy = msg["playerIsRdy"]
-        newPlayer.userImage = msg["playerImage"]
-        self.playerList.append(newPlayer)
+        if self.signedPlayer.id != msg["playerId"]:
+            newPlayer = User()
+            newPlayer.id = msg["playerId"]
+            newPlayer.publicName = msg["playerPublicName"]
+            newPlayer.playerIsRdy = msg["playerIsRdy"]
+            newPlayer.userImage = msg["playerImage"]
+
+            print("PlayerJoined: ", newPlayer.publicName)
+            self.playerList.append(newPlayer)
+        else:
+            print("PlayerJoined: ", self.signedPlayer.publicName)
+            self.playerList.append(self.signedPlayer)
+
         self.fillPlayerTable()
 
     @staticmethod

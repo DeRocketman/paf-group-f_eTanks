@@ -24,10 +24,6 @@ class JoinGameViewController(QWidget):
         self.joinGameView.refreshGameListButton.clicked.connect(self.getLobbyList)
         self.joinGameView.joinSelectedButton.clicked.connect(self.joinSelectedGameLobby)
         self.joinGameView.gameList.doubleClicked.connect(self.joinSelectedGameLobby)
-        self.threadSendMsg = threading.Thread(target=self.sendMsg)
-        self.threadSendMsg.start()
-        self.threadReceiveMsg = threading.Thread(target=self.receiveMsg)
-        self.threadReceiveMsg.start()
         self.getLobbyList()
 
     def joinSelectedGameLobby(self):
@@ -37,8 +33,10 @@ class JoinGameViewController(QWidget):
             if lobby.id == selectedLobbyId and lobby.seats < 4:
                 lobbyJoinViewController = LobbyJoinViewController(self.newGameViewController, lobby.id)
                 self.newGameViewController.mainMenuViewController.stackedWidget.addWidget(lobbyJoinViewController)
-                self.newGameViewController.mainMenuViewController.stackedWidget.setCurrentWidget(lobbyJoinViewController)
-                self.close()
+                self.newGameViewController.mainMenuViewController.stackedWidget.\
+                    setCurrentWidget(lobbyJoinViewController)
+                self.destroy()
+
 
     def fillLobbyList(self):
         for lobby in self.gameLobbyList:
@@ -47,16 +45,16 @@ class JoinGameViewController(QWidget):
             self.joinGameView.gameList.addItem(self.buildLobbyListItem(lobby.id))
             self.joinGameView.seatsList.addItem(self.buildSeatItem(lobby.seats))
 
-    def sendMsg(self, msg):
+    def sendJoinMsg(self, msg):
         data_as_dict = vars(msg)
         msgJSON = json.dumps(data_as_dict)
         self.lobbySocket.sendMsg(msgJSON)
         print("Gesendet:" + msgJSON)
 
-    def receiveMsg(self):
+    def receiveJoinMsg(self):
         while True:
             msg = self.lobbySocket.receiveMsg()
-            print(msg)
+            print("Nachricht in Lobbyauswahl Empfangen: ", msg)
             if msg is not None:
                 if msg["messageType"] == "GET_LOBBIES":
                     lobby = Lobby()
@@ -71,7 +69,7 @@ class JoinGameViewController(QWidget):
     def getLobbyList(self):
         getLobbyMsg = Message()
         getLobbyMsg.messageType = "GET_LOBBIES"
-        self.sendMsg(getLobbyMsg)
+        self.sendJoinMsg(getLobbyMsg)
 
     @staticmethod
     def buildLobbyListItem(lobbyNumber):

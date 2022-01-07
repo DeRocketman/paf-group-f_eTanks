@@ -43,6 +43,8 @@ class LobbyHostViewController(QWidget):
         self.registerLobbyToServer()
 
     def fillPlayerTable(self):
+        self.playerListView.clear()
+        self.playerRdyListView.clear()
         for player in self.playerList:
             self.playerListView.addItem(self.buildPlayerIconItem(player))
             self.playerRdyListView.addItem(self.buildPlayerRdyIconItem(player))
@@ -107,7 +109,7 @@ class LobbyHostViewController(QWidget):
     def receiveMsg(self):
         while True:
             msg = self.lobbySocket.receiveMsg()
-            print(msg)
+            print("Nachricht Empfangen: ", msg)
             if msg is not None:
                 if msg["messageType"] == "REGISTER_LOBBY":
                     self.lobbyHostView.chatField.append(msg["payload"])
@@ -128,6 +130,7 @@ class LobbyHostViewController(QWidget):
         newPlayer.publicName = msg["playerPublicName"]
         newPlayer.playerIsRdy = msg["playerIsRdy"]
         newPlayer.userImage = msg["playerImage"]
+        print("PlayerJoined: ", newPlayer.publicName)
         self.playerList.append(newPlayer)
         self.fillPlayerTable()
 

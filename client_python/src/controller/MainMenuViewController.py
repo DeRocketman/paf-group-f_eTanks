@@ -17,7 +17,6 @@ class MainMenuViewController(QWidget):
         self.stackedWidget = stackedWidget
         self.signedUser = user
         self.checkDefaultUserImage()
-        print(self.signedUser.username)
         self.stackedWidget.addWidget(self)
         self.profilViewController = ProfilViewController(self)
         self.settingsViewController = SettingsViewController(self)

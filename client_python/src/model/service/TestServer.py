@@ -32,7 +32,7 @@ print("Server ist bereit und heiß auf Connections")
 
 def threadedClient(exConnData):
     while True:
-        msg = exConnData.connection.recv(8192)
+        msg = exConnData.connection.recv(4096)
         reply = msg.decode("utf-8")
         print(reply)
         msgJson = json.loads(reply)
@@ -86,7 +86,7 @@ def sendPlayerData(exConnData, msgJson, msgType):
 def setExPlayerData(exConnData, msgJson):
     exConnData.playerId = msgJson["playerId"]
     exConnData.playerPubName = msgJson["playerPublicName"]
-    exConnData.playerImage = msgJson["playerImage"]
+    exConnData.playerImage = msgJson["payload"]
     exConnData.playerIsRdy = msgJson["playerIsRdy"]
 
 

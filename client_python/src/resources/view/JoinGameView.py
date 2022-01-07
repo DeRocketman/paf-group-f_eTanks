@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'JoinGameViewxGahur.ui'
+## Form generated from reading UI file 'JoinGameViewcSQzUI.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.2.2
 ##
@@ -81,7 +81,7 @@ class Ui_joinGameView(object):
         self.logoutButton.setFont(font2)
         self.joinSelectedButton = QPushButton(joinGameView)
         self.joinSelectedButton.setObjectName(u"joinSelectedButton")
-        self.joinSelectedButton.setEnabled(True)
+        self.joinSelectedButton.setEnabled(False)
         self.joinSelectedButton.setGeometry(QRect(420, 580, 361, 26))
         self.gameList = QListWidget(joinGameView)
         self.gameList.setObjectName(u"gameList")

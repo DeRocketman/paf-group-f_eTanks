@@ -36,10 +36,13 @@ class LobbyHostViewController(QWidget):
         self.lobbyHostView.setRdyButton.clicked.connect(self.sendRdyStatus)
         self.lobbyHostView.sendMsgButton.clicked.connect(self.sendChatMsg)
         self.lobbyHostView.startGameButton.clicked.connect(self.startGame)
+        self.threadSendMsg = threading.Thread(target=self.sendMsg)
+        self.threadSendMsg.start()
+        self.threadReceiveMsg = threading.Thread(target=self.receiveMsg)
+        self.threadReceiveMsg.start()
+        self.registerLobbyToServer()
 
     def fillPlayerTable(self):
-        self.playerListView.clear()
-        self.playerRdyListView.clear()
         for player in self.playerList:
             self.playerListView.addItem(self.buildPlayerIconItem(player))
             self.playerRdyListView.addItem(self.buildPlayerRdyIconItem(player))
@@ -96,22 +99,28 @@ class LobbyHostViewController(QWidget):
         self.sendMsg(registerLobbyMsg)
 
     def sendMsg(self, msg):
-        self.lobbySocket.sendMsg(msg)
+        data_as_dict = vars(msg)
+        msgJSON = json.dumps(data_as_dict)
+        self.lobbySocket.sendMsg(msgJSON)
+        print("Gesendet:" + msgJSON)
 
-
-    def receiveMsg(self, msg):
-        if msg is not None:
-            if msg == "REGISTER_LOBBY":
-                self.lobbyHostView.chatField.append(msg["payload"])
-            elif msg["messageType"] == "JOINED_PLAYER":
-                self.playerJoined(msg)
-            elif msg["messageType"] == "CHAT_MSG":
-                self.lobbyHostView.chatField.append(msg["playerPublicName"] + ": " + msg["payload"])
-            elif msg["messageType"] == "RDY_STATUS":
-                player = User()
-                player.id = msg["playerId"]
-                player.isRdy = msg["playerIsRdy"]
-                self.rdyStatus(player)
+    def receiveMsg(self):
+        while True:
+            msg = self.lobbySocket.receiveMsg()
+            print(msg)
+            if msg is not None:
+                if msg["messageType"] == "REGISTER_LOBBY":
+                    self.lobbyHostView.chatField.append(msg["payload"])
+                elif msg["messageType"] == "JOINED_PLAYER":
+                    self.playerJoined(msg)
+                elif msg["messageType"] == "CHAT_MSG":
+                    self.lobbyHostView.chatField.append(msg["playerPublicName"] + ": "
+                                                        + msg["payload"])
+                elif msg["messageType"] == "RDY_STATUS":
+                    player = User()
+                    player.id = msg["playerId"]
+                    player.isRdy = msg["playerIsRdy"]
+                    self.rdyStatus(player)
 
     def playerJoined(self, msg):
         newPlayer = User()
@@ -119,7 +128,6 @@ class LobbyHostViewController(QWidget):
         newPlayer.publicName = msg["playerPublicName"]
         newPlayer.playerIsRdy = msg["playerIsRdy"]
         newPlayer.userImage = msg["playerImage"]
-        print("PlayerJoined: ", newPlayer.publicName)
         self.playerList.append(newPlayer)
         self.fillPlayerTable()
 

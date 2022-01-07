@@ -162,7 +162,7 @@ border-color: #111111;
   </widget>
   <widget class="QPushButton" name="joinSelectedButton">
    <property name="enabled">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="geometry">
     <rect>

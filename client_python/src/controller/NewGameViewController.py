@@ -4,6 +4,7 @@ from PySide6.QtWidgets import QWidget
 
 from controller.JoinGameViewController import JoinGameViewController
 from controller.LobbyHostViewController import LobbyHostViewController
+from controller.LobbyJoinViewController import LobbyJoinViewController
 from model.service.ClientSocket import ClientSocket
 from model.service.Message import Message
 from resources.view.NewGameView import Ui_newGameView
@@ -21,20 +22,19 @@ class NewGameViewController(QWidget):
         self.newGameView.joinGameButton.clicked.connect(self.joinGame)
         self.newGameView.showMainMenuButton.clicked.connect(self.showMainMenu)
         self.newGameView.logoutButton.clicked.connect(self.logoutFromGame)
-
-        self.clientSocket = ClientSocket()
-        self.clientSocket.connect()
+        self.lobbyHostView = LobbyHostViewController(self)
+        self.lobbyJoinView = LobbyJoinViewController(self)
+        self.joinGameView = JoinGameViewController(self)
+        self.clientSocket = ClientSocket(self)
         self.sendExtendUserData()
 
     def hostGame(self):
-        lobbyHostView = LobbyHostViewController(self)
-        self.mainMenuViewController.stackedWidget.addWidget(lobbyHostView)
-        self.mainMenuViewController.stackedWidget.setCurrentWidget(lobbyHostView)
+        self.mainMenuViewController.stackedWidget.addWidget(self.lobbyHostView)
+        self.mainMenuViewController.stackedWidget.setCurrentWidget(self.lobbyHostView)
 
     def joinGame(self):
-        joinGameView = JoinGameViewController(self)
-        self.mainMenuViewController.stackedWidget.addWidget(joinGameView)
-        self.mainMenuViewController.stackedWidget.setCurrentWidget(joinGameView)
+        self.mainMenuViewController.stackedWidget.addWidget(self.joinGameView)
+        self.mainMenuViewController.stackedWidget.setCurrentWidget(self.joinGameView)
 
     def showMainMenu(self):
         self.mainMenuViewController.stackedWidget.setCurrentWidget(self.mainMenuViewController)

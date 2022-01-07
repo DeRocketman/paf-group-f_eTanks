@@ -33,10 +33,9 @@ class JoinGameViewController(QWidget):
             if lobby.id == selectedLobbyId and lobby.seats < 4:
                 lobbyJoinViewController = LobbyJoinViewController(self.newGameViewController, lobby.id)
                 self.newGameViewController.mainMenuViewController.stackedWidget.addWidget(lobbyJoinViewController)
-                self.newGameViewController.mainMenuViewController.stackedWidget.\
+                self.newGameViewController.mainMenuViewController.stackedWidget. \
                     setCurrentWidget(lobbyJoinViewController)
                 self.destroy()
-
 
     def fillLobbyList(self):
         for lobby in self.gameLobbyList:
@@ -52,16 +51,15 @@ class JoinGameViewController(QWidget):
         print("Gesendet:" + msgJSON)
 
     def receiveJoinMsg(self):
-        while True:
-            msg = self.lobbySocket.receiveMsg()
-            print("Nachricht in Lobbyauswahl Empfangen: ", msg)
-            if msg is not None:
-                if msg["messageType"] == "GET_LOBBIES":
-                    lobby = Lobby()
-                    lobby.id = msg["gameLobbyNumber"]
-                    lobby.seats = msg["payload"]
-                    self.gameLobbyList.append(lobby)
-                    self.fillLobbyList()
+        msg = self.lobbySocket.receiveMsg()
+        print("Nachricht in Lobbyauswahl Empfangen: ", msg)
+        if msg is not None:
+            if msg["messageType"] == "GET_LOBBIES":
+                lobby = Lobby()
+                lobby.id = msg["gameLobbyNumber"]
+                lobby.seats = msg["payload"]
+                self.gameLobbyList.append(lobby)
+                self.fillLobbyList()
 
     def showNewGameView(self):
         self.newGameViewController.mainMenuViewController.stackedWidget.setCurrentWidget(self.newGameViewController)

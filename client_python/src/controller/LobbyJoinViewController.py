@@ -26,11 +26,6 @@ class LobbyJoinViewController(QWidget):
         self.lobbyJoinView.setRdyButton.clicked.connect(self.sendRdyStatus)
         self.lobbyJoinView.sendMsgButton.clicked.connect(self.sendChatMsg)
 
-        self.threadSendMsg = threading.Thread(target=self.sendMsg)
-        self.threadSendMsg.start()
-        self.threadReceiveMsg = threading.Thread(target=self.receiveMsg)
-        self.threadReceiveMsg.start()
-
         self.playerListView = self.lobbyJoinView.playerList
         self.playerRdyListView = self.lobbyJoinView.rdyList
         self.registerJoinedUserToLobby()

@@ -39,6 +39,8 @@ class LobbyHostViewController(QWidget):
         # self.registerLobbyToServer()
 
     def fillPlayerTable(self):
+        self.playerListView.clear()
+        self.playerRdyListView.clear()
         for player in self.playerList:
             self.playerListView.addItem(self.buildPlayerIconItem(player))
             self.playerRdyListView.addItem(self.buildPlayerRdyIconItem(player))
@@ -138,7 +140,7 @@ class LobbyHostViewController(QWidget):
             pixmap.load("../resources/images/default-user-image.png")
         else:
             pixmap.loadFromData(base64.b64decode(user.userImage))
-        pixmap = pixmap.scaled(50, 50, QtCore.Qt.IgnoreAspectRatio)
+        pixmap = pixmap.scaled(36, 36, QtCore.Qt.IgnoreAspectRatio)
 
         return QListWidgetItem(pixmap, user.publicName)
 

@@ -40,28 +40,31 @@ def threadedClient(exConnData):
             setExPlayerData(exConnData, msgJson)
             msgJson["payload"] = "SUCCESS"
             reply = json.dumps(msgJson)
-            exConnData.connection.send(str.encode(reply))
+            exConnData.connection.sendall(str.encode(reply))
 
         elif msgJson["messageType"] == "REGISTER_LOBBY":
             replyAsDict = registerLobby(exConnData, msgJson)
             reply = json.dumps(replyAsDict)
-            exConnData.connection.send(str.encode(reply))
+            exConnData.connection.sendall(str.encode(reply))
             print("Server: Nachricht gesendet an ", exConnData.playerPubName, " ", reply)
 
         elif msgJson["messageType"] == "JOIN":
             exConnData.lobbyId = msgJson["gameLobbyNumber"]
             for player in playerList:
-                if player.lobbyId == msgJson["gameLobbyNumber"]:
+                if player.lobbyId == msgJson["gameLobbyNumber"] and player.playerId is not exConnData.playerId:
                     replyForLobby = json.dumps(sendPlayerData(exConnData, msgJson, "JOINED_PLAYER"))
-                    player.connection.send(str.encode(replyForLobby))
+                    player.connection.sendall(str.encode(replyForLobby))
                     print("Server: Nachricht gesendet an", player.playerPubName, " ", replyForLobby)
+                if player.lobbyId == msgJson["gameLobbyNumber"]:
+                    replyForJoinedUser = json.dumps(sendPlayerData(player, msgJson, "JOINED_PLAYER"))
+                    exConnData.connection.sendall(str.encode(replyForJoinedUser))
 
         elif msgJson["messageType"] == "CHAT_MSG" or msgJson["messageType"] == "RDY_STATUS":
             if msgJson["messageType"] == "RDY_STATUS":
                 exConnData.playerIsRdy = msgJson["playerIsRdy"]
             for player in playerList:
                 if player.lobbyId == msgJson["gameLobbyNumber"]:
-                    player.connection.send(str.encode(reply))
+                    player.connection.sendall(str.encode(reply))
                     print("Server: Nachricht gesendet an ", player.playerPubName, " ", msgJson)
 
         elif msgJson["messageType"] == "GET_LOBBIES":
@@ -72,8 +75,9 @@ def threadedClient(exConnData):
                         if player.lobbyId == otherPlayer.lobbyId:
                             seatCount += 1
                     replyForLobbyList = json.dumps(buildLobbyData(player, seatCount, msgJson))
-                    exConnData.connection.send(str.encode(replyForLobbyList))
+                    exConnData.connection.sendall(str.encode(replyForLobbyList))
                     print("Server: Nachricht gesendet ", exConnData.playerPubName, " ", msgJson)
+
 
 def sendPlayerData(exConnData, msgJson, msgType):
     msgJson["messageType"] = msgType

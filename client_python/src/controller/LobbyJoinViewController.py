@@ -1,11 +1,10 @@
 import base64
 import json
 import socket
-import threading
 
-from PyQt6.QtWidgets import QListWidgetItem
-from PySide6 import QtGui, QtCore
-from PySide6.QtWidgets import QWidget
+from PySide6 import QtCore
+from PySide6.QtGui import QPixmap
+from PySide6.QtWidgets import QWidget, QListWidgetItem
 from model.data.User import User
 from model.service.Message import Message
 from resources.view.LobbyJoinView import Ui_lobbyJoinView
@@ -28,9 +27,10 @@ class LobbyJoinViewController(QWidget):
 
         self.playerListView = self.lobbyJoinView.playerList
         self.playerRdyListView = self.lobbyJoinView.rdyList
-        # self.registerJoinedUserToLobby()
 
     def registerJoinedUserToLobby(self):
+        self.lobbyJoinView.gameNumberLbl.setText(self.lobbyId)
+
         msg = Message()
         msg.messageType = "JOIN"
         msg.gameLobbyNumber = self.lobbyId
@@ -41,6 +41,8 @@ class LobbyJoinViewController(QWidget):
         self.sendMsg(msg)
 
     def fillPlayerTable(self):
+        self.playerListView.clear()
+        self.playerRdyListView.clear()
         for player in self.playerList:
             self.playerListView.addItem(self.buildPlayerIconItem(player))
             self.playerRdyListView.addItem(self.buildPlayerRdyIconItem(player))
@@ -70,7 +72,7 @@ class LobbyJoinViewController(QWidget):
 
         rdyMsg = Message()
         rdyMsg.messageType = "RDY_STATUS"
-        rdyMsg.gameLobbyNumber = self.lobbyJoinView.gameNumberLbl.text()
+        rdyMsg.gameLobbyNumber = self.lobbyId
         rdyMsg.playerId = self.signedPlayer.id
         rdyMsg.playerPublicName = self.signedPlayer.publicName
         rdyMsg.playerIsRdy = self.signedPlayer.isRdy
@@ -81,7 +83,7 @@ class LobbyJoinViewController(QWidget):
         print("Try send Msg with Text: " + self.lobbyJoinView.chatMsgTextField.text())
         chatMsg = Message()
         chatMsg.messageType = "CHAT_MSG"
-        chatMsg.gameLobbyNumber = self.lobbyJoinView.gameNumberLbl.text()
+        chatMsg.gameLobbyNumber = self.lobbyId
         chatMsg.playerId = self.signedPlayer.id
         chatMsg.playerPublicName = self.signedPlayer.publicName
         chatMsg.payload = self.lobbyJoinView.chatMsgTextField.text()
@@ -117,22 +119,20 @@ class LobbyJoinViewController(QWidget):
 
     @staticmethod
     def buildPlayerIconItem(user=User()):
-        pixmap = QtGui.QPixmap()
+        pixmap = QPixmap()
         if user.userImage == "default":
             pixmap.load("../resources/images/default-user-image.png")
         else:
             pixmap.loadFromData(base64.b64decode(user.userImage))
-        pixmap = pixmap.scaled(50, 50, QtCore.Qt.IgnoreAspectRatio)
-
+        pixmap.scaled(36,36, QtCore.Qt.IgnoreAspectRatio)
         return QListWidgetItem(pixmap, user.publicName)
 
     @staticmethod
     def buildPlayerRdyIconItem(user=User()):
-        pixmap = QtGui.QPixmap()
+        pixmap = QPixmap()
         if user.isRdy:
             pixmap.load("../resources/images/rdy.png")
         else:
             pixmap.load("../resources/images/notrdy.png")
-        pixmap = pixmap.scaled(36, 36, QtCore.Qt.IgnoreAspectRatio)
-
-        return QListWidgetItem(pixmap, "")
+        pixmap.scaled(36,36, QtCore.Qt.IgnoreAspectRatio)
+        return  QListWidgetItem(pixmap, "")

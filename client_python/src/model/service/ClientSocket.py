@@ -24,7 +24,7 @@ class ClientSocket:
 
     def sendMsg(self, msg):
         try:
-            self.clientSocket.send(str.encode(msg))
+            self.clientSocket.sendall(str.encode(msg))
         except socket.error as e:
             return str(e)
 

@@ -23,17 +23,18 @@ class NewGameViewController(QWidget):
         self.newGameView.joinGameButton.clicked.connect(self.joinGame)
         self.newGameView.showMainMenuButton.clicked.connect(self.showMainMenu)
         self.newGameView.logoutButton.clicked.connect(self.logoutFromGame)
-        self.lobbyHostView = LobbyHostViewController(self)
-        self.joinGameView = JoinGameViewController(self)
+
         self.sendExtendUserData()
 
     def hostGame(self):
-        self.mainMenuViewController.stackedWidget.addWidget(self.lobbyHostView)
-        self.mainMenuViewController.stackedWidget.setCurrentWidget(self.lobbyHostView)
+        lobbyHostView = LobbyHostViewController(self)
+        self.mainMenuViewController.stackedWidget.addWidget(lobbyHostView)
+        self.mainMenuViewController.stackedWidget.setCurrentWidget(lobbyHostView)
 
     def joinGame(self):
-        self.mainMenuViewController.stackedWidget.addWidget(self.joinGameView)
-        self.mainMenuViewController.stackedWidget.setCurrentWidget(self.joinGameView)
+        joinGameView = JoinGameViewController(self)
+        self.mainMenuViewController.stackedWidget.addWidget(joinGameView)
+        self.mainMenuViewController.stackedWidget.setCurrentWidget(joinGameView)
 
     def showMainMenu(self):
         self.mainMenuViewController.stackedWidget.setCurrentWidget(self.mainMenuViewController)
@@ -51,3 +52,4 @@ class NewGameViewController(QWidget):
         data_as_dict = vars(msg)
         msgJSON = json.dumps(data_as_dict)
         self.clientSocket.sendMsg(msgJSON)
+        print("Gesendet in NewGameViewController: ", msgJSON)

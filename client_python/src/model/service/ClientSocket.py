@@ -18,6 +18,6 @@ class ClientSocket:
             return str(e)
 
     def receiveMsg(self):
-        msg = self.clientSocket.recv(4096)
+        msg = self.clientSocket.recv(9216)
         msgDec = msg.decode("utf-8")
         return json.loads(msgDec)

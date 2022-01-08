@@ -97,12 +97,12 @@ class LobbyJoinViewController(QWidget):
         data_as_dict = vars(msg)
         msgJSON = json.dumps(data_as_dict)
         self.lobbySocket.sendMsg(msgJSON)
-        print("Gesendet:" + msgJSON)
+        print("Gesendet von LobbyJoinView: ", msgJSON)
 
     def receiveMsg(self):
         while True:
             msg = self.lobbySocket.receiveMsg()
-            print(msg)
+            print("Empfangen in LobbyJoinView: ", msg)
             if msg is not None:
                 if msg["messageType"] == "JOIN":
                     self.playerJoined(msg)

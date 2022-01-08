@@ -80,7 +80,6 @@ class LobbyHostViewController(QWidget):
         self.sendMsg(rdyMsg)
 
     def sendChatMsg(self):
-        print("Try send Msg with Text: " + self.lobbyHostView.chatMsgTextField.text())
         chatMsg = Message()
         chatMsg.messageType = "CHAT_MSG"
         chatMsg.gameLobbyNumber = self.lobbyHostView.gameNumberLbl.text()
@@ -102,12 +101,12 @@ class LobbyHostViewController(QWidget):
         data_as_dict = vars(msg)
         msgJSON = json.dumps(data_as_dict)
         self.lobbySocket.sendMsg(msgJSON)
-        print("Gesendet:" + msgJSON)
+        print("Gesendet in LobbyHostView: ", msgJSON)
 
     def receiveMsg(self):
         while True:
             msg = self.lobbySocket.receiveMsg()
-            print(msg)
+            print("Empfangen in LobbyHostView: ", msg)
             if msg is not None:
                 if msg["messageType"] == "REGISTER_LOBBY":
                     self.lobbyHostView.chatField.append(msg["payload"])

@@ -4,6 +4,7 @@ from PySide6.QtWidgets import QWidget
 
 from controller.JoinGameViewController import JoinGameViewController
 from controller.LobbyHostViewController import LobbyHostViewController
+from controller.LobbyJoinViewController import LobbyJoinViewController
 from model.service.ClientSocket import ClientSocket
 from model.service.Message import Message
 from resources.view.NewGameView import Ui_newGameView
@@ -16,8 +17,11 @@ class NewGameViewController(QWidget):
         self.newGameView = Ui_newGameView()
         self.newGameView.setupUi(self)
         self.mainMenuViewController = mainMenuViewController
-        self.clientSocket = ClientSocket()
-        self.clientSocket.connect()
+        self.clientSocket = ClientSocket(self)
+
+        self.joinGameView = JoinGameViewController(self)
+        self.lobbyHostView = LobbyHostViewController(self)
+        self.lobbyJoinView = LobbyJoinViewController(self)
 
         self.newGameView.hostGameButton.clicked.connect(self.hostGame)
         self.newGameView.joinGameButton.clicked.connect(self.joinGame)
@@ -27,14 +31,15 @@ class NewGameViewController(QWidget):
         self.sendExtendUserData()
 
     def hostGame(self):
-        lobbyHostView = LobbyHostViewController(self)
-        self.mainMenuViewController.stackedWidget.addWidget(lobbyHostView)
-        self.mainMenuViewController.stackedWidget.setCurrentWidget(lobbyHostView)
+        self.lobbyHostView.registerLobbyToServer()
+        self.mainMenuViewController.stackedWidget.addWidget(self.lobbyHostView)
+        self.mainMenuViewController.stackedWidget.setCurrentWidget(self.lobbyHostView)
 
     def joinGame(self):
-        joinGameView = JoinGameViewController(self)
-        self.mainMenuViewController.stackedWidget.addWidget(joinGameView)
-        self.mainMenuViewController.stackedWidget.setCurrentWidget(joinGameView)
+        self.joinGameView.getLobbyList()
+        self.mainMenuViewController.stackedWidget.addWidget(self.joinGameView)
+        self.mainMenuViewController.stackedWidget.addWidget(self.lobbyJoinView)
+        self.mainMenuViewController.stackedWidget.setCurrentWidget(self.joinGameView)
 
     def showMainMenu(self):
         self.mainMenuViewController.stackedWidget.setCurrentWidget(self.mainMenuViewController)
@@ -49,6 +54,7 @@ class NewGameViewController(QWidget):
         msg.playerPublicName = self.mainMenuViewController.signedUser.publicName
         msg.playerImage = self.mainMenuViewController.signedUser.userImage
         msg.playerIsRdy = self.mainMenuViewController.signedUser.isRdy
+
         data_as_dict = vars(msg)
         msgJSON = json.dumps(data_as_dict)
         self.clientSocket.sendMsg(msgJSON)

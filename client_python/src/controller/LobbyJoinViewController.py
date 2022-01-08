@@ -12,7 +12,7 @@ from resources.view.LobbyJoinView import Ui_lobbyJoinView
 
 
 class LobbyJoinViewController(QWidget):
-    def __init__(self, newGameViewController, lobbyId):
+    def __init__(self, newGameViewController):
         super().__init__()
         self.lobbyJoinView = Ui_lobbyJoinView()
         self.lobbyJoinView.setupUi(self)
@@ -20,20 +20,15 @@ class LobbyJoinViewController(QWidget):
         self.newGameViewController = newGameViewController
         self.signedPlayer = self.newGameViewController.mainMenuViewController.signedUser
         self.lobbySocket = self.newGameViewController.clientSocket
-        self.lobbyId = lobbyId
+        self.lobbyId = ""
         self.lobbyJoinView.ipAdressLbl.setText(socket.gethostbyname(socket.gethostname()))
         self.lobbyJoinView.gameNumberLbl.setText(self.lobbyId)
         self.lobbyJoinView.setRdyButton.clicked.connect(self.sendRdyStatus)
         self.lobbyJoinView.sendMsgButton.clicked.connect(self.sendChatMsg)
 
-        self.threadSendMsg = threading.Thread(target=self.sendMsg)
-        self.threadSendMsg.start()
-        self.threadReceiveMsg = threading.Thread(target=self.receiveMsg)
-        self.threadReceiveMsg.start()
-
         self.playerListView = self.lobbyJoinView.playerList
         self.playerRdyListView = self.lobbyJoinView.rdyList
-        self.registerJoinedUserToLobby()
+        # self.registerJoinedUserToLobby()
 
     def registerJoinedUserToLobby(self):
         msg = Message()
@@ -99,30 +94,24 @@ class LobbyJoinViewController(QWidget):
         self.lobbySocket.sendMsg(msgJSON)
         print("Gesendet von LobbyJoinView: ", msgJSON)
 
-    def receiveMsg(self):
-        while True:
-            msg = self.lobbySocket.receiveMsg()
-            print("Empfangen in LobbyJoinView: ", msg)
-            if msg is not None:
-                if msg["messageType"] == "JOIN":
-                    self.playerJoined(msg)
-                elif msg["messageType"] == "JOINED_PLAYER":
-                    self.playerJoined(msg)
-                elif msg["messageType"] == "CHAT_MSG":
-                    self.lobbyJoinView.chatField.append(msg["playerPublicName"] + ": "
-                                                        + msg["payload"])
-                elif msg["messageType"] == "RDY_STATUS":
-                    player = User()
-                    player.id = msg["playerId"]
-                    player.isRdy = msg["playerIsRdy"]
-                    self.rdyStatus(player)
+    def receiveMsg(self, msg):
+        if msg is not None:
+            if msg.messageType == "JOINED_PLAYER":
+                self.playerJoined(msg)
+            elif msg.messageType == "CHAT_MSG":
+                self.lobbyJoinView.chatField.append(msg.playerPublicName + ": " + msg.payload)
+            elif msg.messageType == "RDY_STATUS":
+                player = User()
+                player.id = msg.playerId
+                player.isRdy = msg.playerIsRdy
+                self.rdyStatus(player)
 
     def playerJoined(self, msg):
         newPlayer = User()
-        newPlayer.id = msg["playerId"]
-        newPlayer.publicName = msg["playerPublicName"]
-        newPlayer.playerIsRdy = msg["playerIsRdy"]
-        newPlayer.userImage = msg["playerImage"]
+        newPlayer.id = msg.playerId
+        newPlayer.publicName = msg.playerPublicName
+        newPlayer.playerIsRdy = msg.playerIsRdy
+        newPlayer.userImage = msg.playerImage
         self.playerList.append(newPlayer)
         self.fillPlayerTable()
 

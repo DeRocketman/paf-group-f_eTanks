@@ -1,9 +1,7 @@
 import json
-import threading
 
 from PySide6 import QtGui, QtCore
 from PySide6.QtWidgets import QWidget, QListWidgetItem
-from controller.LobbyJoinViewController import LobbyJoinViewController
 from model.data.Lobby import Lobby
 from model.service.Message import Message
 from resources.view.JoinGameView import Ui_joinGameView
@@ -37,9 +35,9 @@ class JoinGameViewController(QWidget):
                     setCurrentWidget(self.newGameViewController.lobbyJoinView)
 
     def fillLobbyList(self):
+        self.joinGameView.gameList.clear()
+        self.joinGameView.seatsList.clear()
         for lobby in self.gameLobbyList:
-            self.joinGameView.gameList.clear()
-            self.joinGameView.seatsList.clear()
             self.joinGameView.gameList.addItem(self.buildLobbyListItem(lobby.id))
             self.joinGameView.seatsList.addItem(self.buildSeatItem(lobby.seats))
 

@@ -30,7 +30,7 @@ class ClientSocket:
 
     def receiveMsg(self):
         while True:
-            msg = self.clientSocket.recv(9216)
+            msg = self.clientSocket.recv(2048)
             msgDec = msg.decode("utf-8")
             dictMsg = json.loads(msgDec)
             msgJson = Message()

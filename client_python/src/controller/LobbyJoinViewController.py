@@ -36,7 +36,7 @@ class LobbyJoinViewController(QWidget):
         msg.gameLobbyNumber = self.lobbyId
         msg.playerId = self.signedPlayer.id
         msg.playerPublicName = self.signedPlayer.publicName
-        msg.playerImage = self.signedPlayer.userImage
+        msg.playerImage = "default"
         msg.playerIsRdy = self.signedPlayer.isRdy
         self.sendMsg(msg)
 

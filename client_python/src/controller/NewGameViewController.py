@@ -52,7 +52,7 @@ class NewGameViewController(QWidget):
         msg.messageType = "LOGIN"
         msg.playerId = self.mainMenuViewController.signedUser.id
         msg.playerPublicName = self.mainMenuViewController.signedUser.publicName
-        msg.playerImage = self.mainMenuViewController.signedUser.userImage
+        msg.playerImage = "default"
         msg.playerIsRdy = self.mainMenuViewController.signedUser.isRdy
 
         data_as_dict = vars(msg)

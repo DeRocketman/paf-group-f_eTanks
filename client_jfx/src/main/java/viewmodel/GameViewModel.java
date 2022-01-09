@@ -3,9 +3,12 @@ package viewmodel;
 import de.saxsys.mvvmfx.ViewModel;
 import javafx.animation.RotateTransition;
 import javafx.beans.property.ObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import main.ETankApplication;
 import model.game.logic.GameLobby;
@@ -15,10 +18,13 @@ public class GameViewModel implements ViewModel {
     ETankApplication eTankApplication;
     GameLobby gameLobby;
 
+    ObservableList<StackPane> elementList = FXCollections.observableArrayList();
+
 
     public void handle(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.W) {
             System.out.println("Up: " + keyEvent.getCode());
+            elementList.get(0).setRotate(90);
         }
         if (keyEvent.getCode() == KeyCode.S) {
             System.out.println("Down: " + keyEvent.getCode());
@@ -45,7 +51,9 @@ public class GameViewModel implements ViewModel {
 
     }
 
-
+    public void setElementList(ObservableList<StackPane> elementList) {
+        this.elementList = elementList;
+    }
 
     public void setETankApplication(ETankApplication eTankApplication) {
         this.eTankApplication = eTankApplication;

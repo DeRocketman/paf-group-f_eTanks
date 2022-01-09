@@ -64,6 +64,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initLevel();
         initTank(4);
+        gameViewModel.setElementList(elementList);
     }
 
     private void initLevel() {

@@ -1,5 +1,10 @@
 package model.data;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 //todo: Klaeren, ob noch gameWins and roundWins dazukommen sollen DS= ja ; Line: roundwinds ja, gamewins ergibt sich aus winner
 public class GameStatistic {
 
@@ -152,5 +157,15 @@ public class GameStatistic {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public IntegerProperty getGamePointsProperty(){
+        IntegerProperty  gamePointsP = new SimpleIntegerProperty(gamePoints);
+        return gamePointsP;
+    }
+
+    public StringProperty getuserNameProperty(){
+        StringProperty  userNameP = new SimpleStringProperty(userName);
+        return userNameP;
     }
 }

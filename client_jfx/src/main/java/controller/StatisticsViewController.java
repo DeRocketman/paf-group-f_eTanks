@@ -1,7 +1,6 @@
 package controller;
 
-import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.value.ObservableValue;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -9,9 +8,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.util.Callback;
 import model.data.GameStatistic;
+
 import java.util.List;
 
 public class StatisticsViewController extends ViewController {
@@ -38,9 +36,9 @@ public class StatisticsViewController extends ViewController {
     private Label shots;
 
     @FXML
-    private TableView<GameStatistic> tableView;
+    private TableView<GameStatistic> highscoreTable;
     @FXML
-    private TableColumn<GameStatistic, GameStatistic> positionColumn;
+    private TableColumn<GameStatistic, Integer> positionColumn;
     @FXML
     private TableColumn<GameStatistic, String> nameColumn;
     @FXML
@@ -107,10 +105,20 @@ public class StatisticsViewController extends ViewController {
 
     public void getHighscoreList() {
 
-        int listSize = 3;
+        int listSize = 10;
         List<GameStatistic> highscorelist = httpRequest.getHighscoreList(listSize);
         ObservableList<GameStatistic> observableList = FXCollections.observableArrayList(httpRequest.getHighscoreList(listSize));
-        for(GameStatistic gameStatistic : highscorelist) {}
+
+        highscoreTable.setItems(observableList);
+        this.gamePointsColumn.setCellValueFactory(e -> e.getValue().getGamePointsProperty().asObject());
+        this.nameColumn.setCellValueFactory(e -> e.getValue().getuserNameProperty());
+        this.positionColumn.setCellValueFactory(e -> {
+            GameStatistic item = e.getValue();
+            int index = highscoreTable.getItems().indexOf(item);
+            SimpleIntegerProperty indexP = new SimpleIntegerProperty(++index);
+            return indexP.asObject();
+        });
+
         if(highscorelist!=null){
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

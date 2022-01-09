@@ -53,7 +53,7 @@
                      </children>
                   </HBox>
                   <Text layoutX="400.0" layoutY="282.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Highscore" />
-                  <TableView layoutX="400.0" layoutY="307.0" prefHeight="200.0" prefWidth="329.0">
+                  <TableView fx:id="highscoreTable" layoutX="400.0" layoutY="307.0" prefHeight="200.0" prefWidth="329.0">
                     <columns>
                       <TableColumn fx:id="positionColumn" prefWidth="50.0" sortable="false" text="Platz" />
                       <TableColumn fx:id="nameColumn" prefWidth="156.0" sortable="false" text="Spieler" />

@@ -1,6 +1,6 @@
 from enum import Enum
 
-import keyboard as keyboard
+#import keyboard as keyboard
 from PySide6.QtWidgets import QWidget
 
 from model.data.UserSettings import UserSettings

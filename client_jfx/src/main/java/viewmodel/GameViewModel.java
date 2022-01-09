@@ -8,13 +8,12 @@ import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
 import main.ETankApplication;
 import model.game.logic.GameLobby;
+import view.GameView;
 
 public class GameViewModel implements ViewModel {
     ETankApplication eTankApplication;
     GameLobby gameLobby;
 
-
-    //TODO: DATABINDING FROM MODEL TO VIEW
 
     public void handle(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.W) {

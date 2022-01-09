@@ -63,6 +63,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initLevel();
+        initTank(4);
     }
 
     private void initLevel() {
@@ -74,7 +75,6 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
                 cell.setFitHeight(40.0);
                 cell.setFitWidth(40.0);
                 ground.add(cell, col, row);
-                System.out.println(col + " " +row);
             }
         }
     }
@@ -128,6 +128,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
             elementPane.getChildren().add(tank);
             elementList.add(tank);
         }
+
     }
 
     private void initElements() {

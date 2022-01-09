@@ -2,7 +2,6 @@
     -fx-background-color:  #8A8557;
 }
 
-
 .button{
     -fx-background-color: #47452E;
 -fx-text-fill:#111111;
@@ -25,7 +24,7 @@
 
 .table-view {
     -fx-base: transparent;
-    -fx-background-color: transparent;
+    -fx-background-color: none;
 }
 
 .elementPane {

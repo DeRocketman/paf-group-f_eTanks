@@ -11,6 +11,7 @@ class ExtendedConnectionData:
     playerPubName = None
     playerImage = None
     playerIsRdy = None
+    outgoingMessageBox = []
 
 
 serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

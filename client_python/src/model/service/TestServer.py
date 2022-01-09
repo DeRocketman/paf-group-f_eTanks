@@ -19,7 +19,6 @@ serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server = "localhost"
 port = 3333
 serverIP = socket.gethostbyname(server)
-threadCount = 0
 playerList = []
 
 try:
@@ -114,5 +113,4 @@ while True:
     extendedConnInfo.connection, address = serverSocket.accept()
     print("Connected to: ", address)
     playerList.append(extendedConnInfo)
-    start_new_thread(threadedClient, (extendedConnInfo,))
-    threadCount += 1
+    start_new_thread(threadedClient, extendedConnInfo)

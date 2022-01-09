@@ -45,6 +45,8 @@ public class GameViewModel implements ViewModel {
 
     }
 
+
+
     public void setETankApplication(ETankApplication eTankApplication) {
         this.eTankApplication = eTankApplication;
     }

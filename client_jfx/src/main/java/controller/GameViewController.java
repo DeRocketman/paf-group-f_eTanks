@@ -32,6 +32,8 @@ public class GameViewController {
 
     @FXML
     private Group tankOne;
+    @FXML
+    private Group tankTwo;
 
     @FXML
     public void initialize() {
@@ -48,6 +50,7 @@ public class GameViewController {
         ImageView tankHullA = new ImageView();
         ImageView tankWeaponA = new ImageView();
     }
+
 
     public void keyPressed(KeyEvent keyEvent) {
         Group myTank = tankOne;
@@ -125,7 +128,7 @@ public class GameViewController {
         rt.setToAngle(newCourse);
         if(rt.getStatus() != Animation.Status.RUNNING) {
             if(myTank.getRotate() == newCourse) {
-                if(newCourse==0.0) {
+                if(newCourse==360.0) {
                     myTank.setLayoutY(myTank.getLayoutY()-speed);
                 } else if (newCourse==180.0) {
                     myTank.setLayoutY(myTank.getLayoutY()+speed);

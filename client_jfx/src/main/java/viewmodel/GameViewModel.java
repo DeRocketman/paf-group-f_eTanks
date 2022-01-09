@@ -2,6 +2,7 @@ package viewmodel;
 
 import de.saxsys.mvvmfx.ViewModel;
 import javafx.animation.RotateTransition;
+import javafx.beans.property.ObjectProperty;
 import javafx.scene.Group;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;

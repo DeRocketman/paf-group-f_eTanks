@@ -4,17 +4,22 @@ import de.saxsys.mvvmfx.FxmlView;
 import de.saxsys.mvvmfx.InjectViewModel;
 import de.saxsys.mvvmfx.internal.viewloader.View;
 import javafx.beans.property.ObjectProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import viewmodel.GameViewModel;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -23,8 +28,12 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
     @InjectViewModel
     private GameViewModel gameViewModel;
 
+    private ObservableList<StackPane> elementList = FXCollections.observableArrayList();
+
     @FXML
     private GridPane ground;
+    @FXML
+    private Pane elementPane;
     @FXML
     private StackPane tank1;
     @FXML
@@ -71,8 +80,53 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
     }
 
     private void initTank(int playerCount) {
-        if(playerCount == 4) {
 
+        String[] imgHull = {
+                "../img/images/tanks/Hulls_Color_A/Hull_01.png",
+                "../img/images/tanks/Hulls_Color_B/Hull_01.png",
+                "../img/images/tanks/Hulls_Color_C/Hull_01.png",
+                "../img/images/tanks/Hulls_Color_D/Hull_01.png"
+        };
+
+        String[] imgWeapon = {
+                "../img/images/tanks/Weapon_Color_A/Gun_01.png",
+                "../img/images/tanks/Weapon_Color_B/Gun_01.png",
+                "../img/images/tanks/Weapon_Color_C/Gun_01.png",
+                "../img/images/tanks/Weapon_Color_D/Gun_01.png"
+        };
+
+        double[] positionsX = {100.0, 1060.0, 100.0, 1060.0};
+        double[] positionsY = {700.0, 700.0, 60.0, 60.0};
+
+        double[] rotate = {360.0, 360.0, 180.0, 180.0};
+
+        for(int i = 0; i < playerCount; i++){
+            StackPane tank = new StackPane();
+            tank.setLayoutX(positionsX[i]);
+            tank.setLayoutY(positionsY[i]);
+            tank.setPrefHeight(40.0);
+            tank.setPrefWidth(40.0);
+
+            ImageView tankHull = new ImageView();
+            tankHull.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(imgHull[i]))));
+            tankHull.setFitWidth(40.0);
+            tankHull.setFitHeight(40.0);
+            tankHull.setPickOnBounds(true);
+            tankHull.setPreserveRatio(true);
+            tankHull.setRotate(rotate[i]);
+
+            ImageView tankWeapon = new ImageView();
+            tankWeapon.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(imgWeapon[i]))));
+            tankWeapon.setFitWidth(40.0);
+            tankWeapon.setFitHeight(40.0);
+            tankWeapon.setPickOnBounds(true);
+            tankWeapon.setPreserveRatio(true);
+            tankWeapon.setRotate(rotate[i]);
+
+            tank.getChildren().addAll(tankHull, tankWeapon);
+
+            elementPane.getChildren().add(tank);
+            elementList.add(tank);
         }
     }
 

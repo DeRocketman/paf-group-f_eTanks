@@ -33,6 +33,10 @@ public class MenuViewController extends ViewController {
         }
     }
 
+    public void startGame(ActionEvent actionEvent){
+        eTankApplication.showGameView();
+    }
+
     public void logout(){
         //TODO
     }

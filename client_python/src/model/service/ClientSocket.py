@@ -1,3 +1,4 @@
+import collections
 import json
 import socket
 import threading
@@ -18,6 +19,7 @@ class ClientSocket:
         self.threadSendJoinMsg.start()
         self.threadReceiveJoinMsg = threading.Thread(target=self.receiveMsg)
         self.threadReceiveJoinMsg.start()
+        self.incomingMsgBox = collections.deque()
 
     def connect(self):
         self.clientSocket.connect((self.host, self.port))
@@ -30,7 +32,9 @@ class ClientSocket:
 
     def receiveMsg(self):
         while True:
-            msg = self.clientSocket.recv(2048)
+            #todo: json.decoder.JSONDecodeError: Extra data:
+            msg = self.clientSocket.recv(4096)
+            print("Message eingegangen")
             msgDec = msg.decode("utf-8")
             dictMsg = json.loads(msgDec)
             msgJson = Message()
@@ -43,6 +47,9 @@ class ClientSocket:
             msgJson.payload = dictMsg["payload"]
             self.deliverMsg(msgJson)
             print("Message empfangen: ", dictMsg)
+
+    def putMsgToBox(self, msg):
+        self.incomingMsgBox.append(msg)
 
     def deliverMsg(self, msg):
         if msg.messageType == "REGISTER_LOBBY":

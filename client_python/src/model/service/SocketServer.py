@@ -25,9 +25,9 @@ class SocketServer:
     def threadedClient(self, exSockData):
         while True:
             msg = exSockData.connection.recv(2048)
-            reply = msg.decode("utf-8")
-            msgJson = json.loads(reply)
-            print("Server: Nachricht empfangen von ", exSockData.playerPublicName, " ", reply)
+            #reply = msg.decode("utf-8")
+            msgJson = json.loads(msg)
+            print("Server: Nachricht empfangen von ", exSockData.playerPublicName, " ", msgJson)
 
             if msgJson["messageType"] == "LOGIN":
                 exSockData.setPlayerData(msgJson)
@@ -39,10 +39,10 @@ class SocketServer:
             elif msgJson["messageType"] == "JOIN":
                 exSockData.joinLobby(msgJson)
                 for player in self.connSocketList:
-                    if player.lobbyId == msgJson["gameLobbyNumber"] and player.playerId == exSockData.playerId:
-                        player.sendData(exSockData, msgJson, "JOINED_PLAYER")
-                    else:
+                    if player.lobbyId == msgJson["gameLobbyNumber"] and player.playerId != exSockData.playerId:
                         exSockData.sendData(player, msgJson, "JOINED_PLAYER")
+                    if player.lobbyId == msgJson["gameLobbyNumber"]:
+                        player.sendData(exSockData, msgJson, "JOINED_PLAYER")
 
             elif msgJson["messageType"] == "CHAT_MSG" or msgJson["messageType"] == "RDY_STATUS":
                 if msgJson["messageType"] == "RDY_STATUS":
@@ -62,10 +62,15 @@ class SocketServer:
             for player in self.connSocketList:
                 while len(player.outgoingMessageBox) != 0:
                     for msg in player.outgoingMessageBox:
-                        player.connection.send(msg)
-                        reply = msg.decode("utf-8")
-                        msgJson = json.loads(reply)
-                        print("Server: Nachricht gesendet an ", player.playerPublicName, " ", msgJson)
+                        if len(msg) > 2048:
+                            print("Server: Message ist zu groß: ", len(msg))
+                            # todo: Lösung finden falls Puffer zu klein ist!
+                        else:
+                            player.connection.sendall(msg)
+                            reply = msg.decode("utf-8")
+                            msgJson = json.loads(reply)
+                            print("Server: Nachricht gesendet an ", player.playerPublicName, "Größe: ", len(msg), " "
+                                  , msgJson)
                         player.outgoingMessageBox.remove(msg)
 
     def buildSocketConnection(self):

@@ -12,17 +12,17 @@ import main.ETankApplication;
 import model.data.User;
 import model.game.logic.GameLobby;
 import model.game.logic.Player;
-import model.service.GameCreator;
-import model.service.GameListener;
+import model.service.SocketClient;
+
 
 import java.io.IOException;
 
 public class GameLobbyViewController {
 
-    //TODO: Nur zum Testen erst einmal und solange Backend, Sockets ect nicht implementiert sind
-    GameCreator gc = new GameCreator();
+
+    SocketClient sc = new SocketClient("localhost",3333,this);
     private ETankApplication eTankApplication;
-    private Player signedPlayer;
+    public Player signedPlayer;
 
 
 
@@ -61,7 +61,6 @@ public class GameLobbyViewController {
     @FXML
     private void initialize() {
         switchToInit();
-        lobbyTable.setItems(gc.getGameList());
         //lobbyTable.setItems(lobbyList);
         columnLobbyNumber.setCellValueFactory(cellData -> cellData.getValue().gameLobbyIDProperty().asObject());
         columnLobbySeats.setCellValueFactory(cellData -> cellData.getValue().seatCounterProperty().asObject());
@@ -82,10 +81,11 @@ public class GameLobbyViewController {
         GameLobby lobby = new GameLobby();
         lobby.buildLobbyID();
         User sU = eTankApplication.getSignedUser();
-        Player player = new Player(sU.getId(), sU.getUserName(), sU.getPublicName(), sU.getUserImage(), sU.getPassword(),
+        this.signedPlayer = new Player(sU.getId(), sU.getUserName(), sU.getPublicName(), sU.getUserImage(), sU.getPassword(),
                 sU.getUserSettings());
-        lobby.addPlayer(player);
+        lobby.addPlayer(this.signedPlayer);
         this.lobbyList.add(lobby);
+        sc.connect();
     }
 
     @FXML
@@ -173,4 +173,6 @@ public class GameLobbyViewController {
     public void setETankApplication(ETankApplication eTankApplication) {
         this.eTankApplication = eTankApplication;
     }
+
+
 }

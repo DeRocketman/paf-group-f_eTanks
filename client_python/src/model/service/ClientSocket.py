@@ -32,7 +32,7 @@ class ClientSocket:
 
     def receiveMsg(self):
         while True:
-            #todo: json.decoder.JSONDecodeError: Extra data:
+            # todo: json.decoder.JSONDecodeError: Extra data:
             msg = self.clientSocket.recv(4096)
             print("Message eingegangen")
             msgDec = msg.decode("utf-8")

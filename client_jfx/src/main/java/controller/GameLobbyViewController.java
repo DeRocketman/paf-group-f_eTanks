@@ -80,11 +80,11 @@ public class GameLobbyViewController {
         hbxHostPanel.setVisible(true);
         GameLobby lobby = new GameLobby();
         lobby.buildLobbyID();
-        User sU = eTankApplication.getSignedUser();
-        this.signedPlayer = new Player(sU.getId(), sU.getUserName(), sU.getPublicName(), sU.getUserImage(), sU.getPassword(),
-                sU.getUserSettings());
-        lobby.addPlayer(this.signedPlayer);
-        this.lobbyList.add(lobby);
+   //     User sU = eTankApplication.getSignedUser();
+   //     this.signedPlayer = new Player(sU.getId(), sU.getUserName(), sU.getPublicName(), sU.getUserImage(), sU.getPassword(),
+   //             sU.getUserSettings());
+   //     lobby.addPlayer(this.signedPlayer);
+   //     this.lobbyList.add(lobby);
         sc.connect();
     }
 

@@ -66,10 +66,10 @@ public class SocketClient implements Runnable {
         this.gson = new Gson();
         Message loginMessage = new Message();
         loginMessage.setMessageType(MessageType.LOGIN);
-        loginMessage.setPlayerId(this.gameLobbyViewController.signedPlayer.getId());
-        loginMessage.setPlayerPublicName(this.gameLobbyViewController.signedPlayer.getPublicName());
+        loginMessage.setPlayerId(2);
+        loginMessage.setPlayerPublicName("PythonPeter");
         loginMessage.setPlayerImage("default");
-        loginMessage.setPlayerIsRdy(this.gameLobbyViewController.signedPlayer.isReady());
+        loginMessage.setPlayerIsRdy(false);
         String outgoingMsg = gson.toJson(loginMessage);
         outputStreamWriter.write(outgoingMsg);
         System.out.println("Nachricht gesendet: " + outgoingMsg);

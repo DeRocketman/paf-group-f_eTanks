@@ -50,7 +50,7 @@
                </font>
             </Text>
             <Label fx:id="lblShowIP" graphicTextGap="0.0" prefHeight="22.0" prefWidth="800.0" text="Deine IP: 255.255.255.255" />
-            <Label fx:id="lblShowIP1" layoutX="10.0" layoutY="78.0" prefHeight="22.0" prefWidth="800.0" text="Spielnummer: 123456789012345" />
+            <Label fx:id="lblGameNumber" layoutX="10.0" layoutY="78.0" prefHeight="22.0" prefWidth="800.0" text="Spielnummer: 123456789012345" />
             <Button onAction="#closeLobby" prefHeight="29.0" prefWidth="182.0" text="Lobby verlassen" />
             <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="380.0" prefWidth="799.0" visible="false">
                <children>

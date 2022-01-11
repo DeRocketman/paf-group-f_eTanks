@@ -25,8 +25,8 @@ class SocketServer:
     def threadedClient(self, exSockData):
         while True:
             msg = exSockData.connection.recv(2048)
-            #reply = msg.decode("utf-8")
-            msgJson = json.loads(msg)
+            reply = msg.decode("utf-8")
+            msgJson = json.loads(reply)
             print("Server: Nachricht empfangen von ", exSockData.playerPublicName, " ", msgJson)
 
             if msgJson["messageType"] == "LOGIN":

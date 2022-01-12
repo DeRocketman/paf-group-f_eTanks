@@ -5,6 +5,7 @@ import de.saxsys.mvvmfx.InjectViewModel;
 import de.saxsys.mvvmfx.internal.viewloader.View;
 import javafx.beans.property.ObjectProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -29,6 +30,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
     private GameViewModel gameViewModel;
 
     private ObservableList<StackPane> elementList = FXCollections.observableArrayList();
+    private ObservableList<ImageView> objectList = FXCollections.observableArrayList();
 
     @FXML
     private GridPane ground;
@@ -65,6 +67,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         initLevel();
         initTank(4);
         gameViewModel.setElementList(elementList);
+        setEventListener();
     }
 
     private void initLevel() {
@@ -129,8 +132,17 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
             elementPane.getChildren().add(tank);
             elementList.add(tank);
         }
-
     }
+
+    private void setEventListener(){
+        elementList.addListener((ListChangeListener<StackPane>) change -> {
+            if(change.next()){
+                elementPane.getChildren().add(elementList.get(change.getFrom()));
+                System.out.println("elementList: " + change.getFrom());
+            }
+        });
+    }
+
 
     private void initElements() {
         //Hier sollen die übrigen starren Items an die jeweiligen Level angepasst werden

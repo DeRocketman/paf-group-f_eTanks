@@ -17,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import model.game.logic.GamePlay;
 import viewmodel.GameViewModel;
 
 import java.net.URL;
@@ -28,6 +29,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
 
     @InjectViewModel
     private GameViewModel gameViewModel;
+    private GamePlay gamePlay;
 
     private ObservableList<StackPane> elementList = FXCollections.observableArrayList();
     private ObservableList<ImageView> objectList = FXCollections.observableArrayList();
@@ -128,6 +130,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
             tankWeapon.setRotate(rotate[i]);
 
             tank.getChildren().addAll(tankHull, tankWeapon);
+            tank.setRotate(rotate[i]);
 
             elementPane.getChildren().add(tank);
             elementList.add(tank);
@@ -146,5 +149,6 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
 
     private void initElements() {
         //Hier sollen die übrigen starren Items an die jeweiligen Level angepasst werden
+
     }
 }

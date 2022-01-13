@@ -3,6 +3,7 @@ package model.game.logic;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
+import javafx.scene.layout.StackPane;
 import model.data.GameStatistic;
 import model.game.elements.LevelElement;
 
@@ -12,11 +13,11 @@ public class GamePlay {
     private ObservableList<Player> players;
     private ObservableList<GameStatistic> gameStatistics;
     private ObservableList<LevelElement> elements;
+    private ObservableList<StackPane> elementList;
 
     public GamePlay(ObservableList<Player> players, ObservableList<GameStatistic> gameStatistics) {
         this.players = players;
         this.gameStatistics = gameStatistics;
-
     }
 
     public void createGameStatistic() {
@@ -33,4 +34,7 @@ public class GamePlay {
     }
 
 
+    public void setElementList(ObservableList<StackPane> elementList) {
+        this.elementList = elementList;
+    }
 }

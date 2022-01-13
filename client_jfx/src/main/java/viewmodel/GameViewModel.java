@@ -1,158 +1,98 @@
 package viewmodel;
 
 import de.saxsys.mvvmfx.ViewModel;
+import javafx.animation.Animation;
 import javafx.animation.RotateTransition;
+import javafx.beans.property.ObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.scene.Group;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import main.ETankApplication;
 import model.game.logic.GameLobby;
+import model.game.logic.GamePhysics;
 import view.GameView;
-
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 public class GameViewModel implements ViewModel {
     ETankApplication eTankApplication;
     GameLobby gameLobby;
 
-    double mapWidth = 1200;
-    double mapHeight = 800;
-    int speed = 5;
-
     ObservableList<StackPane> elementList = FXCollections.observableArrayList();
-    ObservableList<ImageView> objectList = FXCollections.observableArrayList();
 
- //   @FXML
- //   private Pane elementPane;
 
     public void handle(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.W) {
-            movePlayer(0,0);
+            System.out.println("Up: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(0).getRotate());
+            moveTank(elementList.get(0), 360.0);
         }
         if (keyEvent.getCode() == KeyCode.S) {
-            movePlayer(0, 180);
+            System.out.println("Down: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(0).getRotate());
+            moveTank(elementList.get(0), 180.0);
         }
         if (keyEvent.getCode() == KeyCode.D) {
-            movePlayer(0,90);
+            System.out.println("Right: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(0).getRotate());
+            moveTank(elementList.get(0), 90.0);
         }
         if (keyEvent.getCode() == KeyCode.A) {
-            movePlayer(0, 270);
+            System.out.println("Left: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(0).getRotate());
+            moveTank(elementList.get(0), 270.0);
         }
         if (keyEvent.getCode() == KeyCode.SPACE) {
-            System.out.println("FEUERTASTE: " + keyEvent.getCode());
-            shoot(0);
+            System.out.println("FEUERTASTE: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(0).getRotate());
+        }
+    }
+
+    public void moveTank(StackPane myTank, double newCourse) {
+        double speed = GamePhysics.TANK_SPEED;
+        if (myTank.getRotate() == newCourse) {
+            if (newCourse == 360.0) {
+                myTank.setLayoutY(myTank.getLayoutY() - speed);
+            } else if (newCourse == 180.0) {
+                myTank.setLayoutY(myTank.getLayoutY() + speed);
+            } else if (newCourse == 90.0) {
+                myTank.setLayoutX(myTank.getLayoutX() + speed);
+            } else if (newCourse == 270.0) {
+                myTank.setLayoutX(myTank.getLayoutX() - speed);
+            }
+        } else {
+            rotateTransition(myTank, newCourse);
         }
     }
 
 
-    public void RotateTransition(Group myTank, double newCourse) {
+    public void rotateTransition(StackPane myTank, double newCourse) {
 
-        RotateTransition rt = new RotateTransition(Duration.seconds(0.2), myTank);
-        rt.setFromAngle(myTank.getRotate());
-        rt.setToAngle(newCourse);
+        RotateTransition rt;
 
+        if (Math.abs(myTank.getRotate() - newCourse) == 180.0) {
+            rt = new RotateTransition(Duration.seconds(GamePhysics.TANK_QUARTER_ROTATION_DURATION * 2), myTank);
+        } else {
+            rt = new RotateTransition(Duration.seconds(GamePhysics.TANK_QUARTER_ROTATION_DURATION), myTank);
+        }
+        if (rt.getStatus() != Animation.Status.RUNNING) {
+            if (myTank.getRotate() == 360.0 && newCourse == 90.0) {
+                myTank.setRotate(0.0);
+                rt.setFromAngle(myTank.getRotate());
+                rt.setToAngle(newCourse);
+            } else if (myTank.getRotate() == 0.0 && newCourse == 360.0) {
+                myTank.setRotate(newCourse);
+                rt.setFromAngle(myTank.getRotate());
+                rt.setToAngle(newCourse);
+            } else if (myTank.getRotate() == 90.0 && newCourse == 360.0) {
+                rt.setFromAngle(myTank.getRotate());
+                rt.setToAngle(0.0);
+            } else {
+                rt.setFromAngle(myTank.getRotate());
+                rt.setToAngle(newCourse);
+            }
+            if (myTank.getRotate() == 0.0) {
+                myTank.setRotate(360.0);
+            }
+        }
         rt.play();
-
-    }
-
-    public void movePlayer(int player, int course){
-        if(course == 0){
-            elementList.get(player).setRotate(0);
-            elementList.get(player).setLayoutY(elementList.get(player).getLayoutY() - speed);
-        } else if (course == 90){
-            elementList.get(player).setRotate(90);
-            elementList.get(player).setLayoutX(elementList.get(player).getLayoutX() + speed);
-        } else if(course==180){
-            elementList.get(player).setRotate(180);
-            elementList.get(player).setLayoutY(elementList.get(player).getLayoutY() + speed);
-        }else if (course==270){
-            elementList.get(player).setRotate(270);
-            elementList.get(player).setLayoutX(elementList.get(player).getLayoutX() - speed);
-        }
-    }
-
-    public void shoot(int player){
-        double startPositionX = elementList.get(player).getLayoutX();
-        double startPositionY = elementList.get(player).getLayoutY();
-
-        StackPane bulletPane = new StackPane();
-        bulletPane.setLayoutX(startPositionX);
-        bulletPane.setLayoutY(startPositionY);
-        bulletPane.setPrefHeight(40.0);
-        bulletPane.setPrefWidth(40.0);
-
-        ImageView bullet = new ImageView();
-        bullet.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../img/images/bullets/Medium_Shell.png"))));
-        bullet.setFitWidth(40.0);
-        bullet.setFitHeight(40.0);
-        bullet.setPickOnBounds(true);
-        //Korrekte Proportionen
-        bullet.setPreserveRatio(true);
-
-
-        bulletPane.getChildren().add(bullet);
-
-        elementList.add(bulletPane);
-        objectList.add(bullet);
-        System.out.println("Bild erstellt");
-
-        //Rotation
-        double rotation = elementList.get(player).getRotate();
-        moveBullet(elementList.size() -1, rotation);
-    }
-
-    public void moveBullet(int elementListNo, double rotation) {
-        double positionX = elementList.get(elementListNo).getLayoutX();
-        double positionY = elementList.get(elementListNo).getLayoutY();
-
-        elementList.get(elementListNo).setRotate(rotation);
-
-        switch ((int) rotation){
-            case 0:
-                System.out.println("Bullet Startposition: " + positionY);
-                System.out.println("Bullet up");
-                for(double newPosition = positionY; newPosition > 0.0 ; newPosition--){
-                    //TODO: Pause zwischen einzelnen Positionen
-                    elementList.get(elementListNo).setLayoutY(newPosition);
-                    System.out.println("Bullet Position: " + newPosition);
-                }
-                //TODO: Remove Bullet
-                break;
-            case 90:
-                System.out.println("Bullet right");
-                System.out.println("Bullet Position: " + positionX);
-                for(double newPosition = positionX; newPosition < mapWidth; newPosition++){
-                    elementList.get(elementListNo).setLayoutX(newPosition);
-                    System.out.println("Bullet Position: " + newPosition);
-                }
-                break;
-            case 180:
-                System.out.println("Bullet down");
-                System.out.println("Bullet Startposition: " + positionY);
-                for(double newPosition = positionY; newPosition < mapHeight ; newPosition++){
-                    elementList.get(elementListNo).setLayoutY(newPosition);
-                    System.out.println("Bullet Position: " + newPosition);
-                }
-                break;
-            case 270:
-                System.out.println("Bullet left");
-                System.out.println("Bullet Position: " + positionX);
-                for(double newPosition = positionX; newPosition > 0.0 ; newPosition--){
-                    elementList.get(elementListNo).setLayoutX(newPosition);
-                    System.out.println("Bullet Position: " + newPosition);
-                }
-                break;
-        }
     }
 
     public void setElementList(ObservableList<StackPane> elementList) {

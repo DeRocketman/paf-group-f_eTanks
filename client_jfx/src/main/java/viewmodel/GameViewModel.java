@@ -17,11 +17,14 @@ import model.game.logic.GameLobby;
 import model.game.logic.GamePhysics;
 import view.GameView;
 
+import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.util.Objects;
 
 public class GameViewModel implements ViewModel {
     ETankApplication eTankApplication;
     GameLobby gameLobby;
+
+    int wichTank = 1;
 
     ObservableList<StackPane> elementList = FXCollections.observableArrayList();
     ObservableList<ImageView> bulletList = FXCollections.observableArrayList();
@@ -30,40 +33,48 @@ public class GameViewModel implements ViewModel {
     public void handle(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.W) {
             System.out.println("Up: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(0).getRotate());
-            moveTank(elementList.get(0), 360.0);
+            moveTank(elementList.get(wichTank), 360.0);
         }
         if (keyEvent.getCode() == KeyCode.S) {
             System.out.println("Down: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(0).getRotate());
-            moveTank(elementList.get(0), 180.0);
+            moveTank(elementList.get(wichTank), 180.0);
         }
         if (keyEvent.getCode() == KeyCode.D) {
             System.out.println("Right: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(0).getRotate());
-            moveTank(elementList.get(0), 90.0);
+            moveTank(elementList.get(wichTank), 90.0);
         }
         if (keyEvent.getCode() == KeyCode.A) {
             System.out.println("Left: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(0).getRotate());
-            moveTank(elementList.get(0), 270.0);
+            moveTank(elementList.get(wichTank), 270.0);
         }
         if (keyEvent.getCode() == KeyCode.SPACE) {
-            fireMainWeapon(elementList.get(0));
+            fireMainWeapon(elementList.get(wichTank));
             System.out.println("FEUERTASTE: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(0).getRotate());
         }
     }
 
     /*
-    * Bewegt den Tank
-    * */
+     * Bewegt den Tank bis an die Spielfeldgrenze
+     * */
     public void moveTank(StackPane myTank, double newCourse) {
         double speed = GamePhysics.TANK_SPEED;
         if (myTank.getRotate() == newCourse) {
             if (newCourse == 360.0) {
-                myTank.setLayoutY(myTank.getLayoutY() - speed);
+                if (myTank.getLayoutY() >= 5) {
+                    myTank.setLayoutY(myTank.getLayoutY() - speed);
+                }
             } else if (newCourse == 180.0) {
-                myTank.setLayoutY(myTank.getLayoutY() + speed);
+                if (myTank.getLayoutY() <= GamePhysics.GAME_HEIGHT - 45) {
+                    myTank.setLayoutY(myTank.getLayoutY() + speed);
+                }
             } else if (newCourse == 90.0) {
-                myTank.setLayoutX(myTank.getLayoutX() + speed);
+                if (myTank.getLayoutX() <= GamePhysics.GAME_WIDTH - 45) {
+                    myTank.setLayoutX(myTank.getLayoutX() + speed);
+                }
             } else if (newCourse == 270.0) {
-                myTank.setLayoutX(myTank.getLayoutX() - speed);
+                if (myTank.getLayoutX() >= 10) {
+                    myTank.setLayoutX(myTank.getLayoutX() - speed);
+                }
             }
         } else {
             rotateTransition(myTank, newCourse);
@@ -71,8 +82,8 @@ public class GameViewModel implements ViewModel {
     }
 
     /*
-    * Sorgt für die Rotationsanimation
-    * */
+     * Sorgt für die Rotationsanimation
+     * */
     public void rotateTransition(StackPane myTank, double newCourse) {
 
         RotateTransition rt;
@@ -119,22 +130,24 @@ public class GameViewModel implements ViewModel {
         mainBullet.setRotate(myTank.getRotate());
         translateTransition(mainBullet, myTank);
         bulletList.add(mainBullet);
-        System.out.println(mainBullet.getFitHeight() +" "+ mainBullet.getFitWidth());
     }
 
-    private void translateTransition(ImageView imageView, StackPane myTank){
+    /*
+     * Transition für die Animation der Bullets
+     * */
+    private void translateTransition(ImageView imageView, StackPane myTank) {
         TranslateTransition tr = new TranslateTransition();
         tr.setNode(imageView);
 
-        if(myTank.getRotate() == 90.0){
+        if (myTank.getRotate() == 90.0) {
             tr.setDuration(Duration.millis(GamePhysics.BULLET_SPEED));
             tr.setByX(GamePhysics.SHOOT_LENGTH);
         } else if (myTank.getRotate() == 360 || myTank.getRotate() == 0) {
             tr.setDuration(Duration.millis(GamePhysics.BULLET_SPEED));
-            tr.setByY(- GamePhysics.SHOOT_LENGTH);
+            tr.setByY(-GamePhysics.SHOOT_LENGTH);
         } else if (myTank.getRotate() == 270) {
             tr.setDuration(Duration.millis(GamePhysics.BULLET_SPEED));
-            tr.setByX(- GamePhysics.SHOOT_LENGTH);
+            tr.setByX(-GamePhysics.SHOOT_LENGTH);
         } else if (myTank.getRotate() == 180) {
             tr.setDuration(Duration.millis(GamePhysics.BULLET_SPEED));
             tr.setByY(GamePhysics.SHOOT_LENGTH);
@@ -142,22 +155,23 @@ public class GameViewModel implements ViewModel {
         tr.play();
     }
 
-    //TODO auslagern nach Tank?
+    //TODO auslagern nach Tank? Gibt ein Array mit den Werten 0,0 zurück, wenn der Panzer noch in der Rotation ist.
     private double[] setCorrectPosition(StackPane myTank) {
         double[] bulletStartPosition = new double[2];
-        if(myTank.getRotate() == 360.0) {
+        if (myTank.getRotate() == 360.0 || myTank.getRotate() == 0.0) {
             bulletStartPosition[0] = myTank.getLayoutX();
-            bulletStartPosition[1] = myTank.getLayoutY()-26.0;
+            bulletStartPosition[1] = myTank.getLayoutY() - 26.0;
         } else if (myTank.getRotate() == 90.0) {
-            bulletStartPosition[0] = myTank.getLayoutX()+26.0;
+            bulletStartPosition[0] = myTank.getLayoutX() + 26.0;
             bulletStartPosition[1] = myTank.getLayoutY();
         } else if (myTank.getRotate() == 180.0) {
             bulletStartPosition[0] = myTank.getLayoutX();
-            bulletStartPosition[1] = myTank.getLayoutY()+26.0;
+            bulletStartPosition[1] = myTank.getLayoutY() + 26.0;
         } else if (myTank.getRotate() == 270.0) {
-            bulletStartPosition[0] = myTank.getLayoutX()-26.0;
+            bulletStartPosition[0] = myTank.getLayoutX() - 26.0;
             bulletStartPosition[1] = myTank.getLayoutY();
         }
+        System.out.println("X: " + bulletStartPosition[0] + " Y:" + bulletStartPosition[1]);
         return bulletStartPosition;
     }
 
@@ -170,7 +184,7 @@ public class GameViewModel implements ViewModel {
         bulletColours[3] = "../img/images/bullets/Flash_A_04.png";
         bulletColours[4] = "../img/images/bullets/Flash_A_05.png";
         bulletColours[5] = "../img/images/bullets/Medium_Shell.png";
-        return  bulletColours;
+        return bulletColours;
     }
 
     public void setElementList(ObservableList<StackPane> elementList) {

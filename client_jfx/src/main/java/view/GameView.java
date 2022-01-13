@@ -33,6 +33,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
 
     private ObservableList<StackPane> elementList = FXCollections.observableArrayList();
     private ObservableList<ImageView> objectList = FXCollections.observableArrayList();
+    private ObservableList<ImageView> bulletList = FXCollections.observableArrayList();
 
     @FXML
     private GridPane ground;
@@ -69,7 +70,9 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         initLevel();
         initTank(4);
         gameViewModel.setElementList(elementList);
+        gameViewModel.setBulletList(bulletList);
         setEventListener();
+        setBulletEventListener();
     }
 
     private void initLevel() {
@@ -142,6 +145,15 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
             if(change.next()){
                 elementPane.getChildren().add(elementList.get(change.getFrom()));
                 System.out.println("elementList: " + change.getFrom());
+            }
+        });
+    }
+
+    private void setBulletEventListener(){
+        bulletList.addListener((ListChangeListener<ImageView>) change -> {
+            if(change.next()){
+                elementPane.getChildren().add(bulletList.get(change.getFrom()));
+                System.out.println("BulletList: " + change.getFrom());
             }
         });
     }

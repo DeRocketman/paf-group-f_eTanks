@@ -7,6 +7,8 @@ import javafx.beans.property.ObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
@@ -16,11 +18,14 @@ import model.game.logic.GameLobby;
 import model.game.logic.GamePhysics;
 import view.GameView;
 
+import java.util.Objects;
+
 public class GameViewModel implements ViewModel {
     ETankApplication eTankApplication;
     GameLobby gameLobby;
 
     ObservableList<StackPane> elementList = FXCollections.observableArrayList();
+    ObservableList<ImageView> bulletList = FXCollections.observableArrayList();
 
 
     public void handle(KeyEvent keyEvent) {
@@ -41,10 +46,14 @@ public class GameViewModel implements ViewModel {
             moveTank(elementList.get(0), 270.0);
         }
         if (keyEvent.getCode() == KeyCode.SPACE) {
+            fireMainWeapon(elementList.get(0));
             System.out.println("FEUERTASTE: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(0).getRotate());
         }
     }
 
+    /*
+    * Bewegt den Tank
+    * */
     public void moveTank(StackPane myTank, double newCourse) {
         double speed = GamePhysics.TANK_SPEED;
         if (myTank.getRotate() == newCourse) {
@@ -62,7 +71,9 @@ public class GameViewModel implements ViewModel {
         }
     }
 
-
+    /*
+    * Sorgt für die Rotationsanimation
+    * */
     public void rotateTransition(StackPane myTank, double newCourse) {
 
         RotateTransition rt;
@@ -95,6 +106,53 @@ public class GameViewModel implements ViewModel {
         rt.play();
     }
 
+    private void fireMainWeapon(StackPane myTank) {
+        double[] bsp = setCorrectPosition(myTank);
+        //BulletMainWeapon bmw = new BulletMainWeapon(bsp[0], bsp[1], setMainBulletPath(), myTank.getRotate(), true,);
+        ImageView mainBullet = new ImageView();
+        mainBullet.setFitHeight(40);
+        mainBullet.setFitWidth(40);
+        mainBullet.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(setMainBulletPath()[5]))));
+        mainBullet.setLayoutX(bsp[0]);
+        mainBullet.setLayoutY(bsp[1]);
+        mainBullet.setDisable(false);
+        mainBullet.setVisible(true);
+        mainBullet.setRotate(myTank.getRotate());
+        bulletList.add(mainBullet);
+        System.out.println(mainBullet.getFitHeight() +" "+ mainBullet.getFitWidth());
+    }
+
+    //TODO auslagern nach Tank?
+    private double[] setCorrectPosition(StackPane myTank) {
+        double[] bulletStartPosition = new double[2];
+        if(myTank.getRotate() == 360.0) {
+            bulletStartPosition[0] = myTank.getLayoutX();
+            bulletStartPosition[1] = myTank.getLayoutY()-26.0;
+        } else if (myTank.getRotate() == 90.0) {
+            bulletStartPosition[0] = myTank.getLayoutX()+26.0;
+            bulletStartPosition[1] = myTank.getLayoutY();
+        } else if (myTank.getRotate() == 180.0) {
+            bulletStartPosition[0] = myTank.getLayoutX();
+            bulletStartPosition[1] = myTank.getLayoutY()+26.0;
+        } else if (myTank.getRotate() == 270.0) {
+            bulletStartPosition[0] = myTank.getLayoutX()-26.0;
+            bulletStartPosition[1] = myTank.getLayoutY();
+        }
+        return bulletStartPosition;
+    }
+
+    //TODO Auslagern nach BulletMainWeapon!
+    private String[] setMainBulletPath() {
+        String[] bulletColours = new String[6];
+        bulletColours[0] = "../img/images/bullets/Flash_A_01.png";
+        bulletColours[1] = "../img/images/bullets/Flash_A_02.png";
+        bulletColours[2] = "../img/images/bullets/Flash_A_03.png";
+        bulletColours[3] = "../img/images/bullets/Flash_A_04.png";
+        bulletColours[4] = "../img/images/bullets/Flash_A_05.png";
+        bulletColours[5] = "../img/images/bullets/Medium_Shell.png";
+        return  bulletColours;
+    }
+
     public void setElementList(ObservableList<StackPane> elementList) {
         this.elementList = elementList;
     }
@@ -105,5 +163,9 @@ public class GameViewModel implements ViewModel {
 
     public void setGame(GameLobby gameLobby) {
         this.gameLobby = gameLobby;
+    }
+
+    public void setBulletList(ObservableList<ImageView> bulletList) {
+        this.bulletList = bulletList;
     }
 }

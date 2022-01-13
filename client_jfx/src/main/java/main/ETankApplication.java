@@ -1,6 +1,6 @@
 package main;
 
-import controller.*;
+
 import de.saxsys.mvvmfx.FluentViewLoader;
 import de.saxsys.mvvmfx.ViewTuple;
 import javafx.application.Application;
@@ -9,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 //not used in MVVM javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+
+import controller.*;
 //not used in MVVM import model.game.Game;
 import model.data.GameStatistic;
 import model.data.User;
@@ -199,6 +201,5 @@ public class ETankApplication extends Application {
     public void setBearerToken(String bearerToken) {
         BearerToken = bearerToken;
     }
-
 
 }

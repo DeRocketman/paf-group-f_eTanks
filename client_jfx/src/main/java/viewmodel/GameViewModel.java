@@ -1,8 +1,7 @@
 package viewmodel;
 
 import de.saxsys.mvvmfx.ViewModel;
-import javafx.animation.Animation;
-import javafx.animation.RotateTransition;
+import javafx.animation.*;
 import javafx.beans.property.ObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -118,8 +117,29 @@ public class GameViewModel implements ViewModel {
         mainBullet.setDisable(false);
         mainBullet.setVisible(true);
         mainBullet.setRotate(myTank.getRotate());
+        translateTransition(mainBullet, myTank);
         bulletList.add(mainBullet);
         System.out.println(mainBullet.getFitHeight() +" "+ mainBullet.getFitWidth());
+    }
+
+    private void translateTransition(ImageView imageView, StackPane myTank){
+        TranslateTransition tr = new TranslateTransition();
+        tr.setNode(imageView);
+
+        if(myTank.getRotate() == 90.0){
+            tr.setDuration(Duration.millis(GamePhysics.BULLET_SPEED));
+            tr.setByX(GamePhysics.SHOOT_LENGTH);
+        } else if (myTank.getRotate() == 360 || myTank.getRotate() == 0) {
+            tr.setDuration(Duration.millis(GamePhysics.BULLET_SPEED));
+            tr.setByY(- GamePhysics.SHOOT_LENGTH);
+        } else if (myTank.getRotate() == 270) {
+            tr.setDuration(Duration.millis(GamePhysics.BULLET_SPEED));
+            tr.setByX(- GamePhysics.SHOOT_LENGTH);
+        } else if (myTank.getRotate() == 180) {
+            tr.setDuration(Duration.millis(GamePhysics.BULLET_SPEED));
+            tr.setByY(GamePhysics.SHOOT_LENGTH);
+        }
+        tr.play();
     }
 
     //TODO auslagern nach Tank?

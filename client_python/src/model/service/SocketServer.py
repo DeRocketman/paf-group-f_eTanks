@@ -72,8 +72,8 @@ class SocketServer:
                             player.connection.send(msg)
                             reply = msg.decode("utf-8")
                             msgJson = json.loads(reply)
-                            print("Server: Nachricht gesendet an ", player.playerPublicName, "Größe: ", len(msg), " "
-                                  , msgJson)
+                            print("Server: Nachricht gesendet an ", player.playerPublicName, "Größe: ", len(msg), " ",
+                                  msgJson)
                         player.outgoingMessageBox.remove(msg)
 
     def buildSocketConnection(self):

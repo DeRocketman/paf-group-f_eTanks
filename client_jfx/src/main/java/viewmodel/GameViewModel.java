@@ -13,8 +13,10 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import main.ETankApplication;
+import model.game.elements.LevelElementImage;
 import model.game.logic.GameLobby;
 import model.game.logic.GamePhysics;
+import model.game.logic.GamePlay;
 import view.GameView;
 
 import javax.swing.plaf.synth.SynthOptionPaneUI;
@@ -23,15 +25,17 @@ import java.util.Objects;
 public class GameViewModel implements ViewModel {
     ETankApplication eTankApplication;
     GameLobby gameLobby;
+    GamePlay gamePlay;
 
     int wichTank = 3;
 
     ObservableList<StackPane> elementList = FXCollections.observableArrayList();
     ObservableList<ImageView> bulletList = FXCollections.observableArrayList();
 
-
     public void handle(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.W) {
+            createElement();
+
             System.out.println("Up: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(wichTank).getRotate());
             moveTank(elementList.get(wichTank), 360.0);
         }
@@ -80,6 +84,22 @@ public class GameViewModel implements ViewModel {
             rotateTransition(myTank, newCourse);
         }
     }
+
+/*
+    AnimationTimer collisionTimer = new AnimationTimer() {
+        @Override
+        public void handle(long timestamp) {
+            checkCollision(elementList.get(0), elementList.get(1));
+        }
+    };
+
+    public boolean checkCollision(StackPane player, StackPane enemy){
+        //is player hitting enemy (element 1)
+        if(){
+            System.out.println("Collision");
+            return true;
+        } else return false;
+    }*/
 
     /*
      * Sorgt für die Rotationsanimation
@@ -199,7 +219,32 @@ public class GameViewModel implements ViewModel {
         this.gameLobby = gameLobby;
     }
 
+    public void setGamePlay(){
+        this.gamePlay = new GamePlay();
+        //this.gamePlay = new GamePlay(eTankApplication.getPlayerlist());
+        //this.gamePlay = eTankApplication.getGamePlay();
+    }
+
+    public GamePlay getGamePlay(){
+        return this.gamePlay;
+    }
+
     public void setBulletList(ObservableList<ImageView> bulletList) {
         this.bulletList = bulletList;
+    }
+
+    public void createElement (){
+        LevelElementImage test = new LevelElementImage("../../../img/images/tanks/Hulls_Color_A/Hull_01.png" , "tank", 200.0, 200.0, 40.0,40.0 );
+        StackPane tank = new StackPane();
+        tank.setLayoutX(200.0);
+        tank.setLayoutY(200.0);
+        tank.setPrefHeight(40.0);
+        tank.setPrefWidth(40.0);
+
+        tank.getChildren().add(test);
+
+        System.out.println(test.getType());
+
+        elementList.add(tank);
     }
 }

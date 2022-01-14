@@ -6,6 +6,8 @@ import javafx.scene.control.ButtonType;
 import model.data.GameStatistic;
 import model.service.HttpRequest;
 
+import java.io.IOException;
+
 public class MenuViewController extends ViewController {
 
     HttpRequest httpRequest = new HttpRequest();
@@ -34,7 +36,7 @@ public class MenuViewController extends ViewController {
         }
     }
 
-    public void startGame(ActionEvent actionEvent){
+    public void startGame(ActionEvent actionEvent) {
           eTankApplication.showGameView();
     }
 

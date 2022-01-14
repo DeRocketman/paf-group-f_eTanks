@@ -2,6 +2,7 @@ package model.service;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import model.data.GameStatistic;
 import model.data.User;
 import model.data.UserSettings;
 import model.data.UserStatistic;
@@ -18,6 +19,7 @@ public class GameCreator {
     public GameCreator() throws IOException {
         UserSettings testUserSetting = new UserSettings();
         UserStatistic testUserStatistic = new UserStatistic();
+        GameStatistic testGameStatistic = new GameStatistic();
 
         Player testPlayer = new Player(1000, "Line-Maxi", "Rocket wo man",
                     "/Users/maximilianrupprecht/IdeaProjects/PaF_mit_Security/ETankapplicationRESTAPI/ETankRESTAPI/src/main/java/thl/gruppef/etankrest/etankrestapi/entities/default-user-image_nose.png", "passwort", testUserSetting);
@@ -40,6 +42,4 @@ public class GameCreator {
     public ObservableList<GameLobby> getGameList(){
         return gameLobbyList;
     }
-
-
 }

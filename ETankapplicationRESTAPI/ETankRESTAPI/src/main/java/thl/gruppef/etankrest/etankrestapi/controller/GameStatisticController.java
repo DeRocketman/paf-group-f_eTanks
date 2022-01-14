@@ -63,4 +63,12 @@ public class GameStatisticController {
         List<GameStatistic> gameStatisticsTop = gameStatisticPageTest.getContent();
         return gameStatisticsTop;
     }
+
+        /*
+    @GetMapping("/highscorelist")
+    public List<GameStatistic> Highscorelist(GameStatisticPage gameStatisticPage){
+        Page<GameStatistic> gameStatisticPageTest =gameStatisticService.getGameStatistics(gameStatisticPage);
+        List<GameStatistic> gameStatisticsTop3 = gameStatisticPageTest.getContent();
+        return gameStatisticsTop3;
+    }*/
 }

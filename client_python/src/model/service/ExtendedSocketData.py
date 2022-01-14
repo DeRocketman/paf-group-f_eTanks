@@ -16,7 +16,7 @@ class ExtendedSocketData:
         self.outgoingMessageBox = []
 
     def setPlayerData(self, msgJson):
-        self.clientLanguage = msgJson["clientLanguage"]
+        self.clientLanguage = msgJson["payload"]
         self.playerId = msgJson["playerId"]
         self.playerPublicName = msgJson["playerPublicName"]
         self.playerIsRdy = msgJson["playerIsRdy"]
@@ -52,4 +52,4 @@ class ExtendedSocketData:
         self.playerIsRdy = msgJson["playerIsRdy"]
 
     def putInMessageBox(self, msgJson):
-        self.outgoingMessageBox.append(str.encode(json.dumps(msgJson)))
+        self.outgoingMessageBox.append(str.encode(json.dumps(msgJson) + "\n"))

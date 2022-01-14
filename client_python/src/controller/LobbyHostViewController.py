@@ -46,6 +46,7 @@ class LobbyHostViewController(QWidget):
             self.playerRdyListView.addItem(self.buildPlayerRdyIconItem(player))
 
     def rdyStatus(self, playerFromMsg):
+        rdyCounter = 0
         if playerFromMsg.id == self.signedPlayer.id:
             if playerFromMsg.isRdy:
                 self.lobbyHostView.setRdyButton.setText("Bereit!")
@@ -53,10 +54,17 @@ class LobbyHostViewController(QWidget):
             else:
                 self.lobbyHostView.setRdyButton.setText("Nicht Bereit!")
                 self.lobbyHostView.setRdyButton.setStyleSheet("Background-Color: grey; Color: red")
+
+        for player in self.playerList:
+            if playerFromMsg.id == player.id:
+                player.isRdy = playerFromMsg.isRdy
+            if player.isRdy:
+                rdyCounter += 1
+
+        if len(self.playerList) == rdyCounter and rdyCounter > 1:
+            self.lobbyHostView.startGameButton.setDisabled(False)
         else:
-            for player in self.playerList:
-                if playerFromMsg.id == player.id:
-                    player.isRdy = playerFromMsg.isRdy
+            self.lobbyHostView.startGameButton.setDisabled(True)
 
         self.playerListView.clear()
         self.playerRdyListView.clear()

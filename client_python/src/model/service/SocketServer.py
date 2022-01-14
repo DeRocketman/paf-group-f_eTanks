@@ -37,6 +37,7 @@ class SocketServer:
             elif msgJson["messageType"] == "REGISTER_LOBBY":
                 exSockData.registerLobby(msgJson)
                 lobby = ServerLobby(exSockData.lobbyId)
+                lobby.playerCount += 1
                 lobby.addPlayerConn(exSockData)
                 lobby.hostConnection = exSockData
                 self.lobbyList.append(lobby)
@@ -44,11 +45,15 @@ class SocketServer:
 
             elif msgJson["messageType"] == "JOIN":
                 exSockData.joinLobby(msgJson)
-                for player in self.connSocketList:
-                    if player.lobbyId == msgJson["gameLobbyNumber"] and player.playerId != exSockData.playerId:
-                        exSockData.sendData(player, msgJson, "JOINED_PLAYER")
-                    if player.lobbyId == msgJson["gameLobbyNumber"]:
-                        player.sendData(exSockData, msgJson, "JOINED_PLAYER")
+                for lobby in self.lobbyList:
+                    if lobby.lobbyId == msgJson["gameLobbyNumber"]:
+                        lobby.addPlayerConn(exSockData)
+                        lobby.playerCount += 1
+                        for player in lobby.playerConnectionList:
+                            if player.playerId != exSockData.playerId:
+                                player.sendData(exSockData, msgJson, "JOINED_PLAYER")
+                                exSockData.sendData(player, msgJson, "JOINED_PLAYER")
+                        exSockData.sendData(exSockData, msgJson, "JOINED_PLAYER")
 
             elif msgJson["messageType"] == "CHAT_MSG" or msgJson["messageType"] == "RDY_STATUS":
                 if msgJson["messageType"] == "RDY_STATUS":
@@ -59,11 +64,8 @@ class SocketServer:
 
             elif msgJson["messageType"] == "GET_LOBBIES":
                 for lobby in self.lobbyList:
-                    seatCount = 0
-                    for player in self.connSocketList:
-                        if lobby == player.lobbyId:
-                            seatCount += 1
-                    exSockData.getLobbyData(lobby, seatCount, msgJson)
+                    seatCount = lobby.playerCount
+                    exSockData.getLobbyData(lobby.lobbyId, seatCount, msgJson)
 
             for player in self.connSocketList:
                 while len(player.outgoingMessageBox) != 0:
@@ -74,7 +76,6 @@ class SocketServer:
                         else:
                             if player.clientLanguage == "JAVA":
                                 player.connection.send(struct.pack(">H", len(msg)))
-
                             player.connection.send(msg)
                             reply = msg.decode("utf-8")
                             msgJson = json.loads(reply)

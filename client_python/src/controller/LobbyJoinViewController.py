@@ -55,10 +55,10 @@ class LobbyJoinViewController(QWidget):
             else:
                 self.lobbyJoinView.setRdyButton.setText("Nicht Bereit!")
                 self.lobbyJoinView.setRdyButton.setStyleSheet("Background-Color: grey; Color: red")
-        else:
-            for player in self.playerList:
-                if playerFromMsg.id == player.id:
-                    player.isRdy = playerFromMsg.isRdy
+
+        for player in self.playerList:
+            if playerFromMsg.id == player.id:
+                player.isRdy = playerFromMsg.isRdy
 
         self.playerListView.clear()
         self.playerRdyListView.clear()
@@ -124,7 +124,7 @@ class LobbyJoinViewController(QWidget):
             pixmap.load("../resources/images/default-user-image.png")
         else:
             pixmap.loadFromData(base64.b64decode(user.userImage))
-        pixmap.scaled(36,36, QtCore.Qt.IgnoreAspectRatio)
+        pixmap.scaled(36, 36, QtCore.Qt.IgnoreAspectRatio)
         return QListWidgetItem(pixmap, user.publicName)
 
     @staticmethod
@@ -134,5 +134,5 @@ class LobbyJoinViewController(QWidget):
             pixmap.load("../resources/images/rdy.png")
         else:
             pixmap.load("../resources/images/notrdy.png")
-        pixmap.scaled(36,36, QtCore.Qt.IgnoreAspectRatio)
-        return  QListWidgetItem(pixmap, "")
+        pixmap.scaled(36, 36, QtCore.Qt.IgnoreAspectRatio)
+        return QListWidgetItem(pixmap, "")

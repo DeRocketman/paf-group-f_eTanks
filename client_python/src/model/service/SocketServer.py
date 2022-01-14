@@ -3,7 +3,6 @@ import socket
 import struct
 from _thread import *
 
-import jpysocket as jpysocket
 
 from model.service.ExtendedSocketData import ExtendedSocketData
 
@@ -70,10 +69,8 @@ class SocketServer:
                             # todo: Lösung finden falls Puffer zu klein ist!
                         else:
                             player.connection.send(struct.pack(">H", len(msg)))
-                            reply = msg.decode("utf-8")
-                            msg = jpysocket.jpyencode(reply)
                             player.connection.send(msg)
-                            reply = jpysocket.jpydecode(msg)
+                            reply = msg.decode("utf-8")
                             msgJson = json.loads(reply)
                             print("Server: Nachricht gesendet an ", player.playerPublicName, "Größe: ", len(msg), " "
                                   , msgJson)

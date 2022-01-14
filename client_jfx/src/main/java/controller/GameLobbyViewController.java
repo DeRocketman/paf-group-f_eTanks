@@ -21,6 +21,7 @@ public class GameLobbyViewController {
 
 
     SocketClient sc = new SocketClient("localhost",3333,this);
+    Thread messageReceive = new Thread(sc);
     private ETankApplication eTankApplication;
     public Player signedPlayer;
 
@@ -64,6 +65,7 @@ public class GameLobbyViewController {
         //lobbyTable.setItems(lobbyList);
         columnLobbyNumber.setCellValueFactory(cellData -> cellData.getValue().gameLobbyIDProperty().asObject());
         columnLobbySeats.setCellValueFactory(cellData -> cellData.getValue().seatCounterProperty().asObject());
+        this.messageReceive.start();
 
     }
 
@@ -85,7 +87,7 @@ public class GameLobbyViewController {
    //             sU.getUserSettings());
    //     lobby.addPlayer(this.signedPlayer);
    //     this.lobbyList.add(lobby);
-        sc.connect();
+
     }
 
     @FXML

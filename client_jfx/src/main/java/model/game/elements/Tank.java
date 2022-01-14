@@ -1,5 +1,6 @@
 package model.game.elements;
 
+import javafx.scene.image.Image;
 import model.data.User;
 import model.game.logic.GamePhysics;
 
@@ -8,8 +9,8 @@ public class Tank extends LevelElement{
     //private double course;
     private int livePoints;
 
-    public Tank(String imagePath, String type, double positionX, double positionY, double width, double height, double rotation, int livePoints) {
-        super(imagePath, "tank",positionX, positionY, width, height, rotation);
+    public Tank(Image image, String type, double positionX, double positionY, double width, double height, double rotation, int livePoints) {
+        super(image, "tank",positionX, positionY, width, height, rotation);
         this.livePoints = livePoints;
     }
 /*

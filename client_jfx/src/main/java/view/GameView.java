@@ -18,6 +18,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import main.ETankApplication;
+import model.game.elements.LevelElement;
 import model.game.logic.GamePlay;
 import viewmodel.GameViewModel;
 
@@ -34,6 +35,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
     private ObservableList<StackPane> elementList = FXCollections.observableArrayList();
     private ObservableList<ImageView> objectList = FXCollections.observableArrayList();
     private ObservableList<ImageView> bulletList = FXCollections.observableArrayList();
+    private ObservableList<LevelElement> elementListNew = FXCollections.observableArrayList();
 
     @FXML
     private GridPane ground;
@@ -68,14 +70,15 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initLevel();
-        initTank(4);
+
+       // initTank(4);
+        gameViewModel.setGamePlay();
+
         gameViewModel.setElementList(elementList);
         gameViewModel.setBulletList(bulletList);
+        setElementListEventListener();
         setEventListener();
         setBulletEventListener();
-        gameViewModel.setGamePlay();
-        //gameViewModel.setGamePlay();
-
       //  gameViewModel.collisionTimer
     }
 
@@ -140,6 +143,15 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
             elementPane.getChildren().add(tank);
             elementList.add(tank);
         }
+    }
+
+    private void setElementListEventListener(){
+        elementListNew.addListener((ListChangeListener<LevelElement>) change -> {
+            if(change.next()){
+                elementPane.getChildren().add(elementListNew.get(change.getFrom()));
+                System.out.println("elementList: " + change.getFrom());
+            }
+        });
     }
 
     private void setEventListener(){

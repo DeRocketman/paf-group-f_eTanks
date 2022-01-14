@@ -13,6 +13,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import main.ETankApplication;
+import model.game.elements.LevelElement;
 import model.game.elements.LevelElementImage;
 import model.game.logic.GameLobby;
 import model.game.logic.GamePhysics;
@@ -31,6 +32,7 @@ public class GameViewModel implements ViewModel {
 
     ObservableList<StackPane> elementList = FXCollections.observableArrayList();
     ObservableList<ImageView> bulletList = FXCollections.observableArrayList();
+    ObservableList<LevelElement> elementListNew = FXCollections.observableArrayList();
 
     public void handle(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.W) {
@@ -234,7 +236,7 @@ public class GameViewModel implements ViewModel {
     }
 
     public void createElement (){
-        LevelElementImage test = new LevelElementImage("../../../img/images/tanks/Hulls_Color_A/Hull_01.png" , "tank", 200.0, 200.0, 40.0,40.0 );
+        LevelElementImage test = new LevelElementImage( new Image(getClass().getResourceAsStream("../img/images/tanks/Hulls_Color_A/Hull_01.png")) , "tank", 200.0, 200.0, 40.0,40.0 );
         StackPane tank = new StackPane();
         tank.setLayoutX(200.0);
         tank.setLayoutY(200.0);

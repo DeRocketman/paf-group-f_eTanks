@@ -1,18 +1,19 @@
 package model.game.elements;
 
+import javafx.scene.image.Image;
 import model.game.logic.GamePhysics;
 
 public class Block extends LevelElement {
     private int lives;
 
-    public Block(String imagePath, String type, double positionX, double positionY, double width, double height, double rotation, boolean isVisible, int lives) {
-        super(imagePath, type,positionX, positionY, width, height, rotation);
+    public Block(Image image, String type, double positionX, double positionY, double width, double height, double rotation, boolean isVisible, int lives) {
+        super(image, type,positionX, positionY, width, height, rotation);
         this.lives = lives;
         this.setVisible(isVisible);
     }
 
-    public Block(String imagePath, String type, double positionX, double positionY, double width, double height, double rotation, int lives) {
-        super(imagePath, type,positionX, positionY, width, height, rotation);
+    public Block(Image image, String type, double positionX, double positionY, double width, double height, double rotation, int lives) {
+        super(image, type,positionX, positionY, width, height, rotation);
         this.lives = lives;
     }
 

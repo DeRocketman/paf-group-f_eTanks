@@ -1,19 +1,41 @@
 package model.game.elements;
 
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public abstract class LevelElement extends ImageView {
+public class LevelElement extends ImageView {
 
     private String type;
 
-    public LevelElement(double positionX, double positionY, String[] imagePaths, boolean isVisible) {
-        this.positionX = positionX;
-        this.positionY = positionY;
-        this.imagePaths = imagePaths;
-        this.isVisible = isVisible;
+    public LevelElement(Image image, String type, double positionX, double positionY, double width, double height, double rotation) {
+        super(image);
+        this.type = type;
+        this.setLayoutX(positionX);
+        this.setLayoutX(positionY);
+        this.setFitHeight(height);
+        this.setFitWidth(width);
     }
 
-    public LevelElement(String imagePath, String type, double positionX, double positionY, double width, double height) {
+    public LevelElement(String imagePath, String type, double positionX, double positionY, double width, double height, double rotation) {
+        super();
+        this.type = type;
+        this.setLayoutX(positionX);
+        this.setLayoutX(positionY);
+        this.setFitHeight(height);
+        this.setFitWidth(width);
+        this.setRotate(rotation);
+    }
+
+    public LevelElement(Image image, String type, double positionX, double positionY, double width, double height) {
+        super(image);
+        this.type = type;
+        this.setLayoutX(positionX);
+        this.setLayoutX(positionY);
+        this.setFitHeight(height);
+        this.setFitWidth(width);
+    }
+
+    public LevelElement(String type, double positionX, double positionY, double width, double height) {
         super();
         this.type = type;
         this.setLayoutX(positionX);

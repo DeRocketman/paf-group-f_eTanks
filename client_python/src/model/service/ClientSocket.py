@@ -34,7 +34,7 @@ class ClientSocket:
         while True:
             # todo: json.decoder.JSONDecodeError: Extra data:
             msg = self.clientSocket.recv(4096)
-            print("Message eingegangen")
+            print("Message mit der Länge ", len(msg), " eingegangen")
             msgDec = msg.decode("utf-8")
             dictMsg = json.loads(msgDec)
             msgJson = Message()

@@ -4,6 +4,7 @@ import json
 class ExtendedSocketData:
     def __init__(self):
         self.connection = None
+        self.clientLanguage = None
         self.isLobbyHost = False
         self.lobbyId = None
         self.playerId = None
@@ -15,6 +16,7 @@ class ExtendedSocketData:
         self.outgoingMessageBox = []
 
     def setPlayerData(self, msgJson):
+        self.clientLanguage = msgJson["clientLanguage"]
         self.playerId = msgJson["playerId"]
         self.playerPublicName = msgJson["playerPublicName"]
         self.playerIsRdy = msgJson["playerIsRdy"]
@@ -51,4 +53,3 @@ class ExtendedSocketData:
 
     def putInMessageBox(self, msgJson):
         self.outgoingMessageBox.append(str.encode(json.dumps(msgJson)))
-

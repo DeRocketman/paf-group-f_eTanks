@@ -3,8 +3,8 @@ import socket
 import struct
 from _thread import *
 
-
 from model.service.ExtendedSocketData import ExtendedSocketData
+from model.service.ServerLobby import ServerLobby
 
 
 class SocketServer:
@@ -36,7 +36,11 @@ class SocketServer:
 
             elif msgJson["messageType"] == "REGISTER_LOBBY":
                 exSockData.registerLobby(msgJson)
-                self.lobbyList.append(exSockData.lobbyId)
+                lobby = ServerLobby(exSockData.lobbyId)
+                lobby.addPlayerConn(exSockData)
+                lobby.hostConnection = exSockData
+                self.lobbyList.append(lobby)
+                print(lobby.playerCount)
 
             elif msgJson["messageType"] == "JOIN":
                 exSockData.joinLobby(msgJson)
@@ -68,7 +72,9 @@ class SocketServer:
                             print("Server: Message ist zu groß: ", len(msg))
                             # todo: Lösung finden falls Puffer zu klein ist!
                         else:
-                            player.connection.send(struct.pack(">H", len(msg)))
+                            if player.clientLanguage == "JAVA":
+                                player.connection.send(struct.pack(">H", len(msg)))
+
                             player.connection.send(msg)
                             reply = msg.decode("utf-8")
                             msgJson = json.loads(reply)

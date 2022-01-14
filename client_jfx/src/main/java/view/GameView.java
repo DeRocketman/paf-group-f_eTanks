@@ -122,7 +122,6 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
             tankHull.setFitHeight(40.0);
             tankHull.setPickOnBounds(true);
             tankHull.setPreserveRatio(true);
-            tankHull.setRotate(rotate[i]);
 
             ImageView tankWeapon = new ImageView();
             tankWeapon.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(imgWeapon[i]))));
@@ -130,7 +129,6 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
             tankWeapon.setFitHeight(40.0);
             tankWeapon.setPickOnBounds(true);
             tankWeapon.setPreserveRatio(true);
-            tankWeapon.setRotate(rotate[i]);
 
             tank.getChildren().addAll(tankHull, tankWeapon);
             tank.setRotate(rotate[i]);

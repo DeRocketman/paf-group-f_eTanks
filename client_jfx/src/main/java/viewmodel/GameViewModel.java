@@ -24,7 +24,7 @@ public class GameViewModel implements ViewModel {
     ETankApplication eTankApplication;
     GameLobby gameLobby;
 
-    int wichTank = 1;
+    int wichTank = 3;
 
     ObservableList<StackPane> elementList = FXCollections.observableArrayList();
     ObservableList<ImageView> bulletList = FXCollections.observableArrayList();
@@ -32,24 +32,24 @@ public class GameViewModel implements ViewModel {
 
     public void handle(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.W) {
-            System.out.println("Up: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(0).getRotate());
+            System.out.println("Up: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(wichTank).getRotate());
             moveTank(elementList.get(wichTank), 360.0);
         }
         if (keyEvent.getCode() == KeyCode.S) {
-            System.out.println("Down: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(0).getRotate());
+            System.out.println("Down: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(wichTank).getRotate());
             moveTank(elementList.get(wichTank), 180.0);
         }
         if (keyEvent.getCode() == KeyCode.D) {
-            System.out.println("Right: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(0).getRotate());
+            System.out.println("Right: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(wichTank).getRotate());
             moveTank(elementList.get(wichTank), 90.0);
         }
         if (keyEvent.getCode() == KeyCode.A) {
-            System.out.println("Left: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(0).getRotate());
+            System.out.println("Left: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(wichTank).getRotate());
             moveTank(elementList.get(wichTank), 270.0);
         }
         if (keyEvent.getCode() == KeyCode.SPACE) {
             fireMainWeapon(elementList.get(wichTank));
-            System.out.println("FEUERTASTE: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(0).getRotate());
+            System.out.println("FEUERTASTE: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(wichTank).getRotate());
         }
     }
 

@@ -18,7 +18,7 @@ public class GameLobby implements Serializable {
     private IntegerProperty seatCounter;
     private ObservableList<Player> playerList;
 
-    public static ObservableList<GameLobby> lobbyList;
+    //public static ObservableList<GameLobby> lobbyList;
 
     public GameLobby() {
        this.playerList = FXCollections.observableArrayList();

@@ -1,11 +1,22 @@
 package model.game.elements;
 
+import model.game.logic.GamePhysics;
+
 public class Block extends LevelElement {
-    private final int lives;
+    private int lives;
 
-    public Block(double positionX, double positionY, String[] imagePaths, boolean isVisible, int lives) {
-        super(positionX, positionY, imagePaths, isVisible);
+    public Block(String imagePath, String type, double positionX, double positionY, double width, double height, double rotation, boolean isVisible, int lives) {
+        super(imagePath, type,positionX, positionY, width, height, rotation);
+        this.lives = lives;
+        this.setVisible(isVisible);
+    }
 
+    public Block(String imagePath, String type, double positionX, double positionY, double width, double height, double rotation, int lives) {
+        super(imagePath, type,positionX, positionY, width, height, rotation);
+        this.lives = lives;
+    }
+
+    public void setLives(int lives) {
         this.lives = lives;
     }
 

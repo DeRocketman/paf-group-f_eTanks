@@ -6,9 +6,10 @@ import model.game.logic.GamePhysics;
 public class Item extends LevelElement {
     private int points;
 
-    public Item(double positionX, double positionY, String[] shapePaths, boolean isVisible) {
-        super(positionX, positionY, shapePaths, isVisible);
+    public Item(String imagePath, String type, double positionX, double positionY, double width, double height, double rotation, boolean isVisible) {
+        super(imagePath, type,positionX, positionY, width, height, rotation);
         this.points = GamePhysics.ITEM_POINTS;
+        this.setVisible(isVisible);
     }
 
 

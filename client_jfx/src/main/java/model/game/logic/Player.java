@@ -3,6 +3,7 @@ package model.game.logic;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
+import model.data.GameStatistic;
 import model.data.User;
 import model.data.UserSettings;
 import model.data.UserStatistic;
@@ -12,12 +13,12 @@ import java.io.IOException;
 public class Player extends User {
 
     private boolean isReady;
+    private GameStatistic gameStatistic;
 
     public Player(long id, String userName, String publicName, String image, String password, UserSettings userSettings) throws IOException {
         super(id, userName, publicName, image, password, userSettings);
         this.isReady = false;
     }
-
 
     public boolean isReady() {
         return isReady;

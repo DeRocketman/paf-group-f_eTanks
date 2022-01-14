@@ -25,7 +25,7 @@
                </font>
             </Text>
             <Separator prefHeight="13.0" prefWidth="800.0" visible="false" />
-            <Button mnemonicParsing="false" onAction="#hostGame" prefHeight="35.0" prefWidth="200.0" text="Spiel erstellem">
+            <Button mnemonicParsing="false" onAction="#hostGame" prefHeight="35.0" prefWidth="200.0" text="Spiel erstellen">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
@@ -50,8 +50,9 @@
                </font>
             </Text>
             <Label fx:id="lblShowIP" graphicTextGap="0.0" prefHeight="22.0" prefWidth="800.0" text="Deine IP: 255.255.255.255" />
-            <Label fx:id="lblGameNumber" layoutX="10.0" layoutY="78.0" prefHeight="22.0" prefWidth="800.0" text="Spielnummer: 123456789012345" />
+            <Label fx:id="lblGameNumber" layoutX="10.0" layoutY="78.0" prefHeight="22.0" prefWidth="800.0" text="" />
             <Button onAction="#closeLobby" prefHeight="29.0" prefWidth="182.0" text="Lobby verlassen" />
+            <Button onAction="#startGame" prefHeight="29.0" prefWidth="182.0" text="Spiel starten" />
             <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="380.0" prefWidth="799.0" visible="false">
                <children>
                   <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="364.0" prefWidth="481.0">

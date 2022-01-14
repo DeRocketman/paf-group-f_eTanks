@@ -2,19 +2,18 @@ package model.game.elements;
 
 public class BulletMainWeapon extends LevelElement{
 
-    private final Tank firingTank;
+    private final Tank FIRINGTANK;
     double rotations;
     private boolean hit = false;
 
-    public BulletMainWeapon(double positionX, double positionY, String[] shapePaths, boolean isVisible,
-                            double rotations, Tank firingTank) {
-        super(positionX, positionY, shapePaths, isVisible);
-        this.firingTank = firingTank;
+    public BulletMainWeapon(String imagePath, String type, double positionX, double positionY, double width, double height, double rotation, Tank firingTank) {
+        super(imagePath, type, positionX, positionY, width, height, rotation);
+        this.FIRINGTANK = firingTank;
         this.rotations = rotations;
     }
 
     public Tank getTankFired() {
-        return firingTank;
+        return FIRINGTANK;
     }
 
     public boolean isHit() {

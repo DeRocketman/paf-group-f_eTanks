@@ -9,10 +9,14 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.ETankApplication;
+import model.data.GameStatistic;
 import model.data.User;
+import model.data.UserSettings;
+import model.data.UserStatistic;
 import model.game.logic.GameLobby;
 import model.game.logic.Player;
 import model.service.SocketClient;
+import org.boon.Str;
 
 
 import java.io.IOException;
@@ -25,10 +29,7 @@ public class GameLobbyViewController {
     private ETankApplication eTankApplication;
     public Player signedPlayer;
 
-
-
     ObservableList<GameLobby> lobbyList = FXCollections.observableArrayList();
-
 
     @FXML
     private TableView<GameLobby> lobbyTable;
@@ -55,6 +56,9 @@ public class GameLobbyViewController {
     @FXML
     private HBox hbxJoinerPanel;
 
+    @FXML
+    private Label lblGameNumber;
+
     public GameLobbyViewController() throws IOException {
 
     }
@@ -62,7 +66,7 @@ public class GameLobbyViewController {
     @FXML
     private void initialize() {
         switchToInit();
-        //lobbyTable.setItems(lobbyList);
+        lobbyTable.setItems(lobbyList);
         columnLobbyNumber.setCellValueFactory(cellData -> cellData.getValue().gameLobbyIDProperty().asObject());
         columnLobbySeats.setCellValueFactory(cellData -> cellData.getValue().seatCounterProperty().asObject());
         this.messageReceive.start();
@@ -74,15 +78,20 @@ public class GameLobbyViewController {
         resetViews();
         vbxInit.setVisible(true);
     }
+
     @FXML
     public void hostGame() throws IOException {
-
         resetViews();
         vbxLobby.setVisible(true);
         hbxHostPanel.setVisible(true);
         GameLobby lobby = new GameLobby();
         lobby.buildLobbyID();
-   //     User sU = eTankApplication.getSignedUser();
+
+        lobby.addPlayer(signedPlayer);
+        this.lobbyList.add(lobby);
+        lblGameNumber.setText("Spielnummer: " + String.valueOf(lobby.getGameLobbyID()));
+
+        //     User sU = eTankApplication.getSignedUser();
    //     this.signedPlayer = new Player(sU.getId(), sU.getUserName(), sU.getPublicName(), sU.getUserImage(), sU.getPassword(),
    //             sU.getUserSettings());
    //     lobby.addPlayer(this.signedPlayer);
@@ -100,6 +109,7 @@ public class GameLobbyViewController {
             }
         }
     }
+
     @FXML
     public void joinGame() {
         resetViews();
@@ -136,16 +146,13 @@ public class GameLobbyViewController {
     @FXML
     public GameLobby joinSelectedGame() throws IOException {
         GameLobby selectedGameLobby = lobbyTable.getSelectionModel().getSelectedItem();
+        lblGameNumber.setText("Spielnummer: " + String.valueOf(selectedGameLobby.getGameLobbyID()));
         if(selectedGameLobby.getSeatCounter() < 4) {
             System.out.println("joining game");
-            User sU = eTankApplication.getSignedUser();
-            Player player = new Player(sU.getId(), sU.getUserName(), sU.getPublicName(), sU.getUserImage(), sU.getPassword(),
-                    sU.getUserSettings());
-            selectedGameLobby.addPlayer(player);
+            selectedGameLobby.addPlayer(signedPlayer);
             resetViews();
             vbxLobby.setVisible(true);
             hbxJoinerPanel.setVisible(true);
-
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Schlacht ist schon voll");
@@ -172,9 +179,50 @@ public class GameLobbyViewController {
     public void sendMessageS(ActionEvent actionEvent) {
     }
 
+
+    public void startGame () throws IOException {
+       // GameLobby lobby = testLobby();
+       // eTankApplication.setPlayerlist(lobby.getPlayers());
+        eTankApplication.showGameView();
+    }
+
     public void setETankApplication(ETankApplication eTankApplication) {
         this.eTankApplication = eTankApplication;
     }
 
 
+    public void createGames() throws IOException {
+        UserSettings testUserSetting = new UserSettings();
+        Player testPlayer = new Player(1000, "Line-Maxi", "Rocket wo man",
+                this.eTankApplication.getSignedUser().getUserImage(), "passwort", testUserSetting);
+        Player testPlayer2 = new Player(10001, "Maxi-Line", "Wocketwan",
+                this.eTankApplication.getSignedUser().getUserImage(), "passwort", testUserSetting);
+        this.signedPlayer = new Player(this.eTankApplication.getSignedUser().getId(), this.eTankApplication.getSignedUser().getUserName(), this.eTankApplication.getSignedUser().getPublicName(), this.eTankApplication.getSignedUser().getUserImage(), "Default", this.eTankApplication.getSignedUser().getUserSettings());
+        lobbyList.add(new GameLobby());
+        lobbyList.add(new GameLobby());
+        lobbyList.add(new GameLobby());
+        lobbyList.add(new GameLobby());
+        for (GameLobby gameLobby : lobbyList) {
+            gameLobby.addPlayer(testPlayer);
+        }
+        lobbyList.get(1).addPlayer(testPlayer2);
+        lobbyList.get(1).addPlayer(testPlayer2);
+    }
+
+    public GameLobby testLobby() throws IOException {
+        UserSettings testUserSetting = new UserSettings();
+        Player testPlayer = new Player(1000, "Line-Maxi", "Rocket wo man",
+                this.eTankApplication.getSignedUser().getUserImage(), "passwort", testUserSetting);
+        Player testPlayer2 = new Player(10001, "Maxi-Line", "Wocketwan",
+                this.eTankApplication.getSignedUser().getUserImage(), "passwort", testUserSetting);
+        this.signedPlayer = new Player(this.eTankApplication.getSignedUser().getId(), this.eTankApplication.getSignedUser().getUserName(), this.eTankApplication.getSignedUser().getPublicName(), this.eTankApplication.getSignedUser().getUserImage(), "Default", this.eTankApplication.getSignedUser().getUserSettings());
+
+        GameLobby lobby = new GameLobby();
+        lobby.buildLobbyID();
+
+        lobby.addPlayer(signedPlayer);
+        lobby.addPlayer(testPlayer);
+
+        return lobby;
+    }
 }

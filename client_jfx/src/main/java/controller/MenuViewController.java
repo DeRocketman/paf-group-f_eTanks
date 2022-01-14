@@ -2,8 +2,11 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import model.data.GameStatistic;
 import model.service.HttpRequest;
+
+import java.io.IOException;
 
 public class MenuViewController extends ViewController {
 
@@ -33,12 +36,18 @@ public class MenuViewController extends ViewController {
         }
     }
 
-    public void startGame(ActionEvent actionEvent){
-        eTankApplication.showGameView();
+    public void startGame(ActionEvent actionEvent) {
+          eTankApplication.showGameView();
     }
 
-    public void logout(){
-        //TODO
+    public void exitGame(ActionEvent actionEvent){
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Beenden");
+        alert.setContentText("Möchtest du das Spiel wirklich beenden?");
+        if(alert.showAndWait().get() == ButtonType.OK){
+            eTankApplication.getPrimaryStage().close();
+        }
     }
 
     public void setHttpRequestETankapplication(){

@@ -1,17 +1,27 @@
 package main;
 
-import controller.*;
+
 import de.saxsys.mvvmfx.FluentViewLoader;
 import de.saxsys.mvvmfx.ViewTuple;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 //not used in MVVM javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
+import controller.*;
 //not used in MVVM import model.game.Game;
 import model.data.GameStatistic;
 import model.data.User;
+import model.data.UserSettings;
+import model.data.UserStatistic;
+import model.game.logic.GameLobby;
+import model.game.logic.GamePlay;
+import model.game.logic.Player;
 import view.GameView;
 import viewmodel.GameViewModel;
 
@@ -27,6 +37,8 @@ public class ETankApplication extends Application {
     User signedUser;
     List<GameStatistic> gameStatistics;
     String BearerToken;
+    GamePlay gamePlay;
+    ObservableList<Player> playerlist;
 
     public static void main(String[] args) {
         launch(args);
@@ -171,6 +183,7 @@ public class ETankApplication extends Application {
 
         GameLobbyViewController gameLobbyViewController = loader.getController();
         gameLobbyViewController.setETankApplication(this);
+      //  gameLobbyViewController.createGames();
 
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -200,5 +213,15 @@ public class ETankApplication extends Application {
         BearerToken = bearerToken;
     }
 
+    public GamePlay getGamePlay(){
+        return this.gamePlay;
+    }
 
+    public ObservableList<Player> getPlayerlist() {
+        return playerlist;
+    }
+
+    public void setPlayerlist(ObservableList<Player> playerlist) {
+        this.playerlist = playerlist;
+    }
 }

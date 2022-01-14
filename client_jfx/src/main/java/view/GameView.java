@@ -17,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import main.ETankApplication;
 import model.game.logic.GamePlay;
 import viewmodel.GameViewModel;
 
@@ -29,7 +30,6 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
 
     @InjectViewModel
     private GameViewModel gameViewModel;
-    private GamePlay gamePlay;
 
     private ObservableList<StackPane> elementList = FXCollections.observableArrayList();
     private ObservableList<ImageView> objectList = FXCollections.observableArrayList();
@@ -73,6 +73,10 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         gameViewModel.setBulletList(bulletList);
         setEventListener();
         setBulletEventListener();
+        gameViewModel.setGamePlay();
+        //gameViewModel.setGamePlay();
+
+      //  gameViewModel.collisionTimer
     }
 
     private void initLevel() {

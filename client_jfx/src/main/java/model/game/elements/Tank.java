@@ -4,18 +4,15 @@ import model.data.User;
 import model.game.logic.GamePhysics;
 
 public class Tank extends LevelElement{
-    private User tankCommander;
-    private double course;
-    private double weaponCourse;
+    //private User tankCommander;
+    //private double course;
+    private int livePoints;
 
-    public Tank(double positionX, double positionY, String[] imagePaths, boolean isVisible, double course, User tankCommander) {
-        super(positionX, positionY, imagePaths, isVisible);
-        this.weaponCourse = course;
-        this.course = course;
-        this.tankCommander = tankCommander;
-
+    public Tank(String imagePath, String type, double positionX, double positionY, double width, double height, double rotation, int livePoints) {
+        super(imagePath, "tank",positionX, positionY, width, height, rotation);
+        this.livePoints = livePoints;
     }
-
+/*
     public void moveTank(double direction) {
         double MOVE_SPEED = GamePhysics.TANK_SPEED;
         if (direction == 360.0) {
@@ -27,15 +24,6 @@ public class Tank extends LevelElement{
         } else if (direction == 90.0) {
             super.setPositions(0.0,getPositions()[1] - MOVE_SPEED);
         }
-    }
-
-    //TODO: Klären ob Waffe und Hull getrennt voneinander oder immer zusammen drehen
-    public void turnTankHull(double directionNew) {
-        this.course = directionNew;
-        turnTankWeapon(directionNew);
-    }
-    public void turnTankWeapon(double directionNew) {
-        this.weaponCourse = directionNew;
     }
 
     public double getTotalTurnSpeed(double directionNew) {
@@ -53,5 +41,5 @@ public class Tank extends LevelElement{
     }
     public User getTankCommander() {
         return tankCommander;
-    }
+    }*/
 }

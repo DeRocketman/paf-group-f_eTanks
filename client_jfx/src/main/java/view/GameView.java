@@ -33,6 +33,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
 
     private ObservableList<StackPane> elementList = FXCollections.observableArrayList();
     private ObservableList<ImageView> objectList = FXCollections.observableArrayList();
+    private ObservableList<ImageView> bulletList = FXCollections.observableArrayList();
 
     @FXML
     private GridPane ground;
@@ -69,7 +70,9 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         initLevel();
         initTank(4);
         gameViewModel.setElementList(elementList);
+        gameViewModel.setBulletList(bulletList);
         setEventListener();
+        setBulletEventListener();
     }
 
     private void initLevel() {
@@ -119,7 +122,6 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
             tankHull.setFitHeight(40.0);
             tankHull.setPickOnBounds(true);
             tankHull.setPreserveRatio(true);
-            tankHull.setRotate(rotate[i]);
 
             ImageView tankWeapon = new ImageView();
             tankWeapon.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(imgWeapon[i]))));
@@ -127,7 +129,6 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
             tankWeapon.setFitHeight(40.0);
             tankWeapon.setPickOnBounds(true);
             tankWeapon.setPreserveRatio(true);
-            tankWeapon.setRotate(rotate[i]);
 
             tank.getChildren().addAll(tankHull, tankWeapon);
             tank.setRotate(rotate[i]);
@@ -146,9 +147,16 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         });
     }
 
+    private void setBulletEventListener(){
+        bulletList.addListener((ListChangeListener<ImageView>) change -> {
+            if(change.next()){
+                elementPane.getChildren().add(bulletList.get(change.getFrom()));
+                System.out.println("BulletList: " + change.getFrom());
+            }
+        });
+    }
 
     private void initElements() {
         //Hier sollen die übrigen starren Items an die jeweiligen Level angepasst werden
-
     }
 }

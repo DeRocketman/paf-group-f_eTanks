@@ -1,7 +1,6 @@
 
 class Message:
     def __init__(self):
-        self.clientLanguage = None
         self.messageType = None
         self.gameLobbyNumber = None
         self.playerId = None

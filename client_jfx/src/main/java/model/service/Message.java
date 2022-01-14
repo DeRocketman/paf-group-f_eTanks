@@ -3,7 +3,6 @@ package model.service;
 
 public class Message {
     private MessageType messageType;
-    private final String clientLanguage = "JAVA"
     private long gameLobbyNumber;
     private long playerId;
     private String playerPublicName;

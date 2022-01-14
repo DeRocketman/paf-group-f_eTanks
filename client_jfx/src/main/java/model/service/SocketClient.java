@@ -15,7 +15,6 @@ public class SocketClient implements Runnable {
     private StringBuilder sb = new StringBuilder();
     private OutputStreamWriter outputStreamWriter;
     private BufferedReader br;
-    private BufferedWriter bw;
     private Gson gson;
 
 
@@ -38,14 +37,12 @@ public class SocketClient implements Runnable {
         }
 
         try {
-            connect();
+            connectMsg();
             while (socket.isConnected()) {
                 DataInputStream dataIn = new DataInputStream(this.socket.getInputStream());
                 String line;
                 String msg;
                 Message message = new Message();
-                System.out.println("IN isConnected While-Schleife");
-
                 msg = dataIn.readUTF();
                 System.out.println("Message empfangen: " + msg);
                 message = gson.fromJson(msg, Message.class);
@@ -59,22 +56,20 @@ public class SocketClient implements Runnable {
         }
     }
 
-    public void connect() throws IOException {
+    public void connectMsg() throws IOException {
         this.outputStreamWriter = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8);
         //DataOutputStream dos = new DataOutputStream(this.socket.getOutputStream());
-        System.out.println("HIER ERSTE NACHRICHT VERFASSEN");
         this.gson = new Gson();
         Message loginMessage = new Message();
         loginMessage.setMessageType(MessageType.LOGIN);
-        loginMessage.setPlayerId(2);
-        loginMessage.setPlayerPublicName("PythonPeter");
+        loginMessage.setPlayerId(0);
+        loginMessage.setPlayerPublicName("");
         loginMessage.setPlayerImage("default");
         loginMessage.setPlayerIsRdy(false);
+        loginMessage.setPayload("JAVA");
         String outgoingMsg = gson.toJson(loginMessage);
         outputStreamWriter.write(outgoingMsg);
         outputStreamWriter.flush();
-        //dos.writeUTF(outgoingMsg);
-        //dos.flush();
         System.out.println("Nachricht gesendet: " + outgoingMsg);
     }
 

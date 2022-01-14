@@ -1,4 +1,3 @@
-import collections
 import json
 import socket
 import threading
@@ -19,7 +18,7 @@ class ClientSocket:
         self.threadSendJoinMsg.start()
         self.threadReceiveJoinMsg = threading.Thread(target=self.receiveMsg)
         self.threadReceiveJoinMsg.start()
-        self.incomingMsgBox = collections.deque()
+        self.incomingMsgBox = []
 
     def connect(self):
         self.clientSocket.connect((self.host, self.port))
@@ -34,19 +33,20 @@ class ClientSocket:
         while True:
             # todo: json.decoder.JSONDecodeError: Extra data:
             msg = self.clientSocket.recv(4096)
-            print("Message mit der Länge ", len(msg), " eingegangen")
-            msgDec = msg.decode("utf-8")
-            dictMsg = json.loads(msgDec)
-            msgJson = Message()
-            msgJson.messageType = dictMsg["messageType"]
-            msgJson.gameLobbyNumber = dictMsg["gameLobbyNumber"]
-            msgJson.playerId = dictMsg["playerId"]
-            msgJson.playerPublicName = dictMsg["playerPublicName"]
-            msgJson.playerIsRdy = dictMsg["playerIsRdy"]
-            msgJson.playerImage = dictMsg["playerImage"]
-            msgJson.payload = dictMsg["payload"]
-            self.deliverMsg(msgJson)
-            print("Message empfangen: ", dictMsg)
+            msgDec = msg.decode("utf-8").splitlines()
+            for lines in msgDec:
+                dictMsg = json.loads(lines)
+                print("Nach JSON", dictMsg)
+                msgJson = Message()
+                msgJson.messageType = dictMsg["messageType"]
+                msgJson.gameLobbyNumber = dictMsg["gameLobbyNumber"]
+                msgJson.playerId = dictMsg["playerId"]
+                msgJson.playerPublicName = dictMsg["playerPublicName"]
+                msgJson.playerIsRdy = dictMsg["playerIsRdy"]
+                msgJson.playerImage = dictMsg["playerImage"]
+                msgJson.payload = dictMsg["payload"]
+                self.deliverMsg(msgJson)
+                print("Message empfangen: ", dictMsg)
 
     def putMsgToBox(self, msg):
         self.incomingMsgBox.append(msg)

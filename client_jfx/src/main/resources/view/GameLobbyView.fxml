@@ -19,7 +19,7 @@
    <children>
       <VBox fx:id="vbxInit" alignment="TOP_CENTER" layoutX="200.0" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" spacing="20.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="100.0">
          <children>
-            <Text layoutX="313.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New Battle">
+            <Text layoutX="313.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Neue Schlacht">
                <font>
                   <Font name="Stencil" size="48.0" />
                </font>
@@ -49,15 +49,14 @@
                   <Font name="Stencil" size="48.0" />
                </font>
             </Text>
-            <Label fx:id="lblShowIP" graphicTextGap="0.0" prefHeight="22.0" prefWidth="800.0" text="Deine IP: 255.255.255.255" />
-            <Label fx:id="lblGameNumber" layoutX="10.0" layoutY="78.0" prefHeight="22.0" prefWidth="800.0" text="" />
+            <Label fx:id="lblShowIP" graphicTextGap="0.0" prefHeight="22.0" prefWidth="800.0" text="Deine IP        : 255.255.255.255" />
+            <Label fx:id="lblGameNumber" layoutX="10.0" layoutY="78.0" prefHeight="22.0" prefWidth="800.0" text="Spielnummer: 1234567890123456789" />
             <Button onAction="#closeLobby" prefHeight="29.0" prefWidth="182.0" text="Lobby verlassen" />
-            <Button onAction="#startGame" prefHeight="29.0" prefWidth="182.0" text="Spiel starten" />
-            <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="380.0" prefWidth="799.0" visible="false">
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="380.0" prefWidth="799.0">
                <children>
                   <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="364.0" prefWidth="481.0">
                      <children>
-                        <ListView fx:id="playerList" prefHeight="345.0" prefWidth="487.0">
+                        <ListView fx:id="playerList" prefHeight="411.0" prefWidth="482.0">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
@@ -72,7 +71,7 @@
                               <Separator prefWidth="200.0" visible="false" />
                            </children>
                         </HBox>
-                        <HBox fx:id="hbxJoinerPanel" alignment="TOP_CENTER" prefHeight="29.0" prefWidth="240.0" spacing="20.0">
+                        <HBox fx:id="hbxJoinerPanel" alignment="TOP_CENTER" prefHeight="29.0" prefWidth="240.0" spacing="20.0" visible="false">
                            <children>
                               <Button id="btnSetRdy" fx:id="btnSetJoinRdy" onAction="#setRdyTrue" prefHeight="29.0" prefWidth="150.0" text="Nicht Bereit" />
                               <Separator prefHeight="5.0" prefWidth="394.0" visible="false" />
@@ -82,11 +81,11 @@
                   </VBox>
                   <VBox prefHeight="380.0" prefWidth="300.0">
                      <children>
-                        <TextArea fx:id="textAreaChatS" editable="false" minHeight="100.0" prefHeight="335.0" prefWidth="266.0" wrapText="true" />
+                        <TextArea fx:id="textAreaChatS" editable="false" minHeight="100.0" prefHeight="335.0" prefWidth="367.0" wrapText="true" />
                         <HBox prefHeight="30.0" prefWidth="300.0">
                            <children>
-                              <TextField fx:id="textChatMsg" onKeyPressed="#enterChatHandleS" prefHeight="30.0" prefWidth="398.0" />
-                              <Button fx:id="btnMsgSend" mnemonicParsing="false" onAction="#sendMessageS" prefHeight="29.0" prefWidth="66.0" text="Send" />
+                              <TextField fx:id="textChatMsg" onKeyPressed="#enterChatHandleS" prefHeight="30.0" prefWidth="378.0" />
+                              <Button fx:id="btnMsgSend" mnemonicParsing="false" onAction="#sendMessageS" prefHeight="29.0" prefWidth="129.0" text="Send" />
                            </children>
                         </HBox>
                      </children>

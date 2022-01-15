@@ -220,12 +220,11 @@ public class GamePlay {
         // int playerCount = players.size();
         int playerCount = 4;
 
-        String[] imgHull = {
-                "../../../img/images/tanks/tank_01.png",
-                "../../../img/images/tanks/tank_02.png",
-                "../../../img/images/tanks/tank_03.png",
-                "../../../img/images/tanks/tank_04.png"
-        };
+        String[] imgTank = new String[4];
+        imgTank[0] = "img/images/tanks/tank_01.png";
+        imgTank[1] = "img/images/tanks/tank_02.png";
+        imgTank[2] = "img/images/tanks/tank_03.png";
+        imgTank[3] = "img/images/tanks/tank_04.png";
 
         double[] positionsX = {100.0, 1060.0, 100.0, 1060.0};
         double[] positionsY = {700.0, 700.0, 60.0, 60.0};
@@ -233,13 +232,8 @@ public class GamePlay {
         double[] rotate = {360.0, 360.0, 180.0, 180.0};
 
         for (int i = 0; i < playerCount; i++) {
-            System.out.println(imgHull[i]);
-
-            LevelElement tank = new Tank(new Image(Objects.requireNonNull(getClass().getResourceAsStream(imgHull[i]))), "tank", positionsX[i], positionsY[i], GamePhysics.ELEMENT_SIZE, GamePhysics.ELEMENT_SIZE, rotate[i], 3);
+            LevelElement tank = new Tank(new Image(imgTank[i]), "tank", positionsX[i], positionsY[i], GamePhysics.ELEMENT_SIZE, GamePhysics.ELEMENT_SIZE, rotate[i], 3);
             tank.setVisible(true);
-
-            System.out.println("Tank " + i + " angelegt.");
-
             elementList.add(tank);
         }
     }

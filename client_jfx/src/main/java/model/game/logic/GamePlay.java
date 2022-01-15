@@ -4,26 +4,16 @@ import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
 import javafx.animation.RotateTransition;
 import javafx.animation.TranslateTransition;
-import javafx.beans.property.LongProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
-import model.data.GameStatistic;
 import model.game.elements.*;
-import org.boon.core.Sys;
-
-import java.sql.Timestamp;
 
 import java.util.Objects;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class GamePlay {
     private ObservableList<Player> players;
@@ -48,62 +38,43 @@ public class GamePlay {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                update();
+                collisionDetectionMovement();
             }
         };
         timer.start();
     }
 
-    public void update() {
-        canMove[0] = true;
-        canMove[1] = true;
-        canMove[2] = true;
-        canMove[3] = true;
+    public void collisionDetectionMovement() {
 
-        double rotation = elementList.get(0).getRotate();
         for (int i = 1; i < elementList.size(); i++) {
-            System.out.println("Tank: " + i);
             if (elementList.get(0).getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
-                System.out.print("Da geht es nicht weiter");
-                if (rotation == 360.0) {
-                    canMove[0] = false;
-                } else if (rotation == 90.0) {
-                    canMove[1] = false;
-                } else if (rotation == 180.0) {
-                    canMove[2] = false;
-                } else if (rotation == 270.0) {
-                    canMove[3] = false;
+                if (elementList.get(0).getRotate() == 360.0) {
+                    elementList.get(0).setLayoutY(elementList.get(0).getLayoutY() + 5);
+                } else if (elementList.get(0).getRotate() == 90.0) {
+                    elementList.get(0).setLayoutX(elementList.get(0).getLayoutX() - 5);
+                } else if (elementList.get(0).getRotate() == 180.0) {
+                    elementList.get(0).setLayoutY(elementList.get(0).getLayoutY() - 5);
+                } else if (elementList.get(0).getRotate() == 270.0) {
+                    elementList.get(0).setLayoutX(elementList.get(0).getLayoutX() + 5);
                 }
             }
-           /* if (!elementList.get(0).getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
-                System.out.println("IHR SEID DUMM ");
-                       if (rotation == 360.0) {
-                           canMove[0] = true;
-                       } else if (rotation == 90.0) {
-                           canMove[0] = true;
-                       } else if (rotation == 180.0) {
-                           canMove[0] = true;
-                       } else if (rotation == 270.0) {
-                           canMove[0] = true;
-                       }
-            }*/
         }
     }
 
     public void handle(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.W) {
+        if (keyEvent.getCode() == KeyCode.W && canMove[0]) {
             System.out.println("Up: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
             moveTank(elementList.get(whichTank), 360.0);
         }
-        if (keyEvent.getCode() == KeyCode.S) {
+        if (keyEvent.getCode() == KeyCode.S && canMove[2]) {
             System.out.println("Down: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
             moveTank(elementList.get(whichTank), 180.0);
         }
-        if (keyEvent.getCode() == KeyCode.D) {
+        if (keyEvent.getCode() == KeyCode.D && canMove[1]) {
             System.out.println("Right: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
             moveTank(elementList.get(whichTank), 90.0);
         }
-        if (keyEvent.getCode() == KeyCode.A) {
+        if (keyEvent.getCode() == KeyCode.A && canMove[3]) {
             System.out.println("Left: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
             moveTank(elementList.get(whichTank), 270.0);
         }
@@ -121,18 +92,18 @@ public class GamePlay {
 
         if (myTank.getRotate() == newCourse) {
             if (newCourse == 360.0) {
-                if (myTank.getLayoutY() >= 5 && canMove[0]) {
+                if (myTank.getLayoutY() >= 5) {
                     myTank.setLayoutY(myTank.getLayoutY() - speed);
                 }
-            } else if (newCourse == 90.0 && canMove[1]) {
+            } else if (newCourse == 90.0) {
                 if (myTank.getLayoutX() <= GamePhysics.GAME_WIDTH - 45) {
                     myTank.setLayoutX(myTank.getLayoutX() + speed);
                 }
-            } else if (newCourse == 180.0 && canMove[2]) {
+            } else if (newCourse == 180.0) {
                 if (myTank.getLayoutY() <= GamePhysics.GAME_HEIGHT - 45) {
                     myTank.setLayoutY(myTank.getLayoutY() + speed);
                 }
-            } else if (newCourse == 270.0 && canMove[3]) {
+            } else if (newCourse == 270.0) {
                 if (myTank.getLayoutX() >= 10) {
                     myTank.setLayoutX(myTank.getLayoutX() - speed);
                 }

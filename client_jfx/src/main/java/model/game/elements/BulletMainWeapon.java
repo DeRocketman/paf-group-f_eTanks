@@ -1,6 +1,8 @@
 package model.game.elements;
 import javafx.scene.image.Image;
 
+import java.util.Objects;
+
 public class BulletMainWeapon extends LevelElement{
 
     private final Tank FIRINGTANK;

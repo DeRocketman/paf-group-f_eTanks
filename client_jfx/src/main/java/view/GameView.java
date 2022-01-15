@@ -32,10 +32,8 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
     @InjectViewModel
     private GameViewModel gameViewModel;
 
-    private ObservableList<StackPane> elementList = FXCollections.observableArrayList();
-    private ObservableList<ImageView> objectList = FXCollections.observableArrayList();
+    private ObservableList<LevelElement> elementList = FXCollections.observableArrayList();
     private ObservableList<ImageView> bulletList = FXCollections.observableArrayList();
-    private ObservableList<LevelElement> elementListNew = FXCollections.observableArrayList();
 
     @FXML
     private GridPane ground;
@@ -71,14 +69,12 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initLevel();
 
-       // initTank(4);
-        gameViewModel.setGamePlay();
-
-        gameViewModel.setElementList(elementList);
-        gameViewModel.setBulletList(bulletList);
         setElementListEventListener();
-        setEventListener();
         setBulletEventListener();
+        gameViewModel.setElementList(elementList);
+        gameViewModel.setGamePlay(elementList);
+        gameViewModel.setBulletList(bulletList);
+
       //  gameViewModel.collisionTimer
     }
 
@@ -95,61 +91,11 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         }
     }
 
-    private void initTank(int playerCount) {
-
-        String[] imgHull = {
-                "../img/images/tanks/Hulls_Color_A/Hull_01.png",
-                "../img/images/tanks/Hulls_Color_B/Hull_01.png",
-                "../img/images/tanks/Hulls_Color_C/Hull_01.png",
-                "../img/images/tanks/Hulls_Color_D/Hull_01.png"
-        };
-
-        String[] imgWeapon = {
-                "../img/images/tanks/Weapon_Color_A/Gun_01.png",
-                "../img/images/tanks/Weapon_Color_B/Gun_01.png",
-                "../img/images/tanks/Weapon_Color_C/Gun_01.png",
-                "../img/images/tanks/Weapon_Color_D/Gun_01.png"
-        };
-
-        double[] positionsX = {100.0, 1060.0, 100.0, 1060.0};
-        double[] positionsY = {700.0, 700.0, 60.0, 60.0};
-
-        double[] rotate = {360.0, 360.0, 180.0, 180.0};
-
-        for(int i = 0; i < playerCount; i++){
-            StackPane tank = new StackPane();
-            tank.setLayoutX(positionsX[i]);
-            tank.setLayoutY(positionsY[i]);
-            tank.setPrefHeight(40.0);
-            tank.setPrefWidth(40.0);
-
-            ImageView tankHull = new ImageView();
-            tankHull.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(imgHull[i]))));
-            tankHull.setFitWidth(40.0);
-            tankHull.setFitHeight(40.0);
-            tankHull.setPickOnBounds(true);
-            tankHull.setPreserveRatio(true);
-
-            ImageView tankWeapon = new ImageView();
-            tankWeapon.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(imgWeapon[i]))));
-            tankWeapon.setFitWidth(40.0);
-            tankWeapon.setFitHeight(40.0);
-            tankWeapon.setPickOnBounds(true);
-            tankWeapon.setPreserveRatio(true);
-
-            tank.getChildren().addAll(tankHull, tankWeapon);
-            tank.setRotate(rotate[i]);
-
-            elementPane.getChildren().add(tank);
-            elementList.add(tank);
-        }
-    }
-
     private void setElementListEventListener(){
         elementListNew.addListener((ListChangeListener<LevelElement>) change -> {
             if(change.next()){
-                elementPane.getChildren().add(elementListNew.get(change.getFrom()));
-                System.out.println("elementList: " + change.getFrom());
+                elementPane.getChildren().add(elementList.get(change.getFrom()));
+                System.out.println("elementListNew: " + change.getFrom());
             }
         });
     }

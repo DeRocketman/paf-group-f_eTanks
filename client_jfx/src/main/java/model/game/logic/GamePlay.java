@@ -1,5 +1,9 @@
 package model.game.logic;
 
+import javafx.animation.Animation;
+import javafx.animation.AnimationTimer;
+import javafx.animation.RotateTransition;
+import javafx.animation.TranslateTransition;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -10,9 +14,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
 import model.data.GameStatistic;
-import model.game.elements.LevelElement;
-import model.game.elements.LevelElementImage;
+import model.game.elements.*;
 import org.boon.core.Sys;
 
 import java.sql.Timestamp;
@@ -23,11 +27,11 @@ import java.util.TimerTask;
 
 public class GamePlay {
     private ObservableList<Player> players;
-   // private ObservableList<GameStatistic> gameStatistics;
-    private ObservableList<LevelElement> elements;
-    ObservableList<LevelElement> elementListNew = FXCollections.observableArrayList();
-    //private ObservableList<StackPane> elementList;
-    static int timerCounter = 0;
+    private ObservableList<LevelElement> elementList = FXCollections.observableArrayList();
+
+    // private ObservableList<GameStatistic> gameStatistics;
+    int whichTank = 0;
+    boolean canMove[] = {true, true, true, true};
 
     public GamePlay(ObservableList<Player> players) {
         this.players = players;
@@ -35,12 +39,55 @@ public class GamePlay {
         for (Player player : players) {
             System.out.println(player.getPublicName());
         }
-       // this.gameStatistics = gameStatistics;
-       //  runTimer();
-        //  runThreads();
     }
-    public GamePlay(){
-        initTanks();
+
+    public GamePlay() {
+    }
+
+    public void startTimer() {
+        AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                update();
+            }
+        };
+        timer.start();
+    }
+
+    public void update() {
+        canMove[0] = true;
+        canMove[1] = true;
+        canMove[2] = true;
+        canMove[3] = true;
+
+        double rotation = elementList.get(0).getRotate();
+        for (int i = 1; i < elementList.size(); i++) {
+            System.out.println("Tank: " + i);
+            if (elementList.get(0).getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
+                System.out.print("Da geht es nicht weiter");
+                if (rotation == 360.0) {
+                    canMove[0] = false;
+                } else if (rotation == 90.0) {
+                    canMove[1] = false;
+                } else if (rotation == 180.0) {
+                    canMove[2] = false;
+                } else if (rotation == 270.0) {
+                    canMove[3] = false;
+                }
+            }
+           /* if (!elementList.get(0).getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
+                System.out.println("IHR SEID DUMM ");
+                       if (rotation == 360.0) {
+                           canMove[0] = true;
+                       } else if (rotation == 90.0) {
+                           canMove[0] = true;
+                       } else if (rotation == 180.0) {
+                           canMove[0] = true;
+                       } else if (rotation == 270.0) {
+                           canMove[0] = true;
+                       }
+            }*/
+        }
     }
 
     public void handle(KeyEvent keyEvent) {
@@ -196,5 +243,33 @@ public class GamePlay {
 
     public void setElementList(ObservableList<LevelElement> elementList) {
         this.elementList = elementList;
+    }
+
+    public void initTanks() {
+        // int playerCount = players.size();
+        int playerCount = 4;
+
+        String[] imgHull = {
+                "../../../img/images/tanks/tank_01.png",
+                "../../../img/images/tanks/tank_02.png",
+                "../../../img/images/tanks/tank_03.png",
+                "../../../img/images/tanks/tank_04.png"
+        };
+
+        double[] positionsX = {100.0, 1060.0, 100.0, 1060.0};
+        double[] positionsY = {700.0, 700.0, 60.0, 60.0};
+
+        double[] rotate = {360.0, 360.0, 180.0, 180.0};
+
+        for (int i = 0; i < playerCount; i++) {
+            System.out.println(imgHull[i]);
+
+            LevelElement tank = new Tank(new Image(Objects.requireNonNull(getClass().getResourceAsStream(imgHull[i]))), "tank", positionsX[i], positionsY[i], GamePhysics.ELEMENT_SIZE, GamePhysics.ELEMENT_SIZE, rotate[i], 3);
+            tank.setVisible(true);
+
+            System.out.println("Tank " + i + " angelegt.");
+
+            elementList.add(tank);
+        }
     }
 }

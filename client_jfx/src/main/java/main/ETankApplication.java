@@ -144,7 +144,7 @@ public class ETankApplication extends Application {
     public void showGameView() {
         ViewTuple<GameView, GameViewModel> viewTuple = FluentViewLoader.fxmlView(GameView.class).load();
         Scene scene = new Scene(viewTuple.getView());
-        scene.setOnKeyPressed(keyEvent -> viewTuple.getViewModel().handle(keyEvent));
+        scene.setOnKeyPressed(keyEvent -> viewTuple.getViewModel().getGamePlay().handle(keyEvent));
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();

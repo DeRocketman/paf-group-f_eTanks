@@ -33,7 +33,7 @@ public class GameViewModel implements ViewModel {
     ObservableList<LevelElement> elementList = FXCollections.observableArrayList();
     ObservableList<ImageView> bulletList = FXCollections.observableArrayList();
 
-    public void setElementList(ObservableList<StackPane> elementList) {
+    public void setElementList(ObservableList<LevelElement> elementList) {
         this.elementList = elementList;
     }
 
@@ -47,8 +47,9 @@ public class GameViewModel implements ViewModel {
 
     public void setGamePlay(ObservableList<LevelElement> elementList){
         this.gamePlay = new GamePlay();
-        //this.gamePlay = new GamePlay(eTankApplication.getPlayerlist());
-        //this.gamePlay = eTankApplication.getGamePlay();
+        gamePlay.setElementList(elementList);
+        gamePlay.initTanks();
+        gamePlay.startTimer();
     }
 
     public GamePlay getGamePlay(){
@@ -57,20 +58,5 @@ public class GameViewModel implements ViewModel {
 
     public void setBulletList(ObservableList<ImageView> bulletList) {
         this.bulletList = bulletList;
-    }
-
-    public void createElement (){
-        LevelElementImage test = new LevelElementImage( new Image(getClass().getResourceAsStream("../img/images/tanks/Hulls_Color_A/Hull_01.png")) , "tank", 200.0, 200.0, 40.0,40.0 );
-        StackPane tank = new StackPane();
-        tank.setLayoutX(200.0);
-        tank.setLayoutY(200.0);
-        tank.setPrefHeight(40.0);
-        tank.setPrefWidth(40.0);
-
-        tank.getChildren().add(test);
-
-        System.out.println(test.getType());
-
-        elementList.add(tank);
     }
 }

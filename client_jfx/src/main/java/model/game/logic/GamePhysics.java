@@ -17,4 +17,7 @@ public class GamePhysics {
 
     public static final int KILL_POINTS = 1000;
     public static final int ITEM_POINTS = 300;
+
+
+    public static final double ELEMENT_SIZE = 40.0;
 }

@@ -92,19 +92,10 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
     }
 
     private void setElementListEventListener(){
-        elementListNew.addListener((ListChangeListener<LevelElement>) change -> {
+        elementList.addListener((ListChangeListener<LevelElement>) change -> {
             if(change.next()){
                 elementPane.getChildren().add(elementList.get(change.getFrom()));
                 System.out.println("elementListNew: " + change.getFrom());
-            }
-        });
-    }
-
-    private void setEventListener(){
-        elementList.addListener((ListChangeListener<StackPane>) change -> {
-            if(change.next()){
-                elementPane.getChildren().add(elementList.get(change.getFrom()));
-                System.out.println("elementList: " + change.getFrom());
             }
         });
     }

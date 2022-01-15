@@ -27,11 +27,11 @@ public class LevelElement extends ImageView {
         this.setRotate(rotation);
     }
 
-    public LevelElement(String type, double positionX, double positionY, double width, double height) {
-        super();
+    public LevelElement(Image image, double positionX, double positionY, double width, double height) {
+        super(image);
         this.type = type;
         this.setLayoutX(positionX);
-        this.setLayoutX(positionY);
+        this.setLayoutY(positionY);
         this.setFitHeight(height);
         this.setFitWidth(width);
     }

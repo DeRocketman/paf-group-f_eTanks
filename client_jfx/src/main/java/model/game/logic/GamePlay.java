@@ -236,4 +236,8 @@ public class GamePlay {
             elementList.add(tank);
         }
     }
+
+    private void initElements() {
+
+    }
 }

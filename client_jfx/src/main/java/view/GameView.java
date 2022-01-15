@@ -109,7 +109,5 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         });
     }
 
-    private void initElements() {
-        //Hier sollen die übrigen starren Items an die jeweiligen Level angepasst werden
-    }
+
 }

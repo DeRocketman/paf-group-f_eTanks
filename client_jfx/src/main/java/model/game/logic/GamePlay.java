@@ -21,7 +21,6 @@ public class GamePlay {
 
     // private ObservableList<GameStatistic> gameStatistics;
     int whichTank = 0;
-    boolean canMove[] = {true, true, true, true};
 
     public GamePlay(ObservableList<Player> players) {
         this.players = players;
@@ -35,13 +34,13 @@ public class GamePlay {
     }
 
     public void startTimer() {
-        AnimationTimer timer = new AnimationTimer() {
+        AnimationTimer collisionDetectionMovementTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 collisionDetectionMovement();
             }
         };
-        timer.start();
+        collisionDetectionMovementTimer.start();
     }
 
     public void collisionDetectionMovement() {
@@ -62,19 +61,19 @@ public class GamePlay {
     }
 
     public void handle(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.W && canMove[0]) {
+        if (keyEvent.getCode() == KeyCode.W) {
             System.out.println("Up: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
             moveTank(elementList.get(whichTank), 360.0);
         }
-        if (keyEvent.getCode() == KeyCode.S && canMove[2]) {
+        if (keyEvent.getCode() == KeyCode.S) {
             System.out.println("Down: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
             moveTank(elementList.get(whichTank), 180.0);
         }
-        if (keyEvent.getCode() == KeyCode.D && canMove[1]) {
+        if (keyEvent.getCode() == KeyCode.D) {
             System.out.println("Right: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
             moveTank(elementList.get(whichTank), 90.0);
         }
-        if (keyEvent.getCode() == KeyCode.A && canMove[3]) {
+        if (keyEvent.getCode() == KeyCode.A) {
             System.out.println("Left: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
             moveTank(elementList.get(whichTank), 270.0);
         }

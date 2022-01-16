@@ -24,8 +24,8 @@ import java.io.IOException;
 public class GameLobbyViewController {
 
 
-   // SocketClient sc = new SocketClient("localhost",3333,this);
-    //Thread messageReceive = new Thread(sc);
+    SocketClient sc = new SocketClient(this);
+    Thread messageReceive = new Thread(sc);
     private ETankApplication eTankApplication;
     public Player signedPlayer;
 

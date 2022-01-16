@@ -231,7 +231,7 @@ public class GamePlay {
         double[] rotate = {360.0, 360.0, 180.0, 180.0};
 
         for (int i = 0; i < playerCount; i++) {
-            LevelElement tank = new Tank(new Image(imgTank[i]), "tank", positionsX[i], positionsY[i], GamePhysics.ELEMENT_SIZE, GamePhysics.ELEMENT_SIZE, rotate[i], 3);
+            LevelElement tank = new Tank(new Image("file:"+imgTank[i]), "tank", positionsX[i], positionsY[i], GamePhysics.ELEMENT_SIZE, GamePhysics.ELEMENT_SIZE, rotate[i], 3);
             tank.setVisible(true);
             elementList.add(tank);
         }

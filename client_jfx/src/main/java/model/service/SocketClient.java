@@ -4,60 +4,63 @@ import controller.GameLobbyViewController;
 import com.google.gson.Gson;
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 
 public class SocketClient implements Runnable {
     private GameLobbyViewController gameLobbyViewController;
-    private String hostname;
-    private int port;
+    private final String hostname = "localhost";
+    private final int port = 3333;
 
-    private Socket socket;
-    private StringBuilder sb = new StringBuilder();
-    private OutputStreamWriter outputStreamWriter;
-    private BufferedReader br;
+    private final Socket socket;
+    private final OutputStreamWriter dataOut;
+    private final DataInputStream dataIn;
     private Gson gson;
 
 
-    public SocketClient(String hostname, int port, GameLobbyViewController gameLobbyViewController) throws IOException {
-        this.hostname = hostname;
-        this.port = port;
+    public SocketClient(GameLobbyViewController gameLobbyViewController) throws IOException {
         this.gameLobbyViewController = gameLobbyViewController;
         this.socket = new Socket(hostname, port);
+        this.dataOut = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8);
+        this.dataIn = new DataInputStream(this.socket.getInputStream());
     }
 
     @Override
     public void run() {
         try {
-            System.out.println("ES BEGINNT THREAD LÄUFT");
-            this.outputStreamWriter = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8);
-            this.br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
             connectMsg();
             while (socket.isConnected()) {
-                DataInputStream dataIn = new DataInputStream(this.socket.getInputStream());
-                String line;
-                String msg;
                 Message message = new Message();
+
+                String msg;
                 msg = dataIn.readUTF();
                 System.out.println("Message empfangen: " + msg);
                 message = gson.fromJson(msg, Message.class);
-                // todo: Messagehandling hier hin:
-
-
-
+                deliverMsg(message);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+
+    public void sendMsg(Message message) {
+        try {
+            String outgoingMsg = gson.toJson(message);
+            dataOut.write(outgoingMsg);
+            dataOut.flush();
+            System.out.println("Nachricht gesendet: " + outgoingMsg);
+        } catch (IOException e){
+            System.out.println(e.getMessage());
+        }
+
+    }
+    private Message deliverMsg(Message message) {
+        return message;
+    }
+
     public void connectMsg() throws IOException {
-        this.outputStreamWriter = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8);
+
         //DataOutputStream dos = new DataOutputStream(this.socket.getOutputStream());
         this.gson = new Gson();
         Message loginMessage = new Message();
@@ -68,8 +71,7 @@ public class SocketClient implements Runnable {
         loginMessage.setPlayerIsRdy(false);
         loginMessage.setPayload("JAVA");
         String outgoingMsg = gson.toJson(loginMessage);
-        outputStreamWriter.write(outgoingMsg);
-        outputStreamWriter.flush();
+
         System.out.println("Nachricht gesendet: " + outgoingMsg);
     }
 

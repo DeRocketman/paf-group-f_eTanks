@@ -1,6 +1,9 @@
 package model.game.elements;
 
+import javafx.animation.Animation;
+import javafx.animation.RotateTransition;
 import javafx.scene.image.Image;
+import javafx.util.Duration;
 import model.data.User;
 import model.game.logic.GamePhysics;
 

@@ -31,16 +31,12 @@ public class GamePlay {
 
     public GamePlay() {
     }
-
     public void createGameStatistic() {
         int playerCount = players.size();
        /* for (int i = 0; i < playerCount; i++) {
             GameStatistic userGameStatistic = new GameStatistic();
             this.gameStatistics.add(userGameStatistic);
         }*/
-    }
-
-    public void detectCollision() {
     }
 
     public void setElementList(ObservableList<LevelElement> elementList) {

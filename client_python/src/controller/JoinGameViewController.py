@@ -22,7 +22,6 @@ class JoinGameViewController(QWidget):
         self.joinGameView.refreshGameListButton.clicked.connect(self.getLobbyList)
         self.joinGameView.joinSelectedButton.clicked.connect(self.joinSelectedGameLobby)
         self.joinGameView.gameList.doubleClicked.connect(self.joinSelectedGameLobby)
-        # self.getLobbyList()
 
     def joinSelectedGameLobby(self):
         selectedLobbyId = self.joinGameView.gameList.currentItem().text()
@@ -49,14 +48,14 @@ class JoinGameViewController(QWidget):
     def receiveJoinMsg(self, msg):
         if msg is not None:
             if msg.messageType == "GET_LOBBIES":
-                resvLobby = Lobby()
-                resvLobby.id = msg.gameLobbyNumber
-                resvLobby.seats = msg.payload
+                recvLobby = Lobby()
+                recvLobby.id = msg.gameLobbyNumber
+                recvLobby.seats = msg.payload
                 for lobby in self.gameLobbyList:
-                    if resvLobby.id == lobby.id:
+                    if recvLobby.id == lobby.id:
                         self.gameLobbyList.remove(lobby)
 
-                self.gameLobbyList.append(resvLobby)
+                self.gameLobbyList.append(recvLobby)
                 self.fillLobbyList()
 
     def showNewGameView(self):

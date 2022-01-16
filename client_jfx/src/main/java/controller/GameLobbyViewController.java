@@ -9,14 +9,12 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.ETankApplication;
-import model.data.GameStatistic;
-import model.data.User;
 import model.data.UserSettings;
-import model.data.UserStatistic;
 import model.game.logic.GameLobby;
 import model.game.logic.Player;
+import model.service.Message;
+import model.service.MessageType;
 import model.service.SocketClient;
-import org.boon.Str;
 
 
 import java.io.IOException;
@@ -74,28 +72,19 @@ public class GameLobbyViewController {
     }
 
     @FXML
-    public void switchToInit() {
+    private void switchToInit() {
         resetViews();
         vbxInit.setVisible(true);
     }
 
     @FXML
-    public void hostGame() throws IOException {
-        resetViews();
-        vbxLobby.setVisible(true);
-        hbxHostPanel.setVisible(true);
+    private void hostGame() throws IOException {
         GameLobby lobby = new GameLobby();
         lobby.buildLobbyID();
 
         lobby.addPlayer(signedPlayer);
         this.lobbyList.add(lobby);
         lblGameNumber.setText("Spielnummer: " + String.valueOf(lobby.getGameLobbyID()));
-
-        //     User sU = eTankApplication.getSignedUser();
-   //     this.signedPlayer = new Player(sU.getId(), sU.getUserName(), sU.getPublicName(), sU.getUserImage(), sU.getPassword(),
-   //             sU.getUserSettings());
-   //     lobby.addPlayer(this.signedPlayer);
-   //     this.lobbyList.add(lobby);
 
     }
 
@@ -111,9 +100,8 @@ public class GameLobbyViewController {
     }
 
     @FXML
-    public void joinGame() {
-        resetViews();
-        vbxJoin.setVisible(true);
+    private void joinGame() {
+
     }
 
     @FXML
@@ -124,7 +112,6 @@ public class GameLobbyViewController {
     @FXML
     public void switchToGameView() throws IOException{
         eTankApplication.showGameView();
-
     }
 
     @FXML
@@ -150,9 +137,7 @@ public class GameLobbyViewController {
         if(selectedGameLobby.getSeatCounter() < 4) {
             System.out.println("joining game");
             selectedGameLobby.addPlayer(signedPlayer);
-            resetViews();
-            vbxLobby.setVisible(true);
-            hbxJoinerPanel.setVisible(true);
+            showJoinLobbyView();
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Schlacht ist schon voll");
@@ -163,7 +148,8 @@ public class GameLobbyViewController {
     }
 
     @FXML
-    private void setStatusReady(ActionEvent actionEvent) {
+    private void setStatusReady() {
+
     }
 
     public void resetViews() {
@@ -173,16 +159,75 @@ public class GameLobbyViewController {
         hbxHostPanel.setVisible(false);
         hbxJoinerPanel.setVisible(false);
     }
+
     public void enterChatHandleS(KeyEvent keyEvent) {
     }
 
     public void sendMessageS(ActionEvent actionEvent) {
     }
 
+    public void receiveLobbyMessages(Message msg) throws IOException {
+        if (msg != null) {
+            if (msg.getMessageType() == MessageType.GET_LOBBIES) {
+                processGetLobbiesMsg(msg);
+            }
+            if (msg.getMessageType() == MessageType.CHAT_MSG) {
+                processChatMsg(msg);
+            }
+            if (msg.getMessageType() == MessageType.JOINED_PLAYER) {
+                processJoinedPlayerMsg(msg);
+            }
+            if (msg.getMessageType() == MessageType.RDY_STATUS) {
+                processRdyStatusMsg(msg);
+            }
+            if (msg.getMessageType() == MessageType.START_GAME) {
+                processStartGameMsg(msg);
+            }
+        }
+    }
+
+    private void processStartGameMsg(Message msg) {
+
+
+    }
+
+    private void processRdyStatusMsg(Message msg) {
+    }
+
+    private void processJoinedPlayerMsg(Message msg) throws IOException {
+        Player player = new Player(msg.getPlayerId(), msg.getPlayerPublicName(),"","", "", null);
+    }
+
+    private void processChatMsg(Message msg) {
+    }
+
+    private void processGetLobbiesMsg(Message msg) {
+    }
+
+    private void showLobbyHostView() {
+        resetViews();
+        vbxLobby.setVisible(true);
+        hbxHostPanel.setVisible(true);
+    }
+
+    private void showJoinLobbyView() {
+        resetViews();
+        vbxJoin.setVisible(true);
+    }
+
+    private void showLobbyJoinView() {
+        resetViews();
+        vbxLobby.setVisible(true);
+        hbxJoinerPanel.setVisible(true);
+    }
+
+    public void getLobbyList() {
+        Message msg = new Message();
+        msg.setMessageType(MessageType.GET_LOBBIES);
+        sc.sendMsg(msg);
+    }
 
     public void startGame () throws IOException {
-       // GameLobby lobby = testLobby();
-       // eTankApplication.setPlayerlist(lobby.getPlayers());
         eTankApplication.showGameView();
     }
 
@@ -191,38 +236,4 @@ public class GameLobbyViewController {
     }
 
 
-    public void createGames() throws IOException {
-        UserSettings testUserSetting = new UserSettings();
-        Player testPlayer = new Player(1000, "Line-Maxi", "Rocket wo man",
-                this.eTankApplication.getSignedUser().getUserImage(), "passwort", testUserSetting);
-        Player testPlayer2 = new Player(10001, "Maxi-Line", "Wocketwan",
-                this.eTankApplication.getSignedUser().getUserImage(), "passwort", testUserSetting);
-        this.signedPlayer = new Player(this.eTankApplication.getSignedUser().getId(), this.eTankApplication.getSignedUser().getUserName(), this.eTankApplication.getSignedUser().getPublicName(), this.eTankApplication.getSignedUser().getUserImage(), "Default", this.eTankApplication.getSignedUser().getUserSettings());
-        lobbyList.add(new GameLobby());
-        lobbyList.add(new GameLobby());
-        lobbyList.add(new GameLobby());
-        lobbyList.add(new GameLobby());
-        for (GameLobby gameLobby : lobbyList) {
-            gameLobby.addPlayer(testPlayer);
-        }
-        lobbyList.get(1).addPlayer(testPlayer2);
-        lobbyList.get(1).addPlayer(testPlayer2);
-    }
-
-    public GameLobby testLobby() throws IOException {
-        UserSettings testUserSetting = new UserSettings();
-        Player testPlayer = new Player(1000, "Line-Maxi", "Rocket wo man",
-                this.eTankApplication.getSignedUser().getUserImage(), "passwort", testUserSetting);
-        Player testPlayer2 = new Player(10001, "Maxi-Line", "Wocketwan",
-                this.eTankApplication.getSignedUser().getUserImage(), "passwort", testUserSetting);
-        this.signedPlayer = new Player(this.eTankApplication.getSignedUser().getId(), this.eTankApplication.getSignedUser().getUserName(), this.eTankApplication.getSignedUser().getPublicName(), this.eTankApplication.getSignedUser().getUserImage(), "Default", this.eTankApplication.getSignedUser().getUserSettings());
-
-        GameLobby lobby = new GameLobby();
-        lobby.buildLobbyID();
-
-        lobby.addPlayer(signedPlayer);
-        lobby.addPlayer(testPlayer);
-
-        return lobby;
-    }
 }

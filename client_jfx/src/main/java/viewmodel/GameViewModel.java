@@ -30,7 +30,8 @@ public class GameViewModel implements ViewModel {
     GameLobby gameLobby;
     GamePlay gamePlay;
 
-    int wichTank = 3;
+    int whichTank = 0;
+    double shootDelay = GamePhysics.DELAY_SECOND;
 
     ObservableList<LevelElement> elementList = FXCollections.observableArrayList();
     ObservableList<ImageView> bulletList = FXCollections.observableArrayList();
@@ -100,23 +101,24 @@ public class GameViewModel implements ViewModel {
     public void handle(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.W) {
             System.out.println("Up: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
-            ((Tank) elementList.get(0)).moveTank( 360.0);
+            ((Tank) elementList.get(0)).moveTank(360.0);
         }
         if (keyEvent.getCode() == KeyCode.S) {
             System.out.println("Down: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
             elementList.get(0).setType("test");
-            ((Tank) elementList.get(0)).moveTank( 180.0);
+            ((Tank) elementList.get(0)).moveTank(180.0);
         }
         if (keyEvent.getCode() == KeyCode.D) {
             System.out.println("Right: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
-            ((Tank) elementList.get(0)).moveTank( 90.0);
+            ((Tank) elementList.get(0)).moveTank(90.0);
         }
         if (keyEvent.getCode() == KeyCode.A) {
             System.out.println("Left: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
-            ((Tank) elementList.get(0)).moveTank( 270.0);
+            ((Tank) elementList.get(0)).moveTank(270.0);
         }
         if (keyEvent.getCode() == KeyCode.SPACE) {
             System.out.println("FEUERTASTE: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
+            fireMainWeapon(elementList.get(0));
         }
     }
 
@@ -206,12 +208,12 @@ public class GameViewModel implements ViewModel {
         this.gameLobby = gameLobby;
     }
 
-    public void setGamePlay(ObservableList<LevelElement> elementList){
+    public void setGamePlay(ObservableList<LevelElement> elementList) {
         this.gamePlay = new GamePlay();
         gamePlay.setElementList(elementList);
     }
 
-    public GamePlay getGamePlay(){
+    public GamePlay getGamePlay() {
         return this.gamePlay;
     }
 

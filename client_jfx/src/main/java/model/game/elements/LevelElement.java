@@ -45,6 +45,14 @@ public class LevelElement extends ImageView {
         this.setFitWidth(width);
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public double[] getPositions() {
         return new double[]{this.getFitHeight(), this.getFitWidth()};
     }

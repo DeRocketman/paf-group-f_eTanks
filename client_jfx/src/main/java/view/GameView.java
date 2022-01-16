@@ -19,6 +19,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import main.ETankApplication;
 import model.game.elements.LevelElement;
+import model.game.elements.Tank;
+import model.game.logic.GamePhysics;
 import model.game.logic.GamePlay;
 import viewmodel.GameViewModel;
 
@@ -89,6 +91,29 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
                 cell.setFitWidth(40.0);
                 ground.add(cell, col, row);
             }
+        }
+    }
+
+    public void initTanks(int playerCount) {
+        // int playerCount = players.size();
+
+
+
+
+        String[] imgTank = new String[4];
+        imgTank[0] = "img/images/tanks/tank_01.png";
+        imgTank[1] = "img/images/tanks/tank_02.png";
+        imgTank[2] = "img/images/tanks/tank_03.png";
+        imgTank[3] = "img/images/tanks/tank_04.png";
+        double[] positionsX = {100.0, 1060.0, 100.0, 1060.0};
+        double[] positionsY = {700.0, 700.0, 60.0, 60.0};
+
+        double[] rotate = {360.0, 360.0, 180.0, 180.0};
+
+        for (int i = 0; i < playerCount; i++) {
+            LevelElement tank = new Tank(new Image(imgTank[i]), "tank", positionsX[i], positionsY[i], GamePhysics.ELEMENT_SIZE, GamePhysics.ELEMENT_SIZE, rotate[i], 3);
+            tank.setVisible(true);
+            elementList.add(tank);
         }
     }
 

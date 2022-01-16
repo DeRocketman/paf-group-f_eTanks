@@ -39,23 +39,59 @@ public class GameViewModel implements ViewModel {
         AnimationTimer gameTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                collisionDetectionMovement();
+                playerMovementDetection();
+                bulletCollisionDetection();
             }
         };
         gameTimer.start();
     }
 
-    public void collisionDetectionMovement() {
-        for (int i = 1; i < elementList.size(); i++) {
-            if (elementList.get(0).getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
+    public void bulletCollisionDetection() {
+       /* shootDelay += 0.016;
+        if (shootDelay >= 2) {
+            shootDelay = 0;
+        }*/
+
+        int index = 0;
+        for (LevelElement bullet: elementList) {
+            if (bullet.getType().equals("bullet")) {
+                index++;
+                for (int i = 1; i < elementList.size(); i++) {
+                    if(elementList.get(i).getType().equals("tank")){
+                        if (elementList.get(index).getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
+                            System.out.println("Test");
+                        }
+                    }
+                    if(elementList.get(i).getType().equals("block")){
+                        if (elementList.get(index).getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
+                        }
+                    }
+                }
+                moveBullet((BulletMainWeapon) bullet);
+            }
+        }
+    }
+
+    public void playerMovementDetection() {
+
+        ArrayList<LevelElement> filteredList = new ArrayList<>();
+
+        for (LevelElement element : elementList) {
+            if (element.getType().equals("tank") || element.getType().equals("block")) {
+                filteredList.add(element);
+            }
+        }
+
+        for (int i = 1; i < filteredList.size(); i++) {
+            if (elementList.get(0).getBoundsInParent().intersects(filteredList.get(i).getBoundsInParent())) {
                 if (elementList.get(0).getRotate() == 360.0) {
-                    elementList.get(0).setLayoutY(elementList.get(0).getLayoutY() + 5);
+                    elementList.get(0).setLayoutY(filteredList.get(0).getLayoutY() + 5);
                 } else if (elementList.get(0).getRotate() == 90.0) {
-                    elementList.get(0).setLayoutX(elementList.get(0).getLayoutX() - 5);
+                    elementList.get(0).setLayoutX(filteredList.get(0).getLayoutX() - 5);
                 } else if (elementList.get(0).getRotate() == 180.0) {
-                    elementList.get(0).setLayoutY(elementList.get(0).getLayoutY() - 5);
+                    elementList.get(0).setLayoutY(filteredList.get(0).getLayoutY() - 5);
                 } else if (elementList.get(0).getRotate() == 270.0) {
-                    elementList.get(0).setLayoutX(elementList.get(0).getLayoutX() + 5);
+                    elementList.get(0).setLayoutX(filteredList.get(0).getLayoutX() + 5);
                 }
             }
         }
@@ -80,27 +116,58 @@ public class GameViewModel implements ViewModel {
             ((Tank) elementList.get(0)).moveTank( 270.0);
         }
         if (keyEvent.getCode() == KeyCode.SPACE) {
-            ((Tank) elementList.get(0)).moveTank( 90.0);
             System.out.println("FEUERTASTE: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
         }
     }
 
-    /*
     private void fireMainWeapon(LevelElement myTank) {
-        double[] bsp = (Tank) myTank.setCorrectPosition(myTank);
-        BulletMainWeapon mainBullet = new BulletMainWeapon("Bullet", bsp[0], bsp[1], GamePhysics.ELEMENT_SIZE, GamePhysics.ELEMENT_SIZE, myTank.getRotate(), (Tank) myTank);
-        mainBullet.setDisable(false);
-        mainBullet.setVisible(true);
-        mainBullet.setRotate(myTank.getRotate());
-        translateTransition(mainBullet, myTank);
-        //elementList.add(mainBullet);
+        double[] bsp = setCorrectPosition(myTank);
+        BulletMainWeapon bullet = new BulletMainWeapon("bullet", bsp[0], bsp[1], GamePhysics.ELEMENT_SIZE, GamePhysics.ELEMENT_SIZE, myTank.getRotate(), (Tank) myTank);
+        bullet.setDisable(false);
+        bullet.setVisible(true);
+        bullet.setRotate(myTank.getRotate());
+        moveBullet(bullet);
+        //translateTransition(mainBullet, myTank);
+        elementList.add(bullet);
     }
-*/
+
+    public void moveBullet(BulletMainWeapon bullet) {
+        double rotation = bullet.getRotate();
+        if (rotation == 90.0) {
+            bullet.setX(bullet.getX() + 5);
+        } else if (rotation == 360 || rotation == 0) {
+            bullet.setY(bullet.getY() - 5);
+        } else if (rotation == 270) {
+            bullet.setX(bullet.getX() - 5);
+        } else if (rotation == 180) {
+            bullet.setY(bullet.getY() + 5);
+        }
+    }
 
 
-    /*
-     * Transition für die Animation der Bullets */
-    /*private void translateTransition(ImageView imageView, LevelElement myTank) {
+    //TODO auslagern nach Tank? Gibt ein Array mit den Werten 0,0 zurück, wenn der Panzer noch in der Rotation ist.
+    private double[] setCorrectPosition(LevelElement myTank) {
+        double[] bulletStartPosition = new double[2];
+        if (myTank.getRotate() == 360.0 || myTank.getRotate() == 0.0) {
+            bulletStartPosition[0] = myTank.getLayoutX();
+            bulletStartPosition[1] = myTank.getLayoutY() - 26.0;
+        } else if (myTank.getRotate() == 90.0) {
+            bulletStartPosition[0] = myTank.getLayoutX() + 26.0;
+            bulletStartPosition[1] = myTank.getLayoutY();
+        } else if (myTank.getRotate() == 180.0) {
+            bulletStartPosition[0] = myTank.getLayoutX();
+            bulletStartPosition[1] = myTank.getLayoutY() + 26.0;
+        } else if (myTank.getRotate() == 270.0) {
+            bulletStartPosition[0] = myTank.getLayoutX() - 26.0;
+            bulletStartPosition[1] = myTank.getLayoutY();
+        }
+        System.out.println("X: " + bulletStartPosition[0] + " Y:" + bulletStartPosition[1]);
+        return bulletStartPosition;
+    }
+
+
+    /* Transition für die Animation der Bullets */
+    private void translateTransition(ImageView imageView, LevelElement myTank) {
         TranslateTransition tr = new TranslateTransition();
         tr.setNode(imageView);
 
@@ -118,7 +185,7 @@ public class GameViewModel implements ViewModel {
             tr.setByY(GamePhysics.SHOOT_LENGTH);
         }
         tr.play();
-    }*/
+    }
 
     public void detectCollision() {
     }

@@ -77,26 +77,6 @@ public class Tank extends LevelElement{
         rt.play();
     }
 
-    //TODO auslagern nach Tank? Gibt ein Array mit den Werten 0,0 zurück, wenn der Panzer noch in der Rotation ist.
-    private double[] setCorrectPosition(LevelElement myTank) {
-        double[] bulletStartPosition = new double[2];
-        if (myTank.getRotate() == 360.0 || myTank.getRotate() == 0.0) {
-            bulletStartPosition[0] = myTank.getLayoutX();
-            bulletStartPosition[1] = myTank.getLayoutY() - 26.0;
-        } else if (myTank.getRotate() == 90.0) {
-            bulletStartPosition[0] = myTank.getLayoutX() + 26.0;
-            bulletStartPosition[1] = myTank.getLayoutY();
-        } else if (myTank.getRotate() == 180.0) {
-            bulletStartPosition[0] = myTank.getLayoutX();
-            bulletStartPosition[1] = myTank.getLayoutY() + 26.0;
-        } else if (myTank.getRotate() == 270.0) {
-            bulletStartPosition[0] = myTank.getLayoutX() - 26.0;
-            bulletStartPosition[1] = myTank.getLayoutY();
-        }
-        System.out.println("X: " + bulletStartPosition[0] + " Y:" + bulletStartPosition[1]);
-        return bulletStartPosition;
-    }
-
 /*
     public void setTankCommander(User commander) {
         this.tankCommander = commander;

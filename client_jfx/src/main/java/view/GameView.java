@@ -75,6 +75,9 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         gameViewModel.setGamePlay(elementList);
         gameViewModel.setBulletList(bulletList);
 
+        initTanks(gameViewModel.getGamePlay().getPlayerListSize());
+        gameViewModel.startTimer();
+
       //  gameViewModel.collisionTimer
     }
 

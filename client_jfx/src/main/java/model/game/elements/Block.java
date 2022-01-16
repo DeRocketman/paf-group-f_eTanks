@@ -17,6 +17,12 @@ public class Block extends LevelElement {
         this.lives = lives;
     }
 
+    public Block(Image image, String type, double positionX, double positionY, double width, double height, int lives) {
+        super(image, type,positionX, positionY, width, height);
+        this.lives = lives;
+    }
+
+
     public void setLives(int lives) {
         this.lives = lives;
     }

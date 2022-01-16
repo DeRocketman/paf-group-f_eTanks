@@ -12,14 +12,15 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
 import model.game.elements.*;
+import org.boon.core.Sys;
 
 import java.util.Objects;
 
 public class GamePlay {
     private ObservableList<Player> players;
     private ObservableList<LevelElement> elementList = FXCollections.observableArrayList();
-
     // private ObservableList<GameStatistic> gameStatistics;
+
     int whichTank = 0;
 
     public GamePlay(ObservableList<Player> players) {
@@ -44,7 +45,6 @@ public class GamePlay {
     }
 
     public void collisionDetectionMovement() {
-
         for (int i = 1; i < elementList.size(); i++) {
             if (elementList.get(0).getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
                 if (elementList.get(0).getRotate() == 360.0) {
@@ -240,4 +240,9 @@ public class GamePlay {
     private void initElements() {
 
     }
+
+    public int getPlayerListSize(){
+        return 4;
+    }
+
 }

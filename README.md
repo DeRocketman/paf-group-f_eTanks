@@ -48,5 +48,7 @@ Es sollen mindestens 2 Benutzer als Dummy angelegt sein (Zwecks Prüfung)
 -   Es wird gemeinsam das Klassendiagramm erstellt.
 -   Um ein gemeinsames Bild innerhalb der Gruppe vom Projekt zu bekommen werden gemeinsam Mockups der einzelnen Szenarien erstellt.  
 
+### 2.3. Änderungen
+-   Spielfeldbreite: 1280 px
 
 

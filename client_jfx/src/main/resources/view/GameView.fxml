@@ -80,7 +80,7 @@
          </children></HBox>
    </top>
    <center>
-      <Pane fx:id="elementPane" styleClass="elementPane" prefHeight="800.0" prefWidth="1200.0" >
+      <Pane fx:id="elementPane" styleClass="elementPane" prefHeight="800.0" prefWidth="1280.0" >
          <GridPane fx:id="ground" id="ground" BorderPane.alignment="CENTER">
             <columnConstraints>
                <ColumnConstraints />

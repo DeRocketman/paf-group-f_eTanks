@@ -12,7 +12,7 @@ public class GamePhysics {
     public static final long PLAYER_PREPARATION_TIME_SECONDS = 30;
     public static final long GAME_TIME_SECONDS = 180;
     public static final long GAME_TIME = GAME_TIME_SECONDS * 1000000000L;
-    public static final double GAME_WIDTH = 1200;
+    public static final double GAME_WIDTH = 1280;
     public static final double GAME_HEIGHT = 800;
 
     public static final int KILL_POINTS = 1000;

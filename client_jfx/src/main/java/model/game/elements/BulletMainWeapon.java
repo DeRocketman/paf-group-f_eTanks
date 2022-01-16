@@ -1,5 +1,9 @@
 package model.game.elements;
+import javafx.animation.TranslateTransition;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.util.Duration;
+import model.game.logic.GamePhysics;
 
 import java.util.Objects;
 

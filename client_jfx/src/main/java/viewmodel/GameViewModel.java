@@ -52,25 +52,44 @@ public class GameViewModel implements ViewModel {
         if (shootDelay >= 2) {
             shootDelay = 0;
         }*/
+        for (LevelElement element : elementList) {
+            boolean hit = false;
+            if (element.getType().equals("bullet")) {
 
-        int index = 0;
-        for (LevelElement bullet: elementList) {
-            if (bullet.getType().equals("bullet")) {
-                index++;
                 for (int i = 1; i < elementList.size(); i++) {
-                    if(elementList.get(i).getType().equals("tank")){
-                        if (elementList.get(index).getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
-                            System.out.println("Test");
+                    if (elementList.get(i).getType().equals("tank")) {
+                        if (element.getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
+                            BulletMainWeapon tempBullet = ((BulletMainWeapon) element);
+                            int playerId = tempBullet.getTankFired().getPlayerId();
+                           // elementList.remove(bullet);
+                            //Hier bekommt der Player Punkte
+                            System.out.println("Player: " + playerId + " Du hast getroffen!");
+
+                            //Hier verliert der andere Player Leben
+                            Tank tank = (Tank) elementList.get(i);
+                            tank.reduceLivePoints();
+                            hit=true;
+
                         }
-                    }
-                    if(elementList.get(i).getType().equals("block")){
-                        if (elementList.get(index).getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
+                    } else if (elementList.get(i).getType().equals("block")) {
+                        if (element.getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
+                            System.out.println("Dat ist eine Wand du Idiot");
                         }
+                        hit = true;
                     }
                 }
-                moveBullet((BulletMainWeapon) bullet);
+                if(!hit){
+                      moveBullet((BulletMainWeapon) element);
+                }
+            }
+            if(hit){
+            //    hit = false;
             }
         }
+
+
+
+
     }
 
     public void playerMovementDetection() {
@@ -105,7 +124,6 @@ public class GameViewModel implements ViewModel {
         }
         if (keyEvent.getCode() == KeyCode.S) {
             System.out.println("Down: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
-            elementList.get(0).setType("test");
             ((Tank) elementList.get(0)).moveTank(180.0);
         }
         if (keyEvent.getCode() == KeyCode.D) {

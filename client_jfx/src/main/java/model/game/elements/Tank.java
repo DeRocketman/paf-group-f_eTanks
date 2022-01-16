@@ -4,17 +4,24 @@ import javafx.animation.Animation;
 import javafx.animation.RotateTransition;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
-import model.data.User;
 import model.game.logic.GamePhysics;
+import model.game.logic.Player;
+import org.boon.primitive.Int;
 
 public class Tank extends LevelElement{
-    //private User tankCommander;
-    //private double course;
+    // private Player tankCommander;
+    private int playerId;
     private int livePoints;
 
     public Tank(Image image, String type, double positionX, double positionY, double width, double height, double rotation, int livePoints) {
         super(image, "tank",positionX, positionY, width, height, rotation);
         this.livePoints = livePoints;
+    }
+
+    public Tank(Image image, String type, double positionX, double positionY, double width, double height, double rotation, int livePoints, int playerId) {
+        super(image, "tank",positionX, positionY, width, height, rotation);
+        this.livePoints = livePoints;
+        this.playerId = playerId;
     }
     /*
      * Bewegt den Tank bis an die Spielfeldgrenze
@@ -79,6 +86,15 @@ public class Tank extends LevelElement{
         }
         rt.play();
     }
+
+    public int getPlayerId() {
+        return playerId;
+    }
+
+    public void reduceLivePoints(){
+        livePoints = livePoints--;
+    }
+
 
 /*
     public void setTankCommander(User commander) {

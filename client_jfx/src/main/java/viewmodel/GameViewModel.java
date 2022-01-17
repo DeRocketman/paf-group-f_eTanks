@@ -52,44 +52,47 @@ public class GameViewModel implements ViewModel {
         if (shootDelay >= 2) {
             shootDelay = 0;
         }*/
+
+        boolean isHit = false;
+        LevelElement toRemove = null;
+
         for (LevelElement element : elementList) {
-            boolean hit = false;
+
             if (element.getType().equals("bullet")) {
 
                 for (int i = 1; i < elementList.size(); i++) {
                     if (elementList.get(i).getType().equals("tank")) {
                         if (element.getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
+
                             BulletMainWeapon tempBullet = ((BulletMainWeapon) element);
                             int playerId = tempBullet.getTankFired().getPlayerId();
-                           // elementList.remove(bullet);
                             //Hier bekommt der Player Punkte
-                            System.out.println("Player: " + playerId + " Du hast getroffen!");
 
+                            toRemove = element;
+                            element.setDisable(true);
                             //Hier verliert der andere Player Leben
                             Tank tank = (Tank) elementList.get(i);
                             tank.reduceLivePoints();
-                            hit=true;
+                            isHit = true;
 
+                            System.out.println("Player: " + playerId + " Du hast Player: " + tank.getPlayerId() + " getroffen!");
+                            break;
                         }
                     } else if (elementList.get(i).getType().equals("block")) {
                         if (element.getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
                             System.out.println("Dat ist eine Wand du Idiot");
+                            isHit = true;
                         }
-                        hit = true;
                     }
                 }
-                if(!hit){
-                      moveBullet((BulletMainWeapon) element);
+                if (!isHit) {
+                    moveBullet((BulletMainWeapon) element);
                 }
             }
-            if(hit){
-            //    hit = false;
-            }
         }
-
-
-
-
+        if (toRemove != null){
+            elementList.remove(toRemove);
+        }
     }
 
     public void playerMovementDetection() {

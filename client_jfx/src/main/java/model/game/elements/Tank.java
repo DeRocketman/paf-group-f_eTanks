@@ -87,6 +87,25 @@ public class Tank extends LevelElement{
         rt.play();
     }
 
+    public double[] setCorrectBulletPosition(LevelElement myTank) {
+        double[] bulletStartPosition = new double[2];
+        if (myTank.getRotate() == 360.0 || myTank.getRotate() == 0.0) {
+            bulletStartPosition[0] = myTank.getLayoutX();
+            bulletStartPosition[1] = myTank.getLayoutY() - 10.0;
+        } else if (myTank.getRotate() == 90.0) {
+            bulletStartPosition[0] = myTank.getLayoutX() + 10.0;
+            bulletStartPosition[1] = myTank.getLayoutY();
+        } else if (myTank.getRotate() == 180.0) {
+            bulletStartPosition[0] = myTank.getLayoutX();
+            bulletStartPosition[1] = myTank.getLayoutY() + 10.0;
+        } else if (myTank.getRotate() == 270.0) {
+            bulletStartPosition[0] = myTank.getLayoutX() - 10.0;
+            bulletStartPosition[1] = myTank.getLayoutY();
+        }
+        System.out.println("X: " + bulletStartPosition[0] + " Y:" + bulletStartPosition[1]);
+        return bulletStartPosition;
+    }
+
     public int getPlayerId() {
         return playerId;
     }

@@ -18,6 +18,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import main.ETankApplication;
+import model.game.elements.BulletMainWeapon;
 import model.game.elements.LevelElement;
 import model.game.elements.Tank;
 import model.game.logic.GamePhysics;
@@ -72,10 +73,9 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         initLevel();
 
         setElementListEventListener();
-        setBulletEventListener();
+        gameViewModel.setGameView(this);
         gameViewModel.setElementList(elementList);
         gameViewModel.setGamePlay(elementList);
-        gameViewModel.setBulletList(bulletList);
 
         initTanks(gameViewModel.getGamePlay().getPlayerListSize());
         gameViewModel.startTimer();
@@ -94,11 +94,18 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         }
     }
 
+    public void createMainBullet(LevelElement myTank, double[] bsp){
+        BulletMainWeapon bullet = new BulletMainWeapon("bullet", bsp[0], bsp[1], GamePhysics.ELEMENT_SIZE, GamePhysics.ELEMENT_SIZE, myTank.getRotate(), (Tank) myTank);
+        bullet.setDisable(false);
+        bullet.setVisible(true);
+        bullet.setRotate(myTank.getRotate());
+        gameViewModel.moveBullet(bullet);
+        //translateTransition(mainBullet, myTank);
+        elementList.add(bullet);
+    }
+
     public void initTanks(int playerCount) {
         // int playerCount = players.size();
-
-
-
 
         String[] imgTank = new String[4];
         imgTank[0] = "img/images/tanks/tank_01.png";
@@ -129,15 +136,5 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
             }
         });
     }
-
-    private void setBulletEventListener(){
-        bulletList.addListener((ListChangeListener<ImageView>) change -> {
-            if(change.next()){
-                elementPane.getChildren().add(bulletList.get(change.getFrom()));
-                System.out.println("BulletList: " + change.getFrom());
-            }
-        });
-    }
-
 
 }

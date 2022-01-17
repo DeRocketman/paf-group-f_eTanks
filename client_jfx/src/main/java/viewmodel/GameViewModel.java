@@ -19,18 +19,17 @@ import model.game.logic.GamePhysics;
 import model.game.logic.GamePlay;
 import view.GameView;
 
-import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
+
 
 public class GameViewModel implements ViewModel {
     ETankApplication eTankApplication;
     GameLobby gameLobby;
     GamePlay gamePlay;
+    GameView gameView;
 
     int whichTank = 0;
+    boolean canShoot = true;
     double shootDelay = GamePhysics.DELAY_SECOND;
 
     ObservableList<LevelElement> elementList = FXCollections.observableArrayList();
@@ -48,10 +47,11 @@ public class GameViewModel implements ViewModel {
     }
 
     public void bulletCollisionDetection() {
-       /* shootDelay += 0.016;
+        shootDelay += 0.03;
         if (shootDelay >= 2) {
             shootDelay = 0;
-        }*/
+            canShoot = true;
+        }
 
         boolean isHit = false;
         LevelElement toRemove = null;
@@ -77,6 +77,13 @@ public class GameViewModel implements ViewModel {
 
                             System.out.println("Player: " + playerId + " Du hast Player: " + tank.getPlayerId() + " getroffen!");
                             break;
+                        } else {
+                            System.out.println(element.getX());
+                            if(element.getX() > GamePhysics.GAME_WIDTH){
+                                System.out.println("Raus");
+                                toRemove = element;
+                                isHit = true;
+                            }
                         }
                     } else if (elementList.get(i).getType().equals("block")) {
                         if (element.getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
@@ -144,14 +151,12 @@ public class GameViewModel implements ViewModel {
     }
 
     private void fireMainWeapon(LevelElement myTank) {
-        double[] bsp = setCorrectPosition(myTank);
-        BulletMainWeapon bullet = new BulletMainWeapon("bullet", bsp[0], bsp[1], GamePhysics.ELEMENT_SIZE, GamePhysics.ELEMENT_SIZE, myTank.getRotate(), (Tank) myTank);
-        bullet.setDisable(false);
-        bullet.setVisible(true);
-        bullet.setRotate(myTank.getRotate());
-        moveBullet(bullet);
-        //translateTransition(mainBullet, myTank);
-        elementList.add(bullet);
+        if(canShoot){
+            canShoot = false;
+            Tank tank = (Tank) myTank;
+            double[] bsp = tank.setCorrectBulletPosition(myTank);
+            gameView.createMainBullet(myTank, bsp);
+        }
     }
 
     public void moveBullet(BulletMainWeapon bullet) {
@@ -165,56 +170,6 @@ public class GameViewModel implements ViewModel {
         } else if (rotation == 180) {
             bullet.setY(bullet.getY() + 5);
         }
-    }
-
-
-    //TODO auslagern nach Tank? Gibt ein Array mit den Werten 0,0 zurück, wenn der Panzer noch in der Rotation ist.
-    private double[] setCorrectPosition(LevelElement myTank) {
-        double[] bulletStartPosition = new double[2];
-        if (myTank.getRotate() == 360.0 || myTank.getRotate() == 0.0) {
-            bulletStartPosition[0] = myTank.getLayoutX();
-            bulletStartPosition[1] = myTank.getLayoutY() - 26.0;
-        } else if (myTank.getRotate() == 90.0) {
-            bulletStartPosition[0] = myTank.getLayoutX() + 26.0;
-            bulletStartPosition[1] = myTank.getLayoutY();
-        } else if (myTank.getRotate() == 180.0) {
-            bulletStartPosition[0] = myTank.getLayoutX();
-            bulletStartPosition[1] = myTank.getLayoutY() + 26.0;
-        } else if (myTank.getRotate() == 270.0) {
-            bulletStartPosition[0] = myTank.getLayoutX() - 26.0;
-            bulletStartPosition[1] = myTank.getLayoutY();
-        }
-        System.out.println("X: " + bulletStartPosition[0] + " Y:" + bulletStartPosition[1]);
-        return bulletStartPosition;
-    }
-
-
-    /* Transition für die Animation der Bullets */
-    private void translateTransition(ImageView imageView, LevelElement myTank) {
-        TranslateTransition tr = new TranslateTransition();
-        tr.setNode(imageView);
-
-        if (myTank.getRotate() == 90.0) {
-            tr.setDuration(Duration.millis(GamePhysics.BULLET_SPEED));
-            tr.setByX(GamePhysics.SHOOT_LENGTH);
-        } else if (myTank.getRotate() == 360 || myTank.getRotate() == 0) {
-            tr.setDuration(Duration.millis(GamePhysics.BULLET_SPEED));
-            tr.setByY(-GamePhysics.SHOOT_LENGTH);
-        } else if (myTank.getRotate() == 270) {
-            tr.setDuration(Duration.millis(GamePhysics.BULLET_SPEED));
-            tr.setByX(-GamePhysics.SHOOT_LENGTH);
-        } else if (myTank.getRotate() == 180) {
-            tr.setDuration(Duration.millis(GamePhysics.BULLET_SPEED));
-            tr.setByY(GamePhysics.SHOOT_LENGTH);
-        }
-        tr.play();
-    }
-
-    public void detectCollision() {
-    }
-
-    private void initElements() {
-
     }
 
     public void setElementList(ObservableList<LevelElement> elementList) {
@@ -234,11 +189,12 @@ public class GameViewModel implements ViewModel {
         gamePlay.setElementList(elementList);
     }
 
+    public void setGameView(GameView gameView) {
+        this.gameView = gameView;
+    }
+
     public GamePlay getGamePlay() {
         return this.gamePlay;
     }
 
-    public void setBulletList(ObservableList<ImageView> bulletList) {
-        this.bulletList = bulletList;
-    }
 }

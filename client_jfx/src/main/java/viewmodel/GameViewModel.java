@@ -2,16 +2,11 @@ package viewmodel;
 
 import de.saxsys.mvvmfx.ViewModel;
 import javafx.animation.*;
-import javafx.beans.property.ObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.Group;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.StackPane;
-import javafx.util.Duration;
 import main.ETankApplication;
 import model.game.elements.*;
 import model.game.logic.GameLobby;
@@ -41,17 +36,36 @@ public class GameViewModel implements ViewModel {
             public void handle(long now) {
                 playerMovementDetection();
                 bulletCollisionDetection();
+                shootDelayer();
+                shootCollector();
             }
         };
         gameTimer.start();
     }
 
-    public void bulletCollisionDetection() {
-        shootDelay += 0.03;
-        if (shootDelay >= 2) {
-            shootDelay = 0;
-            canShoot = true;
+    private void shootCollector(){
+        ArrayList<LevelElement> bulletsToRemove = new ArrayList<>();
+        for(LevelElement element : elementList){
+            if (element.getType().equals("bullet")){
+                if(element.getX() == 0 && element.getY() == 0){
+                    bulletsToRemove.add(element);
+                    System.out.println(bulletsToRemove.size());
+                }
+            }
         }
+        elementList.removeAll(bulletsToRemove);
+        bulletsToRemove.clear();
+    }
+
+    private void shootDelayer(){
+        shootDelay += 0.05;
+        if (shootDelay >= 2) {
+            canShoot = true;
+            shootDelay = 0;
+        }
+    }
+
+    public void bulletCollisionDetection() {
 
         boolean isHit = false;
         LevelElement toRemove = null;
@@ -76,18 +90,12 @@ public class GameViewModel implements ViewModel {
                             isHit = true;
 
                             System.out.println("Player: " + playerId + " Du hast Player: " + tank.getPlayerId() + " getroffen!");
-                            break;
-                        } else {
-                            System.out.println(element.getX());
-                            if(element.getX() > GamePhysics.GAME_WIDTH){
-                                System.out.println("Raus");
-                                toRemove = element;
-                                isHit = true;
-                            }
                         }
                     } else if (elementList.get(i).getType().equals("block")) {
                         if (element.getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
                             System.out.println("Dat ist eine Wand du Idiot");
+                            toRemove = element;
+                            element.setDisable(true);
                             isHit = true;
                         }
                     }

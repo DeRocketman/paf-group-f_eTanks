@@ -13,14 +13,15 @@ public class Tank extends LevelElement{
     private int playerId;
     private int livePoints;
 
+
     public Tank(Image image, String type, double positionX, double positionY, double width, double height, double rotation, int livePoints) {
-        super(image, "tank",positionX, positionY, width, height, rotation);
+        super(image, type, positionX, positionY, width, height, rotation);
         this.livePoints = livePoints;
     }
 
-    public Tank(Image image, String type, double positionX, double positionY, double width, double height, double rotation, int livePoints, int playerId) {
-        super(image, "tank",positionX, positionY, width, height, rotation);
-        this.livePoints = livePoints;
+    public Tank(Image image, double positionX, double positionY, double width, double height, double rotation, int playerId) {
+        super(image, "tank" ,positionX, positionY, width, height, rotation);
+        this.livePoints = 3;
         this.playerId = playerId;
     }
     /*
@@ -30,7 +31,7 @@ public class Tank extends LevelElement{
         double speed = GamePhysics.TANK_SPEED;
 
         if (this.getRotate() == newCourse) {
-            if (newCourse == 360.0) {
+            if (newCourse == 360.0 || newCourse == 0.0) {
                 if (this.getLayoutY() >= 5) {
                     this.setLayoutY(this.getLayoutY() - speed);
                 }

@@ -124,7 +124,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
                 System.out.println("elementListNew: " + change.getFrom());
             }
             if(change.wasRemoved()){
-                elementPane.getChildren().remove(change.getRemoved());
+                elementPane.getChildren().remove(change.getRemoved().get(0));
                 System.out.println("elementListDeleted: " + change.getFrom());
             }
         });

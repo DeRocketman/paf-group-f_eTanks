@@ -2,6 +2,8 @@ package model.service;
 
 import controller.GameLobbyViewController;
 import com.google.gson.Gson;
+import model.game.logic.GamePlay;
+
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
@@ -9,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 
 public class SocketClient implements Runnable {
     private GameLobbyViewController gameLobbyViewController;
+    private GamePlay gamePlay;     //todo: oder in ModelView!
     private final String hostname = "localhost";
     private final int port = 3333;
 
@@ -53,10 +56,14 @@ public class SocketClient implements Runnable {
         } catch (IOException e){
             System.out.println(e.getMessage());
         }
-
     }
-    private Message deliverMsg(Message message) {
-        return message;
+
+    private void deliverMsg(Message message) throws IOException {
+        if (message.getMessageType() != MessageType.GAME_ACTION) {
+            gameLobbyViewController.receiveLobbyMessages(message);
+        } else {
+            gamePlay.receiveGameMessage(message);
+        }
     }
 
     public void connectMsg() throws IOException {

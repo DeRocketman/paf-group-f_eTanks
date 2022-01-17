@@ -12,11 +12,15 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
 import model.game.elements.*;
+import model.service.Message;
+import model.service.MessageType;
+import model.service.SocketClient;
 import org.boon.core.Sys;
 
 import java.util.Objects;
 
 public class GamePlay {
+    private SocketClient socketClient;
     private ObservableList<Player> players;
     private ObservableList<LevelElement> elementList = FXCollections.observableArrayList();
     // private ObservableList<GameStatistic> gameStatistics;
@@ -29,7 +33,9 @@ public class GamePlay {
         }
     }
 
-    public GamePlay() {
+    public GamePlay(SocketClient socketClient) {
+        this.socketClient = socketClient;
+
     }
     public void createGameStatistic() {
         int playerCount = players.size();
@@ -47,4 +53,10 @@ public class GamePlay {
         return 4;
     }
 
+    public void receiveGameMessage(Message message) {
+        if (message.getMessageType() == MessageType.GAME_ACTION) {
+            System.out.println("Message in GamePlay empfangen");
+
+        }
+    }
 }

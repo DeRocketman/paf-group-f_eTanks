@@ -33,6 +33,9 @@ public class GamePlay {
         }
     }
 
+    public GamePlay () {
+
+    }
     public GamePlay(SocketClient socketClient) {
         this.socketClient = socketClient;
 

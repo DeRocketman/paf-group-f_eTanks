@@ -193,7 +193,7 @@ public class GameViewModel implements ViewModel {
     }
 
     public void setGamePlay(ObservableList<LevelElement> elementList) {
-        //this.gamePlay = new GamePlay(); //todo SocketClient muss irgendwie in Konstruktor.
+        gamePlay = new GamePlay(); //todo SocketClient muss irgendwie in Konstruktor.
         gamePlay.setElementList(elementList);
     }
 

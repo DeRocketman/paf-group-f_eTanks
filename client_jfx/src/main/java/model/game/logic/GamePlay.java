@@ -1,23 +1,12 @@
 package model.game.logic;
 
-import javafx.animation.Animation;
-import javafx.animation.AnimationTimer;
-import javafx.animation.RotateTransition;
-import javafx.animation.TranslateTransition;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.util.Duration;
 import model.game.elements.*;
 import model.service.Message;
 import model.service.MessageType;
 import model.service.SocketClient;
-import org.boon.core.Sys;
-
-import java.util.Objects;
 
 public class GamePlay {
     private SocketClient socketClient;

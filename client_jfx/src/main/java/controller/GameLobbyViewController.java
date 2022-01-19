@@ -65,9 +65,8 @@ public class GameLobbyViewController {
     private void initialize() {
         switchToInit();
         lobbyTable.setItems(lobbyList);
-        columnLobbyNumber.setCellValueFactory(cellData -> cellData.getValue().gameLobbyIDProperty().asObject());
-        columnLobbySeats.setCellValueFactory(cellData -> cellData.getValue().seatCounterProperty().asObject());
-       // this.messageReceive.start();
+        fillLobbyTable();
+        this.messageReceive.start();
 
     }
 
@@ -79,13 +78,18 @@ public class GameLobbyViewController {
 
     @FXML
     private void hostGame() throws IOException {
+        sendExtendUserData();
+
         GameLobby lobby = new GameLobby();
         lobby.buildLobbyID();
+        showLobbyHostView(lobby);
+    }
 
-        lobby.addPlayer(signedPlayer);
-        this.lobbyList.add(lobby);
-        lblGameNumber.setText("Spielnummer: " + String.valueOf(lobby.getGameLobbyID()));
-
+    @FXML
+    private void joinGame() {
+        getLobbyList();
+        fillLobbyTable();
+        showLobbyJoinView();
     }
 
     @FXML
@@ -97,11 +101,6 @@ public class GameLobbyViewController {
                 break;
             }
         }
-    }
-
-    @FXML
-    private void joinGame() {
-
     }
 
     @FXML
@@ -164,6 +163,7 @@ public class GameLobbyViewController {
     }
 
     public void sendMessageS(ActionEvent actionEvent) {
+
     }
 
     public void receiveLobbyMessages(Message msg) throws IOException {
@@ -204,10 +204,11 @@ public class GameLobbyViewController {
     private void processGetLobbiesMsg(Message msg) {
     }
 
-    private void showLobbyHostView() {
+    private void showLobbyHostView(GameLobby lobby) {
         resetViews();
         vbxLobby.setVisible(true);
         hbxHostPanel.setVisible(true);
+        lblGameNumber.setText("Spielnummer: " + String.valueOf(lobby.getGameLobbyID()));
     }
 
     private void showJoinLobbyView() {
@@ -225,6 +226,26 @@ public class GameLobbyViewController {
         Message msg = new Message();
         msg.setMessageType(MessageType.GET_LOBBIES);
         sc.sendMsg(msg);
+    }
+
+    public void fillPlayerList() {
+
+    }
+
+    public void sendExtendUserData() {
+        Message msg = new Message();
+        msg.setMessageType(MessageType.LOGIN);
+        msg.setPlayerId(eTankApplication.getSignedUser().getId());
+        msg.setPlayerPublicName(eTankApplication.getSignedUser().getPublicName());
+        msg.setPlayerImage("default");
+        msg.setPlayerIsRdy(false);
+        msg.setPayload("JAVA");
+        sc.sendMsg(msg);
+    }
+
+    public void fillLobbyTable() {
+        columnLobbyNumber.setCellValueFactory(cellData -> cellData.getValue().gameLobbyIDProperty().asObject());
+        columnLobbySeats.setCellValueFactory(cellData -> cellData.getValue().seatCounterProperty().asObject());
     }
 
     public void startGame () throws IOException {

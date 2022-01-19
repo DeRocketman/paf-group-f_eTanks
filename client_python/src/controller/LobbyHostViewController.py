@@ -36,7 +36,6 @@ class LobbyHostViewController(QWidget):
         self.lobbyHostView.sendMsgButton.clicked.connect(self.sendChatMsg)
         self.lobbyHostView.startGameButton.clicked.connect(self.startGame)
 
-        # self.registerLobbyToServer()
 
     def fillPlayerTable(self):
         self.playerListView.clear()

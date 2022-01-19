@@ -25,7 +25,9 @@ import model.game.logic.Player;
 import view.GameView;
 import viewmodel.GameViewModel;
 
+import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -144,7 +146,10 @@ public class ETankApplication extends Application {
     public void showGameView() {
         ViewTuple<GameView, GameViewModel> viewTuple = FluentViewLoader.fxmlView(GameView.class).load();
         Scene scene = new Scene(viewTuple.getView());
-        scene.setOnKeyPressed(keyEvent -> viewTuple.getViewModel().handle(keyEvent));
+        scene.setOnKeyPressed(keyEvent -> viewTuple.getViewModel().handleKeyEvent(keyEvent));
+
+        viewTuple.getViewModel().setETankApplication(this);
+
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
@@ -223,5 +228,9 @@ public class ETankApplication extends Application {
 
     public void setPlayerlist(ObservableList<Player> playerlist) {
         this.playerlist = playerlist;
+    }
+
+    public Scene getScene(){
+        return this.getScene();
     }
 }

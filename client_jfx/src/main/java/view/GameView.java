@@ -11,7 +11,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import model.game.elements.*;
 import model.game.logic.GamePhysics;
 import viewmodel.GameViewModel;
@@ -44,6 +43,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
 
         initTanks(gameViewModel.getGamePlay().getPlayerListSize());
         initBorderElements();
+        initElements();
         gameViewModel.startTimer();
     }
 
@@ -67,7 +67,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         elementList.add(bullet);
     }
 
-    public void initTanks(int playerCount) {
+    private void initTanks(int playerCount) {
         // int playerCount = players.size();
 
         String[] imgTank = new String[4];
@@ -85,14 +85,14 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         }
     }
 
-    public void initBorderElements() {
+    private void initBorderElements() {
 
         int posX = 0;
         int posY = 0;
         for (int row = 0; row < 20; row++) {
             for (int col = 0; col < 30; col++) {
                 if( row == 0 ){
-                    LevelElement block = new Block(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../img/images/buildings/crateMetal.png"))), "block", posX, posY, 40, 40, 0.0, true, 1000000);
+                    LevelElement block = new Block(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../img/images/buildings/crateMetal.png"))), "blockMetal", posX, posY, 40, 40, 0.0, true, 1000000);
                     block.setFitHeight(40.0);
                     block.setFitWidth(40.0);
                     elementList.add(block);
@@ -103,20 +103,20 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
                     }
                 } else if(row > 0 && row < 19){
                    if (col == 0){
-                       LevelElement block = new Block(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../img/images/buildings/crateMetal.png"))), "block", 0, posY, 40, 40, 0.0, true, 1000000);
+                       LevelElement block = new Block(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../img/images/buildings/crateMetal.png"))), "blockMetal", 0, posY, 40, 40, 0.0, true, 1000000);
                        block.setFitHeight(40.0);
                        block.setFitWidth(40.0);
                        elementList.add(block);
                        System.out.println(posX + " "+  posY);
                    } else if(col == 19){
-                       LevelElement block = new Block(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../img/images/buildings/crateMetal.png"))), "block", 1160, posY, 40, 40, 0.0, true, 1000000);
+                       LevelElement block = new Block(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../img/images/buildings/crateMetal.png"))), "blockMetal", 1160, posY, 40, 40, 0.0, true, 1000000);
                        block.setFitHeight(40.0);
                        block.setFitWidth(40.0);
                        elementList.add(block);
                    }
                 }else if(row == 19){
                     posY = 760;
-                    LevelElement block = new Block(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../img/images/buildings/crateMetal.png"))), "block", posX, posY, 40, 40, 0.0, true, 1000000);
+                    LevelElement block = new Block(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../img/images/buildings/crateMetal.png"))), "blockMetal", posX, posY, 40, 40, 0.0, true, 1000000);
                     block.setFitHeight(40.0);
                     block.setFitWidth(40.0);
                     elementList.add(block);
@@ -126,6 +126,17 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
             }       posY += 40;
         }
 
+    }
+
+    private void initElements(){
+        LevelElement block = new Block(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../img/images/buildings/crateWood.png"))), "blockWood", 200, 200, 40, 40, 0.0, true, 3);
+        block.setFitHeight(40.0);
+        block.setFitWidth(40.0);
+        elementList.add(block);
+        LevelElement block2 = new Block(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../img/images/buildings/crateWood.png"))), "blockWood", 200, 240, 40, 40, 0.0, true, 3);
+        block.setFitHeight(40.0);
+        block.setFitWidth(40.0);
+        elementList.add(block2);
     }
 
     private void setElementListEventListener() {

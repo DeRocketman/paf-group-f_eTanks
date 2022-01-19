@@ -4,7 +4,6 @@ import de.saxsys.mvvmfx.ViewModel;
 import javafx.animation.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import main.ETankApplication;
@@ -28,7 +27,7 @@ public class GameViewModel implements ViewModel {
     double shootDelay = GamePhysics.DELAY_SECOND;
 
     ObservableList<LevelElement> elementList = FXCollections.observableArrayList();
-    ObservableList<ImageView> bulletList = FXCollections.observableArrayList();
+
 
     public void startTimer() {
         AnimationTimer gameTimer = new AnimationTimer() {
@@ -69,6 +68,7 @@ public class GameViewModel implements ViewModel {
 
         boolean isHit = false;
         LevelElement toRemove = null;
+        LevelElement toRemoveTwo = null;
 
         for (LevelElement element : elementList) {
 
@@ -91,12 +91,39 @@ public class GameViewModel implements ViewModel {
 
                             System.out.println("Player: " + playerId + " Du hast Player: " + tank.getPlayerId() + " getroffen!");
                         }
-                    } else if (elementList.get(i).getType().equals("block")) {
+                    } else if (elementList.get(i).getType().equals("blockMetal")) {
                         if (element.getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
-                            System.out.println("Dat ist eine Wand du Idiot");
                             toRemove = element;
                             element.setDisable(true);
                             isHit = true;
+                        }
+                    }else if (elementList.get(i).getType().equals("blockWood")) {
+                        Block woodenBlock = (Block) elementList.get(i);
+                        if (element.getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
+                            if(woodenBlock.getLives() == 3){
+                                woodenBlock.setOpacity(.75);
+                                woodenBlock.setLives(2);
+                                toRemove = element;
+                                isHit = true;
+                            } else if (woodenBlock.getLives() == 2){
+                                woodenBlock.setOpacity(.50);
+                                woodenBlock.setLives(1);
+                                toRemove = element;
+                                isHit = true;
+                            } else if (woodenBlock.getLives() == 1){
+                                woodenBlock.setOpacity(.25);
+                                woodenBlock.setLives(0);
+                                toRemove = element;
+                                isHit = true;
+                            } else if (woodenBlock.getLives() == 0){
+                                woodenBlock.setOpacity(.0);
+                                toRemove = element;
+                                toRemoveTwo = woodenBlock;
+                                element.setDisable(true);
+                                elementList.get(i).setDisable(true);
+                                woodenBlock.setDisable(true);
+                                isHit = true;
+                            }
                         }
                     }
                 }
@@ -108,6 +135,9 @@ public class GameViewModel implements ViewModel {
         if (toRemove != null){
             elementList.remove(toRemove);
         }
+        if (toRemoveTwo != null){
+            elementList.remove(toRemoveTwo);
+        }
     }
 
     public void playerMovementDetection() {
@@ -115,7 +145,7 @@ public class GameViewModel implements ViewModel {
         ArrayList<LevelElement> filteredList = new ArrayList<>();
 
         for (LevelElement element : elementList) {
-            if (element.getType().equals("tank") || element.getType().equals("block")) {
+            if (element.getType().equals("tank") ||element.getType().equals("blockWood") ||element.getType().equals("blockMetal")) {
                 filteredList.add(element);
             }
         }

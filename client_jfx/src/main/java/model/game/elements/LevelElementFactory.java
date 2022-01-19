@@ -8,7 +8,7 @@ public class LevelElementFactory {
 
     //TODO: REfactorying -> verschi. Block types, Tank type: tank_1, tank_2 , ...
 
-    /**
+     /**
      * @param type
      * @param posX
      * @param posY

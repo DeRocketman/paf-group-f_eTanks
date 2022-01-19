@@ -43,7 +43,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         gameViewModel.setGamePlay(elementList);
 
         initTanks(gameViewModel.getGamePlay().getPlayerListSize());
-        initElements();
+        initBorderElements();
         gameViewModel.startTimer();
     }
 
@@ -85,12 +85,13 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         }
     }
 
-    public void initElements() {
+    public void initBorderElements() {
+
         int posX = 0;
         int posY = 0;
         for (int row = 0; row < 20; row++) {
             for (int col = 0; col < 30; col++) {
-                if( row == 1 ){
+                if( row == 0 ){
                     LevelElement block = new Block(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../img/images/buildings/crateMetal.png"))), "block", posX, posY, 40, 40, 0.0, true, 1000000);
                     block.setFitHeight(40.0);
                     block.setFitWidth(40.0);
@@ -100,15 +101,37 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
                     if (col == 29) {
                         posX = 0;
                     }
+                } else if(row > 0 && row < 19){
+                   if (col == 0){
+                       LevelElement block = new Block(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../img/images/buildings/crateMetal.png"))), "block", 0, posY, 40, 40, 0.0, true, 1000000);
+                       block.setFitHeight(40.0);
+                       block.setFitWidth(40.0);
+                       elementList.add(block);
+                       System.out.println(posX + " "+  posY);
+                   } else if(col == 19){
+                       LevelElement block = new Block(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../img/images/buildings/crateMetal.png"))), "block", 1160, posY, 40, 40, 0.0, true, 1000000);
+                       block.setFitHeight(40.0);
+                       block.setFitWidth(40.0);
+                       elementList.add(block);
+                   }
+                }else if(row == 19){
+                    posY = 760;
+                    LevelElement block = new Block(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../img/images/buildings/crateMetal.png"))), "block", posX, posY, 40, 40, 0.0, true, 1000000);
+                    block.setFitHeight(40.0);
+                    block.setFitWidth(40.0);
+                    elementList.add(block);
+                    System.out.println(posX + " " + posY);
+                    posX += 40;
                 }
-            }
+            }       posY += 40;
         }
+
     }
 
     private void setElementListEventListener() {
         elementList.addListener((ListChangeListener<LevelElement>) change -> {
             if (change.next() && change.wasAdded()) {
-                elementPane.getChildren().add(elementList.get(change.getFrom()));
+                elementPane.getChildren().addAll(elementList.get(change.getFrom()));
                 System.out.println("elementListNew: " + change.getFrom());
             }
             if (change.wasRemoved()) {

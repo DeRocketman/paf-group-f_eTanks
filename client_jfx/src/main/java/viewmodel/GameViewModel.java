@@ -4,6 +4,8 @@ import de.saxsys.mvvmfx.ViewModel;
 import javafx.animation.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import main.ETankApplication;
@@ -12,7 +14,6 @@ import model.game.logic.GameLobby;
 import model.game.logic.GamePhysics;
 import model.game.logic.GamePlay;
 import view.GameView;
-
 import java.util.ArrayList;
 
 
@@ -28,6 +29,15 @@ public class GameViewModel implements ViewModel {
 
     ObservableList<LevelElement> elementList = FXCollections.observableArrayList();
 
+    @FXML
+    public void onKeyPressed(){
+
+    }
+
+    @FXML
+    public void onKeyReleased(){
+
+    }
 
     public void startTimer() {
         AnimationTimer gameTimer = new AnimationTimer() {
@@ -64,7 +74,7 @@ public class GameViewModel implements ViewModel {
         }
     }
 
-    public void bulletCollisionDetection() {
+    private void bulletCollisionDetection() {
 
         boolean isHit = false;
         LevelElement toRemove = null;
@@ -140,7 +150,7 @@ public class GameViewModel implements ViewModel {
         }
     }
 
-    public void playerMovementDetection() {
+    private void playerMovementDetection() {
 
         ArrayList<LevelElement> filteredList = new ArrayList<>();
 
@@ -165,24 +175,25 @@ public class GameViewModel implements ViewModel {
         }
     }
 
-    public void handle(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.W) {
+    public void handleKeyEvent(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == eTankApplication.getSignedUser().getUserSettings().getMoveUpKey()) {
             System.out.println("Up: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
+            System.out.println(eTankApplication.getSignedUser().getUserName());
             ((Tank) elementList.get(0)).moveTank(360.0);
         }
-        if (keyEvent.getCode() == KeyCode.S) {
+        if (keyEvent.getCode() == eTankApplication.getSignedUser().getUserSettings().getMoveDownKey()) {
             System.out.println("Down: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
             ((Tank) elementList.get(0)).moveTank(180.0);
         }
-        if (keyEvent.getCode() == KeyCode.D) {
+        if (keyEvent.getCode() == eTankApplication.getSignedUser().getUserSettings().getMoveRightKey()) {
             System.out.println("Right: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
             ((Tank) elementList.get(0)).moveTank(90.0);
         }
-        if (keyEvent.getCode() == KeyCode.A) {
+        if (keyEvent.getCode() == eTankApplication.getSignedUser().getUserSettings().getMoveLeftKey()) {
             System.out.println("Left: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
             ((Tank) elementList.get(0)).moveTank(270.0);
         }
-        if (keyEvent.getCode() == KeyCode.SPACE) {
+        if (keyEvent.getCode() == eTankApplication.getSignedUser().getUserSettings().getFireMainWeaponKey()) {
             System.out.println("FEUERTASTE: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
             fireMainWeapon(elementList.get(0));
         }

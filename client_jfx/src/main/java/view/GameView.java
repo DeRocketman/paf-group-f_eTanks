@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import main.ETankApplication;
 import model.game.elements.*;
 import model.game.logic.GamePhysics;
 import viewmodel.GameViewModel;
@@ -22,6 +23,8 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
 
     @InjectViewModel
     private GameViewModel gameViewModel;
+
+    private ETankApplication eTankApplication;
 
     private ObservableList<LevelElement> elementList = FXCollections.observableArrayList();
     private ObservableList<ImageView> bulletList = FXCollections.observableArrayList();
@@ -40,6 +43,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         gameViewModel.setGameView(this);
         gameViewModel.setElementList(elementList);
         gameViewModel.setGamePlay(elementList);
+        gameViewModel.setETankApplication(eTankApplication);
 
         initTanks(gameViewModel.getGamePlay().getPlayerListSize());
         initBorderElements();
@@ -152,4 +156,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         });
     }
 
+    public void seteTankApplication(ETankApplication eTankApplication) {
+        this.eTankApplication = eTankApplication;
+    }
 }

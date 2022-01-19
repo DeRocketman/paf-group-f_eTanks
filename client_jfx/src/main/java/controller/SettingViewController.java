@@ -58,17 +58,17 @@ public class SettingViewController extends ViewController {
         tempButton.setOnKeyReleased(event -> {
             tempButton.setText(event.getCode().toString());
             if(tempButton.getId().equals("moveUpKey")) {
-                tempUserSettings.setMoveUpKey(event.getCode().toString());
+                tempUserSettings.setMoveUpKey(event.getCode());
             } else if(tempButton.getId().equals("moveDownKey")){
-                tempUserSettings.setMoveDownKey(event.getCode().toString());
+                tempUserSettings.setMoveDownKey(event.getCode());
             }else if(tempButton.getId().equals("moveLeftKey")){
-                tempUserSettings.setMoveLeftKey(event.getCode().toString());
+                tempUserSettings.setMoveLeftKey(event.getCode());
             }else if(tempButton.getId().equals("moveRightKey")){
-                tempUserSettings.setMoveRightKey(event.getCode().toString());
+                tempUserSettings.setMoveRightKey(event.getCode());
             }else if(tempButton.getId().equals("fireMainKey")){
-                tempUserSettings.setFireMainWeaponKey(event.getCode().toString());
+                tempUserSettings.setFireMainWeaponKey(event.getCode());
             }else if(tempButton.getId().equals("fireSecondKey")){
-                tempUserSettings.setFireSecondaryWeaponKey(event.getCode().toString());
+                tempUserSettings.setFireSecondaryWeaponKey(event.getCode());
             }
             tempButton.setOnKeyReleased(null);
             tempButton.setStyle("");
@@ -129,12 +129,12 @@ public class SettingViewController extends ViewController {
             soundSettings.setText("Aus");
         }
 
-        moveUpKey.setText(eTankApplication.getSignedUser().getUserSettings().getMoveUpKey());
-        moveDownKey.setText(eTankApplication.getSignedUser().getUserSettings().getMoveDownKey());
-        moveLeftKey.setText(eTankApplication.getSignedUser().getUserSettings().getMoveLeftKey());
-        moveRightKey.setText(eTankApplication.getSignedUser().getUserSettings().getMoveRightKey());
-        fireMainKey.setText(eTankApplication.getSignedUser().getUserSettings().getFireMainWeaponKey());
-        fireSecondKey.setText(eTankApplication.getSignedUser().getUserSettings().getFireSecondaryWeaponKey());
+        moveUpKey.setText(eTankApplication.getSignedUser().getUserSettings().getMoveUpKey().toString());
+        moveDownKey.setText(eTankApplication.getSignedUser().getUserSettings().getMoveDownKey().toString());
+        moveLeftKey.setText(eTankApplication.getSignedUser().getUserSettings().getMoveLeftKey().toString());
+        moveRightKey.setText(eTankApplication.getSignedUser().getUserSettings().getMoveRightKey().toString());
+        fireMainKey.setText(eTankApplication.getSignedUser().getUserSettings().getFireMainWeaponKey().toString());
+        fireSecondKey.setText(eTankApplication.getSignedUser().getUserSettings().getFireSecondaryWeaponKey().toString());
 
         musicVolumeSettings.setValue(eTankApplication.getSignedUser().getUserSettings().getGameMusicVolume());
         soundVolumeSettings.setValue(eTankApplication.getSignedUser().getUserSettings().getGameSoundVolume());

@@ -23,7 +23,7 @@ public class GameViewModel implements ViewModel {
     GamePlay gamePlay;
     GameView gameView;
 
-    int whichTank = 1;
+    int whichTank = 0;
     boolean isMovingUp;
     boolean isMovingDown;
     boolean isMovingLeft;
@@ -80,22 +80,27 @@ public class GameViewModel implements ViewModel {
 
             if (element.getType().equals("bullet")) {
 
-                for (int i = 1; i < elementList.size(); i++) {
+                for (int i = 0; i < elementList.size(); i++) {
                     if (elementList.get(i).getType().equals("tank")) {
                         if (element.getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
-
                             BulletMainWeapon tempBullet = ((BulletMainWeapon) element);
                             int playerId = tempBullet.getTankFired().getPlayerId();
-                            //Hier bekommt der Player Punkte
-
-                            toRemove = element;
-                            element.setDisable(true);
-                            //Hier verliert der andere Player Leben
                             Tank tank = (Tank) elementList.get(i);
-                            tank.reduceLivePoints();
-                            isHit = true;
 
-                            System.out.println("Player: " + playerId + " Du hast Player: " + tank.getPlayerId() + " getroffen!");
+                            if(playerId != tank.getPlayerId()){
+                                //Bullet ausblenden
+                                toRemove = element;
+                                element.setDisable(true);
+
+                                //Hier verliert der andere Player Leben
+                                tank.reduceLivePoints();
+                                isHit = true;
+
+                                System.out.println("Player: " + playerId + " Du hast Player: " + tank.getPlayerId() + " getroffen!");
+                                //Hier bekommt der Player Punkte
+
+                                //Statistik!
+                            }
                         }
                     } else if (elementList.get(i).getType().equals("blockMetal")) {
                         if (element.getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {

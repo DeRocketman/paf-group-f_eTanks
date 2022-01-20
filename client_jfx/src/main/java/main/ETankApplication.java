@@ -143,17 +143,31 @@ public class ETankApplication extends Application {
         primaryStage.show();
     }
 
-    public void showGameView() {
+    public void showGameView() throws IOException {
+
+        ObservableList<Player> playerList = FXCollections.observableArrayList();
+
+       /* UserSettings testUserSettings = new UserSettings();
+        //Player braucht eigentlich folgende Punkte nicht: Statstik, Settings, Bild, passwort, username -> keine Vererbung ?
+        Player testPlayer = new Player(200, "spieler200", "Spieler 200","default", "default", testUserSettings);
+        Player testPlayer2 = new Player(300, "spieler300", "Spieler 300","default", "default", testUserSettings);
+        Player signedPlayer = new Player(this.getSignedUser().getId(), this.getSignedUser().getUserName(), this.getSignedUser().getPublicName(), "Default", "Default", this.getSignedUser().getUserSettings());
+
+        playerList.addAll(testPlayer, testPlayer2, signedPlayer);*/
+
         ViewTuple<GameView, GameViewModel> viewTuple = FluentViewLoader.fxmlView(GameView.class).load();
         Scene scene = new Scene(viewTuple.getView());
         scene.setOnKeyPressed(keyEvent -> viewTuple.getViewModel().handleKeyPressed(keyEvent));
         scene.setOnKeyReleased(keyEvent -> viewTuple.getViewModel().handleKeyReleased(keyEvent));
 
         viewTuple.getViewModel().setETankApplication(this);
+       // viewTuple.getViewModel().getGamePlay().setETankApplication(this);
 
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
+
+     //   viewTuple.getViewModel().getGamePlay().setPlayerlist(playerlist);
 
         /**
         try {

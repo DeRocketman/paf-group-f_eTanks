@@ -43,9 +43,8 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         setElementListEventListener();
         gameViewModel.setGameView(this);
         gameViewModel.setElementList(elementList);
-        gameViewModel.setGamePlay(elementList);
         gameViewModel.setETankApplication(eTankApplication);
-
+        gameViewModel.setGamePlay(elementList);
 
         initTanks(gameViewModel.getGamePlay().getPlayerListSize());
         initBorderElements();
@@ -91,7 +90,6 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
     }
 
     private void initBorderElements() {
-
         int posX = 0;
         int posY = 0;
         for (int row = 0; row < 20; row++) {
@@ -112,7 +110,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
                        block.setFitHeight(40.0);
                        block.setFitWidth(40.0);
                        elementList.add(block);
-                       System.out.println(posX + " "+  posY);
+                     //  System.out.println(posX + " "+  posY);
                    } else if(col == 19){
                        LevelElement block = new Block(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../img/images/buildings/crateMetal.png"))), "blockMetal", 1160, posY, 40, 40, 0.0, true, 1000000);
                        block.setFitHeight(40.0);
@@ -125,7 +123,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
                     block.setFitHeight(40.0);
                     block.setFitWidth(40.0);
                     elementList.add(block);
-                    System.out.println(posX + " " + posY);
+                  //  System.out.println(posX + " " + posY);
                     posX += 40;
                 }
             }       posY += 40;
@@ -148,16 +146,16 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         elementList.addListener((ListChangeListener<LevelElement>) change -> {
             if (change.next() && change.wasAdded()) {
                 elementPane.getChildren().addAll(elementList.get(change.getFrom()));
-                System.out.println("elementListNew: " + change.getFrom());
+               // System.out.println("elementListNew: " + change.getFrom());
             }
             if (change.wasRemoved()) {
                 elementPane.getChildren().remove(change.getRemoved().get(0));
-                System.out.println("elementListDeleted: " + change.getFrom());
+              //  System.out.println("elementListDeleted: " + change.getFrom());
             }
         });
     }
 
-    public void seteTankApplication(ETankApplication eTankApplication) {
+    /*public void seteTankApplication(ETankApplication eTankApplication) {
         this.eTankApplication = eTankApplication;
-    }
+    }*/
 }

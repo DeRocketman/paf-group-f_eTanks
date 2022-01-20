@@ -76,31 +76,45 @@ public class GameViewModel implements ViewModel {
         boolean isHit = false;
         LevelElement toRemove = null;
         LevelElement toRemoveTwo = null;
+        boolean myBullet = false;
+        Tank myTankTemp = (Tank) elementList.get(whichTank);
 
         for (LevelElement element : elementList) {
-
             if (element.getType().equals("bullet")) {
+
+                BulletMainWeapon tempBullet = ((BulletMainWeapon) element);
+                int playerId = tempBullet.getTankFired().getPlayerId();
+                if( playerId == myTankTemp.getPlayerId()) {
+                    myBullet = true;
+                } else {
+                    myBullet = false;
+                }
 
                 for (int i = 0; i < elementList.size(); i++) {
                     if (elementList.get(i).getType().equals("tank")) {
                         if (element.getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
-                            BulletMainWeapon tempBullet = ((BulletMainWeapon) element);
-                            int playerId = tempBullet.getTankFired().getPlayerId();
                             Tank tank = (Tank) elementList.get(i);
-
                             if(playerId != tank.getPlayerId()){
                                 //Bullet ausblenden
                                 toRemove = element;
                                 element.setDisable(true);
-
-                                //Hier verliert der andere Player Leben
-                                tank.reduceLivePoints();
                                 isHit = true;
-
-                                System.out.println("Player: " + playerId + " Du hast Player: " + tank.getPlayerId() + " getroffen!");
-                                //Hier bekommt der Player Punkte
-
-                                //Statistik!
+                                if(!myBullet){
+                                    //Ich wurde getroffen
+                                    ((Tank) elementList.get(whichTank)).reduceLivePoints();
+                                    System.out.println("Du wurdest von: "  + tank.getPlayerId() + " getroffen!");
+                                    //Hier wird die Statistik des Players aktualisiert
+                                    gamePlay.getGameStatistic().setDeaths(gamePlay.getGameStatistic().getDeaths()+1);
+                                } else {
+                                    //Hier verliert der andere Player Leben
+                                    tank.reduceLivePoints();
+                                    System.out.println("Player: " + playerId + " Du hast Player: " + tank.getPlayerId() + " getroffen!");
+                                    //Hier wird die Statistik des Players aktualisiert
+                                    gamePlay.getGameStatistic().setKills(gamePlay.getGameStatistic().getKills()+1);
+                                    gamePlay.getGameStatistic().setHitPoints(gamePlay.getGameStatistic().getHitPoints()+10);
+                                    gamePlay.getGameStatistic().setGamePoints(gamePlay.getGameStatistic().getGamePoints()+10);
+                                    System.out.println("Kills: " + gamePlay.getGameStatistic().getKills() + " HitPoints: " +  gamePlay.getGameStatistic().getHitPoints()+ " GamePoints: " + gamePlay.getGameStatistic().getGamePoints());
+                                }
                             }
                         }
                     } else if (elementList.get(i).getType().equals("blockMetal")) {
@@ -109,7 +123,7 @@ public class GameViewModel implements ViewModel {
                             element.setDisable(true);
                             isHit = true;
                         }
-                    }else if (elementList.get(i).getType().equals("blockWood")) {
+                    } else if (elementList.get(i).getType().equals("blockWood")) {
                         Block woodenBlock = (Block) elementList.get(i);
                         if (element.getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
                             if(woodenBlock.getLives() == 3){
@@ -128,6 +142,10 @@ public class GameViewModel implements ViewModel {
                                 toRemove = element;
                                 isHit = true;
                             } else if (woodenBlock.getLives() == 0){
+                                if(myBullet){
+                                    gamePlay.getGameStatistic().setGamePoints(gamePlay.getGameStatistic().getGamePoints()+5);
+                                    System.out.println("Kills: " + gamePlay.getGameStatistic().getKills() + " HitPoints: " +  gamePlay.getGameStatistic().getHitPoints()+ " GamePoints: " + gamePlay.getGameStatistic().getGamePoints());
+                                }
                                 woodenBlock.setOpacity(.0);
                                 toRemove = element;
                                 toRemoveTwo = woodenBlock;
@@ -240,6 +258,7 @@ public class GameViewModel implements ViewModel {
 
     private void fireMainWeapon(LevelElement myTank) {
         if(canShoot){
+            gamePlay.getGameStatistic().setShots(gamePlay.getGameStatistic().getShots()+1);
             canShoot = false;
             Tank tank = (Tank) myTank;
             double[] bsp = tank.setCorrectBulletPosition(myTank);
@@ -265,6 +284,7 @@ public class GameViewModel implements ViewModel {
     }
 
     public void setETankApplication(ETankApplication eTankApplication) {
+        System.out.println("Etankap - game view Model");
         this.eTankApplication = eTankApplication;
     }
 
@@ -272,13 +292,18 @@ public class GameViewModel implements ViewModel {
         this.gameLobby = gameLobby;
     }
 
-    public void setGamePlay(ObservableList<LevelElement> elementList) {
-        gamePlay = new GamePlay(); //todo SocketClient muss irgendwie in Konstruktor.
-        gamePlay.setElementList(elementList);
+    public void setGameView(GameView gameView) {
+        /*Default Player, später über Lobby übergeben*/
+        //Sets Player -> tank
+        this.gameView = gameView;
     }
 
-    public void setGameView(GameView gameView) {
-        this.gameView = gameView;
+    public void setGamePlay(ObservableList<LevelElement> elementList) {
+        gamePlay = new GamePlay();
+        //todo SocketClient muss irgendwie in Konstruktor.
+        gamePlay.setElementList(elementList);
+        gamePlay.setETankApplication(eTankApplication);
+        gamePlay.createGameStatistic();
     }
 
     public GamePlay getGamePlay() {

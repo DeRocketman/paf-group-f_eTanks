@@ -13,6 +13,7 @@ import model.game.elements.*;
 import model.game.logic.GameLobby;
 import model.game.logic.GamePhysics;
 import model.game.logic.GamePlay;
+import org.boon.core.Sys;
 import view.GameView;
 import java.util.ArrayList;
 
@@ -23,7 +24,7 @@ public class GameViewModel implements ViewModel {
     GamePlay gamePlay;
     GameView gameView;
 
-    int whichTank = 0;
+    int whichTank = 2;
     boolean isMovingUp;
     boolean isMovingDown;
     boolean isMovingLeft;
@@ -161,18 +162,33 @@ public class GameViewModel implements ViewModel {
             }
         }
 
-        for (int i = 1; i < filteredList.size(); i++) {
-            if (elementList.get(0).getBoundsInParent().intersects(filteredList.get(i).getBoundsInParent())) {
-                if (elementList.get(0).getRotate() == 360.0) {
-                    elementList.get(0).setLayoutY(filteredList.get(0).getLayoutY() + 5);
-                } else if (elementList.get(0).getRotate() == 90.0) {
-                    elementList.get(0).setLayoutX(filteredList.get(0).getLayoutX() - 5);
-                } else if (elementList.get(0).getRotate() == 180.0) {
-                    elementList.get(0).setLayoutY(filteredList.get(0).getLayoutY() - 5);
-                } else if (elementList.get(0).getRotate() == 270.0) {
-                    elementList.get(0).setLayoutX(filteredList.get(0).getLayoutX() + 5);
+        for (int i = 0; i < filteredList.size(); i++) {
+            Tank myTankTemp = (Tank) elementList.get(whichTank);
+            Tank tankTemp;
+            Boolean myTank = false;
+
+            if(filteredList.get(i).getType().equals("tank")){
+                tankTemp = (Tank) filteredList.get(i);
+                if(tankTemp.getPlayerId() == myTankTemp.getPlayerId()) {
+                    myTank = true;
+                } else {
+                    myTank = false;
                 }
             }
+            if(!myTank){
+                if (elementList.get(whichTank).getBoundsInParent().intersects(filteredList.get(i).getBoundsInParent())) {
+                    if (elementList.get(whichTank).getRotate() == 360.0) {
+                        elementList.get(whichTank).setLayoutY(filteredList.get(whichTank).getLayoutY() + 5);
+                    } else if (elementList.get(whichTank).getRotate() == 90.0) {
+                        elementList.get(whichTank).setLayoutX(filteredList.get(whichTank).getLayoutX() - 5);
+                    } else if (elementList.get(whichTank).getRotate() == 180.0) {
+                        elementList.get(whichTank).setLayoutY(filteredList.get(whichTank).getLayoutY() - 5);
+                    } else if (elementList.get(whichTank).getRotate() == 270.0) {
+                        elementList.get(whichTank).setLayoutX(filteredList.get(whichTank).getLayoutX() + 5);
+                    }
+                }
+            }
+
         }
     }
 

@@ -23,12 +23,16 @@ public class GameViewModel implements ViewModel {
     GamePlay gamePlay;
     GameView gameView;
 
-    int whichTank = 0;
+    int whichTank = 1;
+    boolean isMovingUp;
+    boolean isMovingDown;
+    boolean isMovingLeft;
+    boolean isMovingRight;
+    boolean isFiringMainWeapon;
     boolean canShoot = true;
     double shootDelay = GamePhysics.DELAY_SECOND;
 
     ObservableList<LevelElement> elementList = FXCollections.observableArrayList();
-
 
 
     public void startTimer() {
@@ -167,26 +171,49 @@ public class GameViewModel implements ViewModel {
         }
     }
 
-    public void handleKeyEvent(KeyEvent keyEvent) {
-        if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveUpKey())) {
+    public void handleKeyPressed(KeyEvent keyEvent) {
+        if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveUpKey()) || isMovingUp) {
             System.out.println("Up: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
-            ((Tank) elementList.get(0)).moveTank(360.0);
+            this.isMovingUp = true;
+            ((Tank) elementList.get(whichTank)).moveTank(360.0);
+        }
+        if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveDownKey()) || isMovingDown) {
+            System.out.println("Down: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
+            this.isMovingDown = true;
+            ((Tank) elementList.get(whichTank)).moveTank(180.0);
+        }
+        if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveRightKey()) || isMovingRight) {
+            System.out.println("Right: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
+            this.isMovingRight = true;
+            ((Tank) elementList.get(whichTank)).moveTank(90.0);
+        }
+        if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveLeftKey()) || isMovingLeft) {
+            System.out.println("Left: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
+            this.isMovingLeft = true;
+            ((Tank) elementList.get(whichTank)).moveTank(270.0);
+        }
+        if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getFireMainWeaponKey()) || isFiringMainWeapon) {
+            System.out.println("FEUERTASTE: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
+            this.isFiringMainWeapon = true;
+            fireMainWeapon(elementList.get(whichTank));
+        }
+    }
+
+    public void handleKeyReleased(KeyEvent keyEvent) {
+        if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveUpKey())) {
+            this.isMovingUp = false;
         }
         if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveDownKey())) {
-            System.out.println("Down: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
-            ((Tank) elementList.get(0)).moveTank(180.0);
+            this.isMovingDown = false;
         }
         if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveRightKey())) {
-            System.out.println("Right: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
-            ((Tank) elementList.get(0)).moveTank(90.0);
+            this.isMovingRight = false;
         }
         if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveLeftKey())) {
-            System.out.println("Left: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
-            ((Tank) elementList.get(0)).moveTank(270.0);
+            this.isMovingLeft = false;
         }
         if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getFireMainWeaponKey())) {
-            System.out.println("FEUERTASTE: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
-            fireMainWeapon(elementList.get(0));
+            this.isFiringMainWeapon = false;
         }
     }
 
@@ -236,5 +263,4 @@ public class GameViewModel implements ViewModel {
     public GamePlay getGamePlay() {
         return this.gamePlay;
     }
-
 }

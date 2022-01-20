@@ -146,7 +146,8 @@ public class ETankApplication extends Application {
     public void showGameView() {
         ViewTuple<GameView, GameViewModel> viewTuple = FluentViewLoader.fxmlView(GameView.class).load();
         Scene scene = new Scene(viewTuple.getView());
-        scene.setOnKeyPressed(keyEvent -> viewTuple.getViewModel().handleKeyEvent(keyEvent));
+        scene.setOnKeyPressed(keyEvent -> viewTuple.getViewModel().handleKeyPressed(keyEvent));
+        scene.setOnKeyReleased(keyEvent -> viewTuple.getViewModel().handleKeyReleased(keyEvent));
 
         viewTuple.getViewModel().setETankApplication(this);
 
@@ -230,7 +231,4 @@ public class ETankApplication extends Application {
         this.playerlist = playerlist;
     }
 
-    public Scene getScene(){
-        return this.getScene();
-    }
 }

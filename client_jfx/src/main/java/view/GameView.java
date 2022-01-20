@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import main.ETankApplication;
@@ -45,6 +46,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         gameViewModel.setGamePlay(elementList);
         gameViewModel.setETankApplication(eTankApplication);
 
+
         initTanks(gameViewModel.getGamePlay().getPlayerListSize());
         initBorderElements();
         initElements();
@@ -67,7 +69,6 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
     public void createMainBullet(LevelElement myTank, double[] bsp) {
         BulletMainWeapon bullet = LevelElementFactory.createLevelElement(LevelElementType.BULLETMAINWEAPON, bsp[0], bsp[1], GamePhysics.ELEMENT_SIZE, GamePhysics.ELEMENT_SIZE, myTank.getRotate(), (Tank) myTank);
         gameViewModel.moveBullet(bullet);
-        //translateTransition(mainBullet, myTank);
         elementList.add(bullet);
     }
 

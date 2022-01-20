@@ -91,19 +91,18 @@ public class Tank extends LevelElement{
     public double[] setCorrectBulletPosition(LevelElement myTank) {
         double[] bulletStartPosition = new double[2];
         if (myTank.getRotate() == 360.0 || myTank.getRotate() == 0.0) {
-            bulletStartPosition[0] = myTank.getLayoutX();
-            bulletStartPosition[1] = myTank.getLayoutY() - 10.0;
-        } else if (myTank.getRotate() == 90.0) {
             bulletStartPosition[0] = myTank.getLayoutX() + 10.0;
-            bulletStartPosition[1] = myTank.getLayoutY();
+            bulletStartPosition[1] = myTank.getLayoutY() + 8.0;
+        } else if (myTank.getRotate() == 90.0) {
+            bulletStartPosition[0] = myTank.getLayoutX() + 22.0;
+            bulletStartPosition[1] = myTank.getLayoutY() + 14.0;
         } else if (myTank.getRotate() == 180.0) {
-            bulletStartPosition[0] = myTank.getLayoutX();
-            bulletStartPosition[1] = myTank.getLayoutY() + 10.0;
+            bulletStartPosition[0] = myTank.getLayoutX() + 10.0;
+            bulletStartPosition[1] = myTank.getLayoutY() + 22.0;
         } else if (myTank.getRotate() == 270.0) {
-            bulletStartPosition[0] = myTank.getLayoutX() - 10.0;
-            bulletStartPosition[1] = myTank.getLayoutY();
+            bulletStartPosition[0] = myTank.getLayoutX() + 10.0;
+            bulletStartPosition[1] = myTank.getLayoutY() + 14.0;
         }
-        System.out.println("X: " + bulletStartPosition[0] + " Y:" + bulletStartPosition[1]);
         return bulletStartPosition;
     }
 

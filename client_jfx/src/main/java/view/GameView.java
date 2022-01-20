@@ -17,6 +17,7 @@ import model.game.elements.*;
 import model.game.logic.GamePhysics;
 import viewmodel.GameViewModel;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -66,7 +67,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
     }
 
     public void createMainBullet(LevelElement myTank, double[] bsp) {
-        BulletMainWeapon bullet = LevelElementFactory.createLevelElement(LevelElementType.BULLETMAINWEAPON, bsp[0], bsp[1], GamePhysics.ELEMENT_SIZE, GamePhysics.ELEMENT_SIZE, myTank.getRotate(), (Tank) myTank);
+        BulletMainWeapon bullet = LevelElementFactory.createLevelElement(LevelElementType.BULLETMAINWEAPON, bsp[0], bsp[1], 6, 12     , myTank.getRotate(), (Tank) myTank);
         gameViewModel.moveBullet(bullet);
         elementList.add(bullet);
     }
@@ -85,7 +86,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         double[] rotate = {360.0, 360.0, 180.0, 180.0};
 
         for (int i = 0; i < playerCount; i++) {
-            elementList.add(LevelElementFactory.createLevelElement(LevelElementType.TANK, new Image(imgTank[i]), positionsX[i], positionsY[i], GamePhysics.ELEMENT_SIZE, GamePhysics.ELEMENT_SIZE, rotate[i], i, null));
+            elementList.add(LevelElementFactory.createLevelElement(LevelElementType.TANK, new Image(imgTank[i]), positionsX[i], positionsY[i], 27.0, GamePhysics.ELEMENT_SIZE, rotate[i], i, null));
         }
     }
 
@@ -132,6 +133,11 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
     }
 
     private void initElements(){
+
+        //MetalBlocks
+
+        // WoodenBlocks
+
         LevelElement block = new Block(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../img/images/buildings/crateWood.png"))), "blockWood", 200, 200, 40, 40, 0.0, true, 3);
         block.setFitHeight(40.0);
         block.setFitWidth(40.0);

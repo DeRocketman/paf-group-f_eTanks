@@ -24,7 +24,7 @@ public class GameViewModel implements ViewModel {
     GamePlay gamePlay;
     GameView gameView;
 
-    int whichTank = 2;
+    int whichTank = 0;
     boolean isMovingUp;
     boolean isMovingDown;
     boolean isMovingLeft;
@@ -212,27 +212,22 @@ public class GameViewModel implements ViewModel {
 
     public void handleKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveUpKey()) || isMovingUp && isFiringMainWeapon) {
-            System.out.println("Up: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
             this.isMovingUp = true;
             ((Tank) elementList.get(whichTank)).moveTank(360.0);
         }
         if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveDownKey()) || isMovingDown && isFiringMainWeapon) {
-            System.out.println("Down: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
             this.isMovingDown = true;
             ((Tank) elementList.get(whichTank)).moveTank(180.0);
         }
         if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveRightKey()) || isMovingRight && isFiringMainWeapon) {
-            System.out.println("Right: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
             this.isMovingRight = true;
             ((Tank) elementList.get(whichTank)).moveTank(90.0);
         }
         if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveLeftKey()) || isMovingLeft && isFiringMainWeapon) {
-            System.out.println("Left: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
             this.isMovingLeft = true;
             ((Tank) elementList.get(whichTank)).moveTank(270.0);
         }
         if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getFireMainWeaponKey()) || isFiringMainWeapon) {
-            System.out.println("FEUERTASTE: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
             this.isFiringMainWeapon = true;
             fireMainWeapon(elementList.get(whichTank));
         }

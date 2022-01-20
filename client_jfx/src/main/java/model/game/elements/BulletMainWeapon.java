@@ -15,7 +15,7 @@ public class BulletMainWeapon extends LevelElement{
 
     public BulletMainWeapon(double positionX, double positionY, double width, double height, double rotation, Tank firingTank){
         super("bullet", positionX, positionY, width, height, rotation);
-        this.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../../../img/images/bullets/Medium_Shell.png"))));
+        this.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../../../img/images/bullets/Medium_Shell_resized.png"))));
         this.FIRINGTANK = firingTank;
         this.rotations = rotations;
     }

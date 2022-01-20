@@ -22,13 +22,13 @@ public class UserSettings {
     private int gameMusicVolume;
     private boolean gameSoundOn;
     private boolean gameMusicOn;
-    private KeyCode moveUpKey;
-    private KeyCode moveLeftKey;
-    private KeyCode moveDownKey;
-    private KeyCode moveRightKey;
-    private KeyCode fireMainWeaponKey;
-    private KeyCode fireSecondaryWeaponKey;
-    private KeyCode showStatisticKey;
+    private String moveUpKey;
+    private String moveLeftKey;
+    private String moveDownKey;
+    private String moveRightKey;
+    private String fireMainWeaponKey;
+    private String fireSecondaryWeaponKey;
+    private String showStatisticKey;
 
     /**
      * Instantiates a new User settings.
@@ -46,12 +46,12 @@ public class UserSettings {
         this.gameMusicVolume = 100;
         this.gameSoundOn = true;
         this.gameMusicOn = true;
-        this.fireMainWeaponKey = KeyCode.SPACE;
-        this.moveUpKey = KeyCode.W;
-        this.moveLeftKey = KeyCode.A;
-        this.moveDownKey = KeyCode.S;
-        this.moveRightKey = KeyCode.D;
-        this.fireSecondaryWeaponKey = KeyCode.COMMAND;
+        this.fireMainWeaponKey = "SPACE";
+        this.fireSecondaryWeaponKey = "COMMAND";
+        this.moveUpKey = "W";
+        this.moveDownKey = "S";
+        this.moveLeftKey = "A";
+        this.moveRightKey = "D";
     }
 
     /**
@@ -126,168 +126,112 @@ public class UserSettings {
         this.gameMusicOn = gameMusicOn;
     }
 
-    public KeyCode getMoveUpKey() {
-        return moveUpKey;
-    }
 
-    public void setMoveUpKey(KeyCode moveUpKey) {
-        this.moveUpKey = moveUpKey;
-    }
-
-    public KeyCode getMoveLeftKey() {
-        return moveLeftKey;
-    }
-
-    public void setMoveLeftKey(KeyCode moveLeftKey) {
-        this.moveLeftKey = moveLeftKey;
-    }
-
-    public KeyCode getMoveDownKey() {
-        return moveDownKey;
-    }
-
-    public void setMoveDownKey(KeyCode moveDownKey) {
-        this.moveDownKey = moveDownKey;
-    }
-
-    public KeyCode getMoveRightKey() {
-        return moveRightKey;
-    }
-
-    public void setMoveRightKey(KeyCode moveRightKey) {
-        this.moveRightKey = moveRightKey;
-    }
-
-    public KeyCode getFireMainWeaponKey() {
-        return fireMainWeaponKey;
-    }
-
-    public void setFireMainWeaponKey(KeyCode fireMainWeaponKey) {
-        this.fireMainWeaponKey = fireMainWeaponKey;
-    }
-
-    public KeyCode getFireSecondaryWeaponKey() {
-        return fireSecondaryWeaponKey;
-    }
-
-    public void setFireSecondaryWeaponKey(KeyCode fireSecondaryWeaponKey) {
-        this.fireSecondaryWeaponKey = fireSecondaryWeaponKey;
-    }
-
-    public KeyCode getShowStatisticKey() {
-        return showStatisticKey;
-    }
-
-    public void setShowStatisticKey(KeyCode showStatisticKey) {
-        this.showStatisticKey = showStatisticKey;
-    }
-
-
-
-    /*    *//**
+    /**
      * Gets move up key.
      *
      * @return the move up key
-     *//*
+     */
     public String getMoveUpKey() {
         return moveUpKey;
     }
 
-    *//**
+    /**
      * Sets move up key.
      *
      * @param moveUpKey the move up key
-     *//*
+     */
+
     public void setMoveUpKey(String moveUpKey) {
         this.moveUpKey = moveUpKey;
     }
 
-    *//**
+    /**
      * Gets move left key.
      *
      * @return the move left key
-     *//*
+     */
     public String getMoveLeftKey() {
         return moveLeftKey;
     }
 
-    *//**
+    /**
      * Sets move left key.
      *
      * @param moveLeftKey the move left key
-     *//*
+     */
     public void setMoveLeftKey(String moveLeftKey) {
         this.moveLeftKey = moveLeftKey;
     }
 
-    *//**
+    /**
      * Gets move down key.
      *
      * @return the move down key
-     *//*
+     */
     public String getMoveDownKey() {
         return moveDownKey;
     }
 
-    *//**
+    /**
      * Sets move down key.
      *
      * @param moveDownKey the move down key
-     *//*
+     */
     public void setMoveDownKey(String moveDownKey) {
         this.moveDownKey = moveDownKey;
     }
 
-    *//**
+    /**
      * Gets move right key.
      *
      * @return the move right key
-     *//*
+     */
     public String getMoveRightKey() {
         return moveRightKey;
     }
 
-    *//**
+    /**
      * Sets move right key.
      *
      * @param moveRightKey the move right key
-     *//*
+     */
     public void setMoveRightKey(String moveRightKey) {
         this.moveRightKey = moveRightKey;
     }
 
-    *//**
+    /**
      * Gets fire main weapon key.
      *
      * @return the fire main weapon key
-     *//*
+     */
     public String getFireMainWeaponKey() {
         return fireMainWeaponKey;
     }
 
-    *//**
+    /**
      * Sets fire main weapon key.
      *
      * @param fireMainWeaponKey the fire main weapon key
-     *//*
+     */
     public void setFireMainWeaponKey(String fireMainWeaponKey) {
         this.fireMainWeaponKey = fireMainWeaponKey;
     }
 
-    *//**
+    /**
      * Gets fire secondary weapon key.
      *
      * @return the fire secondary weapon key
-     *//*
+     */
     public String getFireSecondaryWeaponKey() {
         return fireSecondaryWeaponKey;
     }
 
-    *//**
+    /**
      * Sets fire secondary weapon key.
      *
      * @param fireSecondaryWeaponKey the fire secondary weapon key
-     *//*
+     */
     public void setFireSecondaryWeaponKey(String fireSecondaryWeaponKey) {
         this.fireSecondaryWeaponKey = fireSecondaryWeaponKey;
     }
@@ -307,5 +251,5 @@ public class UserSettings {
     public void setShowStatisticKey(String showStatisticKey) {
         this.showStatisticKey = showStatisticKey;
     }
-}*/
 }
+

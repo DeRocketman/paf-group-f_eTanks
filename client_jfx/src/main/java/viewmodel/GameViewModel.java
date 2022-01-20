@@ -29,15 +29,7 @@ public class GameViewModel implements ViewModel {
 
     ObservableList<LevelElement> elementList = FXCollections.observableArrayList();
 
-    @FXML
-    public void onKeyPressed(){
 
-    }
-
-    @FXML
-    public void onKeyReleased(){
-
-    }
 
     public void startTimer() {
         AnimationTimer gameTimer = new AnimationTimer() {
@@ -176,24 +168,23 @@ public class GameViewModel implements ViewModel {
     }
 
     public void handleKeyEvent(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == eTankApplication.getSignedUser().getUserSettings().getMoveUpKey()) {
+        if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveUpKey())) {
             System.out.println("Up: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
-            System.out.println(eTankApplication.getSignedUser().getUserName());
             ((Tank) elementList.get(0)).moveTank(360.0);
         }
-        if (keyEvent.getCode() == eTankApplication.getSignedUser().getUserSettings().getMoveDownKey()) {
+        if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveDownKey())) {
             System.out.println("Down: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
             ((Tank) elementList.get(0)).moveTank(180.0);
         }
-        if (keyEvent.getCode() == eTankApplication.getSignedUser().getUserSettings().getMoveRightKey()) {
+        if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveRightKey())) {
             System.out.println("Right: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
             ((Tank) elementList.get(0)).moveTank(90.0);
         }
-        if (keyEvent.getCode() == eTankApplication.getSignedUser().getUserSettings().getMoveLeftKey()) {
+        if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveLeftKey())) {
             System.out.println("Left: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
             ((Tank) elementList.get(0)).moveTank(270.0);
         }
-        if (keyEvent.getCode() == eTankApplication.getSignedUser().getUserSettings().getFireMainWeaponKey()) {
+        if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getFireMainWeaponKey())) {
             System.out.println("FEUERTASTE: " + keyEvent.getCode() + "Aktueller Kurs: " + elementList.get(whichTank).getRotate());
             fireMainWeapon(elementList.get(0));
         }

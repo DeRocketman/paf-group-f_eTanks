@@ -1,7 +1,6 @@
 package thl.gruppef.etankrest.etankrestapi.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import javafx.scene.input.KeyCode;
 import lombok.Getter;
 import lombok.Setter;
 import thl.gruppef.etankrest.etankrestapi.request.UserRequest;
@@ -31,19 +30,19 @@ public class UserSettings {
 
     private boolean gameMusicOn;
 
-    private KeyCode showStatisticKey;
+    private String showStatisticKey;
 
-    private KeyCode moveUpKey;
+    private String moveUpKey;
 
-    private KeyCode moveLeftKey;
+    private String moveLeftKey;
 
-    private KeyCode moveRightKey;
+    private String moveRightKey;
 
-    private KeyCode moveDownKey;
+    private String moveDownKey;
 
-    private KeyCode fireMainWeaponKey;
+    private String fireMainWeaponKey;
 
-    private KeyCode fireSecondaryWeaponKey;
+    private String fireSecondaryWeaponKey;
 
 
     public UserSettings() {
@@ -51,12 +50,12 @@ public class UserSettings {
         this.gameMusicVolume = 100;
         this.gameSoundOn = true;
         this.gameMusicOn = true;
-        this.showStatisticKey = KeyCode.TAB;
-        this.moveUpKey = KeyCode.W;
-        this.moveLeftKey = KeyCode.A;
-        this.moveRightKey = KeyCode.D;
-        this.moveDownKey = KeyCode.S;
-        this.fireMainWeaponKey = KeyCode.SPACE;
-        this.fireSecondaryWeaponKey = KeyCode.COMMAND;
+        this.showStatisticKey = "TAB";
+        this.moveUpKey = "W";
+        this.moveLeftKey = "A";
+        this.moveRightKey = "D";
+        this.moveDownKey = "S";
+        this.fireMainWeaponKey = "SPACE";
+        this.fireSecondaryWeaponKey = "COMMAND";
     }
 }

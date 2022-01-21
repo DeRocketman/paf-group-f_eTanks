@@ -10,7 +10,7 @@ from model.service.ServerLobby import ServerLobby
 class SocketServer:
     def __init__(self):
         self.serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server = "217.237.150.205"
+        self.server = "202.61.244.172"
         self.port = 3333
         self.serverIP = socket.gethostbyname(self.server)
         self.connSocketList = []

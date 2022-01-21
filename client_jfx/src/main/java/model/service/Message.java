@@ -3,7 +3,7 @@ package model.service;
 
 public class Message {
     private MessageType messageType;
-    private long gameLobbyNumber;
+    private String gameLobbyNumber;
     private long playerId;
     private String playerPublicName;
     private boolean playerIsRdy;
@@ -23,11 +23,11 @@ public class Message {
         this.messageType = messageType;
     }
 
-    public long getGameLobbyNumber() {
+    public String getGameLobbyNumber() {
         return gameLobbyNumber;
     }
 
-    public void setGameLobbyNumber(long gameLobbyNumber) {
+    public void setGameLobbyNumber(String gameLobbyNumber) {
         this.gameLobbyNumber = gameLobbyNumber;
     }
 

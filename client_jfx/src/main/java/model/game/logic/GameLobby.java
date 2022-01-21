@@ -14,7 +14,7 @@ public class GameLobby implements Serializable {
 
     private GameLobbyViewController controller;
 
-    private final LongProperty gameLobbyID;
+    private final StringProperty gameLobbyID;
     private IntegerProperty seatCounter;
     private ObservableList<Player> playerList;
 
@@ -22,7 +22,7 @@ public class GameLobby implements Serializable {
 
     public GameLobby() {
        this.playerList = FXCollections.observableArrayList();
-       this.gameLobbyID = new SimpleLongProperty(buildLobbyID());
+       this.gameLobbyID = new SimpleStringProperty(String.valueOf(buildLobbyID()));
        this.seatCounter = new SimpleIntegerProperty(playerList.size());
     }
 
@@ -58,11 +58,11 @@ public class GameLobby implements Serializable {
         this.seatCounter.set(seatCounter);
     }
 
-    public long getGameLobbyID() {
+    public String getGameLobbyID() {
         return gameLobbyID.get();
     }
 
-    public LongProperty gameLobbyIDProperty() {
+    public StringProperty gameLobbyIDProperty() {
         return gameLobbyID;
     }
 

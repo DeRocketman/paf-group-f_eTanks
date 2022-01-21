@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 public class SocketClient implements Runnable {
     private GameLobbyViewController gameLobbyViewController;
     private GamePlay gamePlay;     //todo: oder in ModelView!
-    private final String hostname = "localhost";
+    private final String hostname = "192.168.178.22";
     private final int port = 3333;
 
     private final Socket socket;

@@ -81,7 +81,6 @@ class Ui_joinGameView(object):
         self.logoutButton.setFont(font2)
         self.joinSelectedButton = QPushButton(joinGameView)
         self.joinSelectedButton.setObjectName(u"joinSelectedButton")
-        self.joinSelectedButton.setEnabled(False)
         self.joinSelectedButton.setGeometry(QRect(420, 580, 361, 26))
         self.gameList = QListWidget(joinGameView)
         self.gameList.setObjectName(u"gameList")

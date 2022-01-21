@@ -8,7 +8,7 @@ from model.service.Message import Message
 class ClientSocket:
     def __init__(self, newGameViewController):
         self.clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.host = "localhost"
+        self.host = "192.168.178.22"
         self.port = 3333
 
         self.newGameViewController = newGameViewController

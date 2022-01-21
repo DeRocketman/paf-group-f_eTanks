@@ -25,8 +25,11 @@ class JoinGameViewController(QWidget):
 
     def joinSelectedGameLobby(self):
         selectedLobbyId = self.joinGameView.gameList.currentItem().text()
+        print(selectedLobbyId)
+
         for lobby in self.gameLobbyList:
             if lobby.id == selectedLobbyId and lobby.seats < 4:
+                print(lobby.seats)
                 self.newGameViewController.lobbyJoinView.lobbyId = selectedLobbyId
                 self.newGameViewController.lobbyJoinView.registerJoinedUserToLobby()
                 self.newGameViewController.mainMenuViewController.stackedWidget. \
@@ -71,7 +74,7 @@ class JoinGameViewController(QWidget):
         pixmap = QtGui.QPixmap()
         pixmap.load("../resources/images/germany_flag.png")
         pic = pixmap.scaled(40, 40, QtCore.Qt.IgnoreAspectRatio)
-        return QListWidgetItem(pic, lobbyNumber)
+        return QListWidgetItem(pic, str(lobbyNumber))
 
     @staticmethod
     def buildSeatItem(takenSeats):

@@ -26,18 +26,25 @@ public class GameLobbyViewController {
     Thread messageReceive = new Thread(sc);
     private ETankApplication eTankApplication;
     public Player signedPlayer;
+    private GameLobby selectedLobby;
 
     ObservableList<GameLobby> lobbyList = FXCollections.observableArrayList();
 
     @FXML
     private TableView<GameLobby> lobbyTable;
     @FXML
-    private TableColumn<GameLobby, Long> columnLobbyNumber;
+    private TableColumn<GameLobby, String> columnLobbyNumber;
     @FXML
     private TableColumn<GameLobby, Integer> columnLobbySeats;
 
     @FXML
     private ListView playerList;
+
+    @FXML
+    private TextField textChatMsgField;
+
+    @FXML
+    private TextArea textAreaChatField;
 
     @FXML
     private VBox vbxJoin;
@@ -79,14 +86,15 @@ public class GameLobbyViewController {
     @FXML
     private void hostGame() throws IOException {
         sendExtendUserData();
-
-        GameLobby lobby = new GameLobby();
-        lobby.buildLobbyID();
-        showLobbyHostView(lobby);
+        selectedLobby = new GameLobby();
+        selectedLobby.buildLobbyID();
+        registerLobby(selectedLobby);
+        showLobbyHostView(selectedLobby);
     }
 
     @FXML
     private void joinGame() {
+        sendExtendUserData();
         getLobbyList();
         fillLobbyTable();
         showLobbyJoinView();
@@ -104,7 +112,7 @@ public class GameLobbyViewController {
     }
 
     @FXML
-    public void switchBack() throws IOException {
+    public void switchBackToMainMenu() throws IOException {
         eTankApplication.showMenuView();
     }
 
@@ -159,12 +167,21 @@ public class GameLobbyViewController {
         hbxJoinerPanel.setVisible(false);
     }
 
-    public void enterChatHandleS(KeyEvent keyEvent) {
-    }
-
-    public void sendMessageS(ActionEvent actionEvent) {
-
-    }
+   @FXML
+   public void sendChatMessage() {
+        if (!textChatMsgField.getText().equals("")) {
+            Message msg = new Message();
+            msg.setMessageType(MessageType.CHAT_MSG);
+            msg.setPlayerId(eTankApplication.getSignedUser().getId());
+            msg.setPlayerPublicName(eTankApplication.getSignedUser().getPublicName());
+            msg.setPlayerImage("default");
+            msg.setGameLobbyNumber(selectedLobby.getGameLobbyID());
+            msg.setPayload("JAVA");
+            msg.setPayload(textChatMsgField.getText());
+            sc.sendMsg(msg);
+            textChatMsgField.clear();
+        }
+   }
 
     public void receiveLobbyMessages(Message msg) throws IOException {
         if (msg != null) {
@@ -183,7 +200,14 @@ public class GameLobbyViewController {
             if (msg.getMessageType() == MessageType.START_GAME) {
                 processStartGameMsg(msg);
             }
+            if (msg.getMessageType() == MessageType.REGISTER_LOBBY) {
+                processRegisterLobbyMsg(msg);
+            }
         }
+    }
+
+    private void processRegisterLobbyMsg(Message msg) {
+        textAreaChatField.appendText(msg.getPayload());
     }
 
     private void processStartGameMsg(Message msg) {
@@ -199,6 +223,7 @@ public class GameLobbyViewController {
     }
 
     private void processChatMsg(Message msg) {
+        textAreaChatField.appendText(msg.getPlayerPublicName()+": " + msg.getPayload());
     }
 
     private void processGetLobbiesMsg(Message msg) {
@@ -243,8 +268,16 @@ public class GameLobbyViewController {
         sc.sendMsg(msg);
     }
 
+    public void registerLobby(GameLobby lobby) {
+        Message msg = new Message();
+        msg.setMessageType(MessageType.REGISTER_LOBBY);
+        msg.setGameLobbyNumber(lobby.getGameLobbyID());
+        msg.setPlayerId(eTankApplication.getSignedUser().getId());
+        msg.setPlayerPublicName(eTankApplication.getSignedUser().getPublicName());
+        sc.sendMsg(msg);
+    }
     public void fillLobbyTable() {
-        columnLobbyNumber.setCellValueFactory(cellData -> cellData.getValue().gameLobbyIDProperty().asObject());
+        columnLobbyNumber.setCellValueFactory(cellData -> cellData.getValue().gameLobbyIDProperty());
         columnLobbySeats.setCellValueFactory(cellData -> cellData.getValue().seatCounterProperty().asObject());
     }
 

@@ -173,10 +173,44 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
 
     private void initElements(){
 
-        //MetalBlocks
+        //Metal Blocks
+        createMetalBlock(80, 360);
+        createMetalBlock(80, 400);
+        createMetalBlock(1080, 360);
+        createMetalBlock(1080, 400);
+        for(double i = 40; i < 240; i += 40){
+            createMetalBlock(320, i);
+            createMetalBlock(GamePhysics.GAME_WIDTH-440, i);
+        }
+        for(double i = GamePhysics.GAME_HEIGHT+40; i > 520; i-=40){
+            createMetalBlock(320,i);
+            createMetalBlock(GamePhysics.GAME_WIDTH-440, i);
+        }
 
-        // WoodenBlocks
+        //Stone Blocks
+        for(int i = 120; i < 480; i += 64){
+            createStoneBlock(i,GamePhysics.GAME_HEIGHT*0.5-20, 0);
+        }
+        for(int i = (int) (GamePhysics.GAME_WIDTH - 260); i > 684; i-=64){
+            createStoneBlock(i,GamePhysics.GAME_HEIGHT*0.5-16, 0);
+        }
 
+        //Wood Blocks
+        for(double i = 120; i < 320; i += 40){
+            createWoodBlock(480, i);
+            createWoodBlock(GamePhysics.GAME_WIDTH-600, i);
+        }
+        for(double i = GamePhysics.GAME_HEIGHT-160; i > 440; i -= 40){
+            createWoodBlock(480, i);
+            createWoodBlock(GamePhysics.GAME_WIDTH-600 , i);
+        }
+
+        for(double i = 520; i < 680; i += 40){
+            createWoodBlock(i, 280);
+        }
+        for(double i = 520; i < 680; i += 40){
+            createWoodBlock(i, 480);
+        }
     }
 
     private void setElementListEventListener() {

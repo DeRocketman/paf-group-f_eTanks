@@ -8,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.util.Duration;
 import main.ETankApplication;
 import model.game.elements.*;
 import model.game.logic.GameLobby;
@@ -16,6 +17,8 @@ import model.game.logic.GamePlay;
 import org.boon.core.Sys;
 import view.GameView;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class GameViewModel implements ViewModel {
@@ -31,13 +34,15 @@ public class GameViewModel implements ViewModel {
     boolean isMovingRight;
     boolean isFiringMainWeapon;
     boolean canShoot = true;
+    boolean gameIsRunning = false;
     double shootDelay = GamePhysics.DELAY_SECOND;
+
+    int time = 60;
 
     ObservableList<LevelElement> elementList = FXCollections.observableArrayList();
 
-
     public void startTimer() {
-        AnimationTimer gameTimer = new AnimationTimer() {
+        AnimationTimer gameActionTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 playerMovementDetection();
@@ -46,7 +51,24 @@ public class GameViewModel implements ViewModel {
                 shootCollector();
             }
         };
-        gameTimer.start();
+
+        Timeline gameTimline = new Timeline();
+        KeyFrame kf = new KeyFrame(Duration.seconds(1), event -> {
+            if(time > 0){
+                time--;
+            }else if(time == 0){
+                gameIsRunning = false;
+                gameTimline.stop();
+                gameActionTimer.stop();
+            }
+            System.out.println(time);
+        });
+        gameTimline.setCycleCount(Animation.INDEFINITE);
+        gameTimline.getKeyFrames().add(kf);
+
+        gameIsRunning = true;
+        gameTimline.play();
+        gameActionTimer.start();
     }
 
     private void shootCollector(){
@@ -211,25 +233,27 @@ public class GameViewModel implements ViewModel {
     }
 
     public void handleKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveUpKey()) || isMovingUp && isFiringMainWeapon) {
-            this.isMovingUp = true;
-            ((Tank) elementList.get(whichTank)).moveTank(360.0);
-        }
-        if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveDownKey()) || isMovingDown && isFiringMainWeapon) {
-            this.isMovingDown = true;
-            ((Tank) elementList.get(whichTank)).moveTank(180.0);
-        }
-        if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveRightKey()) || isMovingRight && isFiringMainWeapon) {
-            this.isMovingRight = true;
-            ((Tank) elementList.get(whichTank)).moveTank(90.0);
-        }
-        if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveLeftKey()) || isMovingLeft && isFiringMainWeapon) {
-            this.isMovingLeft = true;
-            ((Tank) elementList.get(whichTank)).moveTank(270.0);
-        }
-        if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getFireMainWeaponKey()) || isFiringMainWeapon) {
-            this.isFiringMainWeapon = true;
-            fireMainWeapon(elementList.get(whichTank));
+        if(gameIsRunning){
+            if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveUpKey()) || isMovingUp && isFiringMainWeapon) {
+                this.isMovingUp = true;
+                ((Tank) elementList.get(whichTank)).moveTank(360.0);
+            }
+            if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveDownKey()) || isMovingDown && isFiringMainWeapon) {
+                this.isMovingDown = true;
+                ((Tank) elementList.get(whichTank)).moveTank(180.0);
+            }
+            if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveRightKey()) || isMovingRight && isFiringMainWeapon) {
+                this.isMovingRight = true;
+                ((Tank) elementList.get(whichTank)).moveTank(90.0);
+            }
+            if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveLeftKey()) || isMovingLeft && isFiringMainWeapon) {
+                this.isMovingLeft = true;
+                ((Tank) elementList.get(whichTank)).moveTank(270.0);
+            }
+            if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getFireMainWeaponKey()) || isFiringMainWeapon) {
+                this.isFiringMainWeapon = true;
+                fireMainWeapon(elementList.get(whichTank));
+            }
         }
     }
 

@@ -74,7 +74,6 @@ public class GameLobbyViewController {
         lobbyTable.setItems(lobbyList);
         fillLobbyTable();
         this.messageReceive.start();
-
     }
 
     @FXML

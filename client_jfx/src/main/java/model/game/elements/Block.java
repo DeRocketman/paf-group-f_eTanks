@@ -6,22 +6,27 @@ import model.game.logic.GamePhysics;
 public class Block extends LevelElement {
     private int lives;
 
-    public Block(Image image, String type, double positionX, double positionY, double width, double height, double rotation, boolean isVisible, int lives) {
-        super(image, type,positionX, positionY, width, height, rotation);
-        this.lives = lives;
-        this.setVisible(isVisible);
+    public Block(Image image, LevelElementType type, double positionX, double positionY, double width, double height, double rotation) {
+        super(image, type, positionX, positionY, width, height, rotation);
+        if(type == LevelElementType.BLOCK_METAL){
+            lives = 10000;
+        } else if(type == LevelElementType.BLOCK_STONE){
+            lives = 3;
+        } else if(type == LevelElementType.BLOCK_WOOD){
+            lives = 2;
+        }
     }
 
-    public Block(Image image, String type, double positionX, double positionY, double width, double height, double rotation, int lives) {
-        super(image, type,positionX, positionY, width, height, rotation);
-        this.lives = lives;
+    public Block(Image image, LevelElementType type, double positionX, double positionY, double width, double height) {
+        super(image, type, positionX, positionY, width, height);
+        if(type == LevelElementType.BLOCK_METAL){
+            lives = 10000;
+        } else if(type == LevelElementType.BLOCK_STONE){
+            lives = 3;
+        } else if(type == LevelElementType.BLOCK_WOOD){
+            lives = 2;
+        }
     }
-
-    public Block(Image image, String type, double positionX, double positionY, double width, double height, int lives) {
-        super(image, type,positionX, positionY, width, height);
-        this.lives = lives;
-    }
-
 
     public void setLives(int lives) {
         this.lives = lives;

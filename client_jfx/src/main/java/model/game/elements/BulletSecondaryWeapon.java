@@ -6,7 +6,7 @@ public class BulletSecondaryWeapon extends LevelElement {
     double rotations;
     private boolean hit = false;
 
-    public BulletSecondaryWeapon(Image image, String type, double positionX, double positionY, double width, double height, double rotation, Tank firingTank) {
+    public BulletSecondaryWeapon(Image image, LevelElementType type, double positionX, double positionY, double width, double height, double rotation, Tank firingTank) {
         super(image, type, positionX, positionY, width, height, rotation);
         this.FIRINGTANK = firingTank;
         this.rotations = rotations;

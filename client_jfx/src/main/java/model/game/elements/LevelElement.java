@@ -5,9 +5,9 @@ import javafx.scene.image.ImageView;
 
 public class LevelElement extends ImageView {
 
-    private String type;
+    private LevelElementType type;
 
-    public LevelElement(Image image, String type, double positionX, double positionY, double width, double height, double rotation) {
+    public LevelElement(Image image, LevelElementType type, double positionX, double positionY, double width, double height, double rotation) {
         super(image);
         this.type = type;
         this.setLayoutX(positionX);
@@ -17,7 +17,7 @@ public class LevelElement extends ImageView {
         this.setRotate(rotation);
     }
 
-    public LevelElement(String type, double positionX, double positionY, double width, double height, double rotation) {
+    public LevelElement(LevelElementType type, double positionX, double positionY, double width, double height, double rotation) {
         super();
         this.type = type;
         this.setLayoutX(positionX);
@@ -27,7 +27,7 @@ public class LevelElement extends ImageView {
         this.setRotate(rotation);
     }
 
-    public LevelElement(Image image, String type, double positionX, double positionY, double width, double height) {
+    public LevelElement(Image image, LevelElementType type, double positionX, double positionY, double width, double height) {
         super(image);
         this.type = type;
         this.setLayoutX(positionX);
@@ -36,7 +36,7 @@ public class LevelElement extends ImageView {
         this.setFitWidth(width);
     }
 
-    public LevelElement(String type, double positionX, double positionY, double width, double height) {
+    public LevelElement(LevelElementType type, double positionX, double positionY, double width, double height) {
         super();
         this.type = type;
         this.setLayoutX(positionX);
@@ -45,11 +45,11 @@ public class LevelElement extends ImageView {
         this.setFitWidth(width);
     }
 
-    public String getType() {
+    public LevelElementType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(LevelElementType type) {
         this.type = type;
     }
 

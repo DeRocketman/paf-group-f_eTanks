@@ -48,8 +48,11 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         gameViewModel.setGamePlay(elementList);
 
         initTanks(gameViewModel.getGamePlay().getPlayerListSize());
-        initBorderElements();
+
+       // initBorderElements();
         initElements();
+        initWorldBorder();
+
         gameViewModel.startTimer();
     }
 
@@ -67,8 +70,8 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
     }
 
     public void createMainBullet(LevelElement myTank, double[] bsp) {
-        BulletMainWeapon bullet = LevelElementFactory.createLevelElement(LevelElementType.BULLETMAINWEAPON, bsp[0], bsp[1], 6, 12     , myTank.getRotate(), (Tank) myTank);
-        gameViewModel.moveBullet(bullet);
+        LevelElement bullet = new BulletMainWeapon(bsp[0], bsp[1], 6, 12, myTank.getRotate(), (Tank) myTank);
+        gameViewModel.moveBullet((BulletMainWeapon) bullet);
         elementList.add(bullet);
     }
 
@@ -86,10 +89,10 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         double[] rotate = {360.0, 360.0, 180.0, 180.0};
 
         for (int i = 0; i < playerCount; i++) {
-            elementList.add(LevelElementFactory.createLevelElement(LevelElementType.TANK, new Image(imgTank[i]), positionsX[i], positionsY[i], 27.0, GamePhysics.ELEMENT_SIZE, rotate[i], i, null));
+            elementList.add(new Tank(new Image(imgTank[i]), positionsX[i], positionsY[i], 27.0, GamePhysics.ELEMENT_SIZE, rotate[i], i));
         }
     }
-
+/*
     private void initBorderElements() {
         int posX = 0;
         int posY = 0;
@@ -101,7 +104,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
                     block.setFitWidth(40.0);
                     elementList.add(block);
                     posX += 40;
-                    System.out.println(posX);
+                    //System.out.println(posX);
                     if (col == 29) {
                         posX = 0;
                     }
@@ -130,7 +133,43 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
             }       posY += 40;
         }
 
+    }*/
+
+    //eine kürzere Alternative für die Border Blocks?
+    public void initWorldBorder() {
+        //Breite
+        for (double i = 0; i < GamePhysics.GAME_WIDTH-80; i+=40 ){
+            createMetalBlock( i,0);
+            createMetalBlock( i,GamePhysics.GAME_HEIGHT-40);
+        }
+        //Höhe
+        for (double i = 40; i < GamePhysics.GAME_HEIGHT-40; i+=40 ){
+            createMetalBlock(0,i);
+            createMetalBlock( GamePhysics.GAME_WIDTH-120, i);
+        }
     }
+
+    public void createStoneBlock(double x, double y, double rotation){
+        String blockImg = "img/images/blocks/Block_A_01.png";
+        LevelElement block = new Block(new Image(blockImg), LevelElementType.BLOCK_STONE, x, y, 64, 32, rotation);
+        block.setVisible(true);
+        elementList.add(block);
+    }
+
+    public void createMetalBlock(double x, double y){
+        String blockImg = "img/images/buildings/crateMetal.png";
+        LevelElement block = new Block(new Image(blockImg), LevelElementType.BLOCK_METAL, x, y, GamePhysics.ELEMENT_SIZE, GamePhysics.ELEMENT_SIZE);
+        block.setVisible(true);
+        elementList.add(block);
+    }
+
+    public void createWoodBlock(double x, double y){
+        String blockImg = "img/images/buildings/crateWood.png";
+        LevelElement block = new Block(new Image(blockImg), LevelElementType.BLOCK_WOOD, x, y, GamePhysics.ELEMENT_SIZE, GamePhysics.ELEMENT_SIZE);
+        block.setVisible(true);
+        elementList.add(block);
+    }
+
 
     private void initElements(){
 
@@ -138,14 +177,6 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
 
         // WoodenBlocks
 
-        LevelElement block = new Block(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../img/images/buildings/crateWood.png"))), "blockWood", 200, 200, 40, 40, 0.0, true, 3);
-        block.setFitHeight(40.0);
-        block.setFitWidth(40.0);
-        elementList.add(block);
-        LevelElement block2 = new Block(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../img/images/buildings/crateWood.png"))), "blockWood", 200, 240, 40, 40, 0.0, true, 3);
-        block.setFitHeight(40.0);
-        block.setFitWidth(40.0);
-        elementList.add(block2);
     }
 
     private void setElementListEventListener() {

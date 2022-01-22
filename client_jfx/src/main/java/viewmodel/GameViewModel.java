@@ -52,7 +52,7 @@ public class GameViewModel implements ViewModel {
     private void shootCollector(){
         ArrayList<LevelElement> bulletsToRemove = new ArrayList<>();
         for(LevelElement element : elementList){
-            if (element.getType().equals("bullet")){
+            if (element.getType() == LevelElementType.BULLETMAINWEAPON){
                 if(element.getX() == 0 && element.getY() == 0){
                     bulletsToRemove.add(element);
                     System.out.println(bulletsToRemove.size());
@@ -80,7 +80,7 @@ public class GameViewModel implements ViewModel {
         Tank myTankTemp = (Tank) elementList.get(whichTank);
 
         for (LevelElement element : elementList) {
-            if (element.getType().equals("bullet")) {
+            if (element.getType() == LevelElementType.BULLETMAINWEAPON) {
 
                 BulletMainWeapon tempBullet = ((BulletMainWeapon) element);
                 int playerId = tempBullet.getTankFired().getPlayerId();
@@ -91,7 +91,7 @@ public class GameViewModel implements ViewModel {
                 }
 
                 for (int i = 0; i < elementList.size(); i++) {
-                    if (elementList.get(i).getType().equals("tank")) {
+                    if (elementList.get(i).getType() == LevelElementType.TANK) {
                         if (element.getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
                             Tank tank = (Tank) elementList.get(i);
                             if(playerId != tank.getPlayerId()){
@@ -117,13 +117,13 @@ public class GameViewModel implements ViewModel {
                                 }
                             }
                         }
-                    } else if (elementList.get(i).getType().equals("blockMetal")) {
+                    } else if (elementList.get(i).getType() == LevelElementType.BLOCK_METAL) {
                         if (element.getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
                             toRemove = element;
                             element.setDisable(true);
                             isHit = true;
                         }
-                    } else if (elementList.get(i).getType().equals("blockWood")) {
+                    } else if (elementList.get(i).getType() == LevelElementType.BLOCK_WOOD) {
                         Block woodenBlock = (Block) elementList.get(i);
                         if (element.getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
                             if(woodenBlock.getLives() == 3){
@@ -175,7 +175,7 @@ public class GameViewModel implements ViewModel {
         ArrayList<LevelElement> filteredList = new ArrayList<>();
 
         for (LevelElement element : elementList) {
-            if (element.getType().equals("tank") ||element.getType().equals("blockWood") ||element.getType().equals("blockMetal")) {
+            if (element.getType() == LevelElementType.TANK ||element.getType() == LevelElementType.BLOCK_WOOD || element.getType() == LevelElementType.BLOCK_METAL) {
                 filteredList.add(element);
             }
         }
@@ -185,7 +185,7 @@ public class GameViewModel implements ViewModel {
             Tank tankTemp;
             Boolean myTank = false;
 
-            if(filteredList.get(i).getType().equals("tank")){
+            if(filteredList.get(i).getType() == LevelElementType.TANK){
                 tankTemp = (Tank) filteredList.get(i);
                 if(tankTemp.getPlayerId() == myTankTemp.getPlayerId()) {
                     myTank = true;

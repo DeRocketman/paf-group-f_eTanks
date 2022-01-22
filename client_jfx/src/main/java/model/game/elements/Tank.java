@@ -14,13 +14,13 @@ public class Tank extends LevelElement{
     private int livePoints;
 
 
-    public Tank(Image image, String type, double positionX, double positionY, double width, double height, double rotation, int livePoints) {
+    public Tank(Image image, LevelElementType type, double positionX, double positionY, double width, double height, double rotation, int livePoints) {
         super(image, type, positionX, positionY, width, height, rotation);
         this.livePoints = livePoints;
     }
 
     public Tank(Image image, double positionX, double positionY, double width, double height, double rotation, int playerId) {
-        super(image, "tank" ,positionX, positionY, width, height, rotation);
+        super(image, LevelElementType.TANK ,positionX, positionY, width, height, rotation);
         this.livePoints = 3;
         this.playerId = playerId;
     }

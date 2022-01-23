@@ -42,6 +42,7 @@ public class GameViewModel implements ViewModel {
     double shootDelay = GamePhysics.DELAY_SECOND;
     int time = 30;
 
+
     ObservableList<LevelElement> elementList = FXCollections.observableArrayList();
 
     public void startTimer() {

@@ -33,6 +33,11 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
 
     @FXML
     private GridPane ground;
+
+    public Pane getElementPane() {
+        return elementPane;
+    }
+
     @FXML
     private Pane elementPane;
 
@@ -224,6 +229,10 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
               //  System.out.println("elementListDeleted: " + change.getFrom());
             }
         });
+    }
+
+    private void createLabel(){
+
     }
 
     /*public void seteTankApplication(ETankApplication eTankApplication) {

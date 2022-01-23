@@ -2,13 +2,15 @@ package viewmodel;
 
 import de.saxsys.mvvmfx.ViewModel;
 import javafx.animation.*;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.util.Duration;
 import main.ETankApplication;
 import model.game.elements.*;
 import model.game.logic.GameLobby;
@@ -16,6 +18,7 @@ import model.game.logic.GamePhysics;
 import model.game.logic.GamePlay;
 import org.boon.core.Sys;
 import view.GameView;
+
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -34,15 +37,14 @@ public class GameViewModel implements ViewModel {
     boolean isMovingRight;
     boolean isFiringMainWeapon;
     boolean canShoot = true;
-    boolean gameIsRunning = false;
+    boolean isGameRunning = false;
     double shootDelay = GamePhysics.DELAY_SECOND;
-
-    int time = 60;
 
     ObservableList<LevelElement> elementList = FXCollections.observableArrayList();
 
+
     public void startTimer() {
-        AnimationTimer gameActionTimer = new AnimationTimer() {
+        AnimationTimer gameTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 playerMovementDetection();
@@ -51,31 +53,52 @@ public class GameViewModel implements ViewModel {
                 shootCollector();
             }
         };
+        gameTimer.start();
 
-        Timeline gameTimline = new Timeline();
-        KeyFrame kf = new KeyFrame(Duration.seconds(1), event -> {
-            if(time > 0){
-                time--;
-            }else if(time == 0){
-                gameIsRunning = false;
-                gameTimline.stop();
-                gameActionTimer.stop();
+        Timer startGameTimer = new Timer();
+        Display countdown = new Display(new Image("img/images/countdown/Countdown_03.png"), LevelElementType.DISPLAY, 300,200, 600,400, 0.0);
+        countdown.setVisible(false);
+        elementList.add(countdown);
+
+        TimerTask startGame = new TimerTask() {
+
+            int counter = 3;
+
+            @Override
+            public void run() {
+                Platform.runLater(()->{
+                    if (counter > 0) {
+                        countdown.setVisible(true);
+                        System.out.println(counter + " Sekunden ");
+                        countdown.setImage(new Image("img/images/countdown/Countdown_0"+ counter +".png"));
+
+                        counter--;
+                    } else if (counter == 0){
+                        System.out.println("FIGHT");
+                        System.out.println(counter);
+
+                        countdown.setImage(new Image("img/images/countdown/Countdown_0"+ counter +".png"));
+
+                        isGameRunning = true;
+                        counter --;
+                    } else {
+                        countdown.setVisible(false);
+                        countdown.setDisable(true);
+                        elementList.remove(countdown);
+                        startGameTimer.cancel();
+                    }
+                });
             }
-            System.out.println(time);
-        });
-        gameTimline.setCycleCount(Animation.INDEFINITE);
-        gameTimline.getKeyFrames().add(kf);
+        };
 
-        gameIsRunning = true;
-        gameTimline.play();
-        gameActionTimer.start();
+        startGameTimer.schedule(startGame, 1000, 1000);
     }
 
-    private void shootCollector(){
+    private void shootCollector() {
         ArrayList<LevelElement> bulletsToRemove = new ArrayList<>();
-        for(LevelElement element : elementList){
-            if (element.getType() == LevelElementType.BULLETMAINWEAPON){
-                if(element.getX() == 0 && element.getY() == 0){
+        for (LevelElement element : elementList) {
+            if (element.getType() == LevelElementType.BULLETMAINWEAPON) {
+                if (element.getX() == 0 && element.getY() == 0) {
                     bulletsToRemove.add(element);
                     System.out.println(bulletsToRemove.size());
                 }
@@ -85,7 +108,7 @@ public class GameViewModel implements ViewModel {
         bulletsToRemove.clear();
     }
 
-    private void shootDelayer(){
+    private void shootDelayer() {
         shootDelay += 0.05;
         if (shootDelay >= 2) {
             canShoot = true;
@@ -106,7 +129,7 @@ public class GameViewModel implements ViewModel {
 
                 BulletMainWeapon tempBullet = ((BulletMainWeapon) element);
                 int playerId = tempBullet.getTankFired().getPlayerId();
-                if( playerId == myTankTemp.getPlayerId()) {
+                if (playerId == myTankTemp.getPlayerId()) {
                     myBullet = true;
                 } else {
                     myBullet = false;
@@ -116,26 +139,26 @@ public class GameViewModel implements ViewModel {
                     if (elementList.get(i).getType() == LevelElementType.TANK) {
                         if (element.getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
                             Tank tank = (Tank) elementList.get(i);
-                            if(playerId != tank.getPlayerId()){
+                            if (playerId != tank.getPlayerId()) {
                                 //Bullet ausblenden
                                 toRemove = element;
                                 element.setDisable(true);
                                 isHit = true;
-                                if(!myBullet){
+                                if (!myBullet) {
                                     //Ich wurde getroffen
                                     ((Tank) elementList.get(whichTank)).reduceLivePoints();
-                                    System.out.println("Du wurdest von: "  + tank.getPlayerId() + " getroffen!");
+                                    System.out.println("Du wurdest von: " + tank.getPlayerId() + " getroffen!");
                                     //Hier wird die Statistik des Players aktualisiert
-                                    gamePlay.getGameStatistic().setDeaths(gamePlay.getGameStatistic().getDeaths()+1);
+                                    gamePlay.getGameStatistic().setDeaths(gamePlay.getGameStatistic().getDeaths() + 1);
                                 } else {
                                     //Hier verliert der andere Player Leben
                                     tank.reduceLivePoints();
                                     System.out.println("Player: " + playerId + " Du hast Player: " + tank.getPlayerId() + " getroffen!");
                                     //Hier wird die Statistik des Players aktualisiert
-                                    gamePlay.getGameStatistic().setKills(gamePlay.getGameStatistic().getKills()+1);
-                                    gamePlay.getGameStatistic().setHitPoints(gamePlay.getGameStatistic().getHitPoints()+10);
-                                    gamePlay.getGameStatistic().setGamePoints(gamePlay.getGameStatistic().getGamePoints()+10);
-                                    System.out.println("Kills: " + gamePlay.getGameStatistic().getKills() + " HitPoints: " +  gamePlay.getGameStatistic().getHitPoints()+ " GamePoints: " + gamePlay.getGameStatistic().getGamePoints());
+                                    gamePlay.getGameStatistic().setKills(gamePlay.getGameStatistic().getKills() + 1);
+                                    gamePlay.getGameStatistic().setHitPoints(gamePlay.getGameStatistic().getHitPoints() + 10);
+                                    gamePlay.getGameStatistic().setGamePoints(gamePlay.getGameStatistic().getGamePoints() + 10);
+                                    System.out.println("Kills: " + gamePlay.getGameStatistic().getKills() + " HitPoints: " + gamePlay.getGameStatistic().getHitPoints() + " GamePoints: " + gamePlay.getGameStatistic().getGamePoints());
                                 }
                             }
                         }
@@ -148,25 +171,25 @@ public class GameViewModel implements ViewModel {
                     } else if (elementList.get(i).getType() == LevelElementType.BLOCK_WOOD) {
                         Block woodenBlock = (Block) elementList.get(i);
                         if (element.getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
-                            if(woodenBlock.getLives() == 3){
+                            if (woodenBlock.getLives() == 3) {
                                 woodenBlock.setOpacity(.75);
                                 woodenBlock.setLives(2);
                                 toRemove = element;
                                 isHit = true;
-                            } else if (woodenBlock.getLives() == 2){
+                            } else if (woodenBlock.getLives() == 2) {
                                 woodenBlock.setOpacity(.50);
                                 woodenBlock.setLives(1);
                                 toRemove = element;
                                 isHit = true;
-                            } else if (woodenBlock.getLives() == 1){
+                            } else if (woodenBlock.getLives() == 1) {
                                 woodenBlock.setOpacity(.25);
                                 woodenBlock.setLives(0);
                                 toRemove = element;
                                 isHit = true;
-                            } else if (woodenBlock.getLives() == 0){
-                                if(myBullet){
-                                    gamePlay.getGameStatistic().setGamePoints(gamePlay.getGameStatistic().getGamePoints()+5);
-                                    System.out.println("Kills: " + gamePlay.getGameStatistic().getKills() + " HitPoints: " +  gamePlay.getGameStatistic().getHitPoints()+ " GamePoints: " + gamePlay.getGameStatistic().getGamePoints());
+                            } else if (woodenBlock.getLives() == 0) {
+                                if (myBullet) {
+                                    gamePlay.getGameStatistic().setGamePoints(gamePlay.getGameStatistic().getGamePoints() + 5);
+                                    System.out.println("Kills: " + gamePlay.getGameStatistic().getKills() + " HitPoints: " + gamePlay.getGameStatistic().getHitPoints() + " GamePoints: " + gamePlay.getGameStatistic().getGamePoints());
                                 }
                                 woodenBlock.setOpacity(.0);
                                 toRemove = element;
@@ -184,10 +207,10 @@ public class GameViewModel implements ViewModel {
                 }
             }
         }
-        if (toRemove != null){
+        if (toRemove != null) {
             elementList.remove(toRemove);
         }
-        if (toRemoveTwo != null){
+        if (toRemoveTwo != null) {
             elementList.remove(toRemoveTwo);
         }
     }
@@ -197,7 +220,7 @@ public class GameViewModel implements ViewModel {
         ArrayList<LevelElement> filteredList = new ArrayList<>();
 
         for (LevelElement element : elementList) {
-            if (element.getType() == LevelElementType.TANK ||element.getType() == LevelElementType.BLOCK_WOOD || element.getType() == LevelElementType.BLOCK_METAL) {
+            if (element.getType() == LevelElementType.TANK || element.getType() == LevelElementType.BLOCK_WOOD || element.getType() == LevelElementType.BLOCK_METAL) {
                 filteredList.add(element);
             }
         }
@@ -207,15 +230,15 @@ public class GameViewModel implements ViewModel {
             Tank tankTemp;
             Boolean myTank = false;
 
-            if(filteredList.get(i).getType() == LevelElementType.TANK){
+            if (filteredList.get(i).getType() == LevelElementType.TANK) {
                 tankTemp = (Tank) filteredList.get(i);
-                if(tankTemp.getPlayerId() == myTankTemp.getPlayerId()) {
+                if (tankTemp.getPlayerId() == myTankTemp.getPlayerId()) {
                     myTank = true;
                 } else {
                     myTank = false;
                 }
             }
-            if(!myTank){
+            if (!myTank) {
                 if (elementList.get(whichTank).getBoundsInParent().intersects(filteredList.get(i).getBoundsInParent())) {
                     if (elementList.get(whichTank).getRotate() == 360.0) {
                         elementList.get(whichTank).setLayoutY(filteredList.get(whichTank).getLayoutY() + 5);
@@ -233,7 +256,7 @@ public class GameViewModel implements ViewModel {
     }
 
     public void handleKeyPressed(KeyEvent keyEvent) {
-        if(gameIsRunning){
+        if (isGameRunning) {
             if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveUpKey()) || isMovingUp && isFiringMainWeapon) {
                 this.isMovingUp = true;
                 ((Tank) elementList.get(whichTank)).moveTank(360.0);
@@ -276,8 +299,8 @@ public class GameViewModel implements ViewModel {
     }
 
     private void fireMainWeapon(LevelElement myTank) {
-        if(canShoot){
-            gamePlay.getGameStatistic().setShots(gamePlay.getGameStatistic().getShots()+1);
+        if (canShoot) {
+            gamePlay.getGameStatistic().setShots(gamePlay.getGameStatistic().getShots() + 1);
             canShoot = false;
             Tank tank = (Tank) myTank;
             double[] bsp = tank.setCorrectBulletPosition(myTank);

@@ -9,6 +9,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
@@ -23,16 +24,19 @@ import model.service.MessageType;
 import org.boon.core.Sys;
 import view.GameView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 
 public class GameViewModel implements ViewModel {
+
     ETankApplication eTankApplication;
     GameLobby gameLobby;
     GamePlay gamePlay;
     GameView gameView;
+
 
     int whichTank = 2;
     boolean isMovingUp;
@@ -43,12 +47,13 @@ public class GameViewModel implements ViewModel {
     boolean canShoot = true;
     boolean gameIsRunning = false;
     double shootDelay = GamePhysics.DELAY_SECOND;
-    int time = 30;
+    double roundTime = GamePhysics.ROUND_TIME;
+    int roundCounter = 1;
 
 
     ObservableList<LevelElement> elementList = FXCollections.observableArrayList();
 
-    public void startTimer() {
+    public void initGameLoop() {
 
         AnimationTimer gameActionTimer = new AnimationTimer() {
             @Override
@@ -59,76 +64,85 @@ public class GameViewModel implements ViewModel {
                 shootCollector();
             }
         };
-
-        Timeline gameTimeline = new Timeline();
-        KeyFrame kf = new KeyFrame(Duration.seconds(1), event -> {
-            if (time > 0) {
-                time--;
-            } else if (time == 0) {
-                gameIsRunning = false;
-                gameTimeline.stop();
-                gameActionTimer.stop();
-            }
-            System.out.println(time);
-        });
-        gameTimeline.setCycleCount(Animation.INDEFINITE);
-        gameTimeline.getKeyFrames().add(kf);
-
-        Timer gameCountdown = new Timer();
-        Display countdown = new Display(new Image("img/images/countdown/Countdown_03.png"), LevelElementType.DISPLAY, 300, 200, 600, 400, 0.0);
-        countdown.setVisible(false);
-        elementList.add(countdown);
-
-        TimerTask startGameCountdown = new TimerTask() {
-            int counter = 3;
-
-            @Override
-            public void run() {
-                Platform.runLater(() -> {
-                    if (counter > 0) {
-                        countdown.setVisible(true);
-                        System.out.println(counter + " Sekunden ");
-                        countdown.setImage(new Image("img/images/countdown/Countdown_0" + counter + ".png"));
-
-                        counter--;
-                    } else if (counter == 0) {
-                        System.out.println("FIGHT");
-                        System.out.println(counter);
-
-                        countdown.setImage(new Image("img/images/countdown/Countdown_0" + counter + ".png"));
-
-                        gameIsRunning = true;
-                        gameTimeline.play();
-                        gameActionTimer.start();
-                        counter--;
-                    } else {
-                        countdown.setVisible(false);
-                        countdown.setDisable(true);
-                        elementList.remove(countdown);
-                        gameCountdown.cancel();
-                    }
-                });
-            }
-        };
-        gameCountdown.schedule(startGameCountdown, 1000, 1000);
+        gameActionTimer.start();
     }
 
-    public void processMoveTankMsg(Message msg){
-        for(LevelElement tank : elementList){
-            if(tank.getType() == LevelElementType.TANK){
+    public void startTimer() {
+
+        System.out.println(roundCounter);
+        if (roundCounter < 3) {
+
+            Timeline gameTimeline = new Timeline();
+            KeyFrame kf = new KeyFrame(Duration.seconds(1), event -> {
+                if (roundTime > 0) {
+                    roundTime--;
+                } else if (roundTime == 0 && roundCounter != 3) {
+                    gameIsRunning = false;
+                    elementList.clear();
+                    gameView.initNextLevel(roundCounter);
+                    gameTimeline.stop();
+                    roundCounter++;
+                    roundTime = GamePhysics.ROUND_TIME;
+                } else if(roundTime == 0 && roundCounter == 3){
+                    //TODO WAS PASSIERT WENN DAS GAME ZUENDE IST
+                    gameIsRunning = false;
+                    try {
+                        eTankApplication.showMenuView();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    gameTimeline.stop();
+                    System.out.println("SPIEL ZUENDE");
+                }
+                System.out.println(roundTime);
+            });
+            gameTimeline.setCycleCount(Animation.INDEFINITE);
+            gameTimeline.getKeyFrames().add(kf);
+
+            Timer gameCountdown = new Timer();
+            TimerTask startGameCountdown = new TimerTask() {
+                int counter = 3;
+
+                @Override
+                public void run() {
+                    Platform.runLater(() -> {
+                        if (counter > 0) {
+                            gameView.display.setVisible(true);
+                            gameView.display.setImage(new Image("img/images/countdown/Countdown_0" + counter + ".png"));
+                            counter--;
+                        } else if (counter == 0) {
+                            gameView.display.setImage(new Image("img/images/countdown/Countdown_0" + counter + ".png"));
+                            gameIsRunning = true;
+                            gameTimeline.play();
+                            counter--;
+                        } else {
+                            gameView.display.setVisible(false);
+                            gameCountdown.cancel();
+                        }
+                    });
+                }
+            };
+            gameCountdown.schedule(startGameCountdown, 1000, 1000);
+        }
+    }
+
+    public void processMoveTankMsg(Message msg) {
+        for (LevelElement tank : elementList) {
+            if (tank.getType() == LevelElementType.TANK) {
                 Tank temp = (Tank) tank;
-                if(temp.getPlayerId() == msg.getPlayerId()){
+                if (temp.getPlayerId() == msg.getPlayerId()) {
                     temp.moveTank(Double.parseDouble(msg.getPayload()));
                 }
             }
         }
     }
 
-    public void processFireMainMsg(Message msg){
-        for(LevelElement tank : elementList){
-            if(tank.getType() == LevelElementType.TANK){
+    public void processFireMainMsg(Message msg) {
+        for (LevelElement tank : elementList) {
+            if (tank.getType() == LevelElementType.TANK) {
                 Tank temp = (Tank) tank;
-                if(temp.getPlayerId() == msg.getPlayerId()){
+                if (temp.getPlayerId() == msg.getPlayerId()) {
                     fireMainWeapon(temp);
                 }
             }
@@ -343,10 +357,10 @@ public class GameViewModel implements ViewModel {
 
     private void fireMainWeapon(LevelElement myTank) {
 
-            //gamePlay.getGameStatistic().setShots(gamePlay.getGameStatistic().getShots() + 1);
-            Tank tank = (Tank) myTank;
-            double[] bsp = tank.setCorrectBulletPosition(myTank);
-            gameView.createMainBullet(myTank, bsp);
+        //gamePlay.getGameStatistic().setShots(gamePlay.getGameStatistic().getShots() + 1);
+        Tank tank = (Tank) myTank;
+        double[] bsp = tank.setCorrectBulletPosition(myTank);
+        gameView.createMainBullet(myTank, bsp);
 
     }
 
@@ -388,9 +402,9 @@ public class GameViewModel implements ViewModel {
     }
 
     //TODO Aufrufen wenn vorhanden
-    private void setWhichTank(){
-        for (int i =0; i < gamePlay.getPlayers().size(); i++){
-            if(gamePlay.getPlayers().get(i).getId() == eTankApplication.getSignedUser().getId()){
+    private void setWhichTank() {
+        for (int i = 0; i < gamePlay.getPlayers().size(); i++) {
+            if (gamePlay.getPlayers().get(i).getId() == eTankApplication.getSignedUser().getId()) {
                 whichTank = i;
             }
         }

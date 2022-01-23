@@ -17,6 +17,9 @@ import model.game.elements.*;
 import model.game.logic.GameLobby;
 import model.game.logic.GamePhysics;
 import model.game.logic.GamePlay;
+import model.game.logic.Player;
+import model.service.Message;
+import model.service.MessageType;
 import org.boon.core.Sys;
 import view.GameView;
 
@@ -31,7 +34,7 @@ public class GameViewModel implements ViewModel {
     GamePlay gamePlay;
     GameView gameView;
 
-    int whichTank = 0;
+    int whichTank = 2;
     boolean isMovingUp;
     boolean isMovingDown;
     boolean isMovingLeft;
@@ -46,6 +49,7 @@ public class GameViewModel implements ViewModel {
     ObservableList<LevelElement> elementList = FXCollections.observableArrayList();
 
     public void startTimer() {
+
         AnimationTimer gameActionTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -58,9 +62,9 @@ public class GameViewModel implements ViewModel {
 
         Timeline gameTimeline = new Timeline();
         KeyFrame kf = new KeyFrame(Duration.seconds(1), event -> {
-            if(time > 0){
+            if (time > 0) {
                 time--;
-            }else if(time == 0){
+            } else if (time == 0) {
                 gameIsRunning = false;
                 gameTimeline.stop();
                 gameActionTimer.stop();
@@ -71,7 +75,7 @@ public class GameViewModel implements ViewModel {
         gameTimeline.getKeyFrames().add(kf);
 
         Timer gameCountdown = new Timer();
-        Display countdown = new Display(new Image("img/images/countdown/Countdown_03.png"), LevelElementType.DISPLAY, 300,200, 600,400, 0.0);
+        Display countdown = new Display(new Image("img/images/countdown/Countdown_03.png"), LevelElementType.DISPLAY, 300, 200, 600, 400, 0.0);
         countdown.setVisible(false);
         elementList.add(countdown);
 
@@ -80,31 +84,23 @@ public class GameViewModel implements ViewModel {
 
             @Override
             public void run() {
-                Platform.runLater(()->{
+                Platform.runLater(() -> {
                     if (counter > 0) {
                         countdown.setVisible(true);
                         System.out.println(counter + " Sekunden ");
-                        countdown.setImage(new Image("img/images/countdown/Countdown_0"+ counter +".png"));
-
-            @Override
-            public void run() {
-                Platform.runLater(()->{
-                    if (counter > 0) {
-                        countdown.setVisible(true);
-                        System.out.println(counter + " Sekunden ");
-                        countdown.setImage(new Image("img/images/countdown/Countdown_0"+ counter +".png"));
+                        countdown.setImage(new Image("img/images/countdown/Countdown_0" + counter + ".png"));
 
                         counter--;
-                    } else if (counter == 0){
+                    } else if (counter == 0) {
                         System.out.println("FIGHT");
                         System.out.println(counter);
 
-                        countdown.setImage(new Image("img/images/countdown/Countdown_0"+ counter +".png"));
+                        countdown.setImage(new Image("img/images/countdown/Countdown_0" + counter + ".png"));
 
                         gameIsRunning = true;
                         gameTimeline.play();
                         gameActionTimer.start();
-                        counter --;
+                        counter--;
                     } else {
                         countdown.setVisible(false);
                         countdown.setDisable(true);
@@ -115,6 +111,28 @@ public class GameViewModel implements ViewModel {
             }
         };
         gameCountdown.schedule(startGameCountdown, 1000, 1000);
+    }
+
+    public void processMoveTankMsg(Message msg){
+        for(LevelElement tank : elementList){
+            if(tank.getType() == LevelElementType.TANK){
+                Tank temp = (Tank) tank;
+                if(temp.getPlayerId() == msg.getPlayerId()){
+                    temp.moveTank(Double.parseDouble(msg.getPayload()));
+                }
+            }
+        }
+    }
+
+    public void processFireMainMsg(Message msg){
+        for(LevelElement tank : elementList){
+            if(tank.getType() == LevelElementType.TANK){
+                Tank temp = (Tank) tank;
+                if(temp.getPlayerId() == msg.getPlayerId()){
+                    fireMainWeapon(temp);
+                }
+            }
+        }
     }
 
     private void shootCollector() {
@@ -162,26 +180,26 @@ public class GameViewModel implements ViewModel {
                     if (elementList.get(i).getType() == LevelElementType.TANK) {
                         if (element.getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
                             Tank tank = (Tank) elementList.get(i);
-                            if(playerId != tank.getPlayerId()){
+                            if (playerId != tank.getPlayerId()) {
                                 //Bullet ausblenden
                                 toRemove = element;
                                 element.setDisable(true);
                                 isHit = true;
-                                if(!myBullet){
+                                if (!myBullet) {
                                     //Ich wurde getroffen
                                     ((Tank) elementList.get(whichTank)).reduceLivePoints();
                                     System.out.println("Du wurdest von: " + tank.getPlayerId() + " getroffen!");
                                     //Hier wird die Statistik des Players aktualisiert
-                                    gamePlay.getGameStatistic().setDeaths(gamePlay.getGameStatistic().getDeaths()+1);
+                                    gamePlay.getGameStatistic().setDeaths(gamePlay.getGameStatistic().getDeaths() + 1);
                                 } else {
                                     //Hier verliert der andere Player Leben
                                     tank.reduceLivePoints();
                                     System.out.println("Player: " + playerId + " Du hast Player: " + tank.getPlayerId() + " getroffen!");
                                     //Hier wird die Statistik des Players aktualisiert
-                                    gamePlay.getGameStatistic().setKills(gamePlay.getGameStatistic().getKills() + 1);
+/*                                    gamePlay.getGameStatistic().setKills(gamePlay.getGameStatistic().getKills() + 1);
                                     gamePlay.getGameStatistic().setHitPoints(gamePlay.getGameStatistic().getHitPoints() + 10);
                                     gamePlay.getGameStatistic().setGamePoints(gamePlay.getGameStatistic().getGamePoints() + 10);
-                                    System.out.println("Kills: " + gamePlay.getGameStatistic().getKills() + " HitPoints: " + gamePlay.getGameStatistic().getHitPoints() + " GamePoints: " + gamePlay.getGameStatistic().getGamePoints());
+                                    System.out.println("Kills: " + gamePlay.getGameStatistic().getKills() + " HitPoints: " + gamePlay.getGameStatistic().getHitPoints() + " GamePoints: " + gamePlay.getGameStatistic().getGamePoints());*/
                                 }
                             }
                         }
@@ -211,8 +229,8 @@ public class GameViewModel implements ViewModel {
                                 isHit = true;
                             } else if (woodenBlock.getLives() == 0) {
                                 if (myBullet) {
-                                    gamePlay.getGameStatistic().setGamePoints(gamePlay.getGameStatistic().getGamePoints() + 5);
-                                    System.out.println("Kills: " + gamePlay.getGameStatistic().getKills() + " HitPoints: " + gamePlay.getGameStatistic().getHitPoints() + " GamePoints: " + gamePlay.getGameStatistic().getGamePoints());
+                                   /* gamePlay.getGameStatistic().setGamePoints(gamePlay.getGameStatistic().getGamePoints() + 5);
+                                    System.out.println("Kills: " + gamePlay.getGameStatistic().getKills() + " HitPoints: " + gamePlay.getGameStatistic().getHitPoints() + " GamePoints: " + gamePlay.getGameStatistic().getGamePoints());*/
                                 }
                                 woodenBlock.setOpacity(.0);
                                 toRemove = element;
@@ -296,8 +314,10 @@ public class GameViewModel implements ViewModel {
                 this.isMovingLeft = true;
                 ((Tank) elementList.get(whichTank)).moveTank(270.0);
             }
-            if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getFireMainWeaponKey()) || isFiringMainWeapon) {
+            if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getFireMainWeaponKey()) && canShoot || isFiringMainWeapon && canShoot) {
                 this.isFiringMainWeapon = true;
+                canShoot = false;
+
                 fireMainWeapon(elementList.get(whichTank));
             }
         }
@@ -322,13 +342,12 @@ public class GameViewModel implements ViewModel {
     }
 
     private void fireMainWeapon(LevelElement myTank) {
-        if (canShoot) {
-            gamePlay.getGameStatistic().setShots(gamePlay.getGameStatistic().getShots() + 1);
-            canShoot = false;
+
+            //gamePlay.getGameStatistic().setShots(gamePlay.getGameStatistic().getShots() + 1);
             Tank tank = (Tank) myTank;
             double[] bsp = tank.setCorrectBulletPosition(myTank);
             gameView.createMainBullet(myTank, bsp);
-        }
+
     }
 
     public void moveBullet(BulletMainWeapon bullet) {
@@ -363,12 +382,18 @@ public class GameViewModel implements ViewModel {
         this.gameView = gameView;
     }
 
-    public void setGamePlay(ObservableList<LevelElement> elementList) {
-        gamePlay = new GamePlay();
-        //todo SocketClient muss irgendwie in Konstruktor.
-        gamePlay.setElementList(elementList);
-        gamePlay.setETankApplication(eTankApplication);
+    public void setGamePlay(GamePlay gamePlay) {
+        this.gamePlay = gamePlay;
         gamePlay.createGameStatistic();
+    }
+
+    //TODO Aufrufen wenn vorhanden
+    private void setWhichTank(){
+        for (int i =0; i < gamePlay.getPlayers().size(); i++){
+            if(gamePlay.getPlayers().get(i).getId() == eTankApplication.getSignedUser().getId()){
+                whichTank = i;
+            }
+        }
     }
 
     public GamePlay getGamePlay() {

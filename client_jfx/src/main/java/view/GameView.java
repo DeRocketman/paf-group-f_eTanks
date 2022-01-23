@@ -50,11 +50,11 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         gameViewModel.setGameView(this);
         gameViewModel.setElementList(elementList);
         gameViewModel.setETankApplication(eTankApplication);
-        gameViewModel.setGamePlay(elementList);
 
-        initTanks(gameViewModel.getGamePlay().getPlayerListSize());
 
-       // initBorderElements();
+        // TODO Aus der Playerliste holen
+        initTanks(4);
+
         initElements();
         initWorldBorder();
 
@@ -97,48 +97,6 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
             elementList.add(new Tank(new Image(imgTank[i]), positionsX[i], positionsY[i], 27.0, GamePhysics.ELEMENT_SIZE, rotate[i], i));
         }
     }
-/*
-    private void initBorderElements() {
-        int posX = 0;
-        int posY = 0;
-        for (int row = 0; row < 20; row++) {
-            for (int col = 0; col < 30; col++) {
-                if( row == 0 ){
-                    LevelElement block = new Block(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../img/images/buildings/crateMetal.png"))), "blockMetal", posX, posY, 40, 40, 0.0, true, 1000000);
-                    block.setFitHeight(40.0);
-                    block.setFitWidth(40.0);
-                    elementList.add(block);
-                    posX += 40;
-                    //System.out.println(posX);
-                    if (col == 29) {
-                        posX = 0;
-                    }
-                } else if(row > 0 && row < 19){
-                   if (col == 0){
-                       LevelElement block = new Block(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../img/images/buildings/crateMetal.png"))), "blockMetal", 0, posY, 40, 40, 0.0, true, 1000000);
-                       block.setFitHeight(40.0);
-                       block.setFitWidth(40.0);
-                       elementList.add(block);
-                     //  System.out.println(posX + " "+  posY);
-                   } else if(col == 19){
-                       LevelElement block = new Block(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../img/images/buildings/crateMetal.png"))), "blockMetal", 1160, posY, 40, 40, 0.0, true, 1000000);
-                       block.setFitHeight(40.0);
-                       block.setFitWidth(40.0);
-                       elementList.add(block);
-                   }
-                }else if(row == 19){
-                    posY = 760;
-                    LevelElement block = new Block(new Image(Objects.requireNonNull(getClass().getResourceAsStream("../img/images/buildings/crateMetal.png"))), "blockMetal", posX, posY, 40, 40, 0.0, true, 1000000);
-                    block.setFitHeight(40.0);
-                    block.setFitWidth(40.0);
-                    elementList.add(block);
-                  //  System.out.println(posX + " " + posY);
-                    posX += 40;
-                }
-            }       posY += 40;
-        }
-
-    }*/
 
     //eine kürzere Alternative für die Border Blocks?
     public void initWorldBorder() {

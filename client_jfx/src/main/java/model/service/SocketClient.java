@@ -58,11 +58,12 @@ public class SocketClient implements Runnable {
         }
     }
 
+    //TODO Aufsplitten
     private void deliverMsg(Message message) throws IOException {
-        if (message.getMessageType() != MessageType.GAME_ACTION) {
+        if (message.getMessageType() != MessageType.TANK_MOVE) {
             gameLobbyViewController.receiveLobbyMessages(message);
         } else {
-            gamePlay.receiveGameMessage(message);
+            gamePlay.receiveMessage(message);
         }
     }
 

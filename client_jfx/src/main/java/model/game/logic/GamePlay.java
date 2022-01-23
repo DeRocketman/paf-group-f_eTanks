@@ -13,11 +13,28 @@ import model.service.SocketClient;
 public class GamePlay {
     ETankApplication eTankApplication;
     private SocketClient socketClient;
+
+    public ObservableList<Player> getPlayers() {
+        return players;
+    }
+
     private ObservableList<Player> players;
-    private ObservableList<LevelElement> elementList = FXCollections.observableArrayList();
     private GameStatistic gameStatistic;
     private long gameNumber;
     // private ObservableList<GameStatistic> gameStatistics;
+
+    public void receiveMessage(Message msg){
+        if(msg.getMessageType() == MessageType.TANK_MOVE){
+            msg.getPayload();
+            msg.getPlayerId();
+        } else if(msg.getMessageType() == MessageType.FIRE_MAIN){
+
+        }
+    }
+
+    public void sendMessage(Message msg){
+        this.socketClient.sendMsg(msg);
+    }
 
     public GamePlay(ObservableList<Player> players) {
         this.players = players;
@@ -48,19 +65,11 @@ public class GamePlay {
 
     }
 
-    public void setElementList(ObservableList<LevelElement> elementList) {
-        this.elementList = elementList;
-    }
 
     public int getPlayerListSize(){
         return 4;
     }
 
-    public void receiveGameMessage(Message message) {
-        if (message.getMessageType() == MessageType.GAME_ACTION) {
-            System.out.println("Message in GamePlay empfangen");
-        }
-    }
 
     public void getPlayerPosition(){
 

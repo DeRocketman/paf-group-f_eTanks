@@ -70,4 +70,7 @@ public class GameLobby implements Serializable {
         return playerList;
     }
 
+    public void setGameLobbyID(String gameLobbyID) {
+        this.gameLobbyID.set(gameLobbyID);
+    }
 }

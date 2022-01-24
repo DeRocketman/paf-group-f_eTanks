@@ -12,17 +12,16 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.ETankApplication;
 import model.game.logic.GameLobby;
+import model.game.logic.GamePlay;
 import model.game.logic.Player;
 import model.service.Message;
 import model.service.MessageType;
 import model.service.SocketClient;
-
 import java.io.ByteArrayInputStream;
 import java.util.Base64;
-
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Objects;
+
 
 public class GameLobbyViewController {
 
@@ -31,7 +30,6 @@ public class GameLobbyViewController {
     SocketClient sc = new SocketClient(this);
     Thread messageReceive = new Thread(sc);
     private ETankApplication eTankApplication;
-    public Player signedPlayer;
     private GameLobby selectedLobby;
 
     ObservableList<GameLobby> lobbyList = FXCollections.observableArrayList();
@@ -69,6 +67,8 @@ public class GameLobbyViewController {
     private Button btnSetHostRdy;
     @FXML
     private Button btnSetJoinRdy;
+    @FXML
+    private Button btnGameStart;
 
     public GameLobbyViewController() throws IOException {
 
@@ -103,8 +103,8 @@ public class GameLobbyViewController {
         resetViews();
         sendExtendUserData();
         getLobbyList();
-        fillLobbyTable();
-        showLobbyJoinView();
+        showJoinLobbyView();
+        lobbyList.clear();
     }
 
     @FXML
@@ -125,12 +125,32 @@ public class GameLobbyViewController {
 
     @FXML
     public void switchToGameView() throws IOException{
-        eTankApplication.showGameView();
+        Message msg = new Message();
+        msg.setMessageType(MessageType.START_GAME);
+        msg.setGameLobbyNumber(selectedLobby.getGameLobbyID());
+        msg.setPlayerId(eTankApplication.getSignedUser().getId());
+        msg.setPlayerPublicName(eTankApplication.getSignedUser().getPublicName());
+        msg.setPlayerIsRdy(true);
+        msg.setPlayerImage("default");
+        msg.setPayload("payload");
+        sc.sendMsg(msg);
     }
 
     @FXML
     public void setRdy() {
-
+        for (Player player : selectedLobby.getPlayers()) {
+            if(player.getId() == eTankApplication.getSignedUser().getId()) {
+                Message msg = new Message();
+                msg.setMessageType(MessageType.RDY_STATUS);
+                msg.setGameLobbyNumber(selectedLobby.getGameLobbyID());
+                msg.setPlayerId(player.getId());
+                msg.setPlayerPublicName(player.getPublicName());
+                msg.setPlayerIsRdy(!player.isReady());
+                msg.setPlayerImage("default");
+                msg.setPayload("payload");
+                sc.sendMsg(msg);
+            }
+        }
     }
 
     @FXML
@@ -146,24 +166,30 @@ public class GameLobbyViewController {
     }
 
     @FXML
-    public GameLobby joinSelectedGame() throws IOException {
-        GameLobby selectedGameLobby = lobbyTable.getSelectionModel().getSelectedItem();
-        lblGameNumber.setText("Spielnummer: " + String.valueOf(selectedGameLobby.getGameLobbyID()));
-        if(selectedGameLobby.getSeatCounter() < 4) {
+    private void joinSelectedGame() throws IOException {
+        selectedLobby = new GameLobby();
+        selectedLobby = lobbyTable.getSelectionModel().getSelectedItem();
+        if(selectedLobby.getSeatCounter() < 4) {
             System.out.println("joining game");
-            selectedGameLobby.addPlayer(signedPlayer);
-            showJoinLobbyView();
+            Message msg = new Message();
+            msg.setMessageType(MessageType.JOIN);
+            msg.setGameLobbyNumber(selectedLobby.getGameLobbyID());
+            msg.setPlayerId(eTankApplication.getSignedUser().getId());
+            msg.setPlayerPublicName(eTankApplication.getSignedUser().getPublicName());
+            msg.setPlayerIsRdy(false);
+            msg.setPlayerImage("default");
+            msg.setPayload("ES GEHT");
+            sc.sendMsg(msg);
+            resetViews();
+            lblGameNumber.setText("Spielnummer: " + selectedLobby.getGameLobbyID());
+            showLobbyJoinView();
+
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Schlacht ist schon voll");
             alert.setContentText("Wähle eine andere oder erstelle selbst eine");
             alert.showAndWait();
         }
-        return selectedGameLobby;
-    }
-
-    @FXML
-    private void setStatusReady() {
 
     }
 
@@ -193,7 +219,7 @@ public class GameLobbyViewController {
 
    @FXML
    private void refreshLobbyTable() {
-
+        getLobbyList();
    }
 
     public void receiveLobbyMessages(Message msg) throws IOException {
@@ -226,16 +252,56 @@ public class GameLobbyViewController {
         textAreaChatField.appendText(msg.getPayload());
     }
 
-    private void processStartGameMsg(Message msg) {
-
-
+    private void processStartGameMsg(Message msg) throws IOException {
+        GamePlay gamePlay = new GamePlay(sc, selectedLobby.getGameLobbyID());
+        sc.setGamePlay(gamePlay);
+        gamePlay.setPlayerlist(selectedLobby.getPlayers());
+        eTankApplication.showGameView();
     }
 
     private void processRdyStatusMsg(Message msg) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                for (Player player : selectedLobby.getPlayers()) {
+                    if (player.getId() == msg.getPlayerId()) {
+                        player.setReady(msg.isPlayerIsRdy());
+                    }
+
+                    if (eTankApplication.getSignedUser().getId() == msg.getPlayerId()) {
+                        if (player.isReady()) {
+                            btnSetHostRdy.setText("Bereit!");
+                            btnSetJoinRdy.setText("Bereit!");
+                            btnSetHostRdy.setStyle("-fx-background-color: green;");
+                            btnSetJoinRdy.setStyle("-fx-background-color: green;");
+                        } else {
+                            btnSetHostRdy.setText("Nicht Bereit!");
+                            btnSetJoinRdy.setText("Nicht Bereit!");
+                            btnSetHostRdy.setStyle("-fx-background-color: red;");
+                            btnSetJoinRdy.setStyle("-fx-background-color: red;");
+                        }
+                    }
+                }
+                fillPlayerGrid();
+                checkAllPlayerRdy();
+            }
+        });
+    }
+
+    private void checkAllPlayerRdy() {
+        int playerNotRdy = 0;
+        for (Player player : selectedLobby.getPlayers()) {
+            if(!player.isReady()) {
+                playerNotRdy++;
+            }
+        }
+        btnGameStart.setDisable(playerNotRdy != 0);
     }
 
     private void processJoinedPlayerMsg(Message msg) throws IOException {
-        Player player = new Player(msg.getPlayerId(), msg.getPlayerPublicName(),"","", "", null);
+        Player player = new Player(msg.getPlayerId(),"", msg.getPlayerPublicName(), msg.getPlayerImage(), "", null);
+        selectedLobby.addPlayer(player);
+        fillPlayerGrid();
     }
 
     private void processChatMsg(Message msg) {
@@ -243,6 +309,11 @@ public class GameLobbyViewController {
     }
 
     private void processGetLobbiesMsg(Message msg) {
+        GameLobby lobby = new GameLobby();
+        lobby.setGameLobbyID(msg.getGameLobbyNumber());
+        lobby.setSeatCounter(Integer.parseInt(msg.getPayload()));
+        lobbyList.add(lobby);
+        fillLobbyTable();
     }
 
     private void showLobbyHostView(GameLobby lobby) {

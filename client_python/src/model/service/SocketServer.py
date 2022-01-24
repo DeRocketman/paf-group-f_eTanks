@@ -41,7 +41,6 @@ class SocketServer:
                 lobby.addPlayerConn(exSockData)
                 lobby.hostConnection = exSockData
                 self.lobbyList.append(lobby)
-                print(lobby.playerCount)
 
             elif msgJson["messageType"] == "JOIN":
                 exSockData.joinLobby(msgJson)
@@ -55,7 +54,8 @@ class SocketServer:
                                 exSockData.sendData(player, msgJson, "JOINED_PLAYER")
                         exSockData.sendData(exSockData, msgJson, "JOINED_PLAYER")
 
-            elif msgJson["messageType"] == "CHAT_MSG" or msgJson["messageType"] == "RDY_STATUS":
+            elif msgJson["messageType"] == "CHAT_MSG" or msgJson["messageType"] == "RDY_STATUS" or \
+                    msgJson["messageType"] == "START_GAME":
                 if msgJson["messageType"] == "RDY_STATUS":
                     exSockData.setRdy(msgJson)
                 for player in self.connSocketList:

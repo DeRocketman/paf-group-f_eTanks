@@ -51,17 +51,9 @@ public class GamePlay {
 
     public GamePlay(SocketClient socketClient) {
         this.socketClient = socketClient;
-
+        this.gameNumber = gameNumber;
     }
     public void createGameStatistic() {
-        System.out.println("Etankap - create game stats");
-        //int playerCount = players.size();
-       /* for (int i = 0; i < playerCount; i++) {
-            GameStatistic userGameStatistic = new GameStatistic();
-            this.gameStatistics.add(userGameStatistic);
-        }*/
-        //this.gameStatistic = new GameStatistic(this.gameNumber, this.eTankApplication.getSignedUser().getId(), false, 0, 0,0,0,0,0, this.eTankApplication.getSignedUser().getPublicName());
-        this.gameStatistic = new GameStatistic(this.gameNumber, 500, false, 0, 0,0,0,0,0, "publicName");
 
     }
 

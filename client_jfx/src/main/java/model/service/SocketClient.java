@@ -72,7 +72,7 @@ public class SocketClient implements Runnable {
         //DataOutputStream dos = new DataOutputStream(this.socket.getOutputStream());
         this.gson = new Gson();
         Message loginMessage = new Message();
-        loginMessage.setMessageType(MessageType.LOGIN);
+        loginMessage.setMessageType(MessageType.CONNECT);
         loginMessage.setPlayerId(0);
         loginMessage.setPlayerPublicName("");
         loginMessage.setPlayerImage("default");
@@ -83,5 +83,8 @@ public class SocketClient implements Runnable {
         System.out.println("Nachricht gesendet: " + outgoingMsg);
     }
 
+    public void setGamePlay(GamePlay gamePlay) {
+        this.gamePlay = gamePlay;
+    }
 }
 

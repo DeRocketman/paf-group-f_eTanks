@@ -18,9 +18,9 @@ public class GamePlay {
         return players;
     }
 
+    private String gameNumber;
     private ObservableList<Player> players;
     private GameStatistic gameStatistic;
-    private long gameNumber;
     // private ObservableList<GameStatistic> gameStatistics;
 
     public void receiveMessage(Message msg){
@@ -44,12 +44,8 @@ public class GamePlay {
         }
     }
 
-    public GamePlay () {
-        //Später von GameLobby übernehmen
-        this.gameNumber = 1000;
-    }
 
-    public GamePlay(SocketClient socketClient) {
+    public GamePlay(SocketClient socketClient, String gameNumber) {
         this.socketClient = socketClient;
         this.gameNumber = gameNumber;
     }

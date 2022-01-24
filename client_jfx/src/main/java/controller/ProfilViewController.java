@@ -15,12 +15,10 @@ import javax.xml.bind.DatatypeConverter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Base64;
+import java.util.Objects;
 
 
 public class ProfilViewController extends ViewController {
@@ -95,7 +93,7 @@ public class ProfilViewController extends ViewController {
 
     public void setUserImage() throws IOException {
         if(eTankApplication.getSignedUser().getUserImage().equals("default")){
-            userImage.setImage(new Image(getClass().getClassLoader().getResourceAsStream("img/images/default-user-image.png")));
+            userImage.setImage(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("img/images/default-user-image.png"))));
             System.out.println("Default Bild geladen");
         } else {
             userImage.setImage(getImageFromBase64String(eTankApplication.getSignedUser().getUserImage()));

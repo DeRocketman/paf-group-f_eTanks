@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane stylesheets="@../css/Application.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GameLobbyViewController">
    <children>
-      <VBox fx:id="vbxInit" alignment="TOP_CENTER" layoutX="200.0" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" spacing="20.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="100.0">
+      <VBox fx:id="vbxInit" alignment="TOP_CENTER" layoutX="200.0" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" spacing="20.0" visible="false" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="100.0">
          <children>
             <Text layoutX="313.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Neue Schlacht">
                <font>
@@ -56,18 +57,23 @@
                <children>
                   <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="364.0" prefWidth="481.0">
                      <children>
-                        <ListView fx:id="playerList" prefHeight="411.0" prefWidth="482.0">
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                           <padding>
-                              <Insets right="10.0" />
-                           </padding>
-                        </ListView>
+                        <GridPane fx:id="playerGrid" prefHeight="360.0" prefWidth="511.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="50.0" prefWidth="50.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="389.2000183105469" minWidth="10.0" prefWidth="365.2000183105469" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="33.99997558593748" prefWidth="66.79998168945309" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                        </GridPane>
                         <HBox fx:id="hbxHostPanel" alignment="TOP_CENTER" prefHeight="0.0" prefWidth="481.0" spacing="20.0" visible="false">
                            <children>
                               <Button fx:id="btnGameStart" disable="true" onAction="#switchToGameView" prefHeight="29.0" prefWidth="130.0" text="Start Game" />
-                              <Button fx:id="btnSetRdy" disable="true" onAction="#switchToGameView" prefHeight="29.0" prefWidth="130.0" text="Nicht Bereit" />
+                              <Button fx:id="btnSetHostRdy" onAction="#setRdy" prefHeight="29.0" prefWidth="130.0" text="Nicht Bereit" />
                               <Separator prefWidth="200.0" visible="false" />
                            </children>
                         </HBox>
@@ -112,6 +118,7 @@
                </columns>
             </TableView>
             <Button layoutX="300.0" layoutY="770.0" mnemonicParsing="false" onMouseClicked="#joinSelectedGame" text="Dieser Schlacht anschließen" />
+            <Button mnemonicParsing="false" onAction="#refreshLobbyTable" text="Lobby Tabelle erneuern" />
          </children>
       </VBox>
    </children>

@@ -4,8 +4,8 @@
   - Neues Spiel 
     - (Computer / Multiplayer)
   - Scores / Statistiken / persönlich und overall
-    - Mit Userbild
-  - Benutzterprofil bearbeiten
+    - Mit Userid
+  - Benutzter profil bearbeiten
     - Benutzernamen, Passwort, öffentlicher Name, Profilbild änderbar
     - Benutzer löschen
   - Spielanleitung / (Settings)
@@ -28,7 +28,7 @@
 - Der Gewinner der Runde erhält pro Mitspieler 100 Punkte also maximilian 300 Punkte
 - Zeit / nach Ablauf der Zeit gehts ins nächste Level / Schilder behalten/auffüllen?
 - 5 Schilder pro Runde
-- Punkte / Gegnereliminieren / Items -> drüber fahren : versteckt und offen
+- Punkte / Gegner eliminieren / Items → drüber fahren : versteckt und offen
   - Festlegung der Bewertung
     - je scheller desto besser
     - Trefferquote

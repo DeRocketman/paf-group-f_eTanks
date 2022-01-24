@@ -1,23 +1,28 @@
 package controller;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.ETankApplication;
-import model.data.UserSettings;
 import model.game.logic.GameLobby;
 import model.game.logic.Player;
 import model.service.Message;
 import model.service.MessageType;
 import model.service.SocketClient;
 
+import java.io.ByteArrayInputStream;
+import java.util.Base64;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class GameLobbyViewController {
 
@@ -39,31 +44,31 @@ public class GameLobbyViewController {
     private TableColumn<GameLobby, Integer> columnLobbySeats;
 
     @FXML
-    private ListView playerList;
+    private GridPane playerGrid;
 
     @FXML
     private TextField textChatMsgField;
-
     @FXML
     private TextArea textAreaChatField;
 
     @FXML
     private VBox vbxJoin;
-
     @FXML
     private VBox vbxLobby;
-
     @FXML
     private VBox vbxInit;
-
     @FXML
     private HBox hbxHostPanel;
-
     @FXML
     private HBox hbxJoinerPanel;
 
     @FXML
     private Label lblGameNumber;
+
+    @FXML
+    private Button btnSetHostRdy;
+    @FXML
+    private Button btnSetJoinRdy;
 
     public GameLobbyViewController() throws IOException {
 
@@ -85,6 +90,7 @@ public class GameLobbyViewController {
 
     @FXML
     private void hostGame() throws IOException {
+        resetViews();
         sendExtendUserData();
         selectedLobby = new GameLobby();
         selectedLobby.buildLobbyID();
@@ -94,6 +100,7 @@ public class GameLobbyViewController {
 
     @FXML
     private void joinGame() {
+        resetViews();
         sendExtendUserData();
         getLobbyList();
         fillLobbyTable();
@@ -122,7 +129,8 @@ public class GameLobbyViewController {
     }
 
     @FXML
-    public void setRdyTrue() {
+    public void setRdy() {
+
     }
 
     @FXML
@@ -183,6 +191,11 @@ public class GameLobbyViewController {
         }
    }
 
+   @FXML
+   private void refreshLobbyTable() {
+
+   }
+
     public void receiveLobbyMessages(Message msg) throws IOException {
         if (msg != null) {
             if (msg.getMessageType() == MessageType.GET_LOBBIES) {
@@ -206,7 +219,10 @@ public class GameLobbyViewController {
         }
     }
 
-    private void processRegisterLobbyMsg(Message msg) {
+    private void processRegisterLobbyMsg(Message msg) throws IOException {
+        Player player = new Player(msg.getPlayerId(), null, msg.getPlayerPublicName(), msg.getPlayerImage(), null, null);
+        selectedLobby.getPlayers().add(player);
+        fillPlayerGrid();
         textAreaChatField.appendText(msg.getPayload());
     }
 
@@ -253,9 +269,6 @@ public class GameLobbyViewController {
         sc.sendMsg(msg);
     }
 
-    public void fillPlayerList() {
-
-    }
 
     public void sendExtendUserData() {
         Message msg = new Message();
@@ -271,6 +284,7 @@ public class GameLobbyViewController {
     public void registerLobby(GameLobby lobby) {
         Message msg = new Message();
         msg.setMessageType(MessageType.REGISTER_LOBBY);
+        msg.setPlayerImage("default");
         msg.setGameLobbyNumber(lobby.getGameLobbyID());
         msg.setPlayerId(eTankApplication.getSignedUser().getId());
         msg.setPlayerPublicName(eTankApplication.getSignedUser().getPublicName());
@@ -280,6 +294,45 @@ public class GameLobbyViewController {
         columnLobbyNumber.setCellValueFactory(cellData -> cellData.getValue().gameLobbyIDProperty());
         columnLobbySeats.setCellValueFactory(cellData -> cellData.getValue().seatCounterProperty().asObject());
     }
+    private void fillPlayerGrid() {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    for (int row = 0; row < selectedLobby.getPlayers().size(); row++) {
+                        ImageView playerImage = new ImageView();
+                        ImageView playerIsRdy = new ImageView();
+                        playerImage.setFitHeight(40.0);
+                        playerImage.setFitWidth(40.0);
+                        playerIsRdy.setFitHeight(40.0);
+                        playerIsRdy.setFitWidth(40.0);
+
+                        Label playerNameLbl = new Label();
+                        playerNameLbl.setText(selectedLobby.getPlayers().get(row).getPublicName());
+
+                        if (selectedLobby.getPlayers().get(row).getUserImage().equals("default")) {
+                            playerImage.setImage(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("img/images/default-user-image.png"))));
+                        } else {
+                            playerImage.setImage(getImageFromBase64String(selectedLobby.getPlayers().get(row).getUserImage()));
+                        }
+
+                        if (selectedLobby.getPlayers().get(row).isReady()) {
+                            playerIsRdy.setImage(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("img/images/lobby/rdy.png"))));
+                        } else {
+                            playerIsRdy.setImage(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("img/images/lobby/notrdy.png"))));
+                        }
+                        playerGrid.add(playerImage, 0, row);
+                        playerGrid.add(playerNameLbl, 1, row);
+                        playerGrid.add(playerIsRdy, 2, row);
+                    }
+                }
+            });
+    }
+
+    private Image getImageFromBase64String(String userImage) {
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64.getDecoder().decode(userImage));
+        return new Image(inputStream);
+    }
+
 
     public void startGame () throws IOException {
         eTankApplication.showGameView();

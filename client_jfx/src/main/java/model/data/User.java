@@ -54,14 +54,18 @@ public class User {
 
     //Image File to String
     public String encodeImage(String imagePath) {
-        String base64 = null;
-        try {
-            base64 = DatatypeConverter.printBase64Binary(Files.readAllBytes(
-                    Paths.get(imagePath)));
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (!imagePath.equals("default")) {
+            String base64 = null;
+            try {
+                base64 = DatatypeConverter.printBase64Binary(Files.readAllBytes(
+                        Paths.get(imagePath)));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return base64;
+        } else {
+            return "default";
         }
-        return base64;
     }
 
     public long getId() {

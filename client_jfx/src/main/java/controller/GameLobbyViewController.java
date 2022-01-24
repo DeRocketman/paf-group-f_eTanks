@@ -253,10 +253,19 @@ public class GameLobbyViewController {
     }
 
     private void processStartGameMsg(Message msg) throws IOException {
-        GamePlay gamePlay = new GamePlay(sc, selectedLobby.getGameLobbyID());
-        sc.setGamePlay(gamePlay);
-        gamePlay.setPlayerlist(selectedLobby.getPlayers());
-        eTankApplication.showGameView();
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                GamePlay gamePlay = new GamePlay(sc, selectedLobby.getGameLobbyID());
+                sc.setGamePlay(gamePlay);
+                gamePlay.setPlayerlist(selectedLobby.getPlayers());
+                try {
+                    eTankApplication.showGameView();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private void processRdyStatusMsg(Message msg) {

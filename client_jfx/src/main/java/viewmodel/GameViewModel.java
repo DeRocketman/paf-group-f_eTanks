@@ -222,6 +222,7 @@ public class GameViewModel implements ViewModel {
                             toRemove = element;
                             element.setDisable(true);
                             isHit = true;
+
                         }
                     } else if (elementList.get(i).getType() == LevelElementType.BLOCK_WOOD) {
                         Block woodenBlock = (Block) elementList.get(i);
@@ -264,6 +265,7 @@ public class GameViewModel implements ViewModel {
         }
         if (toRemove != null) {
             elementList.remove(toRemove);
+
         }
         if (toRemoveTwo != null) {
             elementList.remove(toRemoveTwo);

@@ -3,15 +3,13 @@ package model.service;
 import controller.GameLobbyViewController;
 import com.google.gson.Gson;
 import model.game.logic.GamePlay;
-
 import java.io.*;
 import java.net.Socket;
-import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 
 public class SocketClient implements Runnable {
     private GameLobbyViewController gameLobbyViewController;
-    private GamePlay gamePlay;     //todo: oder in ModelView!
+    private GamePlay gamePlay;
     private final String hostname = "localhost";
     private final int port = 3333;
 
@@ -58,9 +56,9 @@ public class SocketClient implements Runnable {
         }
     }
 
-    //TODO Aufsplitten
+    //TODO Für eine richtige Verteilung der eingehenden Nachrichten sind hier weitere Messagtypen nachzutragen!
     private void deliverMsg(Message message) throws IOException {
-        if (message.getMessageType() != MessageType.TANK_MOVE) {
+        if (message.getMessageType() != MessageType.TANK_MOVE || message.getMessageType() != MessageType.FIRE_MAIN) {
             gameLobbyViewController.receiveLobbyMessages(message);
         } else {
             gamePlay.receiveMessage(message);
@@ -68,8 +66,6 @@ public class SocketClient implements Runnable {
     }
 
     public void connectMsg() throws IOException {
-
-        //DataOutputStream dos = new DataOutputStream(this.socket.getOutputStream());
         this.gson = new Gson();
         Message loginMessage = new Message();
         loginMessage.setMessageType(MessageType.CONNECT);

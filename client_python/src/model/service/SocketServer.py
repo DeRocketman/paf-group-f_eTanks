@@ -55,7 +55,7 @@ class SocketServer:
                         exSockData.sendData(exSockData, msgJson, "JOINED_PLAYER")
 
             elif msgJson["messageType"] == "CHAT_MSG" or msgJson["messageType"] == "RDY_STATUS" or \
-                    msgJson["messageType"] == "START_GAME":
+                    msgJson["messageType"] == "START_GAME" or msgJson["messageType"] == "TANK_MOVE":
                 if msgJson["messageType"] == "RDY_STATUS":
                     exSockData.setRdy(msgJson)
                 for player in self.connSocketList:

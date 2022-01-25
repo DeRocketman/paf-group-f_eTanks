@@ -38,9 +38,10 @@ public class GameViewModel implements ViewModel {
     GamePlay gamePlay;
     GameView gameView;
 
+    int whichTank;
+
     SocketClient socketClient;
 
-    int whichTank = 2;
     boolean isMovingUp;
     boolean isMovingDown;
     boolean isMovingLeft;
@@ -129,15 +130,22 @@ public class GameViewModel implements ViewModel {
     }
 
     public void processMoveTankMsg(Message msg) {
-        System.out.println("HIER IST DER FEHLER ZUS UCHEN");
-        for (LevelElement tank : elementList) {
-            if (tank.getType() == LevelElementType.TANK) {
-                Tank temp = (Tank) tank;
-                if (temp.getPlayerId() == msg.getPlayerId()) {
-                    temp.moveTank(Double.parseDouble(msg.getPayload()));
+
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                for (LevelElement tank : elementList) {
+                    if (tank.getType() == LevelElementType.TANK) {
+                        Tank temp = (Tank) tank;
+                        System.out.println("TankID: " + temp.getPlayerId() + " PlayerID: " + msg.getPlayerId());
+                        if (temp.getPlayerId() == msg.getPlayerId()) {
+                            temp.moveTank(Double.parseDouble(msg.getPayload()));
+
+                        }
+                    }
                 }
             }
-        }
+        });
     }
 
     public void processFireMainMsg(Message msg) {
@@ -155,6 +163,9 @@ public class GameViewModel implements ViewModel {
         Message msg = new Message();
         msg.setMessageType(MessageType.TANK_MOVE);
         msg.setPlayerId(eTankApplication.getSignedUser().getId());
+        msg.setPlayerPublicName(eTankApplication.getSignedUser().getPublicName());
+        msg.setPlayerImage("default");
+        msg.setGameLobbyNumber(gameLobby.getGameLobbyID());
         msg.setPayload(course);
         socketClient.sendMsg(msg);
     }
@@ -200,7 +211,7 @@ public class GameViewModel implements ViewModel {
             if (element.getType() == LevelElementType.BULLETMAINWEAPON) {
 
                 BulletMainWeapon tempBullet = ((BulletMainWeapon) element);
-                int playerId = tempBullet.getTankFired().getPlayerId();
+                long playerId = tempBullet.getTankFired().getPlayerId();
                 if (playerId == myTankTemp.getPlayerId()) {
                     myBullet = true;
                 } else {
@@ -421,21 +432,32 @@ public class GameViewModel implements ViewModel {
     }
 
     public void receiveMessage(Message msg){
-        if(msg.getMessageType() == MessageType.TANK_MOVE){
-            processMoveTankMsg(msg);
-            System.out.println("MOVEBITCH");
-        } else if(msg.getMessageType() == MessageType.FIRE_MAIN){
-            processFireMainMsg(msg);
-        }
+
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                if(msg.getMessageType() == MessageType.TANK_MOVE){
+                    processMoveTankMsg(msg);
+                    System.out.println("MOVEBITCH");
+                } else if(msg.getMessageType() == MessageType.FIRE_MAIN){
+                    processFireMainMsg(msg);
+                }
+            }
+        });
     }
 
     //TODO Aufrufen wenn vorhanden
     public void setWhichTank() {
         for (int i = 0; i < gameLobby.getPlayers().size(); i++) {
-            if (gameLobby.getPlayers().get(i).getId() == eTankApplication.getSignedUser().getId()) {
+
+            Tank temp = (Tank) elementList.get(i);
+            temp.setPlayerId(gameLobby.getPlayers().get(i).getId());
+
+            if(eTankApplication.getSignedUser().getId() == gameLobby.getPlayers().get(i).getId()){
                 whichTank = i;
             }
         }
+
     }
 
     public void setSocketClient(SocketClient socketClient) {

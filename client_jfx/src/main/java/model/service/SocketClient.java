@@ -55,18 +55,20 @@ public class SocketClient implements Runnable {
             dataOut.write(outgoingMsg);
             dataOut.flush();
             System.out.println("Nachricht gesendet: " + outgoingMsg);
-        } catch (IOException e){
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
     }
 
     //TODO Für eine richtige Verteilung der eingehenden Nachrichten sind hier weitere Messagtypen nachzutragen!
     private void deliverMsg(Message message) throws IOException {
-        if (message.getMessageType() != MessageType.TANK_MOVE || message.getMessageType() != MessageType.FIRE_MAIN) {
-            gameLobbyViewController.receiveLobbyMessages(message);
-        } else {
+        System.out.println("in deliver Message");
+
+        if (message.getMessageType() == MessageType.TANK_MOVE || message.getMessageType() == MessageType.FIRE_MAIN) {
             System.out.println(" WAS LOS ");
             gameViewModel.receiveMessage(message);
+        } else {
+            gameLobbyViewController.receiveLobbyMessages(message);
         }
     }
 

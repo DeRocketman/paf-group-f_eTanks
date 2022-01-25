@@ -157,7 +157,6 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         elementList.add(block);
     }
 
-
     private void initElements(){
 
         //Metal Blocks

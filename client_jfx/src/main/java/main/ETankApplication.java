@@ -144,7 +144,7 @@ public class ETankApplication extends Application {
     }
 
     public void showGameView() throws IOException {
-
+        System.out.println("ganzOben");
         ObservableList<Player> playerList = FXCollections.observableArrayList();
 
        /* UserSettings testUserSettings = new UserSettings();
@@ -157,7 +157,9 @@ public class ETankApplication extends Application {
 
         ViewTuple<GameView, GameViewModel> viewTuple = FluentViewLoader.fxmlView(GameView.class).load();
         Scene scene = new Scene(viewTuple.getView());
+        System.out.println("drueber");
         gameViewModel = viewTuple.getViewModel();
+        System.out.println("drunter");
         scene.setOnKeyPressed(keyEvent -> gameViewModel.handleKeyPressed(keyEvent));
         scene.setOnKeyReleased(keyEvent -> gameViewModel.handleKeyReleased(keyEvent));
 

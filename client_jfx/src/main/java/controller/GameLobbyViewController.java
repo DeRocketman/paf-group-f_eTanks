@@ -210,7 +210,6 @@ public class GameLobbyViewController {
             msg.setPlayerPublicName(eTankApplication.getSignedUser().getPublicName());
             msg.setPlayerImage("default");
             msg.setGameLobbyNumber(selectedLobby.getGameLobbyID());
-            msg.setPayload("JAVA");
             msg.setPayload(textChatMsgField.getText());
             sc.sendMsg(msg);
             textChatMsgField.clear();
@@ -256,12 +255,11 @@ public class GameLobbyViewController {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                sc.setGameViewModel(eTankApplication.getGameViewModel());
-
                 try {
                     eTankApplication.showGameView();
                     eTankApplication.getGameViewModel().setSocketClient(sc);
                     eTankApplication.getGameViewModel().setLobby(selectedLobby);
+                    sc.setGameViewModel(eTankApplication.getGameViewModel());
                     eTankApplication.getGameViewModel().setWhichTank();
                 } catch (IOException e) {
                     e.printStackTrace();

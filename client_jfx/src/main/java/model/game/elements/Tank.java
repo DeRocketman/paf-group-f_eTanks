@@ -9,8 +9,9 @@ import model.game.logic.Player;
 import org.boon.primitive.Int;
 
 public class Tank extends LevelElement{
+
     // private Player tankCommander;
-    private int playerId;
+    private long playerId;
     private int livePoints;
 
 
@@ -106,7 +107,7 @@ public class Tank extends LevelElement{
         return bulletStartPosition;
     }
 
-    public int getPlayerId() {
+    public long getPlayerId() {
         return playerId;
     }
 
@@ -114,6 +115,9 @@ public class Tank extends LevelElement{
         livePoints = livePoints--;
     }
 
+    public void setPlayerId(long playerId) {
+        this.playerId = playerId;
+    }
 
 /*
     public void setTankCommander(User commander) {

@@ -29,7 +29,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
     private ETankApplication eTankApplication;
 
     private ObservableList<LevelElement> elementList = FXCollections.observableArrayList();
-    private ObservableList<ImageView> bulletList = FXCollections.observableArrayList();
+
 
     @FXML
     private GridPane ground;
@@ -51,6 +51,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         gameViewModel.setGameView(this);
         gameViewModel.setElementList(elementList);
         gameViewModel.setETankApplication(eTankApplication);
+        gameViewModel.setWhichTank();
 
 
         // TODO Aus der Playerliste holen

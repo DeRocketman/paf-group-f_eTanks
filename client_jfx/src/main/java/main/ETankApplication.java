@@ -39,8 +39,8 @@ public class ETankApplication extends Application {
     User signedUser;
     List<GameStatistic> gameStatistics;
     String BearerToken;
-    GamePlay gamePlay;
     ObservableList<Player> playerlist;
+    GameViewModel gameViewModel;
 
     public static void main(String[] args) {
         launch(args);
@@ -157,8 +157,9 @@ public class ETankApplication extends Application {
 
         ViewTuple<GameView, GameViewModel> viewTuple = FluentViewLoader.fxmlView(GameView.class).load();
         Scene scene = new Scene(viewTuple.getView());
-        scene.setOnKeyPressed(keyEvent -> viewTuple.getViewModel().handleKeyPressed(keyEvent));
-        scene.setOnKeyReleased(keyEvent -> viewTuple.getViewModel().handleKeyReleased(keyEvent));
+        gameViewModel = viewTuple.getViewModel();
+        scene.setOnKeyPressed(keyEvent -> gameViewModel.handleKeyPressed(keyEvent));
+        scene.setOnKeyReleased(keyEvent -> gameViewModel.handleKeyReleased(keyEvent));
 
         viewTuple.getViewModel().setETankApplication(this);
        // viewTuple.getViewModel().getGamePlay().setETankApplication(this);
@@ -233,8 +234,8 @@ public class ETankApplication extends Application {
         BearerToken = bearerToken;
     }
 
-    public GamePlay getGamePlay(){
-        return this.gamePlay;
+    public GameViewModel getGameViewModel(){
+        return this.gameViewModel;
     }
 
     public ObservableList<Player> getPlayerlist() {

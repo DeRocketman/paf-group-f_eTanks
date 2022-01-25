@@ -256,9 +256,9 @@ public class GameLobbyViewController {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                GamePlay gamePlay = new GamePlay(sc, selectedLobby.getGameLobbyID());
-                sc.setGamePlay(gamePlay);
-                gamePlay.setPlayerlist(selectedLobby.getPlayers());
+                sc.setGameViewModel(eTankApplication.getGameViewModel());
+                eTankApplication.getGameViewModel().setSocketClient(sc);
+                eTankApplication.getGameViewModel().setLobby(selectedLobby);
                 try {
                     eTankApplication.showGameView();
                 } catch (IOException e) {
@@ -349,7 +349,6 @@ public class GameLobbyViewController {
         sc.sendMsg(msg);
     }
 
-
     public void sendExtendUserData() {
         Message msg = new Message();
         msg.setMessageType(MessageType.LOGIN);
@@ -370,10 +369,12 @@ public class GameLobbyViewController {
         msg.setPlayerPublicName(eTankApplication.getSignedUser().getPublicName());
         sc.sendMsg(msg);
     }
+
     public void fillLobbyTable() {
         columnLobbyNumber.setCellValueFactory(cellData -> cellData.getValue().gameLobbyIDProperty());
         columnLobbySeats.setCellValueFactory(cellData -> cellData.getValue().seatCounterProperty().asObject());
     }
+
     private void fillPlayerGrid() {
             Platform.runLater(new Runnable() {
                 @Override
@@ -414,7 +415,7 @@ public class GameLobbyViewController {
     }
 
 
-    public void startGame () throws IOException {
+    public void Game () throws IOException {
         eTankApplication.showGameView();
     }
 

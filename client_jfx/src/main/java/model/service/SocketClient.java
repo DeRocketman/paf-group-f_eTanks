@@ -3,13 +3,17 @@ package model.service;
 import controller.GameLobbyViewController;
 import com.google.gson.Gson;
 import model.game.logic.GamePlay;
+import viewmodel.GameViewModel;
+
 import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
 public class SocketClient implements Runnable {
     private GameLobbyViewController gameLobbyViewController;
-    private GamePlay gamePlay;
+
+
+    private GameViewModel gameViewModel;
     private final String hostname = "localhost";
     private final int port = 3333;
 
@@ -61,7 +65,7 @@ public class SocketClient implements Runnable {
         if (message.getMessageType() != MessageType.TANK_MOVE || message.getMessageType() != MessageType.FIRE_MAIN) {
             gameLobbyViewController.receiveLobbyMessages(message);
         } else {
-            gamePlay.receiveMessage(message);
+            gameViewModel.receiveMessage(message);
         }
     }
 
@@ -79,8 +83,8 @@ public class SocketClient implements Runnable {
         System.out.println("Nachricht gesendet: " + outgoingMsg);
     }
 
-    public void setGamePlay(GamePlay gamePlay) {
-        this.gamePlay = gamePlay;
+    public void setGameViewModel(GameViewModel gameViewModel) {
+        this.gameViewModel = gameViewModel;
     }
 }
 

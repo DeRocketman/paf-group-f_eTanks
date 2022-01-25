@@ -21,6 +21,7 @@ import model.game.logic.GamePlay;
 import model.game.logic.Player;
 import model.service.Message;
 import model.service.MessageType;
+import model.service.SocketClient;
 import org.boon.core.Sys;
 import view.GameView;
 
@@ -37,6 +38,7 @@ public class GameViewModel implements ViewModel {
     GamePlay gamePlay;
     GameView gameView;
 
+    SocketClient socketClient;
 
     int whichTank = 2;
     boolean isMovingUp;
@@ -49,7 +51,6 @@ public class GameViewModel implements ViewModel {
     double shootDelay = GamePhysics.DELAY_SECOND;
     double roundTime = GamePhysics.ROUND_TIME;
     int roundCounter = 1;
-
 
     ObservableList<LevelElement> elementList = FXCollections.observableArrayList();
 
@@ -147,6 +148,21 @@ public class GameViewModel implements ViewModel {
                 }
             }
         }
+    }
+
+    public void sendMoveTankMsg(String course){
+        Message msg = new Message();
+        msg.setMessageType(MessageType.TANK_MOVE);
+        msg.setPlayerId(eTankApplication.getSignedUser().getId());
+        msg.setPayload(course);
+        socketClient.sendMsg(msg);
+    }
+
+    public void sendFireMAinMsg(){
+        Message msg = new Message();
+        msg.setMessageType(MessageType.FIRE_MAIN);
+        msg.setPlayerId(eTankApplication.getSignedUser().getId());
+        socketClient.sendMsg(msg);
     }
 
     private void shootCollector() {
@@ -316,25 +332,29 @@ public class GameViewModel implements ViewModel {
         if (gameIsRunning) {
             if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveUpKey()) || isMovingUp && isFiringMainWeapon) {
                 this.isMovingUp = true;
-                ((Tank) elementList.get(whichTank)).moveTank(360.0);
+                //((Tank) elementList.get(whichTank)).moveTank(360.0);
+                sendMoveTankMsg("360.0");
             }
             if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveDownKey()) || isMovingDown && isFiringMainWeapon) {
                 this.isMovingDown = true;
-                ((Tank) elementList.get(whichTank)).moveTank(180.0);
+                //((Tank) elementList.get(whichTank)).moveTank(180.0);
+                sendMoveTankMsg("180.0");
             }
             if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveRightKey()) || isMovingRight && isFiringMainWeapon) {
                 this.isMovingRight = true;
-                ((Tank) elementList.get(whichTank)).moveTank(90.0);
+                //((Tank) elementList.get(whichTank)).moveTank(90.0);
+                sendMoveTankMsg("90.0");
             }
             if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveLeftKey()) || isMovingLeft && isFiringMainWeapon) {
                 this.isMovingLeft = true;
-                ((Tank) elementList.get(whichTank)).moveTank(270.0);
+                //((Tank) elementList.get(whichTank)).moveTank(270.0);
+                sendMoveTankMsg("270.0");
             }
             if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getFireMainWeaponKey()) && canShoot || isFiringMainWeapon && canShoot) {
                 this.isFiringMainWeapon = true;
                 canShoot = false;
-
-                fireMainWeapon(elementList.get(whichTank));
+                //fireMainWeapon(elementList.get(whichTank));
+                sendFireMAinMsg();
             }
         }
     }
@@ -388,10 +408,6 @@ public class GameViewModel implements ViewModel {
         this.eTankApplication = eTankApplication;
     }
 
-    public void setGame(GameLobby gameLobby) {
-        this.gameLobby = gameLobby;
-    }
-
     public void setGameView(GameView gameView) {
         /*Default Player, später über Lobby übergeben*/
         //Sets Player -> tank
@@ -403,16 +419,32 @@ public class GameViewModel implements ViewModel {
         gamePlay.createGameStatistic();
     }
 
+    public void receiveMessage(Message msg){
+        if(msg.getMessageType() == MessageType.TANK_MOVE){
+            processMoveTankMsg(msg);
+        } else if(msg.getMessageType() == MessageType.FIRE_MAIN){
+            processFireMainMsg(msg);
+        }
+    }
+
     //TODO Aufrufen wenn vorhanden
-    private void setWhichTank() {
-        for (int i = 0; i < gamePlay.getPlayers().size(); i++) {
+    public void setWhichTank() {
+        for (int i = 0; i < gameLobby.getPlayers().size(); i++) {
             if (gamePlay.getPlayers().get(i).getId() == eTankApplication.getSignedUser().getId()) {
                 whichTank = i;
             }
         }
     }
 
+    public void setSocketClient(SocketClient socketClient) {
+        this.socketClient = socketClient;
+    }
+
     public GamePlay getGamePlay() {
         return this.gamePlay;
+    }
+
+    public void setLobby(GameLobby selectedLobby) {
+        this.gameLobby = selectedLobby;
     }
 }

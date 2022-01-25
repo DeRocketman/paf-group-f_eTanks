@@ -23,15 +23,6 @@ public class GamePlay {
     private GameStatistic gameStatistic;
     // private ObservableList<GameStatistic> gameStatistics;
 
-    public void receiveMessage(Message msg){
-        if(msg.getMessageType() == MessageType.TANK_MOVE){
-            msg.getPayload();
-            msg.getPlayerId();
-        } else if(msg.getMessageType() == MessageType.FIRE_MAIN){
-
-        }
-    }
-
     public void sendMessage(Message msg){
         this.socketClient.sendMsg(msg);
     }

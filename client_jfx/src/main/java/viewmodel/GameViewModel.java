@@ -129,6 +129,7 @@ public class GameViewModel implements ViewModel {
     }
 
     public void processMoveTankMsg(Message msg) {
+        System.out.println("HIER IST DER FEHLER ZUS UCHEN");
         for (LevelElement tank : elementList) {
             if (tank.getType() == LevelElementType.TANK) {
                 Tank temp = (Tank) tank;
@@ -422,6 +423,7 @@ public class GameViewModel implements ViewModel {
     public void receiveMessage(Message msg){
         if(msg.getMessageType() == MessageType.TANK_MOVE){
             processMoveTankMsg(msg);
+            System.out.println("MOVEBITCH");
         } else if(msg.getMessageType() == MessageType.FIRE_MAIN){
             processFireMainMsg(msg);
         }
@@ -430,7 +432,7 @@ public class GameViewModel implements ViewModel {
     //TODO Aufrufen wenn vorhanden
     public void setWhichTank() {
         for (int i = 0; i < gameLobby.getPlayers().size(); i++) {
-            if (gamePlay.getPlayers().get(i).getId() == eTankApplication.getSignedUser().getId()) {
+            if (gameLobby.getPlayers().get(i).getId() == eTankApplication.getSignedUser().getId()) {
                 whichTank = i;
             }
         }

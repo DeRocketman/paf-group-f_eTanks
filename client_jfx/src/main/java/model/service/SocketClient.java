@@ -65,6 +65,7 @@ public class SocketClient implements Runnable {
         if (message.getMessageType() != MessageType.TANK_MOVE || message.getMessageType() != MessageType.FIRE_MAIN) {
             gameLobbyViewController.receiveLobbyMessages(message);
         } else {
+            System.out.println(" WAS LOS ");
             gameViewModel.receiveMessage(message);
         }
     }

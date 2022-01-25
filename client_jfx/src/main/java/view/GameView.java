@@ -51,7 +51,6 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         gameViewModel.setGameView(this);
         gameViewModel.setElementList(elementList);
         gameViewModel.setETankApplication(eTankApplication);
-        gameViewModel.setWhichTank();
 
 
         // TODO Aus der Playerliste holen

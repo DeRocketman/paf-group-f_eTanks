@@ -257,10 +257,12 @@ public class GameLobbyViewController {
             @Override
             public void run() {
                 sc.setGameViewModel(eTankApplication.getGameViewModel());
-                eTankApplication.getGameViewModel().setSocketClient(sc);
-                eTankApplication.getGameViewModel().setLobby(selectedLobby);
+
                 try {
                     eTankApplication.showGameView();
+                    eTankApplication.getGameViewModel().setSocketClient(sc);
+                    eTankApplication.getGameViewModel().setLobby(selectedLobby);
+                    eTankApplication.getGameViewModel().setWhichTank();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

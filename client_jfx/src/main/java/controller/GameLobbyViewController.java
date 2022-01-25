@@ -17,6 +17,7 @@ import model.game.logic.Player;
 import model.service.Message;
 import model.service.MessageType;
 import model.service.SocketClient;
+
 import java.io.ByteArrayInputStream;
 import java.util.Base64;
 import java.io.IOException;
@@ -24,7 +25,6 @@ import java.util.Objects;
 
 
 public class GameLobbyViewController {
-
 
 
     SocketClient sc = new SocketClient(this);
@@ -110,8 +110,8 @@ public class GameLobbyViewController {
     @FXML
     private void closeLobby() {
         switchToInit();
-        for (GameLobby lobby: lobbyList) {
-            if(lobby.getPlayers().get(0).getId() == eTankApplication.getSignedUser().getId()) {
+        for (GameLobby lobby : lobbyList) {
+            if (lobby.getPlayers().get(0).getId() == eTankApplication.getSignedUser().getId()) {
                 lobbyList.remove(lobby);
                 break;
             }
@@ -124,7 +124,7 @@ public class GameLobbyViewController {
     }
 
     @FXML
-    public void switchToGameView() throws IOException{
+    public void switchToGameView() throws IOException {
         Message msg = new Message();
         msg.setMessageType(MessageType.START_GAME);
         msg.setGameLobbyNumber(selectedLobby.getGameLobbyID());
@@ -139,7 +139,7 @@ public class GameLobbyViewController {
     @FXML
     public void setRdy() {
         for (Player player : selectedLobby.getPlayers()) {
-            if(player.getId() == eTankApplication.getSignedUser().getId()) {
+            if (player.getId() == eTankApplication.getSignedUser().getId()) {
                 Message msg = new Message();
                 msg.setMessageType(MessageType.RDY_STATUS);
                 msg.setGameLobbyNumber(selectedLobby.getGameLobbyID());
@@ -156,9 +156,9 @@ public class GameLobbyViewController {
     @FXML
     public void switchBackToInit() {
         switchToInit();
-        for (GameLobby lobby: this.lobbyList) {
-            for (Player player: lobby.getPlayers()) {
-                if(player.getId() == eTankApplication.getSignedUser().getId()) {
+        for (GameLobby lobby : this.lobbyList) {
+            for (Player player : lobby.getPlayers()) {
+                if (player.getId() == eTankApplication.getSignedUser().getId()) {
                     lobby.removePlayer(player);
                 }
             }
@@ -169,7 +169,7 @@ public class GameLobbyViewController {
     private void joinSelectedGame() throws IOException {
         selectedLobby = new GameLobby();
         selectedLobby = lobbyTable.getSelectionModel().getSelectedItem();
-        if(selectedLobby.getSeatCounter() < 4) {
+        if (selectedLobby.getSeatCounter() < 4) {
             System.out.println("joining game");
             Message msg = new Message();
             msg.setMessageType(MessageType.JOIN);
@@ -201,8 +201,8 @@ public class GameLobbyViewController {
         hbxJoinerPanel.setVisible(false);
     }
 
-   @FXML
-   public void sendChatMessage() {
+    @FXML
+    public void sendChatMessage() {
         if (!textChatMsgField.getText().equals("")) {
             Message msg = new Message();
             msg.setMessageType(MessageType.CHAT_MSG);
@@ -214,12 +214,12 @@ public class GameLobbyViewController {
             sc.sendMsg(msg);
             textChatMsgField.clear();
         }
-   }
+    }
 
-   @FXML
-   private void refreshLobbyTable() {
+    @FXML
+    private void refreshLobbyTable() {
         getLobbyList();
-   }
+    }
 
     public void receiveLobbyMessages(Message msg) throws IOException {
         if (msg != null) {
@@ -300,7 +300,7 @@ public class GameLobbyViewController {
     private void checkAllPlayerRdy() {
         int playerNotRdy = 0;
         for (Player player : selectedLobby.getPlayers()) {
-            if(!player.isReady()) {
+            if (!player.isReady()) {
                 playerNotRdy++;
             }
         }
@@ -308,13 +308,13 @@ public class GameLobbyViewController {
     }
 
     private void processJoinedPlayerMsg(Message msg) throws IOException {
-        Player player = new Player(msg.getPlayerId(),"", msg.getPlayerPublicName(), msg.getPlayerImage(), "", null);
+        Player player = new Player(msg.getPlayerId(), "", msg.getPlayerPublicName(), msg.getPlayerImage(), "", null);
         selectedLobby.addPlayer(player);
         fillPlayerGrid();
     }
 
     private void processChatMsg(Message msg) {
-        textAreaChatField.appendText(msg.getPlayerPublicName()+": " + msg.getPayload());
+        textAreaChatField.appendText(msg.getPlayerPublicName() + ": " + msg.getPayload());
     }
 
     private void processGetLobbiesMsg(Message msg) {
@@ -376,37 +376,37 @@ public class GameLobbyViewController {
     }
 
     private void fillPlayerGrid() {
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    for (int row = 0; row < selectedLobby.getPlayers().size(); row++) {
-                        ImageView playerImage = new ImageView();
-                        ImageView playerIsRdy = new ImageView();
-                        playerImage.setFitHeight(40.0);
-                        playerImage.setFitWidth(40.0);
-                        playerIsRdy.setFitHeight(40.0);
-                        playerIsRdy.setFitWidth(40.0);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                for (int row = 0; row < selectedLobby.getPlayers().size(); row++) {
+                    ImageView playerImage = new ImageView();
+                    ImageView playerIsRdy = new ImageView();
+                    playerImage.setFitHeight(40.0);
+                    playerImage.setFitWidth(40.0);
+                    playerIsRdy.setFitHeight(40.0);
+                    playerIsRdy.setFitWidth(40.0);
 
-                        Label playerNameLbl = new Label();
-                        playerNameLbl.setText(selectedLobby.getPlayers().get(row).getPublicName());
+                    Label playerNameLbl = new Label();
+                    playerNameLbl.setText(selectedLobby.getPlayers().get(row).getPublicName());
 
-                        if (selectedLobby.getPlayers().get(row).getUserImage().equals("default")) {
-                            playerImage.setImage(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("img/images/default-user-image.png"))));
-                        } else {
-                            playerImage.setImage(getImageFromBase64String(selectedLobby.getPlayers().get(row).getUserImage()));
-                        }
-
-                        if (selectedLobby.getPlayers().get(row).isReady()) {
-                            playerIsRdy.setImage(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("img/images/lobby/rdy.png"))));
-                        } else {
-                            playerIsRdy.setImage(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("img/images/lobby/notrdy.png"))));
-                        }
-                        playerGrid.add(playerImage, 0, row);
-                        playerGrid.add(playerNameLbl, 1, row);
-                        playerGrid.add(playerIsRdy, 2, row);
+                    if (selectedLobby.getPlayers().get(row).getUserImage().equals("default")) {
+                        playerImage.setImage(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("img/images/default-user-image.png"))));
+                    } else {
+                        playerImage.setImage(getImageFromBase64String(selectedLobby.getPlayers().get(row).getUserImage()));
                     }
+
+                    if (selectedLobby.getPlayers().get(row).isReady()) {
+                        playerIsRdy.setImage(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("img/images/lobby/rdy.png"))));
+                    } else {
+                        playerIsRdy.setImage(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("img/images/lobby/notrdy.png"))));
+                    }
+                    playerGrid.add(playerImage, 0, row);
+                    playerGrid.add(playerNameLbl, 1, row);
+                    playerGrid.add(playerIsRdy, 2, row);
                 }
-            });
+            }
+        });
     }
 
     private Image getImageFromBase64String(String userImage) {
@@ -414,8 +414,7 @@ public class GameLobbyViewController {
         return new Image(inputStream);
     }
 
-
-    public void Game () throws IOException {
+    public void Game() throws IOException {
         eTankApplication.showGameView();
     }
 

@@ -143,7 +143,7 @@ public class ETankApplication extends Application {
         primaryStage.show();
     }
 
-    public void showGameView() throws IOException {
+    public void showGameView(GameLobby lobby) throws IOException {
         System.out.println("ganzOben");
         ObservableList<Player> playerList = FXCollections.observableArrayList();
 
@@ -159,6 +159,7 @@ public class ETankApplication extends Application {
         Scene scene = new Scene(viewTuple.getView());
         System.out.println("drueber");
         gameViewModel = viewTuple.getViewModel();
+        gameViewModel.setLobby(lobby);
         System.out.println("drunter");
         scene.setOnKeyPressed(keyEvent -> gameViewModel.handleKeyPressed(keyEvent));
         scene.setOnKeyReleased(keyEvent -> gameViewModel.handleKeyReleased(keyEvent));

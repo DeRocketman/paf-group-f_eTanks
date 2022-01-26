@@ -256,11 +256,11 @@ public class GameLobbyViewController {
             @Override
             public void run() {
                 try {
-                    eTankApplication.showGameView();
+                    eTankApplication.showGameView(selectedLobby);
                     eTankApplication.getGameViewModel().setSocketClient(sc);
                     eTankApplication.getGameViewModel().setLobby(selectedLobby);
                     sc.setGameViewModel(eTankApplication.getGameViewModel());
-                    eTankApplication.getGameViewModel().setWhichTank();
+                    eTankApplication.getGameViewModel().startGame();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -412,10 +412,6 @@ public class GameLobbyViewController {
     private Image getImageFromBase64String(String userImage) {
         ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64.getDecoder().decode(userImage));
         return new Image(inputStream);
-    }
-
-    public void Game() throws IOException {
-        eTankApplication.showGameView();
     }
 
     public void setETankApplication(ETankApplication eTankApplication) {

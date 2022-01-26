@@ -34,6 +34,9 @@ import java.util.TimerTask;
 public class GameViewModel implements ViewModel {
 
     ETankApplication eTankApplication;
+
+
+
     GameLobby gameLobby;
     GamePlay gamePlay;
     GameView gameView;
@@ -468,7 +471,20 @@ public class GameViewModel implements ViewModel {
         return this.gamePlay;
     }
 
+    public GameLobby getGameLobby() {
+        return gameLobby;
+    }
     public void setLobby(GameLobby selectedLobby) {
         this.gameLobby = selectedLobby;
+    }
+
+    public void startGame() {
+        gameView.initTanks(gameLobby.getPlayers().size());
+        gameView.initElements();
+        gameView.initWorldBorder();
+        gameView.initDisplay();
+
+        initGameLoop();
+        startTimer();
     }
 }

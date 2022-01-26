@@ -52,15 +52,6 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         gameViewModel.setElementList(elementList);
         gameViewModel.setETankApplication(eTankApplication);
 
-
-        // TODO Aus der Playerliste holen
-        initTanks(4);
-        initElements();
-        initWorldBorder();
-        initDisplay();
-
-        gameViewModel.initGameLoop();
-        gameViewModel.startTimer();
     }
 
     public void initNextLevel(int level){
@@ -68,12 +59,8 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         elementPane.getChildren().clear();
         elementPane.getChildren().add(ground);
         initLevel(level);
-        initTanks(4);
-        initElements();
-        initWorldBorder();
         initDisplay();
-
-        gameViewModel.startTimer();
+        gameViewModel.startGame();
     }
 
     private void initLevel(int level) {
@@ -104,7 +91,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         elementList.add(bullet);
     }
 
-    private void initTanks(int playerCount) {
+    public void initTanks(int playerCount) {
         // int playerCount = players.size();
 
         String[] imgTank = new String[4];
@@ -120,6 +107,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         for (int i = 0; i < playerCount; i++) {
             elementList.add(new Tank(new Image(imgTank[i]), positionsX[i], positionsY[i], 27.0, GamePhysics.ELEMENT_SIZE, rotate[i], i));
         }
+        gameViewModel.setWhichTank();
     }
 
     //eine kürzere Alternative für die Border Blocks?
@@ -157,7 +145,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         elementList.add(block);
     }
 
-    private void initElements(){
+    public void initElements(){
 
         //Metal Blocks
         createMetalBlock(80, 360);
@@ -199,7 +187,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         }
     }
 
-    private void initDisplay(){
+    public void initDisplay(){
         //Display
         display = new ImageView();
         display.setFitHeight(400);

@@ -62,10 +62,8 @@ public class SocketClient implements Runnable {
 
     //TODO Für eine richtige Verteilung der eingehenden Nachrichten sind hier weitere Messagtypen nachzutragen!
     private void deliverMsg(Message message) throws IOException {
-        System.out.println("in deliver Message");
 
         if (message.getMessageType() == MessageType.TANK_MOVE || message.getMessageType() == MessageType.FIRE_MAIN) {
-            System.out.println(" WAS LOS ");
             gameViewModel.receiveMessage(message);
         } else {
             gameLobbyViewController.receiveLobbyMessages(message);

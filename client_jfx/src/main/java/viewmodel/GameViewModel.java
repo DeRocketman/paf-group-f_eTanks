@@ -59,9 +59,11 @@ public class GameViewModel implements ViewModel {
 
     public void initGameLoop() {
 
+
         AnimationTimer gameActionTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
+
                 playerMovementDetection();
                 bulletCollisionDetection();
                 shootDelayer();
@@ -151,11 +153,9 @@ public class GameViewModel implements ViewModel {
     }
 
     public void processFireMainMsg(Message msg) {
-
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                System.out.println("SHOOT");
                 for (LevelElement tank : elementList) {
                     if (tank.getType() == LevelElementType.TANK) {
                         Tank temp = (Tank) tank;
@@ -166,6 +166,7 @@ public class GameViewModel implements ViewModel {
                 }
             }
         });
+
     }
 
     public void sendMoveTankMsg(String course) {
@@ -403,12 +404,15 @@ public class GameViewModel implements ViewModel {
     }
 
     private void fireMainWeapon(LevelElement myTank) {
-
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Tank tank = (Tank) myTank;
+                double[] bsp = tank.setCorrectBulletPosition(myTank);
+                gameView.createMainBullet(myTank, bsp);
+            }
+        });
         //gamePlay.getGameStatistic().setShots(gamePlay.getGameStatistic().getShots() + 1);
-        Tank tank = (Tank) myTank;
-        double[] bsp = tank.setCorrectBulletPosition(myTank);
-        gameView.createMainBullet(myTank, bsp);
-
     }
 
     public void moveBullet(BulletMainWeapon bullet) {
@@ -437,11 +441,6 @@ public class GameViewModel implements ViewModel {
         /*Default Player, später über Lobby übergeben*/
         //Sets Player -> tank
         this.gameView = gameView;
-    }
-
-    public void setGamePlay(GamePlay gamePlay) {
-        this.gamePlay = gamePlay;
-        gamePlay.createGameStatistic();
     }
 
     public void receiveMessage(Message msg) {
@@ -474,14 +473,6 @@ public class GameViewModel implements ViewModel {
 
     public void setSocketClient(SocketClient socketClient) {
         this.socketClient = socketClient;
-    }
-
-    public GamePlay getGamePlay() {
-        return this.gamePlay;
-    }
-
-    public GameLobby getGameLobby() {
-        return gameLobby;
     }
 
     public void setLobby(GameLobby selectedLobby) {

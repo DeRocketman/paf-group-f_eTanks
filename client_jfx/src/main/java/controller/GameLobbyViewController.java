@@ -258,7 +258,7 @@ public class GameLobbyViewController {
                 try {
                     eTankApplication.showGameView(selectedLobby);
                     eTankApplication.getGameViewModel().setSocketClient(sc);
-                    eTankApplication.getGameViewModel().setLobby(selectedLobby);
+                    //eTankApplication.getGameViewModel().setLobby(selectedLobby);
                     sc.setGameViewModel(eTankApplication.getGameViewModel());
                     eTankApplication.getGameViewModel().startGame();
                 } catch (IOException e) {

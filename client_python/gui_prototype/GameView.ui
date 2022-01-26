@@ -124,7 +124,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLCDNumber" name="lcdNumber">
+      <widget class="QLCDNumber" name="player1LcdOwn">
        <property name="digitCount">
         <number>1</number>
        </property>
@@ -144,21 +144,21 @@
       </widget>
      </item>
      <item>
-      <widget class="QLCDNumber" name="lcdNumber_2">
+      <widget class="QLCDNumber" name="player1LcdOther">
        <property name="digitCount">
         <number>1</number>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_2">
+      <widget class="QLabel" name="player2NameLbl">
        <property name="text">
         <string>PlayerName2:</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLCDNumber" name="lcdNumber_3">
+      <widget class="QLCDNumber" name="player2LcdOwn">
        <property name="digitCount">
         <number>1</number>
        </property>
@@ -178,21 +178,21 @@
       </widget>
      </item>
      <item>
-      <widget class="QLCDNumber" name="lcdNumber_4">
+      <widget class="QLCDNumber" name="player2LcdOther">
        <property name="digitCount">
         <number>1</number>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_4">
+      <widget class="QLabel" name="player3NameLbl">
        <property name="text">
         <string>PlayerName3:</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLCDNumber" name="lcdNumber_5">
+      <widget class="QLCDNumber" name="player3LcdOwn">
        <property name="digitCount">
         <number>1</number>
        </property>
@@ -212,21 +212,21 @@
       </widget>
      </item>
      <item>
-      <widget class="QLCDNumber" name="lcdNumber_6">
+      <widget class="QLCDNumber" name="player3LcdOther">
        <property name="digitCount">
         <number>1</number>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_6">
+      <widget class="QLabel" name="player4NameLbl">
        <property name="text">
         <string>PlayerName4:</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLCDNumber" name="lcdNumber_7">
+      <widget class="QLCDNumber" name="player4LcdOwn">
        <property name="digitCount">
         <number>1</number>
        </property>
@@ -246,7 +246,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLCDNumber" name="lcdNumber_8">
+      <widget class="QLCDNumber" name="player4LcdOther">
        <property name="digitCount">
         <number>1</number>
        </property>

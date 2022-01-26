@@ -7,6 +7,7 @@ import time
 from PySide6 import QtGui, QtCore
 from PySide6.QtWidgets import QWidget, QListWidgetItem
 
+from controller.GameViewController import GameViewController
 from model.data.User import User
 from model.service.Message import Message
 from resources.view.LobbyHostView import Ui_lobbyHostView
@@ -34,8 +35,7 @@ class LobbyHostViewController(QWidget):
 
         self.lobbyHostView.setRdyButton.clicked.connect(self.sendRdyStatus)
         self.lobbyHostView.sendMsgButton.clicked.connect(self.sendChatMsg)
-        self.lobbyHostView.startGameButton.clicked.connect(self.startGame)
-
+        self.lobbyHostView.startGameButton.clicked.connect(self.sendStartGameMsg)
 
     def fillPlayerTable(self):
         self.playerListView.clear()
@@ -102,6 +102,20 @@ class LobbyHostViewController(QWidget):
         registerLobbyMsg.playerPublicName = self.signedPlayer.publicName
         self.sendMsg(registerLobbyMsg)
 
+    def sendStartGameMsg(self):
+        countPlayerNotRdy = 0
+        for player in self.playerList:
+            if not player.isRdy:
+                countPlayerNotRdy += 1
+        if countPlayerNotRdy == 0:
+            startGameMsg = Message()
+            startGameMsg.messageType = "START_GAME"
+            startGameMsg.gameLobbyNumber = self.lobbyId
+            startGameMsg.playerId = self.signedPlayer.id
+            startGameMsg.playerPublicName = self.signedPlayer.publicName
+            startGameMsg.payload = "START MEIN SPIEL :)"
+            self.sendMsg(startGameMsg)
+
     def sendMsg(self, msg):
         data_as_dict = vars(msg)
         msgJSON = json.dumps(data_as_dict)
@@ -121,6 +135,8 @@ class LobbyHostViewController(QWidget):
                 player.id = msg.playerId
                 player.isRdy = msg.playerIsRdy
                 self.rdyStatus(player)
+            elif msg.messageType == "START_GAME":
+                self.startGame()
 
     def playerJoined(self, msg):
         newPlayer = User()
@@ -132,13 +148,11 @@ class LobbyHostViewController(QWidget):
         self.fillPlayerTable()
 
     def startGame(self):
-        countPlayerNotRdy = 0
-        for player in self.playerList:
-            if not player.isRdy:
-                countPlayerNotRdy += 1
-        if countPlayerNotRdy == 0:
-            pass
-            # todo: Add GameStart here!
+        gameViewController = GameViewController(self.newGameViewController, self.playerList, self.lobbyId)
+        self.newGameViewController.mainMenuViewController.stackedWidget.addWidget(gameViewController)
+        self.newGameViewController.mainMenuViewController.stackedWidget.setCurrentWidget(gameViewController)
+        self.close()
+        self.hide()
 
     @staticmethod
     def buildPlayerIconItem(user=User()):

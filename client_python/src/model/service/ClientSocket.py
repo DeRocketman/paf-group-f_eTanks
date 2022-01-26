@@ -36,7 +36,6 @@ class ClientSocket:
             msgDec = msg.decode("utf-8").splitlines()
             for lines in msgDec:
                 dictMsg = json.loads(lines)
-                print("Nach JSON", dictMsg)
                 msgJson = Message()
                 msgJson.messageType = dictMsg["messageType"]
                 msgJson.gameLobbyNumber = dictMsg["gameLobbyNumber"]
@@ -55,7 +54,8 @@ class ClientSocket:
         if msg.messageType == "REGISTER_LOBBY":
             self.newGameViewController.lobbyHostView.receiveMsg(msg)
             self.deliveryToHostView = True
-        elif msg.messageType == "CHAT_MSG" or msg.messageType == "RDY_STATUS" or msg.messageType == "JOINED_PLAYER":
+        elif msg.messageType == "CHAT_MSG" or msg.messageType == "RDY_STATUS" or msg.messageType == "JOINED_PLAYER" \
+                or msg.messageType == "START_GAME":
             if self.deliveryToHostView:
                 self.newGameViewController.lobbyHostView.receiveMsg(msg)
             else:

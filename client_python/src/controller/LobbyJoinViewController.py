@@ -5,6 +5,8 @@ import socket
 from PySide6 import QtCore
 from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QWidget, QListWidgetItem
+
+from controller.GameViewController import GameViewController
 from model.data.User import User
 from model.service.Message import Message
 from resources.view.LobbyJoinView import Ui_lobbyJoinView
@@ -107,6 +109,8 @@ class LobbyJoinViewController(QWidget):
                 player.id = msg.playerId
                 player.isRdy = msg.playerIsRdy
                 self.rdyStatus(player)
+            elif msg.messageType == "START_GAME":
+                self.startGame()
 
     def playerJoined(self, msg):
         newPlayer = User()
@@ -116,6 +120,13 @@ class LobbyJoinViewController(QWidget):
         newPlayer.userImage = msg.playerImage
         self.playerList.append(newPlayer)
         self.fillPlayerTable()
+
+    def startGame(self):
+        gameViewController = GameViewController(self.newGameViewController, self.playerList, self.lobbyId)
+        self.newGameViewController.mainMenuViewController.stackedWidget.addWidget(gameViewController)
+        self.newGameViewController.mainMenuViewController.stackedWidget.setCurrentWidget(gameViewController)
+        self.close()
+
 
     @staticmethod
     def buildPlayerIconItem(user=User()):

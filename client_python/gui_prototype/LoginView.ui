@@ -23,7 +23,7 @@
   <widget class="QLineEdit" name="usernameTextfield">
    <property name="geometry">
     <rect>
-     <x>490</x>
+     <x>460</x>
      <y>470</y>
      <width>311</width>
      <height>31</height>
@@ -51,7 +51,7 @@
   <widget class="QLineEdit" name="passwortField">
    <property name="geometry">
     <rect>
-     <x>490</x>
+     <x>460</x>
      <y>510</y>
      <width>311</width>
      <height>31</height>
@@ -82,8 +82,8 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>490</x>
-     <y>614</y>
+     <x>460</x>
+     <y>600</y>
      <width>311</width>
      <height>31</height>
     </rect>
@@ -117,10 +117,10 @@ border-color: #111111;
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>110</y>
-     <width>721</width>
-     <height>541</height>
+     <x>0</x>
+     <y>10</y>
+     <width>1211</width>
+     <height>791</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -139,9 +139,9 @@ border-color: #111111;
   <widget class="QPushButton" name="forgetPasswordButton">
    <property name="geometry">
     <rect>
-     <x>490</x>
+     <x>460</x>
      <y>550</y>
-     <width>121</width>
+     <width>141</width>
      <height>20</height>
     </rect>
    </property>
@@ -164,9 +164,9 @@ border-color: #111111;
   <widget class="QPushButton" name="openUserViewButton">
    <property name="geometry">
     <rect>
-     <x>488</x>
-     <y>572</y>
-     <width>61</width>
+     <x>460</x>
+     <y>570</y>
+     <width>71</width>
      <height>20</height>
     </rect>
    </property>

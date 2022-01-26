@@ -36,7 +36,6 @@ public class GameViewModel implements ViewModel {
     ETankApplication eTankApplication;
 
 
-
     GameLobby gameLobby;
     GamePlay gamePlay;
     GameView gameView;
@@ -88,7 +87,7 @@ public class GameViewModel implements ViewModel {
                     gameTimeline.stop();
                     roundCounter++;
                     roundTime = GamePhysics.ROUND_TIME;
-                } else if(roundTime == 0 && roundCounter == 3){
+                } else if (roundTime == 0 && roundCounter == 3) {
                     //TODO WAS PASSIERT WENN DAS GAME ZUENDE IST
                     gameIsRunning = false;
                     try {
@@ -152,17 +151,24 @@ public class GameViewModel implements ViewModel {
     }
 
     public void processFireMainMsg(Message msg) {
-        for (LevelElement tank : elementList) {
-            if (tank.getType() == LevelElementType.TANK) {
-                Tank temp = (Tank) tank;
-                if (temp.getPlayerId() == msg.getPlayerId()) {
-                    fireMainWeapon(temp);
+
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("SHOOT");
+                for (LevelElement tank : elementList) {
+                    if (tank.getType() == LevelElementType.TANK) {
+                        Tank temp = (Tank) tank;
+                        if (temp.getPlayerId() == msg.getPlayerId()) {
+                            fireMainWeapon(temp);
+                        }
+                    }
                 }
             }
-        }
+        });
     }
 
-    public void sendMoveTankMsg(String course){
+    public void sendMoveTankMsg(String course) {
         Message msg = new Message();
         msg.setMessageType(MessageType.TANK_MOVE);
         msg.setPlayerId(eTankApplication.getSignedUser().getId());
@@ -173,10 +179,14 @@ public class GameViewModel implements ViewModel {
         socketClient.sendMsg(msg);
     }
 
-    public void sendFireMAinMsg(){
+    public void sendFireMAinMsg() {
         Message msg = new Message();
         msg.setMessageType(MessageType.FIRE_MAIN);
         msg.setPlayerId(eTankApplication.getSignedUser().getId());
+        msg.setPlayerPublicName(eTankApplication.getSignedUser().getPublicName());
+        msg.setPlayerImage("default");
+        msg.setGameLobbyNumber(gameLobby.getGameLobbyID());
+        msg.setPayload("BOOM");
         socketClient.sendMsg(msg);
     }
 
@@ -434,15 +444,14 @@ public class GameViewModel implements ViewModel {
         gamePlay.createGameStatistic();
     }
 
-    public void receiveMessage(Message msg){
+    public void receiveMessage(Message msg) {
 
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                if(msg.getMessageType() == MessageType.TANK_MOVE){
+                if (msg.getMessageType() == MessageType.TANK_MOVE) {
                     processMoveTankMsg(msg);
-                    System.out.println("MOVEBITCH");
-                } else if(msg.getMessageType() == MessageType.FIRE_MAIN){
+                } else if (msg.getMessageType() == MessageType.FIRE_MAIN) {
                     processFireMainMsg(msg);
                 }
             }
@@ -456,7 +465,7 @@ public class GameViewModel implements ViewModel {
             Tank temp = (Tank) elementList.get(i);
             temp.setPlayerId(gameLobby.getPlayers().get(i).getId());
 
-            if(eTankApplication.getSignedUser().getId() == gameLobby.getPlayers().get(i).getId()){
+            if (eTankApplication.getSignedUser().getId() == gameLobby.getPlayers().get(i).getId()) {
                 whichTank = i;
             }
         }
@@ -474,6 +483,7 @@ public class GameViewModel implements ViewModel {
     public GameLobby getGameLobby() {
         return gameLobby;
     }
+
     public void setLobby(GameLobby selectedLobby) {
         this.gameLobby = selectedLobby;
     }

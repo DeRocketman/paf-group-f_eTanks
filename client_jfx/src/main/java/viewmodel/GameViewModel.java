@@ -150,6 +150,7 @@ public class GameViewModel implements ViewModel {
         });
     }
 
+
     public void processFireMainMsg(Message msg) {
 
         Platform.runLater(new Runnable() {

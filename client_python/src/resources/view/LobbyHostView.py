@@ -23,7 +23,7 @@ class Ui_lobbyHostView(object):
     def setupUi(self, lobbyHostView):
         if not lobbyHostView.objectName():
             lobbyHostView.setObjectName(u"lobbyHostView")
-        lobbyHostView.resize(1110, 850)
+        lobbyHostView.resize(1200, 850)
         sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)

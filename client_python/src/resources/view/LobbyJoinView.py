@@ -23,7 +23,7 @@ class Ui_lobbyJoinView(object):
     def setupUi(self, lobbyJoinView):
         if not lobbyJoinView.objectName():
             lobbyJoinView.setObjectName(u"lobbyJoinView")
-        lobbyJoinView.resize(1110, 850)
+        lobbyJoinView.resize(1200, 850)
         sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)

@@ -148,11 +148,10 @@ class LobbyHostViewController(QWidget):
         self.fillPlayerTable()
 
     def startGame(self):
-        gameViewController = GameViewController(self.newGameViewController, self.playerList, self.lobbyId)
-        self.newGameViewController.mainMenuViewController.stackedWidget.addWidget(gameViewController)
-        self.newGameViewController.mainMenuViewController.stackedWidget.setCurrentWidget(gameViewController)
-        self.close()
-        self.hide()
+        self.newGameViewController.gameView.initGameData(self.playerList, self.lobbyId)
+        self.newGameViewController.mainMenuViewController.stackedWidget.addWidget(self.newGameViewController.gameView)
+        self.newGameViewController.mainMenuViewController.stackedWidget. \
+            setCurrentWidget(self.newGameViewController.gameView)
 
     @staticmethod
     def buildPlayerIconItem(user=User()):

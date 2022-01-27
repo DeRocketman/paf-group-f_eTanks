@@ -18,19 +18,18 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLCDNumber,
     QLabel, QSizePolicy, QWidget)
 
-
 class Ui_gameWidget(object):
     def setupUi(self, gameWidget):
         if not gameWidget.objectName():
             gameWidget.setObjectName(u"gameWidget")
-        gameWidget.resize(1352, 850)
+        gameWidget.resize(1200, 850)
         sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(gameWidget.sizePolicy().hasHeightForWidth())
         gameWidget.setSizePolicy(sizePolicy)
         gameWidget.setStyleSheet(u"background: #8A8557;\n"
-"")
+                                 "")
         self.pitch = QWidget(gameWidget)
         self.pitch.setObjectName(u"pitch")
         self.pitch.setGeometry(QRect(0, 50, 1200, 800))
@@ -53,6 +52,11 @@ class Ui_gameWidget(object):
 
         self.roundNumberLbl = QLabel(self.horizontalLayoutWidget)
         self.roundNumberLbl.setObjectName(u"roundNumberLbl")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Maximum, QSizePolicy.Preferred)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.roundNumberLbl.sizePolicy().hasHeightForWidth())
+        self.roundNumberLbl.setSizePolicy(sizePolicy1)
 
         self.horizontalLayout.addWidget(self.roundNumberLbl)
 
@@ -63,22 +67,14 @@ class Ui_gameWidget(object):
 
         self.clockLcd = QLCDNumber(self.horizontalLayoutWidget)
         self.clockLcd.setObjectName(u"clockLcd")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.clockLcd.sizePolicy().hasHeightForWidth())
-        self.clockLcd.setSizePolicy(sizePolicy1)
-        self.clockLcd.setFrameShape(QFrame.NoFrame)
         self.clockLcd.setDigitCount(3)
-        self.clockLcd.setMode(QLCDNumber.Dec)
-        self.clockLcd.setSegmentStyle(QLCDNumber.Flat)
         self.clockLcd.setProperty("intValue", 180)
 
-        self.horizontalLayout.addWidget(self.clockLcd, 0, Qt.AlignVCenter)
+        self.horizontalLayout.addWidget(self.clockLcd)
 
         self.horizontalLayoutWidget_2 = QWidget(self.topPanel)
         self.horizontalLayoutWidget_2.setObjectName(u"horizontalLayoutWidget_2")
-        self.horizontalLayoutWidget_2.setGeometry(QRect(250, 0, 1081, 51))
+        self.horizontalLayoutWidget_2.setGeometry(QRect(250, 0, 951, 51))
         self.horizontalLayout_2 = QHBoxLayout(self.horizontalLayoutWidget_2)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)

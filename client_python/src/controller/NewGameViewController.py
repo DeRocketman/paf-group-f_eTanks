@@ -2,6 +2,7 @@ import json
 
 from PySide6.QtWidgets import QWidget
 
+from controller.GameViewController import GameViewController
 from controller.JoinGameViewController import JoinGameViewController
 from controller.LobbyHostViewController import LobbyHostViewController
 from controller.LobbyJoinViewController import LobbyJoinViewController
@@ -22,6 +23,7 @@ class NewGameViewController(QWidget):
         self.joinGameView = JoinGameViewController(self)
         self.lobbyHostView = LobbyHostViewController(self)
         self.lobbyJoinView = LobbyJoinViewController(self)
+        self.gameView = GameViewController(self)
 
         self.newGameView.hostGameButton.clicked.connect(self.hostGame)
         self.newGameView.joinGameButton.clicked.connect(self.joinGame)

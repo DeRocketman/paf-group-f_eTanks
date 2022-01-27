@@ -44,13 +44,10 @@ public class StatisticsViewController extends ViewController {
     @FXML
     private TableColumn<GameStatistic, Integer> gamePointsColumn;
 
-    public StatisticsViewController() {
-    }
-
     public void initialiseUserData() {
        setHttpRequestETankapplication();
-        getUserStatistic();
-        getHighscoreList();
+       getUserStatistic();
+       getHighscoreList();
     }
 
     public void getUserStatistic() {

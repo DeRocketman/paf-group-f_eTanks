@@ -417,6 +417,4 @@ public class GameLobbyViewController {
     public void setETankApplication(ETankApplication eTankApplication) {
         this.eTankApplication = eTankApplication;
     }
-
-
 }

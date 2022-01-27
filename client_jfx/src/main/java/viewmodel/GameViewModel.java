@@ -5,6 +5,7 @@ import model.data.GameStatistic;
 import model.game.elements.*;
 import model.game.logic.GameLobby;
 import model.game.logic.GamePhysics;
+import model.service.HttpRequest;
 import model.service.Message;
 import model.service.MessageType;
 import model.service.SocketClient;
@@ -28,6 +29,7 @@ public class GameViewModel implements ViewModel {
 
     ETankApplication eTankApplication;
     SocketClient socketClient;
+    HttpRequest httpRequest = new HttpRequest();
 
     GameLobby gameLobby;
     GameView gameView;
@@ -91,6 +93,7 @@ public class GameViewModel implements ViewModel {
                 } else if (roundTime == 0 && roundCounter == 3) {
                     //TODO WAS PASSIERT WENN DAS GAME ZUENDE IST
                     gameIsRunning = false;
+                    saveStatistics();
                     try {
                         eTankApplication.showMenuView();
                     } catch (IOException e) {
@@ -393,10 +396,6 @@ public class GameViewModel implements ViewModel {
                                 toRemove = element;
                                 isHit = true;
                             } else if (woodenBlock.getLives() == 0) {
-                                if (myBullet) {
-                                   /* gamePlay.getGameStatistic().setGamePoints(gamePlay.getGameStatistic().getGamePoints() + 5);
-                                    System.out.println("Kills: " + gamePlay.getGameStatistic().getKills() + " HitPoints: " + gamePlay.getGameStatistic().getHitPoints() + " GamePoints: " + gamePlay.getGameStatistic().getGamePoints());*/
-                                }
                                 woodenBlock.setOpacity(.0);
                                 toRemove = element;
                                 toRemoveTwo = woodenBlock;
@@ -484,6 +483,9 @@ public class GameViewModel implements ViewModel {
         this.gameView = gameView;
     }
 
+    /**
+     * Sets the list position of the player
+     */
     public void setWhichTank() {
         for (int i = 0; i < gameLobby.getPlayers().size(); i++) {
 
@@ -502,5 +504,22 @@ public class GameViewModel implements ViewModel {
 
     public void setLobby(GameLobby selectedLobby) {
         this.gameLobby = selectedLobby;
+    }
+
+    /**
+     * Sends a http request to save the game statistics
+     */
+    private void saveStatistics(){
+        if(whichTank == 0){
+            setHttpRequestETankapplication();
+
+            for(int i = 0; i < gameStatistics.size(); i++){
+                httpRequest.saveGameStatistic(gameStatistics.get(i), gameStatistics.get(i).getUserId());
+            }
+        }
+    }
+
+    public void setHttpRequestETankapplication(){
+        httpRequest.setETankApplication(eTankApplication);
     }
 }

@@ -213,7 +213,7 @@
             </Label>
             <HBox prefHeight="25.0" prefWidth="204.0">
                <children>
-                  <Label prefWidth="80.0" text="Shots">
+                  <Label fx:id="shots_3" prefWidth="80.0" text="Shots">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -227,7 +227,7 @@
             </HBox>
             <HBox prefHeight="25.0" prefWidth="200.0">
                <children>
-                  <Label prefWidth="80.0" text="Deaths">
+                  <Label fx:id="deaths_3" prefWidth="80.0" text="Deaths">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -241,7 +241,7 @@
             </HBox>
             <HBox prefHeight="25.0" prefWidth="204.0">
                <children>
-                  <Label prefWidth="80.0" text="Kills">
+                  <Label fx:id="kills_3" prefWidth="80.0" text="Kills">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -263,7 +263,7 @@
             </Label>
             <HBox prefHeight="25.0" prefWidth="204.0">
                <children>
-                  <Label prefWidth="80.0" text="Shots">
+                  <Label fx:id="shots_4" prefWidth="80.0" text="Shots">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -277,7 +277,7 @@
             </HBox>
             <HBox prefHeight="25.0" prefWidth="204.0">
                <children>
-                  <Label prefWidth="80.0" text="Deaths">
+                  <Label fx:id="deaths_4" prefWidth="80.0" text="Deaths">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -291,7 +291,7 @@
             </HBox>
             <HBox prefHeight="25.0" prefWidth="204.0">
                <children>
-                  <Label prefWidth="80.0" text="Kills">
+                  <Label fx:id="kills_4" prefWidth="80.0" text="Kills">
                      <font>
                         <Font size="18.0" />
                      </font>

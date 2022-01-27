@@ -51,7 +51,7 @@ public class GameViewModel implements ViewModel {
 
     public void startGame() {
         gameView.initTanks(gameLobby.getPlayers().size());
-        gameView.setPlayerNames(gameLobby.getPlayers());
+        gameView.setPlayerText(gameLobby.getPlayers());
         gameView.setPlayerWins(gameStatistics);
         gameView.initElements();
         gameView.initWorldBorder();

@@ -99,6 +99,19 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
     @FXML
     private Label player_4_kills;
 
+    @FXML
+    private Label kills_3;
+    @FXML
+    private Label deaths_3;
+    @FXML
+    private Label shots_3;
+    @FXML
+    private Label kills_4;
+    @FXML
+    private Label deaths_4;
+    @FXML
+    private Label shots_4;
+
     private ETankApplication eTankApplication;
     private ObservableList<LevelElement> elementList = FXCollections.observableArrayList();
     public ImageView display;
@@ -309,10 +322,9 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
     }
 
     /**
-     * Sets the text of the playerName Labels from the publicNames
-     * for all Players
+     * Sets the text of the playerName and statistic Labels
      */
-    public void setPlayerNames(ObservableList<Player> playerList){
+    public void setPlayerText(ObservableList<Player> playerList){
         int playerCount = playerList.size() ;
 
         switch (playerCount){
@@ -322,6 +334,10 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
             case 3:
                 stat_player_3_name.setText(playerList.get(2).getPublicName());
                 player_3.setText(playerList.get(2).getPublicName());
+
+                deaths_4.setVisible(false);
+                kills_4.setVisible(false);
+                shots_4.setVisible(false);
             case 2:
                 stat_player_1_name.setText(playerList.get(0).getPublicName());
                 stat_player_2_name.setText(playerList.get(1).getPublicName());
@@ -329,10 +345,25 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
                 player_1.setText(playerList.get(0).getPublicName());
                 player_2.setText(playerList.get(1).getPublicName());
 
+                deaths_3.setVisible(false);
+                kills_3.setVisible(false);
+                shots_3.setVisible(false);
+
+                deaths_4.setVisible(false);
+                kills_4.setVisible(false);
+                shots_4.setVisible(false);
                 //Case 1 später löschen
             case 1:
                 stat_player_1_name.setText(playerList.get(0).getPublicName());
                 player_1.setText(playerList.get(0).getPublicName());
+
+                deaths_3.setVisible(false);
+                kills_3.setVisible(false);
+                shots_3.setVisible(false);
+
+                deaths_4.setVisible(false);
+                kills_4.setVisible(false);
+                shots_4.setVisible(false);
         }
     }
 

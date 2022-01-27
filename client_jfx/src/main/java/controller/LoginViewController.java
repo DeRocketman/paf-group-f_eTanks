@@ -1,32 +1,17 @@
 package controller;
 
-import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import main.ETankApplication;
 import model.data.*;
 import model.service.HttpRequest;
-import model.service.UserDataCreator;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.ConnectException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.http.HttpClient;
-
 
 public class LoginViewController {
 
     ETankApplication eTankApplication;
     HttpRequest httpRequest = new HttpRequest();
-
 
     @FXML
     TextField usernameField;

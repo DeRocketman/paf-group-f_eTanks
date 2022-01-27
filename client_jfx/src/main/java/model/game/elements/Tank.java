@@ -10,10 +10,8 @@ import org.boon.primitive.Int;
 
 public class Tank extends LevelElement{
 
-    // private Player tankCommander;
     private long playerId;
     private int livePoints;
-
 
     public Tank(Image image, LevelElementType type, double positionX, double positionY, double width, double height, double rotation, int livePoints) {
         super(image, type, positionX, positionY, width, height, rotation);
@@ -25,6 +23,7 @@ public class Tank extends LevelElement{
         this.livePoints = 3;
         this.playerId = playerId;
     }
+
     /*
      * Bewegt den Tank bis an die Spielfeldgrenze
      * */
@@ -119,11 +118,7 @@ public class Tank extends LevelElement{
         this.playerId = playerId;
     }
 
-/*
-    public void setTankCommander(User commander) {
-        this.tankCommander = commander;
+    public int getLivePoints(){
+        return livePoints;
     }
-    public User getTankCommander() {
-        return tankCommander;
-    }*/
 }

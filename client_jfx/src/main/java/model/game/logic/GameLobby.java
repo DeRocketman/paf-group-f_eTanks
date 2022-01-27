@@ -9,6 +9,7 @@ import model.data.GameStatistic;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 public class GameLobby implements Serializable {
 
@@ -17,8 +18,6 @@ public class GameLobby implements Serializable {
     private final StringProperty gameLobbyID;
     private IntegerProperty seatCounter;
     private ObservableList<Player> playerList;
-
-    //public static ObservableList<GameLobby> lobbyList;
 
     public GameLobby() {
        this.playerList = FXCollections.observableArrayList();

@@ -248,7 +248,7 @@ public class GameLobbyViewController {
         Player player = new Player(msg.getPlayerId(), null, msg.getPlayerPublicName(), msg.getPlayerImage(), null, null);
         selectedLobby.getPlayers().add(player);
         fillPlayerGrid();
-        textAreaChatField.appendText(msg.getPayload());
+        textAreaChatField.appendText(msg.getPayload()  + "\n");
     }
 
     private void processStartGameMsg(Message msg) throws IOException {
@@ -258,7 +258,7 @@ public class GameLobbyViewController {
                 try {
                     eTankApplication.showGameView(selectedLobby);
                     eTankApplication.getGameViewModel().setSocketClient(sc);
-                    //eTankApplication.getGameViewModel().setLobby(selectedLobby);
+                   // eTankApplication.getGameViewModel().setLobby(selectedLobby);
                     sc.setGameViewModel(eTankApplication.getGameViewModel());
                     eTankApplication.getGameViewModel().startGame();
                 } catch (IOException e) {
@@ -314,7 +314,7 @@ public class GameLobbyViewController {
     }
 
     private void processChatMsg(Message msg) {
-        textAreaChatField.appendText(msg.getPlayerPublicName() + ": " + msg.getPayload());
+        textAreaChatField.appendText(msg.getPlayerPublicName() + ": " + msg.getPayload() + "\n");
     }
 
     private void processGetLobbiesMsg(Message msg) {

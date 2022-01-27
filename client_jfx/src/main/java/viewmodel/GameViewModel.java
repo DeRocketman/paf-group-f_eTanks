@@ -1,49 +1,40 @@
 package viewmodel;
 
+import main.ETankApplication;
+import model.data.GameStatistic;
+import model.game.elements.*;
+import model.game.logic.GameLobby;
+import model.game.logic.GamePhysics;
+import model.service.Message;
+import model.service.MessageType;
+import model.service.SocketClient;
+import view.GameView;
+
 import de.saxsys.mvvmfx.ViewModel;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
-import main.ETankApplication;
-import model.game.elements.*;
-import model.game.logic.GameLobby;
-import model.game.logic.GamePhysics;
-import model.game.logic.GamePlay;
-import model.game.logic.Player;
-import model.service.Message;
-import model.service.MessageType;
-import model.service.SocketClient;
-import org.boon.core.Sys;
-import view.GameView;
-
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
 
 public class GameViewModel implements ViewModel {
 
     ETankApplication eTankApplication;
-
-
-    GameLobby gameLobby;
-    GamePlay gamePlay;
-    GameView gameView;
-
-    int whichTank;
-
     SocketClient socketClient;
 
+    GameLobby gameLobby;
+    GameView gameView;
+
+    ObservableList<LevelElement> elementList = FXCollections.observableArrayList();
+
+    int whichTank;
     boolean isMovingUp;
     boolean isMovingDown;
     boolean isMovingLeft;
@@ -54,27 +45,35 @@ public class GameViewModel implements ViewModel {
     double shootDelay = GamePhysics.DELAY_SECOND;
     double roundTime = GamePhysics.ROUND_TIME;
     int roundCounter = 1;
+    private List<GameStatistic> gameStatistics;
 
-    ObservableList<LevelElement> elementList = FXCollections.observableArrayList();
+    public void startGame() {
+        gameView.initTanks(gameLobby.getPlayers().size());
+        gameView.setPlayerNames(gameLobby.getPlayers());
+        gameView.setPlayerWins(gameStatistics);
+        gameView.initElements();
+        gameView.initWorldBorder();
+        gameView.initDisplay();
+
+        initGameLoop();
+        startTimer();
+    }
 
     public void initGameLoop() {
-
-
         AnimationTimer gameActionTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-
                 playerMovementDetection();
                 bulletCollisionDetection();
                 shootDelayer();
                 shootCollector();
+                gameView.updateStatisticText(gameStatistics);
             }
         };
         gameActionTimer.start();
     }
 
     public void startTimer() {
-
         System.out.println(roundCounter);
         if (roundCounter < 3) {
 
@@ -133,227 +132,6 @@ public class GameViewModel implements ViewModel {
         }
     }
 
-    public void processMoveTankMsg(Message msg) {
-
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                for (LevelElement tank : elementList) {
-                    if (tank.getType() == LevelElementType.TANK) {
-                        Tank temp = (Tank) tank;
-                        System.out.println("TankID: " + temp.getPlayerId() + " PlayerID: " + msg.getPlayerId());
-                        if (temp.getPlayerId() == msg.getPlayerId()) {
-                            temp.moveTank(Double.parseDouble(msg.getPayload()));
-
-                        }
-                    }
-                }
-            }
-        });
-    }
-
-    public void processFireMainMsg(Message msg) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                for (LevelElement tank : elementList) {
-                    if (tank.getType() == LevelElementType.TANK) {
-                        Tank temp = (Tank) tank;
-                        if (temp.getPlayerId() == msg.getPlayerId()) {
-                            fireMainWeapon(temp);
-                        }
-                    }
-                }
-            }
-        });
-
-    }
-
-    public void sendMoveTankMsg(String course) {
-        Message msg = new Message();
-        msg.setMessageType(MessageType.TANK_MOVE);
-        msg.setPlayerId(eTankApplication.getSignedUser().getId());
-        msg.setPlayerPublicName(eTankApplication.getSignedUser().getPublicName());
-        msg.setPlayerImage("default");
-        msg.setGameLobbyNumber(gameLobby.getGameLobbyID());
-        msg.setPayload(course);
-        socketClient.sendMsg(msg);
-    }
-
-    public void sendFireMAinMsg() {
-        Message msg = new Message();
-        msg.setMessageType(MessageType.FIRE_MAIN);
-        msg.setPlayerId(eTankApplication.getSignedUser().getId());
-        msg.setPlayerPublicName(eTankApplication.getSignedUser().getPublicName());
-        msg.setPlayerImage("default");
-        msg.setGameLobbyNumber(gameLobby.getGameLobbyID());
-        msg.setPayload("BOOM");
-        socketClient.sendMsg(msg);
-    }
-
-    private void shootCollector() {
-        ArrayList<LevelElement> bulletsToRemove = new ArrayList<>();
-        for (LevelElement element : elementList) {
-            if (element.getType() == LevelElementType.BULLETMAINWEAPON) {
-                if (element.getX() == 0 && element.getY() == 0) {
-                    bulletsToRemove.add(element);
-                    System.out.println(bulletsToRemove.size());
-                }
-            }
-        }
-        elementList.removeAll(bulletsToRemove);
-        bulletsToRemove.clear();
-    }
-
-    private void shootDelayer() {
-        shootDelay += 0.05;
-        if (shootDelay >= 2) {
-            canShoot = true;
-            shootDelay = 0;
-        }
-    }
-
-    private void bulletCollisionDetection() {
-
-        boolean isHit = false;
-        LevelElement toRemove = null;
-        LevelElement toRemoveTwo = null;
-        boolean myBullet = false;
-        Tank myTankTemp = (Tank) elementList.get(whichTank);
-
-        for (LevelElement element : elementList) {
-            if (element.getType() == LevelElementType.BULLETMAINWEAPON) {
-
-                BulletMainWeapon tempBullet = ((BulletMainWeapon) element);
-                long playerId = tempBullet.getTankFired().getPlayerId();
-                if (playerId == myTankTemp.getPlayerId()) {
-                    myBullet = true;
-                } else {
-                    myBullet = false;
-                }
-
-                for (int i = 0; i < elementList.size(); i++) {
-                    if (elementList.get(i).getType() == LevelElementType.TANK) {
-                        if (element.getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
-                            Tank tank = (Tank) elementList.get(i);
-                            if (playerId != tank.getPlayerId()) {
-                                //Bullet ausblenden
-                                toRemove = element;
-                                element.setDisable(true);
-                                isHit = true;
-                                if (!myBullet) {
-                                    //Ich wurde getroffen
-                                    ((Tank) elementList.get(whichTank)).reduceLivePoints();
-                                    System.out.println("Du wurdest von: " + tank.getPlayerId() + " getroffen!");
-                                    //Hier wird die Statistik des Players aktualisiert
-                                    gamePlay.getGameStatistic().setDeaths(gamePlay.getGameStatistic().getDeaths() + 1);
-                                } else {
-                                    //Hier verliert der andere Player Leben
-                                    tank.reduceLivePoints();
-                                    System.out.println("Player: " + playerId + " Du hast Player: " + tank.getPlayerId() + " getroffen!");
-                                    //Hier wird die Statistik des Players aktualisiert
-/*                                    gamePlay.getGameStatistic().setKills(gamePlay.getGameStatistic().getKills() + 1);
-                                    gamePlay.getGameStatistic().setHitPoints(gamePlay.getGameStatistic().getHitPoints() + 10);
-                                    gamePlay.getGameStatistic().setGamePoints(gamePlay.getGameStatistic().getGamePoints() + 10);
-                                    System.out.println("Kills: " + gamePlay.getGameStatistic().getKills() + " HitPoints: " + gamePlay.getGameStatistic().getHitPoints() + " GamePoints: " + gamePlay.getGameStatistic().getGamePoints());*/
-                                }
-                            }
-                        }
-                    } else if (elementList.get(i).getType() == LevelElementType.BLOCK_METAL) {
-                        if (element.getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
-                            toRemove = element;
-                            element.setDisable(true);
-                            isHit = true;
-
-                        }
-                    } else if (elementList.get(i).getType() == LevelElementType.BLOCK_WOOD) {
-                        Block woodenBlock = (Block) elementList.get(i);
-                        if (element.getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
-                            if (woodenBlock.getLives() == 3) {
-                                woodenBlock.setOpacity(.75);
-                                woodenBlock.setLives(2);
-                                toRemove = element;
-                                isHit = true;
-                            } else if (woodenBlock.getLives() == 2) {
-                                woodenBlock.setOpacity(.50);
-                                woodenBlock.setLives(1);
-                                toRemove = element;
-                                isHit = true;
-                            } else if (woodenBlock.getLives() == 1) {
-                                woodenBlock.setOpacity(.25);
-                                woodenBlock.setLives(0);
-                                toRemove = element;
-                                isHit = true;
-                            } else if (woodenBlock.getLives() == 0) {
-                                if (myBullet) {
-                                   /* gamePlay.getGameStatistic().setGamePoints(gamePlay.getGameStatistic().getGamePoints() + 5);
-                                    System.out.println("Kills: " + gamePlay.getGameStatistic().getKills() + " HitPoints: " + gamePlay.getGameStatistic().getHitPoints() + " GamePoints: " + gamePlay.getGameStatistic().getGamePoints());*/
-                                }
-                                woodenBlock.setOpacity(.0);
-                                toRemove = element;
-                                toRemoveTwo = woodenBlock;
-                                element.setDisable(true);
-                                elementList.get(i).setDisable(true);
-                                woodenBlock.setDisable(true);
-                                isHit = true;
-                            }
-                        }
-                    }
-                }
-                if (!isHit) {
-                    moveBullet((BulletMainWeapon) element);
-                }
-            }
-        }
-        if (toRemove != null) {
-            elementList.remove(toRemove);
-
-        }
-        if (toRemoveTwo != null) {
-            elementList.remove(toRemoveTwo);
-        }
-    }
-
-    private void playerMovementDetection() {
-
-        ArrayList<LevelElement> filteredList = new ArrayList<>();
-
-        for (LevelElement element : elementList) {
-            if (element.getType() == LevelElementType.TANK || element.getType() == LevelElementType.BLOCK_WOOD || element.getType() == LevelElementType.BLOCK_METAL) {
-                filteredList.add(element);
-            }
-        }
-
-        for (int i = 0; i < filteredList.size(); i++) {
-            Tank myTankTemp = (Tank) elementList.get(whichTank);
-            Tank tankTemp;
-            Boolean myTank = false;
-
-            if (filteredList.get(i).getType() == LevelElementType.TANK) {
-                tankTemp = (Tank) filteredList.get(i);
-                if (tankTemp.getPlayerId() == myTankTemp.getPlayerId()) {
-                    myTank = true;
-                } else {
-                    myTank = false;
-                }
-            }
-            if (!myTank) {
-                if (elementList.get(whichTank).getBoundsInParent().intersects(filteredList.get(i).getBoundsInParent())) {
-                    if (elementList.get(whichTank).getRotate() == 360.0) {
-                        elementList.get(whichTank).setLayoutY(filteredList.get(whichTank).getLayoutY() + 5);
-                    } else if (elementList.get(whichTank).getRotate() == 90.0) {
-                        elementList.get(whichTank).setLayoutX(filteredList.get(whichTank).getLayoutX() - 5);
-                    } else if (elementList.get(whichTank).getRotate() == 180.0) {
-                        elementList.get(whichTank).setLayoutY(filteredList.get(whichTank).getLayoutY() - 5);
-                    } else if (elementList.get(whichTank).getRotate() == 270.0) {
-                        elementList.get(whichTank).setLayoutX(filteredList.get(whichTank).getLayoutX() + 5);
-                    }
-                }
-            }
-
-        }
-    }
-
     public void handleKeyPressed(KeyEvent keyEvent) {
         if (gameIsRunning) {
             if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveUpKey()) || isMovingUp && isFiringMainWeapon) {
@@ -403,13 +181,114 @@ public class GameViewModel implements ViewModel {
         }
     }
 
+    public void receiveMessage(Message msg) {
+
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                if (msg.getMessageType() == MessageType.TANK_MOVE) {
+                    processMoveTankMsg(msg);
+                } else if (msg.getMessageType() == MessageType.FIRE_MAIN) {
+                    processFireMainMsg(msg);
+                }
+            }
+        });
+    }
+
+    public void processMoveTankMsg(Message msg) {
+
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                for (LevelElement tank : elementList) {
+                    if (tank.getType() == LevelElementType.TANK) {
+                        Tank temp = (Tank) tank;
+                        System.out.println("TankID: " + temp.getPlayerId() + " PlayerID: " + msg.getPlayerId());
+                        if (temp.getPlayerId() == msg.getPlayerId()) {
+                            temp.moveTank(Double.parseDouble(msg.getPayload()));
+
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * Processes the fireMain message and updates the statistic
+     * runs through the elementList to find out which tank has the same id as the player wo sent the message
+     *
+     * @param msg
+     */
+    public void processFireMainMsg(Message msg) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                // runs through the elementList to find out which tank has the same id as the player wo sent the message
+                for (LevelElement tank : elementList) {
+                    if (tank.getType() == LevelElementType.TANK) {
+                        Tank temp = (Tank) tank;
+                        if (temp.getPlayerId() == msg.getPlayerId()) {
+                            gameStatistics.get(elementList.indexOf(tank)).setShots(gameStatistics.get(elementList.indexOf(tank)).getShots()+1);
+                          //  System.out.println(gameStatistics.get(elementList.indexOf(tank)).getUserName() + " - Shots: " + gameStatistics.get(elementList.indexOf(tank)).getShots());
+                            fireMainWeapon(temp);
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    public void sendMoveTankMsg(String course) {
+        Message msg = new Message();
+        msg.setMessageType(MessageType.TANK_MOVE);
+        msg.setPlayerId(eTankApplication.getSignedUser().getId());
+        msg.setPlayerPublicName(eTankApplication.getSignedUser().getPublicName());
+        msg.setPlayerImage("default");
+        msg.setGameLobbyNumber(gameLobby.getGameLobbyID());
+        msg.setPayload(course);
+        socketClient.sendMsg(msg);
+    }
+
+    public void sendFireMAinMsg() {
+        Message msg = new Message();
+        msg.setMessageType(MessageType.FIRE_MAIN);
+        msg.setPlayerId(eTankApplication.getSignedUser().getId());
+        msg.setPlayerPublicName(eTankApplication.getSignedUser().getPublicName());
+        msg.setPlayerImage("default");
+        msg.setGameLobbyNumber(gameLobby.getGameLobbyID());
+        msg.setPayload("BOOM");
+        socketClient.sendMsg(msg);
+    }
+
+    private void shootCollector() {
+        ArrayList<LevelElement> bulletsToRemove = new ArrayList<>();
+        for (LevelElement element : elementList) {
+            if (element.getType() == LevelElementType.BULLETMAINWEAPON) {
+                if (element.getX() == 0 && element.getY() == 0) {
+                    bulletsToRemove.add(element);
+                }
+            }
+        }
+        elementList.removeAll(bulletsToRemove);
+        bulletsToRemove.clear();
+    }
+
+    private void shootDelayer() {
+        shootDelay += 0.05;
+        if (shootDelay >= 2) {
+            canShoot = true;
+            shootDelay = 0;
+        }
+    }
+
     private void fireMainWeapon(LevelElement myTank) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 Tank tank = (Tank) myTank;
-                double[] bsp = tank.setCorrectBulletPosition(myTank);
-                gameView.createMainBullet(myTank, bsp);
+                double[] position = tank.setCorrectBulletPosition(myTank);
+                gameView.createMainBullet(myTank, position);
             }
         });
         //gamePlay.getGameStatistic().setShots(gamePlay.getGameStatistic().getShots() + 1);
@@ -428,12 +307,174 @@ public class GameViewModel implements ViewModel {
         }
     }
 
+    private void bulletCollisionDetection() {
+
+        boolean isHit = false;
+        LevelElement toRemove = null;
+        LevelElement toRemoveTwo = null;
+        boolean myBullet = false;
+        Tank myTankTemp = (Tank) elementList.get(whichTank);
+
+        for (LevelElement element : elementList) {
+            if (element.getType() == LevelElementType.BULLETMAINWEAPON) {
+
+                BulletMainWeapon tempBullet = ((BulletMainWeapon) element);
+                long playerId = tempBullet.getTankFired().getPlayerId();
+
+                if (playerId == myTankTemp.getPlayerId()) {
+                    myBullet = true;
+                } else {
+                    myBullet = false;
+                }
+
+                for (int i = 0; i < elementList.size(); i++) {
+                    if (elementList.get(i).getType() == LevelElementType.TANK) {
+                        if (element.getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
+                            Tank tank = (Tank) elementList.get(i);
+                            if (playerId != tank.getPlayerId()) {
+                                //Bullet ausblenden
+                                toRemove = element;
+                                element.setDisable(true);
+                                isHit = true;
+                                if (!myBullet) {
+                                    //Player was hit
+                                   //System.out.println("Du wurdest von: " + tank.getPlayerId() + " getroffen!");
+
+                                    //reduces own live and updates own death statistic
+                                    ((Tank) elementList.get(whichTank)).reduceLivePoints();
+                                    gameStatistics.get(whichTank).setDeaths(gameStatistics.get(whichTank).getDeaths() + 1);
+                                    //System.out.println(gameStatistics.get(whichTank).getUserName() + " - Livepoints: " + ((Tank) elementList.get(whichTank)).getLivePoints());
+                                    //System.out.println(gameStatistics.get(whichTank).getUserName() + " - Deaths: " + gameStatistics.get(whichTank).getDeaths());
+
+                                    //updates kill & hitpoints statistic of other player
+                                    gameStatistics.get(elementList.indexOf(tank)).setKills(gameStatistics.get(elementList.indexOf(tank)).getKills() + 1);
+                                    gameStatistics.get(elementList.indexOf(tank)).setHitPoints(gameStatistics.get(elementList.indexOf(tank)).getHitPoints() + GamePhysics.KILL_POINTS);
+                                    gameStatistics.get(elementList.indexOf(tank)).setGamePoints(gameStatistics.get(elementList.indexOf(tank)).getGamePoints() + GamePhysics.KILL_POINTS);
+                                } else {
+                                    //other player was hit
+                                    //System.out.println("Player: " + playerId + " Du hast Player: " + tank.getPlayerId() + " getroffen!");
+
+                                    //updates other player death statstic
+                                    tank.reduceLivePoints();
+                                    gameStatistics.get(elementList.indexOf(tank)).setDeaths(gameStatistics.get(elementList.indexOf(tank)).getDeaths() + 1);
+
+                                    //updates own kill & hitpoints statistic
+                                    gameStatistics.get(whichTank).setKills(gameStatistics.get(whichTank).getKills() + 1);
+                                    gameStatistics.get(whichTank).setHitPoints(gameStatistics.get(whichTank).getHitPoints() + GamePhysics.KILL_POINTS);
+                                    gameStatistics.get(whichTank).setGamePoints(gameStatistics.get(whichTank).getGamePoints() + GamePhysics.KILL_POINTS);
+
+                                    //System.out.println(gameStatistics.get(whichTank).getUserName() + " - Kills: " + gameStatistics.get(whichTank).getKills());
+                                    //System.out.println(gameStatistics.get(whichTank).getUserName() + " - Hitpoints: " + gameStatistics.get(whichTank).getHitPoints());
+                                }
+                            }
+                        }
+                    } else if (elementList.get(i).getType() == LevelElementType.BLOCK_METAL) {
+                        if (element.getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
+                            toRemove = element;
+                            element.setDisable(true);
+                            isHit = true;
+                        }
+                    } else if (elementList.get(i).getType() == LevelElementType.BLOCK_WOOD) {
+                        Block woodenBlock = (Block) elementList.get(i);
+                        if (element.getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
+                            if (woodenBlock.getLives() == 3) {
+                                woodenBlock.setOpacity(.75);
+                                woodenBlock.setLives(2);
+                                toRemove = element;
+                                isHit = true;
+                            } else if (woodenBlock.getLives() == 2) {
+                                woodenBlock.setOpacity(.50);
+                                woodenBlock.setLives(1);
+                                toRemove = element;
+                                isHit = true;
+                            } else if (woodenBlock.getLives() == 1) {
+                                woodenBlock.setOpacity(.25);
+                                woodenBlock.setLives(0);
+                                toRemove = element;
+                                isHit = true;
+                            } else if (woodenBlock.getLives() == 0) {
+                                if (myBullet) {
+                                   /* gamePlay.getGameStatistic().setGamePoints(gamePlay.getGameStatistic().getGamePoints() + 5);
+                                    System.out.println("Kills: " + gamePlay.getGameStatistic().getKills() + " HitPoints: " + gamePlay.getGameStatistic().getHitPoints() + " GamePoints: " + gamePlay.getGameStatistic().getGamePoints());*/
+                                }
+                                woodenBlock.setOpacity(.0);
+                                toRemove = element;
+                                toRemoveTwo = woodenBlock;
+                                element.setDisable(true);
+                                elementList.get(i).setDisable(true);
+                                woodenBlock.setDisable(true);
+                                isHit = true;
+                            }
+                        }
+                    }
+                }
+                if (!isHit) {
+                    moveBullet((BulletMainWeapon) element);
+                }
+            }
+        }
+        if (toRemove != null) {
+            elementList.remove(toRemove);
+        }
+        if (toRemoveTwo != null) {
+            elementList.remove(toRemoveTwo);
+        }
+    }
+
+    private void playerMovementDetection() {
+
+        ArrayList<LevelElement> filteredList = new ArrayList<>();
+
+        for (LevelElement element : elementList) {
+            if (element.getType() == LevelElementType.TANK || element.getType() == LevelElementType.BLOCK_WOOD || element.getType() == LevelElementType.BLOCK_METAL) {
+                filteredList.add(element);
+            }
+        }
+
+        for (int i = 0; i < filteredList.size(); i++) {
+            Tank myTankTemp = (Tank) elementList.get(whichTank);
+            Tank tankTemp;
+            Boolean myTank = false;
+
+            if (filteredList.get(i).getType() == LevelElementType.TANK) {
+                tankTemp = (Tank) filteredList.get(i);
+                if (tankTemp.getPlayerId() == myTankTemp.getPlayerId()) {
+                    myTank = true;
+                } else {
+                    myTank = false;
+                }
+            }
+            if (!myTank) {
+                if (elementList.get(whichTank).getBoundsInParent().intersects(filteredList.get(i).getBoundsInParent())) {
+                    if (elementList.get(whichTank).getRotate() == 360.0) {
+                        elementList.get(whichTank).setLayoutY(filteredList.get(whichTank).getLayoutY() + 5);
+                    } else if (elementList.get(whichTank).getRotate() == 90.0) {
+                        elementList.get(whichTank).setLayoutX(filteredList.get(whichTank).getLayoutX() - 5);
+                    } else if (elementList.get(whichTank).getRotate() == 180.0) {
+                        elementList.get(whichTank).setLayoutY(filteredList.get(whichTank).getLayoutY() - 5);
+                    } else if (elementList.get(whichTank).getRotate() == 270.0) {
+                        elementList.get(whichTank).setLayoutX(filteredList.get(whichTank).getLayoutX() + 5);
+                    }
+                }
+            }
+
+        }
+    }
+
+    public void createGameStatistic() {
+        gameStatistics = new ArrayList<>();
+        int playerCount = gameLobby.getPlayers().size();
+        for (int i = 0; i < playerCount; i++) {
+            GameStatistic userGameStatistic = new GameStatistic(gameLobby.getGameLobbyID(), gameLobby.getPlayers().get(i).getId(), false, 0, 0, 0, 0, 0, 0, gameLobby.getPlayers().get(i).getPublicName());
+            gameStatistics.add(userGameStatistic);
+        }
+    }
+
     public void setElementList(ObservableList<LevelElement> elementList) {
         this.elementList = elementList;
     }
 
     public void setETankApplication(ETankApplication eTankApplication) {
-        System.out.println("Etankap - game view Model");
         this.eTankApplication = eTankApplication;
     }
 
@@ -443,21 +484,6 @@ public class GameViewModel implements ViewModel {
         this.gameView = gameView;
     }
 
-    public void receiveMessage(Message msg) {
-
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                if (msg.getMessageType() == MessageType.TANK_MOVE) {
-                    processMoveTankMsg(msg);
-                } else if (msg.getMessageType() == MessageType.FIRE_MAIN) {
-                    processFireMainMsg(msg);
-                }
-            }
-        });
-    }
-
-    //TODO Aufrufen wenn vorhanden
     public void setWhichTank() {
         for (int i = 0; i < gameLobby.getPlayers().size(); i++) {
 
@@ -468,7 +494,6 @@ public class GameViewModel implements ViewModel {
                 whichTank = i;
             }
         }
-
     }
 
     public void setSocketClient(SocketClient socketClient) {
@@ -477,15 +502,5 @@ public class GameViewModel implements ViewModel {
 
     public void setLobby(GameLobby selectedLobby) {
         this.gameLobby = selectedLobby;
-    }
-
-    public void startGame() {
-        gameView.initTanks(gameLobby.getPlayers().size());
-        gameView.initElements();
-        gameView.initWorldBorder();
-        gameView.initDisplay();
-
-        initGameLoop();
-        startTimer();
     }
 }

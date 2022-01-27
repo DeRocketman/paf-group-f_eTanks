@@ -85,6 +85,7 @@ public class GameViewModel implements ViewModel {
                     roundTime--;
                 } else if (roundTime == 0 && roundCounter != 3) {
                     gameIsRunning = false;
+                    setRoundWinner();
                     elementList.clear();
                     gameView.initNextLevel(roundCounter);
                     gameTimeline.stop();
@@ -93,6 +94,7 @@ public class GameViewModel implements ViewModel {
                 } else if (roundTime == 0 && roundCounter == 3) {
                     //TODO WAS PASSIERT WENN DAS GAME ZUENDE IST
                     gameIsRunning = false;
+                    setGameWinner();
                     saveStatistics();
                     try {
                         eTankApplication.showMenuView();
@@ -504,6 +506,52 @@ public class GameViewModel implements ViewModel {
 
     public void setLobby(GameLobby selectedLobby) {
         this.gameLobby = selectedLobby;
+    }
+
+    /**
+     * Sets the round winner
+     */
+    private void setRoundWinner(){
+        int winner = 0;
+        for(int i = 0; i < gameStatistics.size(); i++){
+            if(i < gameStatistics.size()-1){
+                if ( ((Tank) elementList.get(i)).getLivePoints() > 0){
+                    if(gameStatistics.get(i).getGamePoints() > gameStatistics.get(i+1).getGamePoints()){
+                        winner = i;
+                    }
+                }
+            } else {
+                if ( ((Tank) elementList.get(i)).getLivePoints() > 0){
+                    if(gameStatistics.get(i).getGamePoints() > gameStatistics.get(0).getGamePoints()){
+                        winner = i;
+                    }
+                }
+            }
+        }
+        gameStatistics.get(winner).setRoundWins(gameStatistics.get(winner).getRoundWins() + 1);
+    }
+
+    /**
+     * Sets the game winner
+     */
+    private void setGameWinner(){
+        int winner = 0;
+        for(int i = 0; i < gameStatistics.size(); i++){
+            if(i < gameStatistics.size()-1){
+                if(gameStatistics.get(i).getRoundWins() > gameStatistics.get(i+1).getRoundWins()){
+                    if(gameStatistics.get(i).getGamePoints() > gameStatistics.get(i+1).getGamePoints()){
+                        winner = i;
+                    }
+                }
+            } else {
+                if(gameStatistics.get(i).getRoundWins() > gameStatistics.get(0).getRoundWins()){
+                    if(gameStatistics.get(i).getGamePoints() > gameStatistics.get(0).getGamePoints()){
+                        winner = i;
+                    }
+                }
+            }
+        }
+        gameStatistics.get(winner).setWinner(true);
     }
 
     /**

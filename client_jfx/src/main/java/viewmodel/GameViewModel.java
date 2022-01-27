@@ -57,6 +57,10 @@ public class GameViewModel implements ViewModel {
         gameView.initWorldBorder();
         gameView.initDisplay();
 
+        //TODO DENKFEHLER HIER
+        eTankApplication.getPrimaryStage().getScene().setOnKeyPressed(this::handleKeyPressed);
+        eTankApplication.getPrimaryStage().getScene().setOnKeyReleased(this::handleKeyReleased);
+
         initGameLoop();
         startTimer();
     }
@@ -459,7 +463,6 @@ public class GameViewModel implements ViewModel {
                     }
                 }
             }
-
         }
     }
 

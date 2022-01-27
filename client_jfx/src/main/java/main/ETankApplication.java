@@ -140,9 +140,8 @@ public class ETankApplication extends Application {
         gameViewModel = viewTuple.getViewModel();
         gameViewModel.setLobby(lobby);
         gameViewModel.createGameStatistic();
-        scene.setOnKeyPressed(keyEvent -> gameViewModel.handleKeyPressed(keyEvent));
-        scene.setOnKeyReleased(keyEvent -> gameViewModel.handleKeyReleased(keyEvent));
         viewTuple.getViewModel().setETankApplication(this);
+
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();

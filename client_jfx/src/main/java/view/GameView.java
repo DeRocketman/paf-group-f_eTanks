@@ -390,4 +390,13 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
                 player_1_deaths.setText(String.valueOf(gameStatistics.get(0).getDeaths()));
         }
     }
+
+    /**
+     * Updates the timer text
+     *
+     * @param time  remaining roundtime
+     */
+    public void updateTimer(double time){
+        this.time.setText(String.valueOf((int) time));
+    }
 }

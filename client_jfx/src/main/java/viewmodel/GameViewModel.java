@@ -82,6 +82,7 @@ public class GameViewModel implements ViewModel {
             Timeline gameTimeline = new Timeline();
             KeyFrame kf = new KeyFrame(Duration.seconds(1), event -> {
                 if (roundTime > 0) {
+                    gameView.updateTimer(roundTime);
                     roundTime--;
                 } else if (roundTime == 0 && roundCounter != 3) {
                     gameIsRunning = false;

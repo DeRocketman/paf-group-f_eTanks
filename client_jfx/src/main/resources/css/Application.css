@@ -1,20 +1,22 @@
 .root{
-    -fx-background-color:  #8A8557;
+    -fx-background-color: #69583a;
+    -fx-text-fill: #000;
+    /* #364136FF */
 }
 
 .button{
-    -fx-background-color: #47452E;
--fx-text-fill:#111111;
-    -fx-border-color: #111111;
+    -fx-background-color: #bb9c68;
+    -fx-text-fill:#111111;
+    /*-fx-border-color: #111111;*/
     -fx-border-width: 2;
--fx-pref-width:200;
--fx-pref-height: 30;
+    -fx-pref-width:200;
+    -fx-pref-height: 30;
 }
 
 .button#btn-newGame{
     -fx-background-color: #111111;
-    -fx-text-fill: #514C19;
-    -fx-border-color: #47452E;
+    -fx-text-fill: #bb9c68;
+    -fx-border-color: #bb9c68;
 }
 
 #level1Ground {
@@ -26,6 +28,7 @@
     -fx-base: transparent;
     -fx-background-color: none;
 }
+
 .elementPane {
     -fx-background-color: transparent;
 }

@@ -2,7 +2,7 @@ package model.game.logic;
 
 public class GamePhysics {
 
-    public static final double ROUND_TIME = 10;
+    public static final double ROUND_TIME = 20;
     public static final double FRAMES_PER_SECOND = 60;
     public static final double DELAY_SECOND = 1.0 / FRAMES_PER_SECOND;
     public static final double TANK_SPEED = 10.0;
@@ -19,7 +19,6 @@ public class GamePhysics {
 
     public static final int KILL_POINTS = 1000;
     public static final int ITEM_POINTS = 300;
-
 
     public static final double ELEMENT_SIZE = 40.0;
 }

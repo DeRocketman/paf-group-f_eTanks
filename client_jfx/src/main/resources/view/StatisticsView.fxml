@@ -13,7 +13,7 @@
 
 <AnchorPane stylesheets="@../css/Application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StatisticsViewController">
    <children>
-      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1200.0" style="-fx-background-color: #8A8557;">
+      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1200.0">
          <center>
             <AnchorPane id="btn-back" prefHeight="850.0" prefWidth="800.0" BorderPane.alignment="CENTER">
                <children>

@@ -36,10 +36,6 @@ public class MenuViewController extends ViewController {
         }
     }
 
-    public void startGame(ActionEvent actionEvent) throws IOException {
-          //eTankApplication.showGameView();
-    }
-
     public void exitGame(ActionEvent actionEvent){
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

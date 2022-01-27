@@ -7,17 +7,21 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import main.ETankApplication;
+import model.data.GameStatistic;
 import model.game.elements.*;
 import model.game.logic.GamePhysics;
+import model.game.logic.Player;
 import viewmodel.GameViewModel;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -25,11 +29,6 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
 
     @InjectViewModel
     private GameViewModel gameViewModel;
-
-    private ETankApplication eTankApplication;
-
-    private ObservableList<LevelElement> elementList = FXCollections.observableArrayList();
-
 
     @FXML
     private GridPane ground;
@@ -40,30 +39,96 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
     @FXML
     private Pane elementPane;
 
-    public ImageView display;
+    @FXML
+    private Label level_no;
 
+    @FXML
+    private Label time;
+
+    @FXML
+    private Label player_1;
+    @FXML
+    private Label player_2;
+    @FXML
+    private Label player_3;
+    @FXML
+    private Label player_4;
+
+    @FXML
+    private Label player_1_wins;
+    @FXML
+    private Label player_2_wins;
+    @FXML
+    private Label player_3_wins;
+    @FXML
+    private Label player_4_wins;
+
+    @FXML
+    private Label stat_player_1_name;
+    @FXML
+    private Label stat_player_2_name;
+    @FXML
+    private Label stat_player_3_name;
+    @FXML
+    private Label stat_player_4_name;
+
+    @FXML
+    private Label player_1_deaths;
+    @FXML
+    private Label player_2_deaths;
+    @FXML
+    private Label player_3_deaths;
+    @FXML
+    private Label player_4_deaths;
+
+    @FXML
+    private Label player_1_shots;
+    @FXML
+    private Label player_2_shots;
+    @FXML
+    private Label player_3_shots;
+    @FXML
+    private Label player_4_shots;
+
+    @FXML
+    private Label player_1_kills;
+    @FXML
+    private Label player_2_kills;
+    @FXML
+    private Label player_3_kills;
+    @FXML
+    private Label player_4_kills;
+
+    private ETankApplication eTankApplication;
+    private ObservableList<LevelElement> elementList = FXCollections.observableArrayList();
+    public ImageView display;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        initLevel(0);
-
+        initBackground(0);
+        level_no.setText("1");
         setElementListEventListener();
         gameViewModel.setGameView(this);
         gameViewModel.setElementList(elementList);
         gameViewModel.setETankApplication(eTankApplication);
-
     }
 
+    /**
+     * Initialize the next level
+     */
     public void initNextLevel(int level){
-
         elementPane.getChildren().clear();
         elementPane.getChildren().add(ground);
-        initLevel(level);
+        initBackground(level);
         initDisplay();
+        level_no.setText(String.valueOf(level+1));
         gameViewModel.startGame();
     }
 
-    private void initLevel(int level) {
+    /**
+     * Creates the background for the game Pane
+     */
+    private void initBackground(int level) {
 
         String[] background = new String[4];
         background[0] = "../img/images/levelBackground/Ground_Tile_02_A.png";
@@ -71,9 +136,6 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         background[2] = "../img/images/levelBackground/Ground_Tile_02_C.png";
         background[3] = "../img/images/levelBackground/Ground_Tile_01_B.png";
 
-
-
-        //Here you can build the 3 different levels!
         for (int row = 0; row < 20; row++) {
             for (int col = 0; col < 30; col++) {
                 ImageView cell = new ImageView();
@@ -85,12 +147,23 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         }
     }
 
-    public void createMainBullet(LevelElement myTank, double[] bsp) {
-        LevelElement bullet = new BulletMainWeapon(bsp[0], bsp[1], 6, 12, myTank.getRotate(), (Tank) myTank);
+    /**
+     * Creates the ImageView of a Bullet and sets the firing Tank
+     *
+     * @param myTank    the firing Tank
+     * @param position  of the ImageView
+     */
+    public void createMainBullet(LevelElement myTank, double[] position) {
+        LevelElement bullet = new BulletMainWeapon(position[0], position[1], 6, 12, myTank.getRotate(), (Tank) myTank);
         gameViewModel.moveBullet((BulletMainWeapon) bullet);
         elementList.add(bullet);
     }
 
+    /**
+     * Creates a number of tanks by playerlist size
+     *
+     * @param playerCount   size of playerlist
+     */
     public void initTanks(int playerCount) {
         // int playerCount = players.size();
 
@@ -110,7 +183,9 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         gameViewModel.setWhichTank();
     }
 
-    //eine kürzere Alternative für die Border Blocks?
+    /**
+     * Creates the World Border
+     */
     public void initWorldBorder() {
         //Breite
         for (double i = 0; i < GamePhysics.GAME_WIDTH-80; i+=40 ){
@@ -124,6 +199,13 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         }
     }
 
+    /**
+     * Creates a stone block LevelElement
+     *
+     * @param x     x position
+     * @param y     y position
+     * @param rotation  of the Image
+     */
     public void createStoneBlock(double x, double y, double rotation){
         String blockImg = "img/images/blocks/Block_A_01.png";
         LevelElement block = new Block(new Image(blockImg), LevelElementType.BLOCK_STONE, x, y, 64, 32, rotation);
@@ -131,6 +213,12 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         elementList.add(block);
     }
 
+    /**
+     * Creates a metal block LevelElement
+     *
+     * @param x     x position
+     * @param y     y position
+     */
     public void createMetalBlock(double x, double y){
         String blockImg = "img/images/buildings/crateMetal.png";
         LevelElement block = new Block(new Image(blockImg), LevelElementType.BLOCK_METAL, x, y, GamePhysics.ELEMENT_SIZE, GamePhysics.ELEMENT_SIZE);
@@ -138,6 +226,12 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         elementList.add(block);
     }
 
+    /**
+     * Creates a wooden block LevelElement
+     *
+     * @param x     x position
+     * @param y     y position
+     */
     public void createWoodBlock(double x, double y){
         String blockImg = "img/images/buildings/crateWood.png";
         LevelElement block = new Block(new Image(blockImg), LevelElementType.BLOCK_WOOD, x, y, GamePhysics.ELEMENT_SIZE, GamePhysics.ELEMENT_SIZE);
@@ -145,6 +239,9 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         elementList.add(block);
     }
 
+    /**
+     * Creates the Elements of the level
+     */
     public void initElements(){
 
         //Metal Blocks
@@ -188,7 +285,6 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
     }
 
     public void initDisplay(){
-        //Display
         display = new ImageView();
         display.setFitHeight(400);
         display.setFitWidth(600);
@@ -197,27 +293,101 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         elementPane.getChildren().add(display);
     }
 
+    /**
+     * Sets the event listener for the elementList
+     * and adds or removes elements
+     */
     private void setElementListEventListener() {
         elementList.addListener((ListChangeListener<LevelElement>) change -> {
             if (change.next() && change.wasAdded()) {
                 elementPane.getChildren().addAll(elementList.get(change.getFrom()));
-               // System.out.println("elementListNew: " + change.getFrom());
             }
             if (change.wasRemoved()) {
                 elementPane.getChildren().remove(change.getRemoved().get(0));
-              //  System.out.println("elementListDeleted: " + change.getFrom());
             }
         });
     }
 
-    private void createLabel(){
+    /**
+     * Sets the text of the playerName Labels from the publicNames
+     * for all Players
+     */
+    public void setPlayerNames(ObservableList<Player> playerList){
+        int playerCount = playerList.size() ;
 
+        switch (playerCount){
+            case 4:
+                stat_player_4_name.setText(playerList.get(3).getPublicName());
+                player_4.setText(playerList.get(3).getPublicName());
+            case 3:
+                stat_player_3_name.setText(playerList.get(2).getPublicName());
+                player_3.setText(playerList.get(2).getPublicName());
+            case 2:
+                stat_player_1_name.setText(playerList.get(0).getPublicName());
+                stat_player_2_name.setText(playerList.get(1).getPublicName());
+
+                player_1.setText(playerList.get(0).getPublicName());
+                player_2.setText(playerList.get(1).getPublicName());
+
+                //Case 1 später löschen
+            case 1:
+                stat_player_1_name.setText(playerList.get(0).getPublicName());
+                player_1.setText(playerList.get(0).getPublicName());
+        }
     }
 
-    public Pane getElementPane() {
-        return elementPane;
+    /**
+     * Sets the text of the player wins
+     * @param gameStatistics    List of GameStatistic Objects
+     */
+    public void setPlayerWins(List<GameStatistic> gameStatistics){
+        int playerCount = gameStatistics.size() ;
+
+        switch (playerCount){
+            case 4:
+                player_4_wins.setText(String.valueOf(gameStatistics.get(3).getRoundWins()));
+            case 3:
+                player_3_wins.setText(String.valueOf(gameStatistics.get(2).getRoundWins()));
+            case 2:
+                player_2_wins.setText(String.valueOf(gameStatistics.get(1).getRoundWins()));
+                player_1_wins.setText(String.valueOf(gameStatistics.get(0).getRoundWins()));
+
+                //Case 1 später löschen
+            case 1:
+                player_1_wins.setText(String.valueOf(gameStatistics.get(0).getRoundWins()));
+        }
     }
-    /*public void seteTankApplication(ETankApplication eTankApplication) {
-        this.eTankApplication = eTankApplication;
-    }*/
+
+    /**
+     * Updates the text of the shown game statistics
+     *
+     * @param gameStatistics    List of GameStatistic Objects
+     */
+    public void updateStatisticText(List<GameStatistic> gameStatistics){
+        int playerCount = gameStatistics.size() ;
+
+        switch (playerCount){
+            case 4:
+                player_4_kills.setText(String.valueOf(gameStatistics.get(3).getKills()));
+                player_4_shots.setText(String.valueOf(gameStatistics.get(3).getShots()));
+                player_4_deaths.setText(String.valueOf(gameStatistics.get(3).getDeaths()));
+            case 3:
+                player_3_kills.setText(String.valueOf(gameStatistics.get(2).getKills()));
+                player_3_shots.setText(String.valueOf(gameStatistics.get(2).getShots()));
+                player_3_deaths.setText(String.valueOf(gameStatistics.get(2).getDeaths()));
+            case 2:
+                player_2_kills.setText(String.valueOf(gameStatistics.get(1).getKills()));
+                player_2_shots.setText(String.valueOf(gameStatistics.get(1).getShots()));
+                player_2_deaths.setText(String.valueOf(gameStatistics.get(1).getDeaths()));
+
+                player_1_kills.setText(String.valueOf(gameStatistics.get(0).getKills()));
+                player_1_shots.setText(String.valueOf(gameStatistics.get(0).getShots()));
+                player_1_deaths.setText(String.valueOf(gameStatistics.get(0).getDeaths()));
+                //Case 1 später löschen
+            case 1:
+                player_1_kills.setText(String.valueOf(gameStatistics.get(0).getKills()));
+                player_1_shots.setText(String.valueOf(gameStatistics.get(0).getShots()));
+                player_1_deaths.setText(String.valueOf(gameStatistics.get(0).getDeaths()));
+        }
+    }
 }

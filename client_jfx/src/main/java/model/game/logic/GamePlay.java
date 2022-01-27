@@ -1,8 +1,9 @@
 package model.game.logic;
 
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import java.util.List;
+
 import main.ETankApplication;
 import model.data.GameStatistic;
 import model.game.elements.*;
@@ -21,7 +22,8 @@ public class GamePlay {
     private String gameNumber;
     private ObservableList<Player> players;
     private GameStatistic gameStatistic;
-    // private ObservableList<GameStatistic> gameStatistics;
+    //private long gameNumber;
+    private List<GameStatistic> gameStatistics;
 
     public void sendMessage(Message msg){
         this.socketClient.sendMsg(msg);
@@ -33,6 +35,8 @@ public class GamePlay {
         for (Player player : players) {
             System.out.println(player.getPublicName());
         }
+
+        //TODO: GameNummer
     }
 
 
@@ -41,31 +45,32 @@ public class GamePlay {
         this.gameNumber = gameNumber;
     }
     public void createGameStatistic() {
+        int playerCount = players.size();
+        for (int i = 0; i < playerCount; i++) {
+            GameStatistic userGameStatistic = new GameStatistic(this.gameNumber, players.get(i).getId(), false, 0, 0, 0, 0, 0, 0, players.get(i).getPublicName());
+            this.gameStatistics.add(userGameStatistic);
+        }
 
+        //Test Statistik
+        this.gameStatistic = new GameStatistic(this.gameNumber, 500, false, 0, 0,0,0,0,0, "publicName");
     }
-
 
     public int getPlayerListSize(){
         return 4;
     }
 
-
     public void getPlayerPosition(){
-
     }
 
     public void setPlayerlist(ObservableList<Player> playerlist) {
         this.players = playerlist;
-       // System.out.println(playerlist);
     }
 
     public void setETankApplication(ETankApplication eTankApplication) {
-        System.out.println("Etankap - gamePlay");
         this.eTankApplication = eTankApplication;
     }
 
     public GameStatistic getGameStatistic(){
         return this.gameStatistic;
-
     }
 }

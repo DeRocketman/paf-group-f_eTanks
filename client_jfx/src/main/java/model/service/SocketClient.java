@@ -39,7 +39,7 @@ public class SocketClient implements Runnable {
 
                 String msg;
                 msg = dataIn.readUTF();
-                System.out.println("Message empfangen: " + msg);
+               // System.out.println("Message empfangen: " + msg);
                 message = gson.fromJson(msg, Message.class);
                 deliverMsg(message);
             }
@@ -54,9 +54,9 @@ public class SocketClient implements Runnable {
             String outgoingMsg = gson.toJson(message);
             dataOut.write(outgoingMsg);
             dataOut.flush();
-            System.out.println("Nachricht gesendet: " + outgoingMsg);
+           // System.out.println("Nachricht gesendet: " + outgoingMsg);
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+          //  System.out.println(e.getMessage());
         }
     }
 
@@ -81,7 +81,7 @@ public class SocketClient implements Runnable {
         loginMessage.setPayload("JAVA");
         String outgoingMsg = gson.toJson(loginMessage);
 
-        System.out.println("Nachricht gesendet: " + outgoingMsg);
+       // System.out.println("Nachricht gesendet: " + outgoingMsg);
     }
 
     public void setGameViewModel(GameViewModel gameViewModel) {

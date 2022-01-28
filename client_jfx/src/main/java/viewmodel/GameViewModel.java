@@ -46,6 +46,7 @@ public class GameViewModel implements ViewModel {
     boolean isFiringMainWeapon;
     boolean canShoot = true;
     boolean gameIsRunning = false;
+    boolean endOfGame = false;
     double shootDelay = GamePhysics.DELAY_SECOND;
     double roundTime = GamePhysics.ROUND_TIME;
     int roundCounter = 1;
@@ -93,13 +94,16 @@ public class GameViewModel implements ViewModel {
                 shootDelayer();
                 shootCollector();
                 gameView.updateStatisticText(gameStatistics);
+                if(endOfGame){
+                    System.out.println("ENDEGELÄNDE");
+                    this.stop();
+                }
             }
         };
         gameActionTimer.start();
     }
 
     public void startTimer() {
-        System.out.println(roundCounter);
         if (roundCounter < 3) {
 
             Timeline gameTimeline = new Timeline();
@@ -117,6 +121,7 @@ public class GameViewModel implements ViewModel {
                     roundTime = GamePhysics.ROUND_TIME;
                 } else if (roundTime == 0 && roundCounter == 3) {
                     //TODO WAS PASSIERT WENN DAS GAME ZUENDE IST
+                    endOfGame = true;
                     gameIsRunning = false;
                     setGameWinner();
                     saveStatistics();
@@ -129,7 +134,6 @@ public class GameViewModel implements ViewModel {
                     gameTimeline.stop();
                     System.out.println("SPIEL ZUENDE");
                 }
-                System.out.println(roundTime);
             });
             gameTimeline.setCycleCount(Animation.INDEFINITE);
             gameTimeline.getKeyFrames().add(kf);
@@ -257,7 +261,6 @@ public class GameViewModel implements ViewModel {
                         Tank temp = (Tank) tank;
                         if (temp.getPlayerId() == msg.getPlayerId()) {
                             gameStatistics.get(elementList.indexOf(tank)).setShots(gameStatistics.get(elementList.indexOf(tank)).getShots() + 1);
-                            //  System.out.println(gameStatistics.get(elementList.indexOf(tank)).getUserName() + " - Shots: " + gameStatistics.get(elementList.indexOf(tank)).getShots());
                             fireMainWeapon(temp);
                         }
                     }
@@ -365,8 +368,6 @@ public class GameViewModel implements ViewModel {
                                 isHit = true;
                                 if (!myBullet) {
                                     //Player was hit
-                                    //System.out.println("Du wurdest von: " + tank.getPlayerId() + " getroffen!");
-
                                     //reduces own live and updates own death statistic
                                     ((Tank) elementList.get(whichTank)).reduceLivePoints();
                                     gameStatistics.get(whichTank).setDeaths(gameStatistics.get(whichTank).getDeaths() + 1);
@@ -444,69 +445,24 @@ public class GameViewModel implements ViewModel {
         }
     }
 
- /*   private void playerMovementDetection() {
-
-        ArrayList<LevelElement> filteredList = new ArrayList<>();
-
-        for (LevelElement element : elementList) {
-            if (element.getType() == LevelElementType.TANK || element.getType() == LevelElementType.BLOCK_WOOD || element.getType() == LevelElementType.BLOCK_METAL) {
-                filteredList.add(element);
-            }
-        }
-
-        for (int i = 0; i < filteredList.size(); i++) {
-            Tank myTankTemp = (Tank) elementList.get(whichTank);
-            Tank tankTemp;
-            Boolean myTank = false;
-
-            if (filteredList.get(i).getType() == LevelElementType.TANK) {
-                tankTemp = (Tank) filteredList.get(i);
-                if (tankTemp.getPlayerId() == myTankTemp.getPlayerId()) {
-                    myTank = true;
-                } else {
-                    myTank = false;
-                }
-            }
-            if (!myTank) {
-                if (elementList.get(whichTank).getBoundsInParent().intersects(filteredList.get(i).getBoundsInParent())) {
-                    if (elementList.get(whichTank).getRotate() == 360.0) {
-                        elementList.get(whichTank).setLayoutY(filteredList.get(whichTank).getLayoutY() + 5);
-                    } else if (elementList.get(whichTank).getRotate() == 90.0) {
-                        elementList.get(whichTank).setLayoutX(filteredList.get(whichTank).getLayoutX() - 5);
-                    } else if (elementList.get(whichTank).getRotate() == 180.0) {
-                        elementList.get(whichTank).setLayoutY(filteredList.get(whichTank).getLayoutY() - 5);
-                    } else if (elementList.get(whichTank).getRotate() == 270.0) {
-                        elementList.get(whichTank).setLayoutX(filteredList.get(whichTank).getLayoutX() + 5);
-                    }
-                }
-            }
-        }
-    }*/
-
     private void playerMovementDetection() {
 
         ArrayList<LevelElement> filteredList = new ArrayList<>();
         boolean check = true;
 
         for (LevelElement element : elementList) {
-            if (element.getType() == LevelElementType.TANK || element.getType() == LevelElementType.BLOCK_WOOD || element.getType() == LevelElementType.BLOCK_METAL) {
+            if (element.getType() == LevelElementType.TANK || element.getType() == LevelElementType.BLOCK_WOOD || element.getType() == LevelElementType.BLOCK_METAL|| element.getType() == LevelElementType.BLOCK_STONE) {
                 filteredList.add(element);
             }
         }
 
         for (Tank tank : tankList) {
-            System.out.println("Tank:" + tank.getPlayerId());
             for (LevelElement element : filteredList) {
                 if (element.getType() == LevelElementType.TANK && tank.getPlayerId() == ((Tank) element).getPlayerId()) {
                     check = false;
-                    System.out.println("Listen Tank: " + tank.getPlayerId() + " ElementList Tank: " + ((Tank) element).getPlayerId());
-                } else {
-                    System.out.println("hier muss getestet werden");
                 }
                 if (check) {
-                    System.out.println("hier wird getestet");
                     if (tank.getBoundsInParent().intersects(element.getBoundsInParent())) {
-                        System.out.println("Collision zwischen: " + tank.getPlayerId() + "&&" + (element.getType()));
                         if (tank.getRotate() == 360.0) {
                             tank.setLayoutY(tank.getLayoutY() + 5);
                         } else if (tank.getRotate() == 90.0) {

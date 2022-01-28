@@ -25,14 +25,13 @@ class ClientSocket:
 
     def sendMsg(self, msg):
         try:
-            self.clientSocket.sendall(str.encode(msg))
+            self.clientSocket.sendall(str.encode(msg + "\n"))
         except socket.error as e:
             return str(e)
 
     def receiveMsg(self):
         while True:
-            # todo: json.decoder.JSONDecodeError: Extra data:
-            msg = self.clientSocket.recv(4096)
+            msg = self.clientSocket.recv(1024)
             msgDec = msg.decode("utf-8").splitlines()
             for lines in msgDec:
                 dictMsg = json.loads(lines)

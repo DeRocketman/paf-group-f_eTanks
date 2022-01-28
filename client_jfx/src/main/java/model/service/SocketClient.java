@@ -10,12 +10,10 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
 public class SocketClient implements Runnable {
-    private GameLobbyViewController gameLobbyViewController;
+    private final GameLobbyViewController gameLobbyViewController;
 
 
     private GameViewModel gameViewModel;
-    private final String hostname = "localhost";
-    private final int port = 3333;
 
     private final Socket socket;
     private final OutputStreamWriter dataOut;
@@ -24,6 +22,8 @@ public class SocketClient implements Runnable {
 
 
     public SocketClient(GameLobbyViewController gameLobbyViewController) throws IOException {
+        String hostname = "localhost";
+        int port = 3333;
         this.gameLobbyViewController = gameLobbyViewController;
         this.socket = new Socket(hostname, port);
         this.dataOut = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8);
@@ -51,7 +51,7 @@ public class SocketClient implements Runnable {
 
     public void sendMsg(Message message) {
         try {
-            String outgoingMsg = gson.toJson(message);
+            String outgoingMsg = gson.toJson(message) + "\n";
             dataOut.write(outgoingMsg);
             dataOut.flush();
            // System.out.println("Nachricht gesendet: " + outgoingMsg);

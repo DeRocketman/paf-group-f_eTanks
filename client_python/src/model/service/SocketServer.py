@@ -26,62 +26,65 @@ class SocketServer:
 
     def threadedClient(self, exSockData):
         while True:
-            msg = exSockData.connection.recv(2048)
-            reply = msg.decode("utf-8")
-            msgJson = json.loads(reply)
-            print("Server: Nachricht empfangen von ", exSockData.playerPublicName, " ", msgJson)
+            msg = exSockData.connection.recv(1024)
+            jsonDec = msg.decode("utf-8").splitlines()
 
-            if msgJson["messageType"] == "LOGIN":
-                exSockData.setPlayerData(msgJson)
+            for line in jsonDec:
+                msgJson = json.loads(line)
+                print("Server: Nachricht empfangen von ", exSockData.playerPublicName, " ", msgJson)
 
-            elif msgJson["messageType"] == "REGISTER_LOBBY":
-                exSockData.registerLobby(msgJson)
-                lobby = ServerLobby(exSockData.lobbyId)
-                lobby.playerCount += 1
-                lobby.addPlayerConn(exSockData)
-                lobby.hostConnection = exSockData
-                self.lobbyList.append(lobby)
+                if msgJson["messageType"] == "LOGIN":
+                    exSockData.setPlayerData(msgJson)
 
-            elif msgJson["messageType"] == "JOIN":
-                exSockData.joinLobby(msgJson)
-                for lobby in self.lobbyList:
-                    if lobby.lobbyId == msgJson["gameLobbyNumber"]:
-                        lobby.addPlayerConn(exSockData)
-                        lobby.playerCount += 1
-                        for player in lobby.playerConnectionList:
-                            if player.playerId != exSockData.playerId:
-                                player.sendData(exSockData, msgJson, "JOINED_PLAYER")
-                                exSockData.sendData(player, msgJson, "JOINED_PLAYER")
-                        exSockData.sendData(exSockData, msgJson, "JOINED_PLAYER")
+                elif msgJson["messageType"] == "REGISTER_LOBBY":
+                    exSockData.registerLobby(msgJson)
+                    lobby = ServerLobby(exSockData.lobbyId)
+                    lobby.playerCount += 1
+                    lobby.addPlayerConn(exSockData)
+                    lobby.hostConnection = exSockData
+                    self.lobbyList.append(lobby)
 
-            elif msgJson["messageType"] == "CHAT_MSG" or msgJson["messageType"] == "RDY_STATUS" or \
-                    msgJson["messageType"] == "START_GAME" or msgJson["messageType"] == "TANK_MOVE" or msgJson["messageType"] == "FIRE_MAIN":
-                if msgJson["messageType"] == "RDY_STATUS":
-                    exSockData.setRdy(msgJson)
+                elif msgJson["messageType"] == "JOIN":
+                    exSockData.joinLobby(msgJson)
+                    for lobby in self.lobbyList:
+                        if lobby.lobbyId == msgJson["gameLobbyNumber"]:
+                            lobby.addPlayerConn(exSockData)
+                            lobby.playerCount += 1
+                            for player in lobby.playerConnectionList:
+                                if player.playerId != exSockData.playerId:
+                                    player.sendData(exSockData, msgJson, "JOINED_PLAYER")
+                                    exSockData.sendData(player, msgJson, "JOINED_PLAYER")
+                            exSockData.sendData(exSockData, msgJson, "JOINED_PLAYER")
+
+                elif msgJson["messageType"] == "CHAT_MSG" or msgJson["messageType"] == "RDY_STATUS" or \
+                        msgJson["messageType"] == "START_GAME" or msgJson["messageType"] == "TANK_MOVE" or msgJson["messageType"] == "FIRE_MAIN":
+                    if msgJson["messageType"] == "RDY_STATUS":
+                        exSockData.setRdy(msgJson)
+                    for player in self.connSocketList:
+                        if player.lobbyId == msgJson["gameLobbyNumber"]:
+                            player.putInMessageBox(msgJson)
+
+                elif msgJson["messageType"] == "GET_LOBBIES":
+                    for lobby in self.lobbyList:
+                        seatCount = lobby.playerCount
+                        exSockData.getLobbyData(lobby.lobbyId, seatCount, msgJson)
+
+
                 for player in self.connSocketList:
-                    if player.lobbyId == msgJson["gameLobbyNumber"]:
-                        player.putInMessageBox(msgJson)
-
-            elif msgJson["messageType"] == "GET_LOBBIES":
-                for lobby in self.lobbyList:
-                    seatCount = lobby.playerCount
-                    exSockData.getLobbyData(lobby.lobbyId, seatCount, msgJson)
-
-            for player in self.connSocketList:
-                while len(player.outgoingMessageBox) != 0:
-                    for msg in player.outgoingMessageBox:
-                        if len(msg) > 2048:
-                            print("Server: Message ist zu groß: ", len(msg))
-                            # todo: Lösung finden falls Puffer zu klein ist!
-                        else:
-                            if player.clientLanguage == "JAVA":
-                                player.connection.send(struct.pack(">H", len(msg)))
-                            player.connection.send(msg)
-                            reply = msg.decode("utf-8")
-                            msgJson = json.loads(reply)
-                            print("Server: Nachricht gesendet an ", player.playerPublicName, "Größe: ", len(msg), " ",
-                                  msgJson)
-                        player.outgoingMessageBox.remove(msg)
+                    while len(player.outgoingMessageBox) != 0:
+                        for msg in player.outgoingMessageBox:
+                            if len(msg) > 1024:
+                                print("Server: Message ist zu groß: ", len(msg))
+                                # todo: Lösung finden falls Puffer zu klein ist!
+                            else:
+                                if player.clientLanguage == "JAVA":
+                                    player.connection.send(struct.pack(">H", len(msg)))
+                                player.connection.send(msg)
+                                reply = msg.decode("utf-8")
+                                msgJson = json.loads(reply)
+                                print("Server: Nachricht gesendet an ", player.playerPublicName, "Größe: ", len(msg), " ",
+                                      msgJson)
+                            player.outgoingMessageBox.remove(msg)
 
     def buildSocketConnection(self):
         while True:

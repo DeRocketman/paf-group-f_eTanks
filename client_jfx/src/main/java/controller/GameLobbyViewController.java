@@ -329,7 +329,7 @@ public class GameLobbyViewController {
         resetViews();
         vbxLobby.setVisible(true);
         hbxHostPanel.setVisible(true);
-        lblGameNumber.setText("Spielnummer: " + String.valueOf(lobby.getGameLobbyID()));
+        lblGameNumber.setText("Spielnummer: " + lobby.getGameLobbyID());
     }
 
     private void showJoinLobbyView() {

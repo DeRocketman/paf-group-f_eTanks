@@ -6,8 +6,6 @@ import time
 
 from PySide6 import QtGui, QtCore
 from PySide6.QtWidgets import QWidget, QListWidgetItem
-
-from controller.GameViewController import GameViewController
 from model.data.User import User
 from model.service.Message import Message
 from resources.view.LobbyHostView import Ui_lobbyHostView

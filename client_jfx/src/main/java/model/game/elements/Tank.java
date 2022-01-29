@@ -5,8 +5,6 @@ import javafx.animation.RotateTransition;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
 import model.game.logic.GamePhysics;
-import model.game.logic.Player;
-import org.boon.primitive.Int;
 
 public class Tank extends LevelElement{
 
@@ -91,18 +89,18 @@ public class Tank extends LevelElement{
     public double[] setCorrectBulletPosition(LevelElement myTank) {
         double[] bulletStartPosition = new double[2];
         if (myTank.getRotate() == 360.0 || myTank.getRotate() == 0.0) {
-            bulletStartPosition[0] = myTank.getLayoutX() + 10.0;
-            bulletStartPosition[1] = myTank.getLayoutY() + 8.0;
+            bulletStartPosition[0] = myTank.getLayoutX() + 17.0;
+            bulletStartPosition[1] = myTank.getLayoutY();
         } else if (myTank.getRotate() == 90.0) {
             bulletStartPosition[0] = myTank.getLayoutX() + 22.0;
             bulletStartPosition[1] = myTank.getLayoutY() + 14.0;
         } else if (myTank.getRotate() == 180.0) {
-            bulletStartPosition[0] = myTank.getLayoutX() + 10.0;
+            bulletStartPosition[0] = myTank.getLayoutX() + 15.0;
             bulletStartPosition[1] = myTank.getLayoutY() + 22.0;
         } else if (myTank.getRotate() == 270.0) {
-            bulletStartPosition[0] = myTank.getLayoutX() + 10.0;
-            bulletStartPosition[1] = myTank.getLayoutY() + 14.0;
-        }
+            bulletStartPosition[0] = myTank.getLayoutX() + 14.0;
+            bulletStartPosition[1] = myTank.getLayoutY() + 15.0;
+            }
         return bulletStartPosition;
     }
 

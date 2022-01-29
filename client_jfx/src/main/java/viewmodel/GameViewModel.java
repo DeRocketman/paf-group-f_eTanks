@@ -9,6 +9,7 @@ import model.service.HttpRequest;
 import model.service.Message;
 import model.service.MessageType;
 import model.service.SocketClient;
+import org.boon.core.Sys;
 import view.GameView;
 
 import de.saxsys.mvvmfx.ViewModel;
@@ -94,7 +95,7 @@ public class GameViewModel implements ViewModel {
                 shootDelayer();
                 shootCollector();
                 gameView.updateStatisticText(gameStatistics);
-                if(endOfGame){
+                if (endOfGame) {
                     System.out.println("ENDEGELÄNDE");
                     this.stop();
                 }
@@ -169,28 +170,23 @@ public class GameViewModel implements ViewModel {
         if (gameIsRunning) {
             if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveUpKey()) || isMovingUp && isFiringMainWeapon) {
                 this.isMovingUp = true;
-                //((Tank) elementList.get(whichTank)).moveTank(360.0);
                 sendMoveTankMsg("360.0");
             }
             if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveDownKey()) || isMovingDown && isFiringMainWeapon) {
                 this.isMovingDown = true;
-                //((Tank) elementList.get(whichTank)).moveTank(180.0);
                 sendMoveTankMsg("180.0");
             }
             if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveRightKey()) || isMovingRight && isFiringMainWeapon) {
                 this.isMovingRight = true;
-                //((Tank) elementList.get(whichTank)).moveTank(90.0);
                 sendMoveTankMsg("90.0");
             }
             if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveLeftKey()) || isMovingLeft && isFiringMainWeapon) {
                 this.isMovingLeft = true;
-                //((Tank) elementList.get(whichTank)).moveTank(270.0);
                 sendMoveTankMsg("270.0");
             }
             if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getFireMainWeaponKey()) && canShoot || isFiringMainWeapon && canShoot) {
                 this.isFiringMainWeapon = true;
                 canShoot = false;
-                //fireMainWeapon(elementList.get(whichTank));
                 sendFireMAinMsg();
             }
         }
@@ -451,7 +447,7 @@ public class GameViewModel implements ViewModel {
         boolean check = true;
 
         for (LevelElement element : elementList) {
-            if (element.getType() == LevelElementType.TANK || element.getType() == LevelElementType.BLOCK_WOOD || element.getType() == LevelElementType.BLOCK_METAL|| element.getType() == LevelElementType.BLOCK_STONE) {
+            if (element.getType() == LevelElementType.TANK || element.getType() == LevelElementType.BLOCK_WOOD || element.getType() == LevelElementType.BLOCK_METAL || element.getType() == LevelElementType.BLOCK_STONE) {
                 filteredList.add(element);
             }
         }

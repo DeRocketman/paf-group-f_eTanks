@@ -191,7 +191,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         double[] rotate = {360.0, 360.0, 180.0, 180.0};
 
         for (int i = 0; i < playerCount; i++) {
-            elementList.add(new Tank(new Image(imgTank[i]), positionsX[i], positionsY[i], 27.0, GamePhysics.ELEMENT_SIZE, rotate[i], i));
+            elementList.add(new Tank(new Image(imgTank[i]), positionsX[i], positionsY[i], GamePhysics.ELEMENT_SIZE, GamePhysics.ELEMENT_SIZE, rotate[i], i));
         }
         gameViewModel.setWhichTank();
         gameViewModel.initTankList();

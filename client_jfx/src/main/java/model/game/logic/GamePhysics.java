@@ -8,7 +8,6 @@ public class GamePhysics {
     public static final double TANK_SPEED = 8.0;
     public static final double TANK_QUARTER_ROTATION_DURATION = 0.2;
 
-
     public static final long PLAYER_PREPARATION_TIME_SECONDS = 30;
     public static final long GAME_TIME_SECONDS = 180;
     public static final long GAME_TIME = GAME_TIME_SECONDS * 1000000000L;

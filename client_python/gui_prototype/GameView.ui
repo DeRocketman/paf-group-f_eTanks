@@ -86,7 +86,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLCDNumber" name="player1LcdOwn_2">
+      <widget class="QLCDNumber" name="clockLcd">
        <property name="digitCount">
         <number>3</number>
        </property>

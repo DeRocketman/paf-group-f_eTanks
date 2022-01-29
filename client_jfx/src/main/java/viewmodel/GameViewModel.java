@@ -53,6 +53,9 @@ public class GameViewModel implements ViewModel {
     int roundCounter = 1;
     private List<GameStatistic> gameStatistics;
 
+    /**
+     * Starts the Game
+     */
     public void startGame() {
         gameView.initTanks(gameLobby.getPlayers().size());
         gameView.setPlayerText(gameLobby.getPlayers());
@@ -68,6 +71,9 @@ public class GameViewModel implements ViewModel {
         startTimer();
     }
 
+    /**
+     * Initialized the list of tanks from the elementlist
+     */
     public void initTankList() {
         if (gameLobby.getPlayers().size() == 1) {
             this.tankList.add((Tank) elementList.get(0));
@@ -85,6 +91,7 @@ public class GameViewModel implements ViewModel {
             this.tankList.add((Tank) elementList.get(3));
         }
     }
+
 
     public void initGameLoop() {
         AnimationTimer gameActionTimer = new AnimationTimer() {
@@ -124,6 +131,7 @@ public class GameViewModel implements ViewModel {
                     //TODO WAS PASSIERT WENN DAS GAME ZUENDE IST
                     endOfGame = true;
                     gameIsRunning = false;
+                    setRoundWinner();
                     setGameWinner();
                     saveStatistics();
                     try {
@@ -333,6 +341,12 @@ public class GameViewModel implements ViewModel {
         }
     }
 
+    /**
+     * checks if bullet hit an element
+     * and reacts depending on the type
+     * and if it was shot by the player or an enemy
+     *
+     */
     private void bulletCollisionDetection() {
 
         boolean isHit = false;
@@ -365,30 +379,44 @@ public class GameViewModel implements ViewModel {
                                 if (!myBullet) {
                                     //Player was hit
                                     //reduces own live and updates own death statistic
+                                    System.out.println(gameStatistics.get(whichTank).getUserName() + " - Livepoints: " + ((Tank) elementList.get(whichTank)).getLivePoints());
                                     ((Tank) elementList.get(whichTank)).reduceLivePoints();
-                                    gameStatistics.get(whichTank).setDeaths(gameStatistics.get(whichTank).getDeaths() + 1);
-                                    //System.out.println(gameStatistics.get(whichTank).getUserName() + " - Livepoints: " + ((Tank) elementList.get(whichTank)).getLivePoints());
-                                    //System.out.println(gameStatistics.get(whichTank).getUserName() + " - Deaths: " + gameStatistics.get(whichTank).getDeaths());
+                                    if(((Tank) elementList.get(whichTank)).getLivePoints() == 0){
+                                        gameStatistics.get(whichTank).setDeaths(gameStatistics.get(whichTank).getDeaths() + 1);
 
-                                    //updates kill & hitpoints statistic of other player
-                                    gameStatistics.get(elementList.indexOf(tank)).setKills(gameStatistics.get(elementList.indexOf(tank)).getKills() + 1);
-                                    gameStatistics.get(elementList.indexOf(tank)).setHitPoints(gameStatistics.get(elementList.indexOf(tank)).getHitPoints() + GamePhysics.KILL_POINTS);
-                                    gameStatistics.get(elementList.indexOf(tank)).setGamePoints(gameStatistics.get(elementList.indexOf(tank)).getGamePoints() + GamePhysics.KILL_POINTS);
+                                        //updates kill & hitpoints statistic of other player
+                                        gameStatistics.get(elementList.indexOf(tank)).setKills(gameStatistics.get(elementList.indexOf(tank)).getKills() + 1);
+                                        gameStatistics.get(elementList.indexOf(tank)).setHitPoints(gameStatistics.get(elementList.indexOf(tank)).getHitPoints() + GamePhysics.KILL_POINTS);
+                                        gameStatistics.get(elementList.indexOf(tank)).setGamePoints(gameStatistics.get(elementList.indexOf(tank)).getGamePoints() + GamePhysics.KILL_POINTS);
+
+                                        System.out.println(gameStatistics.get(whichTank).getUserName() + " - Livepoints: " + ((Tank) elementList.get(whichTank)).getLivePoints());
+                                        System.out.println(gameStatistics.get(whichTank).getUserName() + " - Deaths: " + gameStatistics.get(whichTank).getDeaths());
+
+                                        System.out.println(gameStatistics.get(elementList.indexOf(tank)).getUserName() + " - Livepoints: " + tank.getLivePoints());
+                                        System.out.println(gameStatistics.get(elementList.indexOf(tank)).getUserName() + " - Deaths: " + gameStatistics.get(elementList.indexOf(tank)).getDeaths());
+                                    }
                                 } else {
                                     //other player was hit
                                     //System.out.println("Player: " + playerId + " Du hast Player: " + tank.getPlayerId() + " getroffen!");
 
                                     //updates other player death statstic
+                                    System.out.println(gameStatistics.get(elementList.indexOf(tank)).getUserName() + " - Livepoints: " + tank.getLivePoints());
                                     tank.reduceLivePoints();
-                                    gameStatistics.get(elementList.indexOf(tank)).setDeaths(gameStatistics.get(elementList.indexOf(tank)).getDeaths() + 1);
+                                    if(tank.getLivePoints() == 0){
+                                        gameStatistics.get(elementList.indexOf(tank)).setDeaths(gameStatistics.get(elementList.indexOf(tank)).getDeaths() + 1);
 
-                                    //updates own kill & hitpoints statistic
-                                    gameStatistics.get(whichTank).setKills(gameStatistics.get(whichTank).getKills() + 1);
-                                    gameStatistics.get(whichTank).setHitPoints(gameStatistics.get(whichTank).getHitPoints() + GamePhysics.KILL_POINTS);
-                                    gameStatistics.get(whichTank).setGamePoints(gameStatistics.get(whichTank).getGamePoints() + GamePhysics.KILL_POINTS);
+                                        //updates own kill & hitpoints statistic
+                                        gameStatistics.get(whichTank).setKills(gameStatistics.get(whichTank).getKills() + 1);
+                                        gameStatistics.get(whichTank).setHitPoints(gameStatistics.get(whichTank).getHitPoints() + GamePhysics.KILL_POINTS);
+                                        gameStatistics.get(whichTank).setGamePoints(gameStatistics.get(whichTank).getGamePoints() + GamePhysics.KILL_POINTS);
 
-                                    //System.out.println(gameStatistics.get(whichTank).getUserName() + " - Kills: " + gameStatistics.get(whichTank).getKills());
-                                    //System.out.println(gameStatistics.get(whichTank).getUserName() + " - Hitpoints: " + gameStatistics.get(whichTank).getHitPoints());
+                                        System.out.println(gameStatistics.get(whichTank).getUserName() + " - Kills: " + gameStatistics.get(whichTank).getKills());
+                                        System.out.println(gameStatistics.get(whichTank).getUserName() + " - Hitpoints: " + gameStatistics.get(whichTank).getHitPoints());
+
+                                        System.out.println(gameStatistics.get(elementList.indexOf(tank)).getUserName() + " - Kills: " + gameStatistics.get(elementList.indexOf(tank)).getKills());
+                                        System.out.println(gameStatistics.get(elementList.indexOf(tank)).getUserName() + " - Hitpoints: " + gameStatistics.get(elementList.indexOf(tank)).getHitPoints());
+
+                                    }
                                 }
                             }
                         }
@@ -482,6 +510,10 @@ public class GameViewModel implements ViewModel {
         }
     }
 
+    /**
+     * Creates a new List of GameStatistics
+     * one Statistic for every player
+     */
     public void createGameStatistic() {
         gameStatistics = new ArrayList<>();
         int playerCount = gameLobby.getPlayers().size();
@@ -530,6 +562,7 @@ public class GameViewModel implements ViewModel {
 
     /**
      * Sets the round winner
+     * first who has more livePoints and second who has more gamepoints
      */
     private void setRoundWinner() {
         int winner = 0;
@@ -553,6 +586,7 @@ public class GameViewModel implements ViewModel {
 
     /**
      * Sets the game winner
+     * first who won more rounds and second who has more gamepoints
      */
     private void setGameWinner() {
         int winner = 0;

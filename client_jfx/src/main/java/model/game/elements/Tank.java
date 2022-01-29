@@ -109,7 +109,7 @@ public class Tank extends LevelElement{
     }
 
     public void reduceLivePoints(){
-        livePoints = livePoints--;
+        livePoints--;
     }
 
     public void setPlayerId(long playerId) {

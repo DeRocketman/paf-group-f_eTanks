@@ -24,9 +24,10 @@
                         <Button id="btn-profil" fx:id="btnProfil" mnemonicParsing="false" onAction="#switchToProfil" prefHeight="32.0" prefWidth="0.0" text="Profil" />
                         <Button id="btn-statistics" fx:id="btnStatistics" mnemonicParsing="false" onAction="#switchToStatistics" prefHeight="32.0" prefWidth="0.0" text="Statistiken" />
                         <Button id="btn-settings" fx:id="btnSettings" mnemonicParsing="false" onAction="#switchToSettings" prefHeight="32.0" prefWidth="0.0" text="Einstellungen" />
-                        <Button id="btn-newGame" fx:id="exitGame" mnemonicParsing="false" onAction="#exitGame" prefHeight="26.0" prefWidth="200.0" text="Beenden" />
+                        <Button id="btn-newGame" fx:id="exitGame" mnemonicParsing="false" onAction="#exitGame" prefHeight="26.0" prefWidth="200.0" text="Spiel verlassen" />
                      </children>
                   </VBox>
+                  <Button id="btn-settings" fx:id="btnLogut" onAction="#logout" alignment="CENTER" layoutX="14.0" layoutY="788.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="0.0" text="Abmelden" />
                </children>
             </AnchorPane>
          </center>

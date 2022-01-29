@@ -398,7 +398,14 @@ public class GameViewModel implements ViewModel {
                             element.setDisable(true);
                             isHit = true;
                         }
-                    } else if (elementList.get(i).getType() == LevelElementType.BLOCK_WOOD) {
+                    } else if (elementList.get(i).getType() == LevelElementType.BLOCK_STONE) {
+                        if (element.getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
+                            toRemove = element;
+                            element.setDisable(true);
+                            isHit = true;
+                        }
+                    }
+                    else if (elementList.get(i).getType() == LevelElementType.BLOCK_WOOD) {
                         Block woodenBlock = (Block) elementList.get(i);
                         if (element.getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
                             if (woodenBlock.getLives() == 3) {

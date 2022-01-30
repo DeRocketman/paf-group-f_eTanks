@@ -28,6 +28,12 @@ class HttpRequest:
             requestedURL = "/user/username"
             payload = self.user.username
             request = requests.post("http://127.0.0.1:8080" + requestedURL, headers=headers, data=payload)
+        elif requestCode == requestCode.STATISTIC_LIST:
+            print(requestCode.STATISTIC_LIST)
+            url = "/user_game_statistic/"
+            requestedURL = (url + str(self.user.id))
+            payload = str(self.user.id)
+            request = requests.post("http://127.0.0.1:8080" + requestedURL, headers=headers, data=payload)
         elif requestCode == requestCode.UPDATE_USER:
             print(requestCode.UPDATE_USER)
             requestedURL = "/user/save"
@@ -57,13 +63,19 @@ class HttpRequest:
                 self.mapResponseToUser(userData)
                 print("Ende 3. Runde")
                 success = True
+            elif requestCode == requestCode.STATISTIC_LIST:
+                print("Nur Request Text " + request.text)
+                statisticList = request.json()
+                self.mapResponseToStatistic(statisticList)
+                print("Statstiken empfangen")
+                success = True
             elif requestCode == requestCode.UPDATE_USER:
                 print("Update User Response:")
                 print("---------------------")
                 print(request.text)
                 success = True
         elif request.status_code >= 400 and requestCode == requestCode.CREATE_USER:
-            print("Aha:Der Benutzername ist schon vergeben")
+            print("Aha: Der Benutzername ist schon vergeben")
             success = False
         elif request.status_code >= 400 and requestCode == requestCode.GET_TOKEN:
             print("Aha: Passwort oder Benutzer falsch")
@@ -91,6 +103,12 @@ class HttpRequest:
         self.user.userSettings.fireMainWeaponKey = jsonData["userSettings"]["fireMainWeaponKey"]
         self.user.userSettings.fireSecondaryWeaponKey = jsonData["userSettings"]["fireSecondaryWeaponKey"]
         #self.user.userStatistics = jsonData["gameStatistics"]
+
+    def mapResponseToStatistic(self, jsonData):
+        import json
+        gameStatisticList = json.loads(jsonData)
+        print("Test für Statistik: ")
+        print(gameStatisticList[0])
 
     def mapUserToPayload(self):
         return {

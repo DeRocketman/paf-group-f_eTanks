@@ -1,11 +1,14 @@
 from model.data.User import User
 
-
 class GameStatistic:
 
     def __init__(self):
-        self.user = User()
+        # self.user = User()
+        self.id = 0
+        self.userName = ""
         self.gameNumber = 1100101
+        self.winner = 0
+        self.roundWins = 0
         self.gamePoints = 0
         self.kills = 0
         self.deaths = 0

@@ -49,7 +49,7 @@ public class GameViewModel implements ViewModel {
     boolean canShoot = true;
     boolean gameIsRunning = false;
     boolean endOfGame = false;
-    double shootDelay = GamePhysics.DELAY_SECOND;
+    double shootDelay = GamePhysics.BULLET_DELAY;
     double roundTime = GamePhysics.ROUND_TIME;
     int roundCounter = 1;
     private List<GameStatistic> gameStatistics;
@@ -179,19 +179,19 @@ public class GameViewModel implements ViewModel {
         if (gameIsRunning && isActive) {
             if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveUpKey()) || isMovingUp && isFiringMainWeapon) {
                 this.isMovingUp = true;
-                sendMoveTankMsg("360.0");
+                sendMoveTankMsg(GamePhysics.TANK_MOVE_UP_COURSE);
             }
             if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveDownKey()) || isMovingDown && isFiringMainWeapon) {
                 this.isMovingDown = true;
-                sendMoveTankMsg("180.0");
+                sendMoveTankMsg(GamePhysics.TANK_MOVE_DOWN_COURSE);
             }
             if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveRightKey()) || isMovingRight && isFiringMainWeapon) {
                 this.isMovingRight = true;
-                sendMoveTankMsg("90.0");
+                sendMoveTankMsg(GamePhysics.TANK_MOVE_RIGHT_COURSE);
             }
             if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveLeftKey()) || isMovingLeft && isFiringMainWeapon) {
                 this.isMovingLeft = true;
-                sendMoveTankMsg("270.0");
+                sendMoveTankMsg(GamePhysics.TANK_MOVE_LEFT_COURSE);
             }
             if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getFireMainWeaponKey()) && canShoot || isFiringMainWeapon && canShoot) {
                 this.isFiringMainWeapon = true;
@@ -220,7 +220,6 @@ public class GameViewModel implements ViewModel {
     }
 
     public void receiveMessage(Message msg) {
-
         Platform.runLater(() -> {
             if (msg.getMessageType() == MessageType.TANK_MOVE) {
                 processMoveTankMsg(msg);
@@ -231,24 +230,21 @@ public class GameViewModel implements ViewModel {
     }
 
     public void processMoveTankMsg(Message msg) {
-
-        Platform.runLater(() -> {
-            for (LevelElement tank : elementList) {
-                if (tank.getType() == LevelElementType.TANK) {
-                    Tank temp = (Tank) tank;
-                    if (temp.getPlayerId() == msg.getPlayerId()) {
-                        temp.moveTank(Double.parseDouble(msg.getPayload()));
-                    }
+        for (LevelElement tank : elementList) {
+            if (tank.getType() == LevelElementType.TANK) {
+                Tank temp = (Tank) tank;
+                if (temp.getPlayerId() == msg.getPlayerId()) {
+                    temp.moveTank(Double.parseDouble(msg.getPayload()));
                 }
             }
-        });
+        }
     }
 
     /**
      * Processes the fireMain message and updates the statistic
      * runs through the elementList to find out which tank has the same id as the player wo sent the message
      *
-     * @param msg   incoming message from the socket server
+     * @param msg incoming message from the socket server
      */
     public void processFireMainMsg(Message msg) {
         Platform.runLater(() -> {
@@ -301,8 +297,8 @@ public class GameViewModel implements ViewModel {
     }
 
     private void shootDelayer() {
-        shootDelay += 0.05;
-        if (shootDelay >= 2) {
+        shootDelay += 0.005;
+        if (shootDelay >= GamePhysics.BULLET_DELAY) {
             canShoot = true;
             shootDelay = 0;
         }
@@ -319,24 +315,22 @@ public class GameViewModel implements ViewModel {
 
     public void moveBullet(BulletMainWeapon bullet) {
         double rotation = bullet.getRotate();
-        if (rotation == 90.0) {
-            bullet.setX(bullet.getX() + 5);
-        } else if (rotation == 360 || rotation == 0) {
-            bullet.setY(bullet.getY() - 5);
-        } else if (rotation == 270) {
-            bullet.setX(bullet.getX() - 5);
-        } else if (rotation == 180) {
-            bullet.setY(bullet.getY() + 5);
+        if (rotation == GamePhysics.BULLET_ROTATION_RIGHT) {
+            bullet.setX(bullet.getX() + GamePhysics.BULLET_SPEED);
+        } else if (rotation == GamePhysics.BULLET_ROTATION_UP || rotation == 0.0) {
+            bullet.setY(bullet.getY() - GamePhysics.BULLET_SPEED);
+        } else if (rotation == GamePhysics.BULLET_ROTATION_LEFT) {
+            bullet.setX(bullet.getX() - GamePhysics.BULLET_SPEED);
+        } else if (rotation == GamePhysics.BULLET_ROTATION_DOWN) {
+            bullet.setY(bullet.getY() + GamePhysics.BULLET_SPEED);
         }
     }
 
     /**
      * checks if bullet hit an element
      * and reacts depending on the type
-     *
      */
     private void bulletCollisionDetection() {
-
         boolean isHit = false;
         LevelElement toRemove = null;
         LevelElement toRemoveTwo = null;
@@ -350,7 +344,7 @@ public class GameViewModel implements ViewModel {
                 for (int i = 0; i < elementList.size(); i++) {
                     if (elementList.get(i).getType() == LevelElementType.TANK) {
                         Tank tank = (Tank) elementList.get(i);
-                        if(tank.getActive()){
+                        if (tank.getActive()) {
                             if (element.getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
                                 //Bullet trifft auf tank von dem sie nicht abgeschossen wurde
                                 if (tankFiredPlayerId != tank.getPlayerId()) {
@@ -361,9 +355,9 @@ public class GameViewModel implements ViewModel {
 
                                     tank.reduceLivePoints();
 
-                                    if(tank.getLivePoints() == 0){
+                                    if (tank.getLivePoints() == 0) {
                                         Tank myTank = (Tank) elementList.get(whichTank);
-                                        if(myTank.getPlayerId() == tank.getPlayerId()){
+                                        if (myTank.getPlayerId() == tank.getPlayerId()) {
                                             isActive = false;
                                         }
 
@@ -373,9 +367,9 @@ public class GameViewModel implements ViewModel {
                                         gameStatistics.get(elementList.indexOf(tank)).setDeaths(gameStatistics.get(elementList.indexOf(tank)).getDeaths() + 1);
 
                                         // Shooting Tank
-                                        gameStatistics.get(elementList.indexOf(tempBullet.getTankFired())).setKills( gameStatistics.get(elementList.indexOf(tempBullet.getTankFired())).getKills() +1 );
-                                        gameStatistics.get(elementList.indexOf(tempBullet.getTankFired())).setHitPoints( gameStatistics.get(elementList.indexOf(tempBullet.getTankFired())).getHitPoints() + GamePhysics.KILL_POINTS);
-                                        gameStatistics.get(elementList.indexOf(tempBullet.getTankFired())).setGamePoints( gameStatistics.get(elementList.indexOf(tempBullet.getTankFired())).getGamePoints() + GamePhysics.KILL_POINTS);
+                                        gameStatistics.get(elementList.indexOf(tempBullet.getTankFired())).setKills(gameStatistics.get(elementList.indexOf(tempBullet.getTankFired())).getKills() + 1);
+                                        gameStatistics.get(elementList.indexOf(tempBullet.getTankFired())).setHitPoints(gameStatistics.get(elementList.indexOf(tempBullet.getTankFired())).getHitPoints() + GamePhysics.KILL_POINTS);
+                                        gameStatistics.get(elementList.indexOf(tempBullet.getTankFired())).setGamePoints(gameStatistics.get(elementList.indexOf(tempBullet.getTankFired())).getGamePoints() + GamePhysics.KILL_POINTS);
                                     }
                                 }
                             }
@@ -409,8 +403,7 @@ public class GameViewModel implements ViewModel {
                                 isHit = true;
                             }
                         }
-                    }
-                    else if (elementList.get(i).getType() == LevelElementType.BLOCK_WOOD) {
+                    } else if (elementList.get(i).getType() == LevelElementType.BLOCK_WOOD) {
                         Block woodenBlock = (Block) elementList.get(i);
                         if (element.getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
                             if (woodenBlock.getLives() == 3) {
@@ -454,7 +447,6 @@ public class GameViewModel implements ViewModel {
     }
 
     private void playerMovementDetection() {
-
         ArrayList<LevelElement> filteredList = new ArrayList<>();
         boolean check = true;
 
@@ -472,13 +464,17 @@ public class GameViewModel implements ViewModel {
                 if (check) {
                     if (tank.getBoundsInParent().intersects(element.getBoundsInParent())) {
                         if (tank.getRotate() == 360.0) {
-                            tank.setLayoutY(tank.getLayoutY() + 5);
+                            isMovingUp = false;
+                            tank.setLayoutY(tank.getLayoutY() + GamePhysics.TANK_SPEED);
                         } else if (tank.getRotate() == 90.0) {
-                            tank.setLayoutX(tank.getLayoutX() - 5);
+                            isMovingRight = false;
+                            tank.setLayoutX(tank.getLayoutX() - GamePhysics.TANK_SPEED);
                         } else if (tank.getRotate() == 180.0) {
-                            tank.setLayoutY(tank.getLayoutY() - 5);
+                            isMovingDown = false;
+                            tank.setLayoutY(tank.getLayoutY() - GamePhysics.TANK_SPEED);
                         } else if (tank.getRotate() == 270.0) {
-                            tank.setLayoutX(tank.getLayoutX() + 5);
+                            isMovingRight = false;
+                            tank.setLayoutX(tank.getLayoutX() + GamePhysics.TANK_SPEED);
                         }
                     }
                 }
@@ -486,6 +482,7 @@ public class GameViewModel implements ViewModel {
             }
         }
     }
+
 
     /**
      * Creates a new List of GameStatistics

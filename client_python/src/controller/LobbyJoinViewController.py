@@ -121,9 +121,9 @@ class LobbyJoinViewController(QWidget):
 
     def startGame(self):
         self.newGameViewController.gameView.initGameData(self.playerList, self.lobbyId)
-        self.newGameViewController.mainMenuViewController.stackedWidget.addWidget(self.newGameViewController.gameView)
-        self.newGameViewController.mainMenuViewController.stackedWidget. \
-            setCurrentWidget(self.newGameViewController.gameView)
+    #    self.newGameViewController.mainMenuViewController.stackedWidget.addWidget(self.newGameViewController.gameView)
+    #    self.newGameViewController.mainMenuViewController.stackedWidget. \
+    #        setCurrentWidget(self.newGameViewController.gameView)
 
     @staticmethod
     def buildPlayerIconItem(user=User()):

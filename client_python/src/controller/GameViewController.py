@@ -1,20 +1,20 @@
 import pygame as pygame
-from PySide6.QtWidgets import QWidget
 
-from resources.view.GameView import Ui_gameWidget
+from model.game.elements.Tank import Tank
 
 
-class GameViewController(QWidget):
+class GameViewController():
     def __init__(self, newGameViewController):
-        super().__init__()
-        self.gameView = Ui_gameWidget()
-        self.gameView.setupUi(self)
+
         self.newGameViewController = newGameViewController
         self.signedPlayer = self.newGameViewController.mainMenuViewController.signedUser
         self.gameSocket = self.newGameViewController.clientSocket
         self.playerList = []
         self.gameId = 0
+        self.roundCounter = 1
         self.clock = pygame.time
+
+        player = pygame.image.load("../resources/images/tank/Tank_01.png")
 
     def initGameData(self, playerList, lobbyId):
         self.playerList = playerList
@@ -25,3 +25,11 @@ class GameViewController(QWidget):
 
     def receiveMsg(self, msg):
         pass
+
+    def drawLvl(self):
+        if self.roundCounter == 1:
+            pass
+
+    def drawTanks(self):
+        if len(self.playerList) == 1:
+            tank1 = Tank("../resources/images/tank/Tank_01.png", 100.0, 700.0, 40.0, 40.0, 360.0)

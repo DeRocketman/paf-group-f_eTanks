@@ -385,7 +385,15 @@ public class GameLobbyViewController {
                     Label playerNameLbl = new Label();
                     playerNameLbl.setText(selectedLobby.getPlayers().get(row).getPublicName());
 
-                    playerImage.setImage(getImageFromBase64String(httpRequest.getImageById(selectedLobby.getPlayers().get(row).getId())));
+                    String image = httpRequest.getImageById(selectedLobby.getPlayers().get(row).getId());
+
+                    if (image.equals("default")) {
+                        playerImage.setImage(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("img/images/default-user-image.png"))));
+                    } else {
+                        playerImage.setImage(getImageFromBase64String(image));
+                    }
+
+
                     System.out.println(httpRequest.getImageById(selectedLobby.getPlayers().get(row).getId()));
 
                     if (selectedLobby.getPlayers().get(row).isReady()) {

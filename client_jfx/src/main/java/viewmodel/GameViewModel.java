@@ -220,7 +220,6 @@ public class GameViewModel implements ViewModel {
     }
 
     public void receiveMessage(Message msg) {
-
         Platform.runLater(() -> {
             if (msg.getMessageType() == MessageType.TANK_MOVE) {
                 processMoveTankMsg(msg);
@@ -231,24 +230,21 @@ public class GameViewModel implements ViewModel {
     }
 
     public void processMoveTankMsg(Message msg) {
-
-        Platform.runLater(() -> {
-            for (LevelElement tank : elementList) {
-                if (tank.getType() == LevelElementType.TANK) {
-                    Tank temp = (Tank) tank;
-                    if (temp.getPlayerId() == msg.getPlayerId()) {
-                        temp.moveTank(Double.parseDouble(msg.getPayload()));
-                    }
+        for (LevelElement tank : elementList) {
+            if (tank.getType() == LevelElementType.TANK) {
+                Tank temp = (Tank) tank;
+                if (temp.getPlayerId() == msg.getPlayerId()) {
+                    temp.moveTank(Double.parseDouble(msg.getPayload()));
                 }
             }
-        });
+        }
     }
 
     /**
      * Processes the fireMain message and updates the statistic
      * runs through the elementList to find out which tank has the same id as the player wo sent the message
      *
-     * @param msg   incoming message from the socket server
+     * @param msg incoming message from the socket server
      */
     public void processFireMainMsg(Message msg) {
         Platform.runLater(() -> {
@@ -333,10 +329,8 @@ public class GameViewModel implements ViewModel {
     /**
      * checks if bullet hit an element
      * and reacts depending on the type
-     *
      */
     private void bulletCollisionDetection() {
-
         boolean isHit = false;
         LevelElement toRemove = null;
         LevelElement toRemoveTwo = null;
@@ -350,7 +344,7 @@ public class GameViewModel implements ViewModel {
                 for (int i = 0; i < elementList.size(); i++) {
                     if (elementList.get(i).getType() == LevelElementType.TANK) {
                         Tank tank = (Tank) elementList.get(i);
-                        if(tank.getActive()){
+                        if (tank.getActive()) {
                             if (element.getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
                                 //Bullet trifft auf tank von dem sie nicht abgeschossen wurde
                                 if (tankFiredPlayerId != tank.getPlayerId()) {
@@ -361,9 +355,9 @@ public class GameViewModel implements ViewModel {
 
                                     tank.reduceLivePoints();
 
-                                    if(tank.getLivePoints() == 0){
+                                    if (tank.getLivePoints() == 0) {
                                         Tank myTank = (Tank) elementList.get(whichTank);
-                                        if(myTank.getPlayerId() == tank.getPlayerId()){
+                                        if (myTank.getPlayerId() == tank.getPlayerId()) {
                                             isActive = false;
                                         }
 
@@ -373,9 +367,9 @@ public class GameViewModel implements ViewModel {
                                         gameStatistics.get(elementList.indexOf(tank)).setDeaths(gameStatistics.get(elementList.indexOf(tank)).getDeaths() + 1);
 
                                         // Shooting Tank
-                                        gameStatistics.get(elementList.indexOf(tempBullet.getTankFired())).setKills( gameStatistics.get(elementList.indexOf(tempBullet.getTankFired())).getKills() +1 );
-                                        gameStatistics.get(elementList.indexOf(tempBullet.getTankFired())).setHitPoints( gameStatistics.get(elementList.indexOf(tempBullet.getTankFired())).getHitPoints() + GamePhysics.KILL_POINTS);
-                                        gameStatistics.get(elementList.indexOf(tempBullet.getTankFired())).setGamePoints( gameStatistics.get(elementList.indexOf(tempBullet.getTankFired())).getGamePoints() + GamePhysics.KILL_POINTS);
+                                        gameStatistics.get(elementList.indexOf(tempBullet.getTankFired())).setKills(gameStatistics.get(elementList.indexOf(tempBullet.getTankFired())).getKills() + 1);
+                                        gameStatistics.get(elementList.indexOf(tempBullet.getTankFired())).setHitPoints(gameStatistics.get(elementList.indexOf(tempBullet.getTankFired())).getHitPoints() + GamePhysics.KILL_POINTS);
+                                        gameStatistics.get(elementList.indexOf(tempBullet.getTankFired())).setGamePoints(gameStatistics.get(elementList.indexOf(tempBullet.getTankFired())).getGamePoints() + GamePhysics.KILL_POINTS);
                                     }
                                 }
                             }
@@ -409,8 +403,7 @@ public class GameViewModel implements ViewModel {
                                 isHit = true;
                             }
                         }
-                    }
-                    else if (elementList.get(i).getType() == LevelElementType.BLOCK_WOOD) {
+                    } else if (elementList.get(i).getType() == LevelElementType.BLOCK_WOOD) {
                         Block woodenBlock = (Block) elementList.get(i);
                         if (element.getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
                             if (woodenBlock.getLives() == 3) {
@@ -454,7 +447,6 @@ public class GameViewModel implements ViewModel {
     }
 
     private void playerMovementDetection() {
-
         ArrayList<LevelElement> filteredList = new ArrayList<>();
         boolean check = true;
 
@@ -472,13 +464,13 @@ public class GameViewModel implements ViewModel {
                 if (check) {
                     if (tank.getBoundsInParent().intersects(element.getBoundsInParent())) {
                         if (tank.getRotate() == 360.0) {
-                            tank.setLayoutY(tank.getLayoutY() + 5);
+                            tank.setLayoutY(tank.getLayoutY() + GamePhysics.TANK_SPEED);
                         } else if (tank.getRotate() == 90.0) {
-                            tank.setLayoutX(tank.getLayoutX() - 5);
+                            tank.setLayoutX(tank.getLayoutX() - GamePhysics.TANK_SPEED);
                         } else if (tank.getRotate() == 180.0) {
-                            tank.setLayoutY(tank.getLayoutY() - 5);
+                            tank.setLayoutY(tank.getLayoutY() - GamePhysics.TANK_SPEED);
                         } else if (tank.getRotate() == 270.0) {
-                            tank.setLayoutX(tank.getLayoutX() + 5);
+                            tank.setLayoutX(tank.getLayoutX() + GamePhysics.TANK_SPEED);
                         }
                     }
                 }
@@ -486,6 +478,7 @@ public class GameViewModel implements ViewModel {
             }
         }
     }
+
 
     /**
      * Creates a new List of GameStatistics

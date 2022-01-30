@@ -1,9 +1,10 @@
 from model.game.elements.LevelElement import LevelElement
+from model.game.elements.LevelElementType import LevelElementType
 
 
 class Tank (LevelElement):
     def __init__(self, imagePath, positionX, positionY, width, height, rotation):
-        super().__init__(imagePath, positionX, positionY, width, height, rotation)
+        super().__init__(LevelElementType.TANK, imagePath, positionX, positionY, width, height, rotation)
         
     def moveUp(self):
         pass

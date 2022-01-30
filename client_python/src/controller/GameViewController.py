@@ -1,20 +1,25 @@
-import pygame as pygame
+import pygame as pg
+import pygame.event
 
-from model.game.elements.Tank import Tank
+from pygame.constants import QUIT, KEYDOWN, K_ESCAPE
+from model.game.logic.GamePhysics import GamePhysics
+from resources.view.GameView import GameView
 
 
-class GameViewController():
-    def __init__(self, newGameViewController):
-
-        self.newGameViewController = newGameViewController
-        self.signedPlayer = self.newGameViewController.mainMenuViewController.signedUser
-        self.gameSocket = self.newGameViewController.clientSocket
+class GameViewController:
+    def __init__(self):
+        pg.init()
+        self.gameView = GameView()
+        # self.newGameViewController = newGameViewController
+        # self.signedPlayer = self.newGameViewController.mainMenuViewController.signedUser
+        # self.gameSocket = self.newGameViewController.clientSocket
         self.playerList = []
         self.gameId = 0
         self.roundCounter = 1
-        self.clock = pygame.time
-
-        player = pygame.image.load("../resources/images/tank/Tank_01.png")
+        self.clock = pg.time.Clock()
+        self.FPS = GamePhysics.FRAMES_PER_SECONDS
+        self.gameWindow = None
+        self.gameLoop()
 
     def initGameData(self, playerList, lobbyId):
         self.playerList = playerList
@@ -26,10 +31,18 @@ class GameViewController():
     def receiveMsg(self, msg):
         pass
 
-    def drawLvl(self):
-        if self.roundCounter == 1:
-            pass
+    def gameLoop(self):
+        self.gameWindow = self.gameView.drawWindow()
 
-    def drawTanks(self):
-        if len(self.playerList) == 1:
-            tank1 = Tank("../resources/images/tank/Tank_01.png", 100.0, 700.0, 40.0, 40.0, 360.0)
+        pg.display.set_caption("eTanks - PuF WiSe 21/22 - Gruppe F", "/../resources/images/eTanksTitle.png")
+        while True:
+            for event in pygame.event.get():
+                if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
+                    pygame.quit()
+
+            pg.display.flip()
+            self.clock.tick(self.FPS)
+
+
+if __name__ == '__main__':
+    gvc = GameViewController()

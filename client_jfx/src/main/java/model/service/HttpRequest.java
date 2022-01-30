@@ -3,6 +3,7 @@ package model.service;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
 import main.ETankApplication;
 import model.data.*;
 
@@ -84,6 +85,59 @@ public class HttpRequest {
         return true;
     }
 
+    public String getImageById(long id){
+        String userImage;
+
+        URL url;
+        HttpURLConnection con = null;
+        try {
+            url = new URL("http://127.0.0.1:8080/user/id");
+            con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("POST");
+
+            con.setRequestProperty("Authorization", "Bearer " + eTankApplication.getBearerToken());
+            con.setRequestProperty("Content-Type", "application/json; utf-8");
+            con.setRequestProperty("Accept", "application/json");
+            con.setDoOutput(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String jsonInputString = String.valueOf(id);
+
+
+        try {
+            assert con != null;
+            OutputStream os = con.getOutputStream();
+            byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
+            os.write(input, 0, input.length);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        StringBuilder response = null;
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String output;
+
+            response = new StringBuilder();
+            while ((output = br.readLine()) != null) {
+                response.append(output);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Gson gson = new Gson();
+        User tempUser = gson.fromJson(String.valueOf(response), User.class);
+
+        userImage = tempUser.getUserImage();
+
+        con.disconnect();
+
+        return userImage;
+    }
+
     public void findUserByUsername(Authorisation authorisation) {
 
         URL url = null;
@@ -97,8 +151,6 @@ public class HttpRequest {
             con.setRequestProperty("Content-Type", "application/json; utf-8");
             con.setRequestProperty("Accept", "application/json");
             con.setDoOutput(true);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -114,12 +166,12 @@ public class HttpRequest {
             e.printStackTrace();
         }
 
-        StringBuffer response = null;
+        StringBuilder response = null;
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String output;
 
-            response = new StringBuffer();
+            response = new StringBuilder();
             while ((output = br.readLine()) != null) {
                 response.append(output);
             }

@@ -13,6 +13,7 @@ import javafx.scene.layout.VBox;
 import main.ETankApplication;
 import model.game.logic.GameLobby;
 import model.game.logic.Player;
+import model.service.HttpRequest;
 import model.service.Message;
 import model.service.MessageType;
 import model.service.SocketClient;
@@ -27,6 +28,7 @@ public class GameLobbyViewController {
 
 
     SocketClient sc = new SocketClient(this);
+    HttpRequest httpRequest = new HttpRequest();
     Thread messageReceive = new Thread(sc);
     private ETankApplication eTankApplication;
     private GameLobby selectedLobby;
@@ -371,6 +373,7 @@ public class GameLobbyViewController {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
+                httpRequest.setETankApplication(eTankApplication);
                 for (int row = 0; row < selectedLobby.getPlayers().size(); row++) {
                     ImageView playerImage = new ImageView();
                     ImageView playerIsRdy = new ImageView();
@@ -382,11 +385,16 @@ public class GameLobbyViewController {
                     Label playerNameLbl = new Label();
                     playerNameLbl.setText(selectedLobby.getPlayers().get(row).getPublicName());
 
-                    if (selectedLobby.getPlayers().get(row).getUserImage().equals("default")) {
+                    String image = httpRequest.getImageById(selectedLobby.getPlayers().get(row).getId());
+
+                    if (image.equals("default")) {
                         playerImage.setImage(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("img/images/default-user-image.png"))));
                     } else {
-                        playerImage.setImage(getImageFromBase64String(selectedLobby.getPlayers().get(row).getUserImage()));
+                        playerImage.setImage(getImageFromBase64String(image));
                     }
+
+
+                    System.out.println(httpRequest.getImageById(selectedLobby.getPlayers().get(row).getId()));
 
                     if (selectedLobby.getPlayers().get(row).isReady()) {
                         playerIsRdy.setImage(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("img/images/lobby/rdy.png"))));

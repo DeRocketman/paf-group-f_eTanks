@@ -10,9 +10,9 @@ public class Block extends LevelElement {
         if(type == LevelElementType.BLOCK_METAL){
             lives = 10000;
         } else if(type == LevelElementType.BLOCK_STONE){
-            lives = 3;
+            lives = 2;
         } else if(type == LevelElementType.BLOCK_WOOD){
-            lives = 4;
+            lives = 3;
         }
     }
 
@@ -21,9 +21,9 @@ public class Block extends LevelElement {
         if(type == LevelElementType.BLOCK_METAL){
             lives = 10000;
         } else if(type == LevelElementType.BLOCK_STONE){
-            lives = 3;
+            lives = 2;
         } else if(type == LevelElementType.BLOCK_WOOD){
-            lives = 4;
+            lives = 3;
         }
     }
 

@@ -7,10 +7,10 @@ from resources.view.GameView import GameView
 
 
 class GameViewController:
-    def __init__(self):
+    def __init__(self, newGameViewContoller):
         pg.init()
         self.gameView = GameView()
-        # self.newGameViewController = newGameViewController
+        self.newGameViewController = newGameViewContoller
         # self.signedPlayer = self.newGameViewController.mainMenuViewController.signedUser
         # self.gameSocket = self.newGameViewController.clientSocket
         self.playerList = []
@@ -19,7 +19,7 @@ class GameViewController:
         self.clock = pg.time.Clock()
         self.FPS = GamePhysics.FRAMES_PER_SECONDS
         self.gameWindow = None
-        self.gameLoop()
+        #self.gameLoop()
 
     def initGameData(self, playerList, lobbyId):
         self.playerList = playerList

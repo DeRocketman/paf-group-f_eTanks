@@ -30,5 +30,7 @@ class GameView:
             tank4 = Tank("../resources/images/tank/Tank_04.png", 1090.0, 60.0, 40.0, 40.0, 180.0)
             self.tankList.append(tank4)
 
+        return self.tankList
+
     def drawBullets(self):
         pass

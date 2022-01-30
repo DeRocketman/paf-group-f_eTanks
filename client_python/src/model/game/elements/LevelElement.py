@@ -1,8 +1,4 @@
-import os
-
 import pygame as pg
-
-from model.game.elements.LevelElementType import LevelElementType
 
 
 class LevelElement(pg.sprite.Sprite):
@@ -13,8 +9,10 @@ class LevelElement(pg.sprite.Sprite):
         self.imagPath = imagePath
         self.positionX = positionX
         self.positionY = positionY
-        self.width = width
-        self.height = height
         self.rotation = rotation
+
+        self.image, self.rect = pg.image.load(imagePath)
+        pg.transform.scale(self.image, (width, height))
+        pg.transform.rotate(self.image, rotation)
 
 

@@ -32,9 +32,11 @@ class GameViewController:
         pass
 
     def gameLoop(self):
-        self.gameWindow = self.gameView.drawWindow()
+        self.gameWindow = self.gameView.drawWindow(), pg.SCALED
+        for tank in self.gameView.drawTanks(4):
+            tank.drawElement(self.gameWindow)
 
-        pg.display.set_caption("eTanks - PuF WiSe 21/22 - Gruppe F", "/../resources/images/eTanksTitle.png")
+        pg.display.set_caption("eTanks - PuF WiSe 21/22 - Gruppe F", "/../../resources/images/eTanksTitle.png")
         while True:
             for event in pygame.event.get():
                 if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):

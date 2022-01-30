@@ -1,5 +1,12 @@
 package view;
 
+import main.ETankApplication;
+import model.data.GameStatistic;
+import model.game.elements.*;
+import model.game.logic.GamePhysics;
+import model.game.logic.Player;
+import viewmodel.GameViewModel;
+
 import de.saxsys.mvvmfx.FxmlView;
 import de.saxsys.mvvmfx.InjectViewModel;
 import javafx.collections.FXCollections;
@@ -10,17 +17,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import main.ETankApplication;
-import model.data.GameStatistic;
-import model.game.elements.*;
-import model.game.logic.GamePhysics;
-import model.game.logic.Player;
-import viewmodel.GameViewModel;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;

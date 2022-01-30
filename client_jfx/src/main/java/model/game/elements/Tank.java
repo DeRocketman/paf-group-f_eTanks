@@ -10,21 +10,21 @@ public class Tank extends LevelElement{
 
     private long playerId;
     private int livePoints;
-
-    public Tank(Image image, LevelElementType type, double positionX, double positionY, double width, double height, double rotation, int livePoints) {
-        super(image, type, positionX, positionY, width, height, rotation);
-        this.livePoints = livePoints;
-    }
+    boolean isActive;
 
     public Tank(Image image, double positionX, double positionY, double width, double height, double rotation, int playerId) {
         super(image, LevelElementType.TANK ,positionX, positionY, width, height, rotation);
         this.livePoints = 3;
+        this.isActive = true;
         this.playerId = playerId;
     }
 
-    /*
-     * Bewegt den Tank bis an die Spielfeldgrenze
-     * */
+    /**
+     * Moves the tank by the speed factor
+     * restricted by the playing field border
+     *
+     * @param newCourse     the driving direction
+     */
     public void moveTank(double newCourse) {
         double speed = GamePhysics.TANK_SPEED;
 
@@ -86,6 +86,13 @@ public class Tank extends LevelElement{
         rt.play();
     }
 
+    /**
+     * Decrements the livePoints of the tank
+     */
+    public void reduceLivePoints(){
+        livePoints--;
+    }
+
     public double[] setCorrectBulletPosition(LevelElement myTank) {
         double[] bulletStartPosition = new double[2];
         if (myTank.getRotate() == 360.0 || myTank.getRotate() == 0.0) {
@@ -108,15 +115,19 @@ public class Tank extends LevelElement{
         return playerId;
     }
 
-    public void reduceLivePoints(){
-        livePoints--;
-    }
-
     public void setPlayerId(long playerId) {
         this.playerId = playerId;
     }
 
     public int getLivePoints(){
         return livePoints;
+    }
+
+    public boolean getActive(){
+        return isActive;
+    }
+
+    public void setActive(boolean isActive){
+        this.isActive = isActive;
     }
 }

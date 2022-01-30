@@ -36,6 +36,7 @@ public class GameViewModel implements ViewModel {
     GameLobby gameLobby;
     GameView gameView;
 
+    AnimationTimer gameActionTimer;
     ObservableList<LevelElement> elementList = FXCollections.observableArrayList();
     ArrayList<Tank> tankList = new ArrayList<>();
 
@@ -94,7 +95,7 @@ public class GameViewModel implements ViewModel {
     }
 
     public void initGameLoop() {
-        AnimationTimer gameActionTimer = new AnimationTimer() {
+        gameActionTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 playerMovementDetection();
@@ -125,6 +126,7 @@ public class GameViewModel implements ViewModel {
                     elementList.clear();
                     isActive = true;
                     gameView.initNextLevel(roundCounter);
+                    gameActionTimer.stop();
                     gameTimeline.stop();
                     roundCounter++;
                     roundTime = GamePhysics.ROUND_TIME;
@@ -140,7 +142,6 @@ public class GameViewModel implements ViewModel {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
                     gameTimeline.stop();
                     System.out.println("SPIEL ZUENDE");
                 }
@@ -310,7 +311,6 @@ public class GameViewModel implements ViewModel {
             double[] position = tank.setCorrectBulletPosition(myTank);
             gameView.createMainBullet(myTank, position);
         });
-        //gamePlay.getGameStatistic().setShots(gamePlay.getGameStatistic().getShots() + 1);
     }
 
     public void moveBullet(BulletMainWeapon bullet) {
@@ -364,6 +364,7 @@ public class GameViewModel implements ViewModel {
                                         // Tank who was hit
                                         tank.setActive(false);
                                         tank.setVisible(false);
+                                        tank.setDisable(true);
                                         gameStatistics.get(elementList.indexOf(tank)).setDeaths(gameStatistics.get(elementList.indexOf(tank)).getDeaths() + 1);
 
                                         // Shooting Tank

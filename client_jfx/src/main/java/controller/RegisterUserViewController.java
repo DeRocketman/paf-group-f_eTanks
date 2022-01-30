@@ -6,7 +6,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import main.ETankApplication;
 import model.data.Authorisation;
-import model.data.User;
 import model.service.HttpRequest;
 
 import java.io.IOException;
@@ -51,10 +50,6 @@ public class RegisterUserViewController {
         eTankApplication.showLoginView();
     }
 
-    public void switchToMenu() throws IOException {
-        eTankApplication.showMenuView();
-    }
-
     public void registerUser() {
         Authorisation authorisation = new Authorisation(usernameField.getText(),pubNameField.getText(),passwordField.getText());
 
@@ -69,6 +64,4 @@ public class RegisterUserViewController {
         }
 
     }
-
-
 }

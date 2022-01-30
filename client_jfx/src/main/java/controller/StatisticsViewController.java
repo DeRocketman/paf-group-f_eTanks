@@ -109,6 +109,7 @@ public class StatisticsViewController extends ViewController {
         highscoreTable.setItems(observableList);
         this.gamePointsColumn.setCellValueFactory(e -> e.getValue().getGamePointsProperty().asObject());
         this.nameColumn.setCellValueFactory(e -> e.getValue().getuserNameProperty());
+
         this.positionColumn.setCellValueFactory(e -> {
             GameStatistic item = e.getValue();
             int index = highscoreTable.getItems().indexOf(item);
@@ -116,8 +117,7 @@ public class StatisticsViewController extends ViewController {
             return indexP.asObject();
         });
 
-        if(highscorelist!=null){
-        } else {
+        if(highscorelist == null){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("Die Highscore Liste konnten leider nicht geladen werden.");
             alert.showAndWait();

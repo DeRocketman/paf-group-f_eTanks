@@ -48,17 +48,6 @@ public class GameStatistic {
         this.userName = userName;
     }
 
-    public void setDefaultStatistic() {
-        this.gameNumber = "2";
-        this.winner = true;
-        this.roundWins= 20;
-        this.gamePoints = 0;
-        this.kills = 4;
-        this.deaths = 0;
-        this.shots = 20;
-        this.hitPoints = 100;
-    }
-
 
     public float killDeathRate() {
         if (this.deaths > 0) {
@@ -160,12 +149,10 @@ public class GameStatistic {
     }
 
     public IntegerProperty getGamePointsProperty(){
-        IntegerProperty  gamePointsP = new SimpleIntegerProperty(gamePoints);
-        return gamePointsP;
+        return new SimpleIntegerProperty(gamePoints);
     }
 
     public StringProperty getuserNameProperty(){
-        StringProperty  userNameP = new SimpleStringProperty(userName);
-        return userNameP;
+        return new SimpleStringProperty(userName);
     }
 }

@@ -1,19 +1,12 @@
 package model.game.logic;
 
-import controller.GameLobbyViewController;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import model.data.User;
-import model.data.GameStatistic;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.List;
 
 public class GameLobby implements Serializable {
-
-    private GameLobbyViewController controller;
 
     private final StringProperty gameLobbyID;
     private IntegerProperty seatCounter;

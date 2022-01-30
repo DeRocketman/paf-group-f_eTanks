@@ -1,6 +1,5 @@
 package view;
 
-import main.ETankApplication;
 import model.data.GameStatistic;
 import model.game.elements.*;
 import model.game.logic.GamePhysics;
@@ -31,9 +30,6 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
 
     @FXML
     private GridPane ground;
-
-    @FXML
-    public ImageView countdown;
 
     @FXML
     private Pane elementPane;
@@ -111,7 +107,6 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
     @FXML
     private Label shots_4;
 
-    private ETankApplication eTankApplication;
     private ObservableList<LevelElement> elementList = FXCollections.observableArrayList();
     public ImageView display;
 
@@ -122,7 +117,6 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         setElementListEventListener();
         gameViewModel.setGameView(this);
         gameViewModel.setElementList(elementList);
-        gameViewModel.setETankApplication(eTankApplication);
     }
 
     /**
@@ -166,8 +160,8 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
      * @param position  of the ImageView
      */
     public void createMainBullet(LevelElement myTank, double[] position) {
-        LevelElement bullet = new BulletMainWeapon(position[0], position[1], 6, 12, myTank.getRotate(), (Tank) myTank);
-        gameViewModel.moveBullet((BulletMainWeapon) bullet);
+        BulletMainWeapon bullet = new BulletMainWeapon(position[0], position[1], 6, 12, myTank.getRotate(), (Tank) myTank);
+        gameViewModel.moveBullet(bullet);
         elementList.add(bullet);
     }
 
@@ -177,8 +171,6 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
      * @param playerCount   size of playerlist
      */
     public void initTanks(int playerCount) {
-        // int playerCount = players.size();
-
         String[] imgTank = new String[4];
         imgTank[0] = "img/images/tanks/tank_01.png";
         imgTank[1] = "img/images/tanks/tank_02.png";

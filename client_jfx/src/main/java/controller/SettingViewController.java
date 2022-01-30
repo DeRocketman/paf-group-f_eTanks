@@ -77,18 +77,8 @@ public class SettingViewController extends ViewController {
     }
 
     public void saveSettings(ActionEvent actionEvent) {
-        if (musicSettings.isSelected()) {
-            eTankApplication.getSignedUser().getUserSettings().setGameMusicOn(true);
-        } else {
-            eTankApplication.getSignedUser().getUserSettings().setGameMusicOn(false);
-        }
-
-        if (soundSettings.isSelected()) {
-            eTankApplication.getSignedUser().getUserSettings().setGameSoundOn(true);
-        } else {
-            eTankApplication.getSignedUser().getUserSettings().setGameSoundOn(false);
-        }
-
+        eTankApplication.getSignedUser().getUserSettings().setGameMusicOn(musicSettings.isSelected());
+        eTankApplication.getSignedUser().getUserSettings().setGameSoundOn(soundSettings.isSelected());
         eTankApplication.getSignedUser().getUserSettings().setGameMusicVolume((int) musicVolumeSettings.getValue());
         eTankApplication.getSignedUser().getUserSettings().setGameSoundVolume((int) soundVolumeSettings.getValue());
         eTankApplication.getSignedUser().getUserSettings().setMoveUpKey(tempUserSettings.getMoveUpKey());

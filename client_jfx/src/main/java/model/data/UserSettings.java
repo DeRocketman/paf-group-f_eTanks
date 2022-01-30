@@ -1,18 +1,11 @@
-/**
- * The UserSettings class is the model for the control keymap and the principle game settings of each user.
- * @author Gruppe F (Patterns and Frameworks WiSe21)
- *
- */
-
 package model.data;
 
 //@todo: Es bleibt zu ueberlegen, ob die strings für die Steuerung noch zu ASCII "gemappt" werden muessen. (z.B. space)
 
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-
 /**
- * The type User settings.
+ * The UserSettings class is the model for the control keymap and the principle game settings of each user.
+ * @author Gruppe F (Patterns and Frameworks WiSe21)
+ *
  */
 public class UserSettings {
 
@@ -28,7 +21,6 @@ public class UserSettings {
     private String moveRightKey;
     private String fireMainWeaponKey;
     private String fireSecondaryWeaponKey;
-    private String showStatisticKey;
 
     /**
      * Instantiates a new User settings.
@@ -242,14 +234,6 @@ public class UserSettings {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getShowStatisticKey() {
-        return showStatisticKey;
-    }
-
-    public void setShowStatisticKey(String showStatisticKey) {
-        this.showStatisticKey = showStatisticKey;
     }
 }
 

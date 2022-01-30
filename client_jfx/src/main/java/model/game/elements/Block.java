@@ -1,7 +1,6 @@
 package model.game.elements;
 
 import javafx.scene.image.Image;
-import model.game.logic.GamePhysics;
 
 public class Block extends LevelElement {
     private int lives;

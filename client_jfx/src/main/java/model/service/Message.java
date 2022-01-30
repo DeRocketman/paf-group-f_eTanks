@@ -10,8 +10,6 @@ public class Message {
     private String playerImage;
     private String payload;
 
-
-
     public Message() {
     }
 

@@ -1,22 +1,18 @@
 package main;
 
 import controller.*;
-//not used in MVVM import model.game.Game;
 import model.data.GameStatistic;
 import model.data.User;
 import model.game.logic.GameLobby;
-import model.game.logic.Player;
 import view.GameView;
 import viewmodel.GameViewModel;
 
 import de.saxsys.mvvmfx.FluentViewLoader;
 import de.saxsys.mvvmfx.ViewTuple;
 import javafx.application.Application;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
-//not used in MVVM javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,7 +26,6 @@ public class ETankApplication extends Application {
     User signedUser;
     List<GameStatistic> gameStatistics;
     String BearerToken;
-    ObservableList<Player> playerlist;
     GameViewModel gameViewModel;
 
     public static void main(String[] args) {

@@ -1,10 +1,8 @@
 package model.service;
+import viewmodel.GameViewModel;
 
 import controller.GameLobbyViewController;
 import com.google.gson.Gson;
-import model.game.logic.GamePlay;
-import viewmodel.GameViewModel;
-
 import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
@@ -12,14 +10,12 @@ import java.nio.charset.StandardCharsets;
 public class SocketClient implements Runnable {
     private final GameLobbyViewController gameLobbyViewController;
 
-
     private GameViewModel gameViewModel;
 
     private final Socket socket;
     private final OutputStreamWriter dataOut;
     private final DataInputStream dataIn;
     private Gson gson;
-
 
     public SocketClient(GameLobbyViewController gameLobbyViewController) throws IOException {
         String hostname = "localhost";

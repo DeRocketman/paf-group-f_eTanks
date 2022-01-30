@@ -12,7 +12,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.ETankApplication;
 import model.game.logic.GameLobby;
-import model.game.logic.GamePlay;
 import model.game.logic.Player;
 import model.service.Message;
 import model.service.MessageType;
@@ -89,7 +88,7 @@ public class GameLobbyViewController {
     }
 
     @FXML
-    private void hostGame() throws IOException {
+    private void hostGame() {
         resetViews();
         sendExtendUserData();
         selectedLobby = new GameLobby();
@@ -124,7 +123,7 @@ public class GameLobbyViewController {
     }
 
     @FXML
-    public void switchToGameView() throws IOException {
+    public void switchToGameView() {
         Message msg = new Message();
         msg.setMessageType(MessageType.START_GAME);
         msg.setGameLobbyNumber(selectedLobby.getGameLobbyID());
@@ -166,7 +165,7 @@ public class GameLobbyViewController {
     }
 
     @FXML
-    private void joinSelectedGame() throws IOException {
+    private void joinSelectedGame() {
         selectedLobby = new GameLobby();
         selectedLobby = lobbyTable.getSelectionModel().getSelectedItem();
         if (selectedLobby.getSeatCounter() < 4) {
@@ -251,49 +250,42 @@ public class GameLobbyViewController {
         textAreaChatField.appendText(msg.getPayload()  + "\n");
     }
 
-    private void processStartGameMsg(Message msg) throws IOException {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    eTankApplication.showGameView(selectedLobby);
-                    eTankApplication.getGameViewModel().setSocketClient(sc);
-                   // eTankApplication.getGameViewModel().setLobby(selectedLobby);
-                    sc.setGameViewModel(eTankApplication.getGameViewModel());
-                    eTankApplication.getGameViewModel().startGame();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+    private void processStartGameMsg(Message msg) {
+        Platform.runLater(() -> {
+            try {
+                eTankApplication.showGameView(selectedLobby);
+                eTankApplication.getGameViewModel().setSocketClient(sc);
+                sc.setGameViewModel(eTankApplication.getGameViewModel());
+                eTankApplication.getGameViewModel().startGame();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
     }
 
     private void processRdyStatusMsg(Message msg) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                for (Player player : selectedLobby.getPlayers()) {
-                    if (player.getId() == msg.getPlayerId()) {
-                        player.setReady(msg.isPlayerIsRdy());
-                    }
+        Platform.runLater(() -> {
+            for (Player player : selectedLobby.getPlayers()) {
+                if (player.getId() == msg.getPlayerId()) {
+                    player.setReady(msg.isPlayerIsRdy());
+                }
 
-                    if (eTankApplication.getSignedUser().getId() == msg.getPlayerId()) {
-                        if (player.isReady()) {
-                            btnSetHostRdy.setText("Bereit!");
-                            btnSetJoinRdy.setText("Bereit!");
-                            btnSetHostRdy.setStyle("-fx-background-color: green;");
-                            btnSetJoinRdy.setStyle("-fx-background-color: green;");
-                        } else {
-                            btnSetHostRdy.setText("Nicht Bereit!");
-                            btnSetJoinRdy.setText("Nicht Bereit!");
-                            btnSetHostRdy.setStyle("-fx-background-color: red;");
-                            btnSetJoinRdy.setStyle("-fx-background-color: red;");
-                        }
+                if (eTankApplication.getSignedUser().getId() == msg.getPlayerId()) {
+                    if (player.isReady()) {
+                        btnSetHostRdy.setText("Bereit!");
+                        btnSetJoinRdy.setText("Bereit!");
+                        btnSetHostRdy.setStyle("-fx-background-color: green;");
+                        btnSetJoinRdy.setStyle("-fx-background-color: green;");
+                    } else {
+                        btnSetHostRdy.setText("Nicht Bereit!");
+                        btnSetJoinRdy.setText("Nicht Bereit!");
+                        btnSetHostRdy.setStyle("-fx-background-color: red;");
+                        btnSetJoinRdy.setStyle("-fx-background-color: red;");
                     }
                 }
-                fillPlayerGrid();
-                checkAllPlayerRdy();
             }
+            fillPlayerGrid();
+            checkAllPlayerRdy();
         });
     }
 

@@ -128,7 +128,7 @@ public class GameViewModel implements ViewModel {
                     gameTimeline.stop();
                     roundCounter++;
                     roundTime = GamePhysics.ROUND_TIME;
-                } else if (roundTime == 0 && roundCounter == 3) {
+                } else if (roundTime == 0) {
                     //TODO WAS PASSIERT WENN DAS GAME ZUENDE IST
                     endOfGame = true;
                     gameIsRunning = false;
@@ -221,29 +221,23 @@ public class GameViewModel implements ViewModel {
 
     public void receiveMessage(Message msg) {
 
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                if (msg.getMessageType() == MessageType.TANK_MOVE) {
-                    processMoveTankMsg(msg);
-                } else if (msg.getMessageType() == MessageType.FIRE_MAIN) {
-                    processFireMainMsg(msg);
-                }
+        Platform.runLater(() -> {
+            if (msg.getMessageType() == MessageType.TANK_MOVE) {
+                processMoveTankMsg(msg);
+            } else if (msg.getMessageType() == MessageType.FIRE_MAIN) {
+                processFireMainMsg(msg);
             }
         });
     }
 
     public void processMoveTankMsg(Message msg) {
 
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                for (LevelElement tank : elementList) {
-                    if (tank.getType() == LevelElementType.TANK) {
-                        Tank temp = (Tank) tank;
-                        if (temp.getPlayerId() == msg.getPlayerId()) {
-                            temp.moveTank(Double.parseDouble(msg.getPayload()));
-                        }
+        Platform.runLater(() -> {
+            for (LevelElement tank : elementList) {
+                if (tank.getType() == LevelElementType.TANK) {
+                    Tank temp = (Tank) tank;
+                    if (temp.getPlayerId() == msg.getPlayerId()) {
+                        temp.moveTank(Double.parseDouble(msg.getPayload()));
                     }
                 }
             }
@@ -254,20 +248,17 @@ public class GameViewModel implements ViewModel {
      * Processes the fireMain message and updates the statistic
      * runs through the elementList to find out which tank has the same id as the player wo sent the message
      *
-     * @param msg
+     * @param msg   incoming message from the socket server
      */
     public void processFireMainMsg(Message msg) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                // runs through the elementList to find out which tank has the same id as the player wo sent the message
-                for (LevelElement tank : elementList) {
-                    if (tank.getType() == LevelElementType.TANK) {
-                        Tank temp = (Tank) tank;
-                        if (temp.getPlayerId() == msg.getPlayerId()) {
-                            gameStatistics.get(elementList.indexOf(tank)).setShots(gameStatistics.get(elementList.indexOf(tank)).getShots() + 1);
-                            fireMainWeapon(temp);
-                        }
+        Platform.runLater(() -> {
+            // runs through the elementList to find out which tank has the same id as the player wo sent the message
+            for (LevelElement tank : elementList) {
+                if (tank.getType() == LevelElementType.TANK) {
+                    Tank temp = (Tank) tank;
+                    if (temp.getPlayerId() == msg.getPlayerId()) {
+                        gameStatistics.get(elementList.indexOf(tank)).setShots(gameStatistics.get(elementList.indexOf(tank)).getShots() + 1);
+                        fireMainWeapon(temp);
                     }
                 }
             }
@@ -318,13 +309,10 @@ public class GameViewModel implements ViewModel {
     }
 
     private void fireMainWeapon(LevelElement myTank) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                Tank tank = (Tank) myTank;
-                double[] position = tank.setCorrectBulletPosition(myTank);
-                gameView.createMainBullet(myTank, position);
-            }
+        Platform.runLater(() -> {
+            Tank tank = (Tank) myTank;
+            double[] position = tank.setCorrectBulletPosition(myTank);
+            gameView.createMainBullet(myTank, position);
         });
         //gamePlay.getGameStatistic().setShots(gamePlay.getGameStatistic().getShots() + 1);
     }
@@ -521,8 +509,6 @@ public class GameViewModel implements ViewModel {
     }
 
     public void setGameView(GameView gameView) {
-        /*Default Player, später über Lobby übergeben*/
-        //Sets Player -> tank
         this.gameView = gameView;
     }
 
@@ -604,8 +590,8 @@ public class GameViewModel implements ViewModel {
         if (whichTank == 0) {
             setHttpRequestETankapplication();
 
-            for (int i = 0; i < gameStatistics.size(); i++) {
-                httpRequest.saveGameStatistic(gameStatistics.get(i), gameStatistics.get(i).getUserId());
+            for (GameStatistic gameStatistic : gameStatistics) {
+                httpRequest.saveGameStatistic(gameStatistic, gameStatistic.getUserId());
             }
         }
     }

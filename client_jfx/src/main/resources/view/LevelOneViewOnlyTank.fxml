@@ -11,12 +11,12 @@
          <StackPane prefHeight="40.0" prefWidth="40.0">
                <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                   <image>
-                     <Image url="@../img/images/tanks/Hulls_Color_A/Hull_01.png" />
+                     <Image url="@../img/images/tanks/Archiv/Hulls_Color_A/Hull_01.png" />
                   </image>
                </ImageView>
                <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                   <image>
-                     <Image url="@../img/images/tanks/Weapon_Color_A/Gun_01.png" />
+                     <Image url="@../img/images/tanks/Archiv/Weapon_Color_A/Gun_01.png" />
                   </image>
                </ImageView>
          </StackPane>
@@ -25,12 +25,12 @@
          <StackPane prefHeight="40.0" prefWidth="40.0">
                <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                   <image>
-                     <Image url="@../img/images/tanks/Hulls_Color_B/Hull_01.png" />
+                     <Image url="@../img/images/tanks/Archiv/Hulls_Color_B/Hull_01.png" />
                   </image>
                </ImageView>
                <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                   <image>
-                     <Image url="@../img/images/tanks/Weapon_Color_B/Gun_01.png" />
+                     <Image url="@../img/images/tanks/Archiv/Weapon_Color_B/Gun_01.png" />
                   </image>
                </ImageView>
          </StackPane>
@@ -39,12 +39,12 @@
          <StackPane prefHeight="40.0" prefWidth="40.0">
                <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                   <image>
-                     <Image url="@../img/images/tanks/Hulls_Color_C/Hull_01.png" />
+                     <Image url="@../img/images/tanks/Archiv/Hulls_Color_C/Hull_01.png" />
                   </image>
                </ImageView>
                <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                   <image>
-                     <Image url="@../img/images/tanks/Weapon_Color_C/Gun_01.png" />
+                     <Image url="@../img/images/tanks/Archiv/Weapon_Color_C/Gun_01.png" />
                   </image>
                </ImageView>
          </StackPane>
@@ -53,12 +53,12 @@
          <StackPane prefHeight="40.0" prefWidth="40.0">
                <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                   <image>
-                     <Image url="@../img/images/tanks/Hulls_Color_D/Hull_01.png" />
+                     <Image url="@../img/images/tanks/Archiv/Hulls_Color_D/Hull_01.png" />
                   </image>
                </ImageView>
                <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                   <image>
-                     <Image url="@../img/images/tanks/Weapon_Color_D/Gun_01.png" />
+                     <Image url="@../img/images/tanks/Archiv/Weapon_Color_D/Gun_01.png" />
                   </image>
                </ImageView>
          </StackPane>

@@ -13,7 +13,7 @@ public class Block extends LevelElement {
         } else if(type == LevelElementType.BLOCK_STONE){
             lives = 3;
         } else if(type == LevelElementType.BLOCK_WOOD){
-            lives = 2;
+            lives = 4;
         }
     }
 
@@ -24,7 +24,7 @@ public class Block extends LevelElement {
         } else if(type == LevelElementType.BLOCK_STONE){
             lives = 3;
         } else if(type == LevelElementType.BLOCK_WOOD){
-            lives = 2;
+            lives = 4;
         }
     }
 

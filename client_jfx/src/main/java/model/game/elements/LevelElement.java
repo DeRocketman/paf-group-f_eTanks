@@ -7,6 +7,17 @@ public class LevelElement extends ImageView {
 
     private LevelElementType type;
 
+    /**
+     * Constructor of the class LevelElement
+     *
+     * @param image         Image of the element
+     * @param type          LevelElementType
+     * @param positionX     x position
+     * @param positionY     y position
+     * @param width         width of the ImageView
+     * @param height        height of the ImageView
+     * @param rotation      rotation of the ImageView
+     */
     public LevelElement(Image image, LevelElementType type, double positionX, double positionY, double width, double height, double rotation) {
         super(image);
         this.type = type;
@@ -17,6 +28,17 @@ public class LevelElement extends ImageView {
         this.setRotate(rotation);
     }
 
+    /**
+     * Constructor of the class LevelElement
+     * without image
+     *
+     * @param type          LevelElementType
+     * @param positionX     x position
+     * @param positionY     y position
+     * @param width         width of the ImageView
+     * @param height        height of the ImageView
+     * @param rotation      rotation of the ImageView
+     */
     public LevelElement(LevelElementType type, double positionX, double positionY, double width, double height, double rotation) {
         super();
         this.type = type;
@@ -27,6 +49,17 @@ public class LevelElement extends ImageView {
         this.setRotate(rotation);
     }
 
+    /**
+     * Constructor of the class LevelElement
+     * without rotation
+     *
+     * @param image         Image of the element
+     * @param type          LevelElementType
+     * @param positionX     x position
+     * @param positionY     y position
+     * @param width         width of the ImageView
+     * @param height        height of the ImageView
+     */
     public LevelElement(Image image, LevelElementType type, double positionX, double positionY, double width, double height) {
         super(image);
         this.type = type;

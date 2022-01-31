@@ -313,7 +313,7 @@ public class GameViewModel implements ViewModel {
     private void fireMainWeapon(LevelElement myTank) {
         Platform.runLater(() -> {
             Tank tank = (Tank) myTank;
-            double[] position = tank.setCorrectBulletPosition(myTank);
+            double[] position = tank.setCorrectBulletPosition();
             gameView.createMainBullet(myTank, position);
         });
     }

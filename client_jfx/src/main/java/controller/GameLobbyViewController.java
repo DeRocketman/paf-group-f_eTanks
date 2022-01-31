@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+
 import java.io.ByteArrayInputStream;
 import java.util.Base64;
 import java.io.IOException;
@@ -201,11 +202,9 @@ public class GameLobbyViewController {
     private void joinSelectedGame() {
         selectedLobby = new GameLobby();
         selectedLobby = lobbyTable.getSelectionModel().getSelectedItem();
-        for(Player player : selectedLobby.getPlayers()){
-            System.out.println(player.isReady());
+        for (Player player : selectedLobby.getPlayers()) {
         }
         if (selectedLobby.getSeatCounter() < 4) {
-            System.out.println("joining game");
             Message msg = new Message();
             msg.setMessageType(MessageType.JOIN);
             msg.setGameLobbyNumber(selectedLobby.getGameLobbyID());
@@ -269,7 +268,7 @@ public class GameLobbyViewController {
     /**
      * Sends a REGISTER_LOBBY message to the SocketClient
      *
-     * @param lobby     the new lobby
+     * @param lobby the new lobby
      */
     public void registerLobby(GameLobby lobby) {
         Message msg = new Message();
@@ -285,8 +284,8 @@ public class GameLobbyViewController {
      * Receive lobby messages from the SocketClient
      * and calls the appropriate functions to handle the message
      *
-     * @param msg           the message
-     * @throws IOException  the IO exception
+     * @param msg the message
+     * @throws IOException the IO exception
      */
     public void receiveLobbyMessages(Message msg) throws IOException {
         if (msg != null) {
@@ -314,9 +313,14 @@ public class GameLobbyViewController {
         }
     }
 
+    /**
+     * is called when a WHAT_IS_YOUR_STATUS Message is received, sends the own Status to the
+     * Server if you are not the one who asked for it
+     *
+     * @param msgIn
+     */
     private void processWhatIsYourStatus(Message msgIn) {
-        System.out.println("In processWhatIsYourStatus");
-        if(msgIn.getPlayerId() != eTankApplication.getSignedUser().getId()){
+        if (msgIn.getPlayerId() != eTankApplication.getSignedUser().getId()) {
             for (Player player : selectedLobby.getPlayers()) {
                 if (player.getId() == eTankApplication.getSignedUser().getId()) {
                     Message msg = new Message();
@@ -333,7 +337,10 @@ public class GameLobbyViewController {
         }
     }
 
-    public void whatIsYourStatus(){
+    /**
+     * sends a Message to the Server and asks the other participants for their Status
+     */
+    public void whatIsYourStatus() {
         for (Player player : selectedLobby.getPlayers()) {
             if (player.getId() == eTankApplication.getSignedUser().getId()) {
                 Message msg = new Message();
@@ -352,13 +359,13 @@ public class GameLobbyViewController {
     /**
      * Assigns a new player to a lobby
      *
-     * @param msg   the message from SocketClient
+     * @param msg the message from SocketClient
      */
     private void processRegisterLobbyMsg(Message msg) {
         Player player = new Player(msg.getPlayerId(), null, msg.getPlayerPublicName(), msg.getPlayerImage(), null, null);
         selectedLobby.getPlayers().add(player);
         fillPlayerGrid(false);
-        textAreaChatField.appendText(msg.getPayload()  + "\n");
+        textAreaChatField.appendText(msg.getPayload() + "\n");
     }
 
     /**
@@ -366,7 +373,7 @@ public class GameLobbyViewController {
      * hands over the selectedLobby and SocketClient
      * and starts the Game
      *
-     * @param msg   the message from SocketClient
+     * @param msg the message from SocketClient
      */
     private void processStartGameMsg(Message msg) {
         Platform.runLater(() -> {
@@ -384,7 +391,7 @@ public class GameLobbyViewController {
     /**
      * Sets the status of a player by changing the button color
      *
-     * @param msg   the message from SocketClient
+     * @param msg the message from SocketClient
      */
     private void processRdyStatusMsg(Message msg) {
         Platform.runLater(() -> {
@@ -411,7 +418,7 @@ public class GameLobbyViewController {
     /**
      * Adds a player to the selected lobby
      *
-     * @param msg   the message from SocketClient
+     * @param msg the message from SocketClient
      */
     private void processJoinedPlayerMsg(Message msg) {
         Player player = new Player(msg.getPlayerId(), "", msg.getPlayerPublicName(), msg.getPlayerImage(), "", null);
@@ -423,7 +430,7 @@ public class GameLobbyViewController {
     /**
      * Displays a new chat message
      *
-     * @param msg   the message from SocketClient
+     * @param msg the message from SocketClient
      */
     private void processChatMsg(Message msg) {
         textAreaChatField.appendText(msg.getPlayerPublicName() + ": " + msg.getPayload() + "\n");
@@ -433,7 +440,7 @@ public class GameLobbyViewController {
      * Adds new Lobby to the lobbylist
      * and adds it to the lobby table
      *
-     * @param msg   the message from SocketClient
+     * @param msg the message from SocketClient
      */
     private void processGetLobbiesMsg(Message msg) {
         GameLobby lobby = new GameLobby();
@@ -521,7 +528,7 @@ public class GameLobbyViewController {
                     Label playerNameLbl = new Label();
                     playerNameLbl.setText(selectedLobby.getPlayers().get(row).getPublicName());
 
-                    if(!setReady){
+                    if (!setReady) {
 
                         String image = httpRequest.getImageById(selectedLobby.getPlayers().get(row).getId());
 
@@ -534,8 +541,6 @@ public class GameLobbyViewController {
                         playerGrid.add(playerImage, 0, row);
                         playerGrid.add(playerNameLbl, 1, row);
                     }
-
-                    System.out.println(selectedLobby.getPlayers().get(row).isReady());
 
                     if (selectedLobby.getPlayers().get(row).isReady()) {
                         playerIsRdy.setImage(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("img/images/lobby/rdy.png"))));
@@ -551,8 +556,8 @@ public class GameLobbyViewController {
     /**
      * Decodes the base64Image to an Image
      *
-     * @param base64Image   readable String of an image
-     * @return              new Image from the String
+     * @param base64Image readable String of an image
+     * @return new Image from the String
      */
     private Image decodeImage(String base64Image) {
         ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64.getDecoder().decode(base64Image));

@@ -1,4 +1,4 @@
-
+import json
 import requests
 
 from model.data.User import User
@@ -8,6 +8,7 @@ from model.service.RequestCode import RequestCode
 class HttpRequest:
     def __init__(self):
         self.user = User()
+        self.statistics = []
 
     def httpReq(self, requestCode = RequestCode):
         success = False
@@ -68,8 +69,8 @@ class HttpRequest:
                 success = True
             elif requestCode == requestCode.STATISTIC_LIST:
                 print("Response " + request.text)
-                statisticList = request.json()
-                self.mapResponseToStatistic(statisticList)
+                response = request.text
+                self.statistics = json.loads(response)
                 success = True
             elif requestCode == requestCode.HIGHCSCORE_LIST:
                 print("Response " + request.text)
@@ -109,10 +110,6 @@ class HttpRequest:
         self.user.userSettings.moveRightKey = jsonData["userSettings"]["moveRightKey"]
         self.user.userSettings.fireMainWeaponKey = jsonData["userSettings"]["fireMainWeaponKey"]
         self.user.userSettings.fireSecondaryWeaponKey = jsonData["userSettings"]["fireSecondaryWeaponKey"]
-        # self.user.userStatistics = jsonData["gameStatistics"]
-
-    def mapResponseToStatistic(self, jsonData):
-        pass
 
     def mapResponseToHighscore(self, jsonData):
         pass
@@ -139,5 +136,4 @@ class HttpRequest:
                 "fireMainWeaponKey": self.user.userSettings.fireMainWeaponKey,
                 "fireSecondaryWeaponKey": self.user.userSettings.fireSecondaryWeaponKey
             },
-          #  "gameStatistics": self.user.userStatistics
         }

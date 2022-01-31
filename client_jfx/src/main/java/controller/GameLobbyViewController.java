@@ -352,25 +352,27 @@ public class GameLobbyViewController {
                     player.setReady(msg.isPlayerIsRdy());
                 }
 
+                System.out.println("PlayerListSize " + selectedLobby.getPlayers().size());
                 System.out.println("eTankUserID " + eTankApplication.getSignedUser().getId());
                 System.out.println("MessageID " + msg.getPlayerId());
+                System.out.println("PlayerID " + player.getId());
+                System.out.println("Player is Ready " + player.isReady());
 
-                if (eTankApplication.getSignedUser().getId() == msg.getPlayerId()) {
+                if (eTankApplication.getSignedUser().getId() == msg.getPlayerId() &&eTankApplication.getSignedUser().getId() == player.getId()) {
                     if (player.isReady()) {
                         System.out.println("BTN GRUEN true");
                         btnSetHostRdy.setStyle("-fx-background-color: green;");
-                        btnSetHostRdy.setText("Nicht bereit");
                         btnSetJoinRdy.setStyle("-fx-background-color: green;");
-                        btnSetJoinRdy.setText("Nicht bereit");
                     } else {
                         System.out.println("BTN ROT false");
                         btnSetHostRdy.setStyle("-fx-background-color: red;");
-                        btnSetHostRdy.setText("Bereit");
                         btnSetJoinRdy.setStyle("-fx-background-color: red;");
-                        btnSetJoinRdy.setText("Bereit");
                     }
                 }
             }
+
+
+
             fillPlayerGrid(true);
             checkAllPlayerRdy();
         });

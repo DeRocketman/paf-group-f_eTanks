@@ -2,7 +2,6 @@ import pygame as pg
 
 from pygame.constants import QUIT, KEYDOWN, K_ESCAPE
 from model.game.logic.GamePhysics import GamePhysics
-from resources.view.GameView import GameView
 
 
 class GameViewController:

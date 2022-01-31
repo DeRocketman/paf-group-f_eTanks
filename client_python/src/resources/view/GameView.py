@@ -1,5 +1,4 @@
 import pygame.image
-import pygame_gui as pgGUI
 import pygame as pg
 from pygame import QUIT, K_ESCAPE
 from pygame.constants import KEYDOWN

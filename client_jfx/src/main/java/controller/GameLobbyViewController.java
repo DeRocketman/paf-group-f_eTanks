@@ -224,17 +224,6 @@ public class GameLobbyViewController {
     }
 
     /**
-     * Hides all HBoxes and VBoxes
-     */
-    public void resetViews() {
-        vbxLobby.setVisible(false);
-        vbxJoin.setVisible(false);
-        vbxInit.setVisible(false);
-        hbxHostPanel.setVisible(false);
-        hbxJoinerPanel.setVisible(false);
-    }
-
-    /**
      * Sends chat message to the SocketClient
      */
     @FXML
@@ -250,6 +239,17 @@ public class GameLobbyViewController {
             sc.sendMsg(msg);
             textChatMsgField.clear();
         }
+    }
+
+    /**
+     * Hides all HBoxes and VBoxes
+     */
+    public void resetViews() {
+        vbxLobby.setVisible(false);
+        vbxJoin.setVisible(false);
+        vbxInit.setVisible(false);
+        hbxHostPanel.setVisible(false);
+        hbxJoinerPanel.setVisible(false);
     }
 
     public void sendExtendUserData() {
@@ -352,13 +352,18 @@ public class GameLobbyViewController {
                     player.setReady(msg.isPlayerIsRdy());
                 }
 
+                System.out.println("eTankUserID " + eTankApplication.getSignedUser().getId());
+                System.out.println("MessageID " + msg.getPlayerId());
+
                 if (eTankApplication.getSignedUser().getId() == msg.getPlayerId()) {
                     if (player.isReady()) {
+                        System.out.println("BTN GRUEN true");
                         btnSetHostRdy.setStyle("-fx-background-color: green;");
                         btnSetHostRdy.setText("Nicht bereit");
                         btnSetJoinRdy.setStyle("-fx-background-color: green;");
                         btnSetJoinRdy.setText("Nicht bereit");
                     } else {
+                        System.out.println("BTN ROT false");
                         btnSetHostRdy.setStyle("-fx-background-color: red;");
                         btnSetHostRdy.setText("Bereit");
                         btnSetJoinRdy.setStyle("-fx-background-color: red;");
@@ -416,8 +421,6 @@ public class GameLobbyViewController {
             }
         }
         btnGameStart.setDisable(playerNotRdy != 0);
-
-
     }
 
     /**
@@ -501,8 +504,10 @@ public class GameLobbyViewController {
 
 
                     if (selectedLobby.getPlayers().get(row).isReady()) {
+                        System.out.println(selectedLobby.getPlayers().get(row).isReady());
                         playerIsRdy.setImage(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("img/images/lobby/rdy.png"))));
                     } else {
+                        System.out.println(selectedLobby.getPlayers().get(row).isReady());
                         playerIsRdy.setImage(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("img/images/lobby/notrdy.png"))));
                     }
                     playerGrid.add(playerIsRdy, 2, row);

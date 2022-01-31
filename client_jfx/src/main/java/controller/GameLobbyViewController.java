@@ -10,6 +10,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import java.io.ByteArrayInputStream;
+import java.util.Base64;
+import java.io.IOException;
+import java.util.Objects;
+
 import main.ETankApplication;
 import model.game.logic.GameLobby;
 import model.game.logic.Player;
@@ -17,11 +22,6 @@ import model.service.HttpRequest;
 import model.service.Message;
 import model.service.MessageType;
 import model.service.SocketClient;
-
-import java.io.ByteArrayInputStream;
-import java.util.Base64;
-import java.io.IOException;
-import java.util.Objects;
 
 public class GameLobbyViewController {
 
@@ -69,6 +69,11 @@ public class GameLobbyViewController {
     @FXML
     private Button btnGameStart;
 
+    /**
+     * Instantiates a new Game lobby view controller
+     *
+     * @throws IOException the io exception
+     */
     public GameLobbyViewController() throws IOException {
 
     }
@@ -88,6 +93,18 @@ public class GameLobbyViewController {
     }
 
     @FXML
+    public void switchBackToInit() {
+        switchToInit();
+        for (GameLobby lobby : this.lobbyList) {
+            for (Player player : lobby.getPlayers()) {
+                if (player.getId() == eTankApplication.getSignedUser().getId()) {
+                    lobby.removePlayer(player);
+                }
+            }
+        }
+    }
+
+    @FXML
     private void hostGame() {
         resetViews();
         sendExtendUserData();
@@ -102,10 +119,13 @@ public class GameLobbyViewController {
         resetViews();
         sendExtendUserData();
         getLobbyList();
-        showJoinLobbyView();
+        showJoinedLobbyView();
         lobbyList.clear();
     }
 
+    /**
+     * Closes the lobby if the host requested it
+     */
     @FXML
     private void closeLobby() {
         switchToInit();
@@ -117,11 +137,20 @@ public class GameLobbyViewController {
         }
     }
 
+    /**
+     * Switches back to main menu
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     public void switchBackToMainMenu() throws IOException {
         eTankApplication.showMenuView();
     }
 
+    /**
+     * Switches to game view
+     * and sends a START_GAME message to the SocketClient
+     */
     @FXML
     public void switchToGameView() {
         Message msg = new Message();
@@ -135,6 +164,10 @@ public class GameLobbyViewController {
         sc.sendMsg(msg);
     }
 
+    /**
+     * Sends a RDY_STATUS message to the SocketClient
+     * with the information if player is ready or not
+     */
     @FXML
     public void setRdy() {
         for (Player player : selectedLobby.getPlayers()) {
@@ -152,18 +185,17 @@ public class GameLobbyViewController {
         }
     }
 
+    /**
+     * Gets the Lobbylist
+     */
     @FXML
-    public void switchBackToInit() {
-        switchToInit();
-        for (GameLobby lobby : this.lobbyList) {
-            for (Player player : lobby.getPlayers()) {
-                if (player.getId() == eTankApplication.getSignedUser().getId()) {
-                    lobby.removePlayer(player);
-                }
-            }
-        }
+    private void refreshLobbyTable() {
+        getLobbyList();
     }
 
+    /**
+     * Sends a request to join the signePlayer to the selected lobby
+     */
     @FXML
     private void joinSelectedGame() {
         selectedLobby = new GameLobby();
@@ -181,8 +213,7 @@ public class GameLobbyViewController {
             sc.sendMsg(msg);
             resetViews();
             lblGameNumber.setText("Spielnummer: " + selectedLobby.getGameLobbyID());
-            showLobbyJoinView();
-
+            showJoinLobbyView();
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Schlacht ist schon voll");
@@ -192,6 +223,9 @@ public class GameLobbyViewController {
 
     }
 
+    /**
+     * Hides all HBoxes and VBoxes
+     */
     public void resetViews() {
         vbxLobby.setVisible(false);
         vbxJoin.setVisible(false);
@@ -200,6 +234,9 @@ public class GameLobbyViewController {
         hbxJoinerPanel.setVisible(false);
     }
 
+    /**
+     * Sends chat message to the SocketClient
+     */
     @FXML
     public void sendChatMessage() {
         if (!textChatMsgField.getText().equals("")) {
@@ -215,11 +252,39 @@ public class GameLobbyViewController {
         }
     }
 
-    @FXML
-    private void refreshLobbyTable() {
-        getLobbyList();
+    public void sendExtendUserData() {
+        Message msg = new Message();
+        msg.setMessageType(MessageType.LOGIN);
+        msg.setPlayerId(eTankApplication.getSignedUser().getId());
+        msg.setPlayerPublicName(eTankApplication.getSignedUser().getPublicName());
+        msg.setPlayerImage("default");
+        msg.setPlayerIsRdy(false);
+        msg.setPayload("JAVA");
+        sc.sendMsg(msg);
     }
 
+    /**
+     * Sends a REGISTER_LOBBY message to the SocketClient
+     *
+     * @param lobby     the new lobby
+     */
+    public void registerLobby(GameLobby lobby) {
+        Message msg = new Message();
+        msg.setMessageType(MessageType.REGISTER_LOBBY);
+        msg.setPlayerImage("default");
+        msg.setGameLobbyNumber(lobby.getGameLobbyID());
+        msg.setPlayerId(eTankApplication.getSignedUser().getId());
+        msg.setPlayerPublicName(eTankApplication.getSignedUser().getPublicName());
+        sc.sendMsg(msg);
+    }
+
+    /**
+     * Receive lobby messages from the SocketClient
+     * and calls the appropriate functions to handle the message
+     *
+     * @param msg           the message
+     * @throws IOException  the IO exception
+     */
     public void receiveLobbyMessages(Message msg) throws IOException {
         if (msg != null) {
             if (msg.getMessageType() == MessageType.GET_LOBBIES) {
@@ -243,13 +308,25 @@ public class GameLobbyViewController {
         }
     }
 
-    private void processRegisterLobbyMsg(Message msg) throws IOException {
+    /**
+     * Assigns a new player to a lobby
+     *
+     * @param msg   the message from SocketClient
+     */
+    private void processRegisterLobbyMsg(Message msg) {
         Player player = new Player(msg.getPlayerId(), null, msg.getPlayerPublicName(), msg.getPlayerImage(), null, null);
         selectedLobby.getPlayers().add(player);
         fillPlayerGrid();
         textAreaChatField.appendText(msg.getPayload()  + "\n");
     }
 
+    /**
+     * Switches to GameView,
+     * hands over the selectedLobby and SocketClient
+     * and starts the Game
+     *
+     * @param msg   the message from SocketClient
+     */
     private void processStartGameMsg(Message msg) {
         Platform.runLater(() -> {
             try {
@@ -263,6 +340,11 @@ public class GameLobbyViewController {
         });
     }
 
+    /**
+     * Sets the status of a player by changing the button color
+     *
+     * @param msg   the message from SocketClient
+     */
     private void processRdyStatusMsg(Message msg) {
         Platform.runLater(() -> {
             for (Player player : selectedLobby.getPlayers()) {
@@ -272,13 +354,9 @@ public class GameLobbyViewController {
 
                 if (eTankApplication.getSignedUser().getId() == msg.getPlayerId()) {
                     if (player.isReady()) {
-                        btnSetHostRdy.setText("Bereit!");
-                        btnSetJoinRdy.setText("Bereit!");
                         btnSetHostRdy.setStyle("-fx-background-color: green;");
                         btnSetJoinRdy.setStyle("-fx-background-color: green;");
                     } else {
-                        btnSetHostRdy.setText("Nicht Bereit!");
-                        btnSetJoinRdy.setText("Nicht Bereit!");
                         btnSetHostRdy.setStyle("-fx-background-color: red;");
                         btnSetJoinRdy.setStyle("-fx-background-color: red;");
                     }
@@ -289,6 +367,43 @@ public class GameLobbyViewController {
         });
     }
 
+    /**
+     * Adds a player to the selected lobby
+     *
+     * @param msg   the message from SocketClient
+     */
+    private void processJoinedPlayerMsg(Message msg) {
+        Player player = new Player(msg.getPlayerId(), "", msg.getPlayerPublicName(), msg.getPlayerImage(), "", null);
+        selectedLobby.addPlayer(player);
+        fillPlayerGrid();
+    }
+
+    /**
+     * Displays a new chat message
+     *
+     * @param msg   the message from SocketClient
+     */
+    private void processChatMsg(Message msg) {
+        textAreaChatField.appendText(msg.getPlayerPublicName() + ": " + msg.getPayload() + "\n");
+    }
+
+    /**
+     * Adds new Lobby to the lobbylist
+     * and adds it to the lobby table
+     *
+     * @param msg   the message from SocketClient
+     */
+    private void processGetLobbiesMsg(Message msg) {
+        GameLobby lobby = new GameLobby();
+        lobby.setGameLobbyID(msg.getGameLobbyNumber());
+        lobby.setSeatCounter(Integer.parseInt(msg.getPayload()));
+        lobbyList.add(lobby);
+        fillLobbyTable();
+    }
+
+    /**
+     * Checks if the status of all players is ready
+     */
     private void checkAllPlayerRdy() {
         int playerNotRdy = 0;
         for (Player player : selectedLobby.getPlayers()) {
@@ -299,24 +414,11 @@ public class GameLobbyViewController {
         btnGameStart.setDisable(playerNotRdy != 0);
     }
 
-    private void processJoinedPlayerMsg(Message msg) throws IOException {
-        Player player = new Player(msg.getPlayerId(), "", msg.getPlayerPublicName(), msg.getPlayerImage(), "", null);
-        selectedLobby.addPlayer(player);
-        fillPlayerGrid();
-    }
-
-    private void processChatMsg(Message msg) {
-        textAreaChatField.appendText(msg.getPlayerPublicName() + ": " + msg.getPayload() + "\n");
-    }
-
-    private void processGetLobbiesMsg(Message msg) {
-        GameLobby lobby = new GameLobby();
-        lobby.setGameLobbyID(msg.getGameLobbyNumber());
-        lobby.setSeatCounter(Integer.parseInt(msg.getPayload()));
-        lobbyList.add(lobby);
-        fillLobbyTable();
-    }
-
+    /**
+     * Displays the lobby from host perspective
+     *
+     * @param lobby
+     */
     private void showLobbyHostView(GameLobby lobby) {
         resetViews();
         vbxLobby.setVisible(true);
@@ -324,49 +426,43 @@ public class GameLobbyViewController {
         lblGameNumber.setText("Spielnummer: " + lobby.getGameLobbyID());
     }
 
-    private void showJoinLobbyView() {
+    /**
+     * Displays the joined lobby
+     */
+    private void showJoinedLobbyView() {
         resetViews();
         vbxJoin.setVisible(true);
     }
 
-    private void showLobbyJoinView() {
+    /**
+     * Shows the Join Lobby View
+     */
+    private void showJoinLobbyView() {
         resetViews();
         vbxLobby.setVisible(true);
         hbxJoinerPanel.setVisible(true);
     }
 
+    /**
+     * Sends a request to the SocketClient to get the list of lobbies
+     */
     public void getLobbyList() {
         Message msg = new Message();
         msg.setMessageType(MessageType.GET_LOBBIES);
         sc.sendMsg(msg);
     }
 
-    public void sendExtendUserData() {
-        Message msg = new Message();
-        msg.setMessageType(MessageType.LOGIN);
-        msg.setPlayerId(eTankApplication.getSignedUser().getId());
-        msg.setPlayerPublicName(eTankApplication.getSignedUser().getPublicName());
-        msg.setPlayerImage("default");
-        msg.setPlayerIsRdy(false);
-        msg.setPayload("JAVA");
-        sc.sendMsg(msg);
-    }
-
-    public void registerLobby(GameLobby lobby) {
-        Message msg = new Message();
-        msg.setMessageType(MessageType.REGISTER_LOBBY);
-        msg.setPlayerImage("default");
-        msg.setGameLobbyNumber(lobby.getGameLobbyID());
-        msg.setPlayerId(eTankApplication.getSignedUser().getId());
-        msg.setPlayerPublicName(eTankApplication.getSignedUser().getPublicName());
-        sc.sendMsg(msg);
-    }
-
+    /**
+     * Fills lobby table
+     */
     public void fillLobbyTable() {
         columnLobbyNumber.setCellValueFactory(cellData -> cellData.getValue().gameLobbyIDProperty());
         columnLobbySeats.setCellValueFactory(cellData -> cellData.getValue().seatCounterProperty().asObject());
     }
 
+    /**
+     * Fills the PlayerGrid with data from the Player List of a lobby
+     */
     private void fillPlayerGrid() {
         Platform.runLater(new Runnable() {
             @Override
@@ -388,7 +484,7 @@ public class GameLobbyViewController {
                     if (image.equals("default")) {
                         playerImage.setImage(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("img/images/default-user-image.png"))));
                     } else {
-                        playerImage.setImage(getImageFromBase64String(image));
+                        playerImage.setImage(decodeImage(image));
                     }
 
 
@@ -407,11 +503,22 @@ public class GameLobbyViewController {
         });
     }
 
-    private Image getImageFromBase64String(String userImage) {
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64.getDecoder().decode(userImage));
+    /**
+     * Decodes the base64Image to an Image
+     *
+     * @param base64Image   readable String of an image
+     * @return              new Image from the String
+     */
+    private Image decodeImage(String base64Image) {
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64.getDecoder().decode(base64Image));
         return new Image(inputStream);
     }
 
+    /**
+     * Sets e tank application.
+     *
+     * @param eTankApplication the e tank application
+     */
     public void setETankApplication(ETankApplication eTankApplication) {
         this.eTankApplication = eTankApplication;
     }

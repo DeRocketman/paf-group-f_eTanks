@@ -73,7 +73,7 @@
                         <HBox fx:id="hbxHostPanel" alignment="TOP_CENTER" prefHeight="0.0" prefWidth="481.0" spacing="20.0" visible="false">
                            <children>
                               <Button fx:id="btnGameStart" disable="true" onAction="#switchToGameView" prefHeight="29.0" prefWidth="130.0" text="Start Game" />
-                              <Button fx:id="btnSetHostRdy" onAction="#setRdy" prefHeight="29.0" prefWidth="130.0" text="Nicht Bereit" />
+                              <Button fx:id="btnSetHostRdy" onAction="#setRdy" prefHeight="29.0" prefWidth="130.0" text="Bereit" />
                               <Separator prefWidth="200.0" visible="false" />
                            </children>
                         </HBox>

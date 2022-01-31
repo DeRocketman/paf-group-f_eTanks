@@ -3404,7 +3404,7 @@
                      </VBox.margin>
                   </PasswordField>
                   <Label id="forgotPwLabel" fx:id="forgotPwLabel" prefHeight="17.0" prefWidth="117.0" text="Passwort vergessen?" textFill="#2148e1" />
-                  <Label fx:id="newUserLabel" onMouseClicked="#createUserView" text="Neu hier?" textFill="#2148e1">
+                  <Label fx:id="newUserLabel" onMouseClicked="#switchToCreateUser" text="Neu hier?" textFill="#2148e1">
                      <VBox.margin>
                         <Insets bottom="15.0" />
                      </VBox.margin>

@@ -22,6 +22,7 @@ import model.service.HttpRequest;
 import model.service.Message;
 import model.service.MessageType;
 import model.service.SocketClient;
+import org.boon.core.Sys;
 
 public class GameLobbyViewController {
 
@@ -194,12 +195,15 @@ public class GameLobbyViewController {
     }
 
     /**
-     * Sends a request to join the signePlayer to the selected lobby
+     * Sends a request to join the signedPlayer to the selected lobby
      */
     @FXML
     private void joinSelectedGame() {
         selectedLobby = new GameLobby();
         selectedLobby = lobbyTable.getSelectionModel().getSelectedItem();
+        for(Player player : selectedLobby.getPlayers()){
+            System.out.println(player.isReady());
+        }
         if (selectedLobby.getSeatCounter() < 4) {
             System.out.println("joining game");
             Message msg = new Message();
@@ -220,7 +224,6 @@ public class GameLobbyViewController {
             alert.setContentText("Wähle eine andere oder erstelle selbst eine");
             alert.showAndWait();
         }
-
     }
 
     /**
@@ -296,6 +299,9 @@ public class GameLobbyViewController {
             if (msg.getMessageType() == MessageType.JOINED_PLAYER) {
                 processJoinedPlayerMsg(msg);
             }
+            if (msg.getMessageType() == MessageType.WHAT_IS_YOUR_STATUS) {
+                processWhatIsYourStatus(msg);
+            }
             if (msg.getMessageType() == MessageType.RDY_STATUS) {
                 processRdyStatusMsg(msg);
             }
@@ -304,6 +310,41 @@ public class GameLobbyViewController {
             }
             if (msg.getMessageType() == MessageType.REGISTER_LOBBY) {
                 processRegisterLobbyMsg(msg);
+            }
+        }
+    }
+
+    private void processWhatIsYourStatus(Message msgIn) {
+        System.out.println("In processWhatIsYourStatus");
+        if(msgIn.getPlayerId() != eTankApplication.getSignedUser().getId()){
+            for (Player player : selectedLobby.getPlayers()) {
+                if (player.getId() == eTankApplication.getSignedUser().getId()) {
+                    Message msg = new Message();
+                    msg.setMessageType(MessageType.RDY_STATUS);
+                    msg.setGameLobbyNumber(selectedLobby.getGameLobbyID());
+                    msg.setPlayerId(player.getId());
+                    msg.setPlayerPublicName(player.getPublicName());
+                    msg.setPlayerIsRdy(player.isReady());
+                    msg.setPlayerImage("default");
+                    msg.setPayload("payload");
+                    sc.sendMsg(msg);
+                }
+            }
+        }
+    }
+
+    public void whatIsYourStatus(){
+        for (Player player : selectedLobby.getPlayers()) {
+            if (player.getId() == eTankApplication.getSignedUser().getId()) {
+                Message msg = new Message();
+                msg.setMessageType(MessageType.WHAT_IS_YOUR_STATUS);
+                msg.setGameLobbyNumber(selectedLobby.getGameLobbyID());
+                msg.setPlayerId(player.getId());
+                msg.setPlayerPublicName(player.getPublicName());
+                msg.setPlayerIsRdy(false);
+                msg.setPlayerImage("default");
+                msg.setPayload("payload");
+                sc.sendMsg(msg);
             }
         }
     }
@@ -352,27 +393,16 @@ public class GameLobbyViewController {
                     player.setReady(msg.isPlayerIsRdy());
                 }
 
-                System.out.println("PlayerListSize " + selectedLobby.getPlayers().size());
-                System.out.println("eTankUserID " + eTankApplication.getSignedUser().getId());
-                System.out.println("MessageID " + msg.getPlayerId());
-                System.out.println("PlayerID " + player.getId());
-                System.out.println("Player is Ready " + player.isReady());
-
-                if (eTankApplication.getSignedUser().getId() == msg.getPlayerId() &&eTankApplication.getSignedUser().getId() == player.getId()) {
+                if (eTankApplication.getSignedUser().getId() == msg.getPlayerId() && eTankApplication.getSignedUser().getId() == player.getId()) {
                     if (player.isReady()) {
-                        System.out.println("BTN GRUEN true");
                         btnSetHostRdy.setStyle("-fx-background-color: green;");
                         btnSetJoinRdy.setStyle("-fx-background-color: green;");
                     } else {
-                        System.out.println("BTN ROT false");
                         btnSetHostRdy.setStyle("-fx-background-color: red;");
                         btnSetJoinRdy.setStyle("-fx-background-color: red;");
                     }
                 }
             }
-
-
-
             fillPlayerGrid(true);
             checkAllPlayerRdy();
         });
@@ -386,6 +416,7 @@ public class GameLobbyViewController {
     private void processJoinedPlayerMsg(Message msg) {
         Player player = new Player(msg.getPlayerId(), "", msg.getPlayerPublicName(), msg.getPlayerImage(), "", null);
         selectedLobby.addPlayer(player);
+        whatIsYourStatus();
         fillPlayerGrid(false);
     }
 
@@ -504,12 +535,11 @@ public class GameLobbyViewController {
                         playerGrid.add(playerNameLbl, 1, row);
                     }
 
+                    System.out.println(selectedLobby.getPlayers().get(row).isReady());
 
                     if (selectedLobby.getPlayers().get(row).isReady()) {
-                        System.out.println(selectedLobby.getPlayers().get(row).isReady());
                         playerIsRdy.setImage(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("img/images/lobby/rdy.png"))));
                     } else {
-                        System.out.println(selectedLobby.getPlayers().get(row).isReady());
                         playerIsRdy.setImage(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("img/images/lobby/notrdy.png"))));
                     }
                     playerGrid.add(playerIsRdy, 2, row);

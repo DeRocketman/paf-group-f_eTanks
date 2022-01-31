@@ -20,7 +20,7 @@
                   </Text>
                   <VBox alignment="TOP_CENTER" layoutX="303.0" layoutY="225.0" prefHeight="200.0" prefWidth="200.0" spacing="20.0">
                      <children>
-                        <Button id="btn-newGame" fx:id="btnNewGame" mnemonicParsing="false" onAction="#switchToGameCreator" prefHeight="26.0" prefWidth="200.0" text="Neues Spiel" />
+                        <Button id="btn-newGame" fx:id="btnNewGame" mnemonicParsing="false" onAction="#switchToLobby" prefHeight="26.0" prefWidth="200.0" text="Neues Spiel" />
                         <Button id="btn-profil" fx:id="btnProfil" mnemonicParsing="false" onAction="#switchToProfil" prefHeight="32.0" prefWidth="0.0" text="Profil" />
                         <Button id="btn-statistics" fx:id="btnStatistics" mnemonicParsing="false" onAction="#switchToStatistics" prefHeight="32.0" prefWidth="0.0" text="Statistiken" />
                         <Button id="btn-settings" fx:id="btnSettings" mnemonicParsing="false" onAction="#switchToSettings" prefHeight="32.0" prefWidth="0.0" text="Einstellungen" />

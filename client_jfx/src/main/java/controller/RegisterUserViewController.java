@@ -4,27 +4,21 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import main.ETankApplication;
+import java.io.IOException;
+
 import model.data.Authorisation;
 import model.service.HttpRequest;
 
-import java.io.IOException;
+public class RegisterUserViewController extends ViewController {
 
-
-public class RegisterUserViewController {
-
-    ETankApplication eTankApplication;
     HttpRequest httpRequest = new HttpRequest();
 
     @FXML
     TextField usernameField;
-
     @FXML
     TextField pubNameField;
-
     @FXML
     PasswordField passwordField;
-
     @FXML
     Button registerUserButton;
 
@@ -32,6 +26,10 @@ public class RegisterUserViewController {
         registerUserButton.setDisable(true);
     }
 
+    /**
+     * Disables the login-button when key released and username or password fields are not filled
+     * or else activates it
+     */
     public void keyRelased() {
         String username = usernameField.getText();
         String password = passwordField.getText();
@@ -42,14 +40,19 @@ public class RegisterUserViewController {
         registerUserButton.setDisable(isDisabled);
     }
 
-    public void setETankApplication(ETankApplication eTankApplication) {
-        this.eTankApplication = eTankApplication;
-    }
-
+    /**
+     * Calls the method showLoginView in class eTankApplication
+     *
+     * @throws IOException the io exception
+     */
     public void switchToLogin() throws IOException {
         eTankApplication.showLoginView();
     }
 
+    /**
+     * Sends a request to register the user
+     * and shows loginVie afterwards
+     */
     public void registerUser() {
         Authorisation authorisation = new Authorisation(usernameField.getText(),pubNameField.getText(),passwordField.getText());
 

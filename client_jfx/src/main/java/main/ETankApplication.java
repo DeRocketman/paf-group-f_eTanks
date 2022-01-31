@@ -142,7 +142,7 @@ public class ETankApplication extends Application {
         primaryStage.show();
     }
 
-    public void showGameCreatorView() throws IOException {
+    public void showLobbyView() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("../view/GameLobbyView.fxml"));
         rootLayout = loader.load();

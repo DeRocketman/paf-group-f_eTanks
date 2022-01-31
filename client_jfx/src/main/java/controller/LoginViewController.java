@@ -1,16 +1,14 @@
 package controller;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.*;
-
-import main.ETankApplication;
 import model.data.*;
 import model.service.HttpRequest;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
 import java.io.IOException;
 
-public class LoginViewController {
+public class LoginViewController extends  ViewController {
 
-    ETankApplication eTankApplication;
     HttpRequest httpRequest = new HttpRequest();
 
     @FXML
@@ -25,13 +23,14 @@ public class LoginViewController {
     Button loginBtn;
 
     public void initialize() {
+        //Disables the login-button
         loginBtn.setDisable(true);
     }
 
-    public void setETankApplication(ETankApplication eTankApplication) {
-        this.eTankApplication = eTankApplication;
-    }
-
+    /**
+     * Disables the login-button when key released and username or password fields are not filled
+     * or else activates it
+     */
     public void keyRelased() {
         String username = usernameField.getText();
         String password = passwordField.getText();
@@ -41,11 +40,18 @@ public class LoginViewController {
         loginBtn.setDisable(isDisabled);
     }
 
-    public void createUserView() throws IOException {
+    /**
+     * Calls the method showCreateUserView in class eTankApplication
+     *
+     * @throws IOException
+     */
+    public void switchToCreateUser() throws IOException {
         eTankApplication.showCreateUserView();
     }
 
-    //Anmelden Token erhalten
+    /**
+     * Gets the login token with request to authorize the user
+     */
     public void login() {
 
         setHttpRequestETankapplication();
@@ -62,10 +68,11 @@ public class LoginViewController {
         } else {
             System.out.println("Login fehlgeschlagen");
         }
-
     }
 
-    //ETankapplication bekannt machen
+    /**
+     * Sets the eTankApplication in the class httpRequest
+     */
     public void setHttpRequestETankapplication(){
         httpRequest.setETankApplication(eTankApplication);
     }

@@ -23,9 +23,7 @@ import java.util.Base64;
 import java.io.IOException;
 import java.util.Objects;
 
-
 public class GameLobbyViewController {
-
 
     SocketClient sc = new SocketClient(this);
     HttpRequest httpRequest = new HttpRequest();

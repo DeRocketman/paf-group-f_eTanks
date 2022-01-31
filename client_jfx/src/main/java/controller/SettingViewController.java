@@ -7,7 +7,6 @@ import javafx.scene.control.*;
 import model.data.UserSettings;
 import model.service.HttpRequest;
 
-
 public class SettingViewController extends ViewController {
 
     HttpRequest httpRequest = new HttpRequest();
@@ -34,7 +33,10 @@ public class SettingViewController extends ViewController {
     @FXML
     private Button fireSecondKey;
 
-    public void changeSound(ActionEvent actionEvent) {
+    /**
+     * Toggles the sound button and sets his text
+     */
+    public void changeSound() {
         if (soundSettings.isSelected()) {
             soundSettings.setText("An");
         } else {
@@ -42,7 +44,10 @@ public class SettingViewController extends ViewController {
         }
     }
 
-    public void changeMusic(ActionEvent actionEvent) {
+    /**
+     * Toggles the music button and sets his text
+     */
+    public void changeMusic() {
         if (musicSettings.isSelected()) {
             musicSettings.setText("An");
         } else {
@@ -50,6 +55,12 @@ public class SettingViewController extends ViewController {
         }
     }
 
+    /**
+     * Handles changes of the key buttons
+     * and saves them to the tempUserSettings
+     *
+     * @param e the e   the changed button
+     */
     public void handleChangKey(Event e) {
 
         Button tempButton = (Button) e.getSource();
@@ -76,7 +87,12 @@ public class SettingViewController extends ViewController {
 
     }
 
-    public void saveSettings(ActionEvent actionEvent) {
+    /**
+     * Saves the new changed settings data in signedUser
+     * and sends a request to save the changes from him and the tempUserSettings in the database
+     *
+     */
+    public void saveSettings() {
         eTankApplication.getSignedUser().getUserSettings().setGameMusicOn(musicSettings.isSelected());
         eTankApplication.getSignedUser().getUserSettings().setGameSoundOn(soundSettings.isSelected());
         eTankApplication.getSignedUser().getUserSettings().setGameMusicVolume((int) musicVolumeSettings.getValue());
@@ -101,6 +117,9 @@ public class SettingViewController extends ViewController {
         }
     }
 
+    /**
+     * Initializes the fields with the data from signedUser
+     */
     public void initialiseUserData() {
 
         if (eTankApplication.getSignedUser().getUserSettings().isGameMusicOn()) {

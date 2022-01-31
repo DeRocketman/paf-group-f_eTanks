@@ -8,9 +8,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import model.data.GameStatistic;
-
 import java.util.List;
+
+import model.data.GameStatistic;
 
 public class StatisticsViewController extends ViewController {
 
@@ -44,12 +44,19 @@ public class StatisticsViewController extends ViewController {
     @FXML
     private TableColumn<GameStatistic, Integer> gamePointsColumn;
 
+    /**
+     * Initializes the user data
+     */
     public void initialiseUserData() {
        setHttpRequestETankapplication();
        getUserStatistic();
        getHighscoreList();
     }
 
+    /**
+     * Sends request to get the UserStatistic
+     * and sets the labels of the view
+     */
     public void getUserStatistic() {
         int totalDeaths = 0;
         int totalGamePoints = 0;
@@ -100,6 +107,10 @@ public class StatisticsViewController extends ViewController {
         shots.setText(String.valueOf(totalShots));
     }
 
+    /**
+     * Sends request to get the Highscore list
+     * and sets the table data
+     */
     public void getHighscoreList() {
 
         int listSize = 10;

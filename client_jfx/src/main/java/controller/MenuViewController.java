@@ -1,22 +1,15 @@
 package controller;
 
-import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import model.service.HttpRequest;
-
 import java.io.IOException;
 
 public class MenuViewController extends ViewController {
 
-    HttpRequest httpRequest = new HttpRequest();
-
     /**
      * Exits the Game after alert is ok
-     *
-     * @param actionEvent
      */
-    public void exitGame(ActionEvent actionEvent){
+    public void exitGame(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Beenden");
         alert.setContentText("Möchtest du das Spiel wirklich beenden?");
@@ -27,10 +20,8 @@ public class MenuViewController extends ViewController {
 
     /**
      * Logout from the Game after alert is ok and shows LoginView
-     *
-     * @param actionEvent
      */
-    public void logout(ActionEvent actionEvent) throws IOException {
+    public void logout() throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Abmelden");
         alert.setContentText("Möchtest du dich wirklich ausloggen?");
@@ -39,8 +30,11 @@ public class MenuViewController extends ViewController {
         }
     }
 
+    /**
+     * Calls the parent function setHttpRequestETankapplication()
+     */
     public void setHttpRequestETankapplication(){
-        httpRequest.setETankApplication(eTankApplication);
+        super.setHttpRequestETankapplication();
     }
 
 }

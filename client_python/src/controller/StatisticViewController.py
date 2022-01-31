@@ -4,20 +4,30 @@ from model.service.HttpRequest import HttpRequest
 from model.service.RequestCode import RequestCode
 from resources.view.StatisticView import Ui_statisticView
 
+
 class StatisticViewController(QWidget):
     def __init__(self, mainMenuController):
         super().__init__()
 
         self.mainMenuController = mainMenuController
-        self.httpRequest = HttpRequest()
+
 
         self.statisticView = Ui_statisticView()
         self.statisticView.setupUi(self)
 
-        self.httpRequest.user.id = self.mainMenuController.signedUser.id
+    def loadData(self):
+        load = HttpRequest()
+        load.user.id = self.mainMenuController.signedUser.id
+        load.user.authToken = self.mainMenuController.signedUser.authToken
 
-        if self.httpRequest.httpReq(RequestCode.STATISTIC_LIST):
-            self.addStatistic()
+        if load.httpReq(RequestCode.STATISTIC_LIST):
+            pass
+            #self.addStatistic()
+        else:
+            print("Das hat nicht geklappt.")
+
+        if load.httpReq(RequestCode.HIGHCSCORE_LIST):
+            self.addHighscoreList()
         else:
             print("Das hat nicht geklappt.")
 
@@ -59,3 +69,6 @@ class StatisticViewController(QWidget):
         self.statisticView.playedGames.setText(totalPlayedGames)
 
         print("Funktioniert!")
+
+    def addHighscoreList(self):
+        print("Hier kommt die Highscore Liste.")

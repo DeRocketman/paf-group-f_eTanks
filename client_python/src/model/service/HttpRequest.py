@@ -1,5 +1,4 @@
 
-
 import requests
 
 from model.data.User import User
@@ -10,7 +9,7 @@ class HttpRequest:
     def __init__(self):
         self.user = User()
 
-    def httpReq(self, requestCode=RequestCode):
+    def httpReq(self, requestCode = RequestCode):
         success = False
         headers = {"Accept": "application/json", "content-Type": "application/json; utf-8",
                    "Authorization": "Bearer " + self.user.authToken}
@@ -32,8 +31,12 @@ class HttpRequest:
             print(requestCode.STATISTIC_LIST)
             url = "/user_game_statistic/"
             requestedURL = (url + str(self.user.id))
-            payload = str(self.user.id)
-            request = requests.post("http://127.0.0.1:8080" + requestedURL, headers=headers, data=payload)
+            request = requests.get("http://127.0.0.1:8080" + requestedURL, headers=headers)
+        elif requestCode == requestCode.HIGHCSCORE_LIST:
+            print(requestCode.HIGHCSCORE_LIST)
+            listSize = "10"
+            requestedURL = "/user_game_statistic/highscorelist/" + listSize
+            request = requests.get("http://127.0.0.1:8080" + requestedURL, headers=headers)
         elif requestCode == requestCode.UPDATE_USER:
             print(requestCode.UPDATE_USER)
             requestedURL = "/user/save"
@@ -64,10 +67,14 @@ class HttpRequest:
                 print("Ende 3. Runde")
                 success = True
             elif requestCode == requestCode.STATISTIC_LIST:
-                print("Nur Request Text " + request.text)
+                print("Response " + request.text)
                 statisticList = request.json()
                 self.mapResponseToStatistic(statisticList)
-                print("Statstiken empfangen")
+                success = True
+            elif requestCode == requestCode.HIGHCSCORE_LIST:
+                print("Response " + request.text)
+                highscoreList = request.json()
+                self.mapResponseToHighscore(highscoreList)
                 success = True
             elif requestCode == requestCode.UPDATE_USER:
                 print("Update User Response:")
@@ -102,13 +109,13 @@ class HttpRequest:
         self.user.userSettings.moveRightKey = jsonData["userSettings"]["moveRightKey"]
         self.user.userSettings.fireMainWeaponKey = jsonData["userSettings"]["fireMainWeaponKey"]
         self.user.userSettings.fireSecondaryWeaponKey = jsonData["userSettings"]["fireSecondaryWeaponKey"]
-        #self.user.userStatistics = jsonData["gameStatistics"]
+        # self.user.userStatistics = jsonData["gameStatistics"]
 
     def mapResponseToStatistic(self, jsonData):
-        import json
-        gameStatisticList = json.loads(jsonData)
-        print("Test für Statistik: ")
-        print(gameStatisticList[0])
+        pass
+
+    def mapResponseToHighscore(self, jsonData):
+        pass
 
     def mapUserToPayload(self):
         return {
@@ -117,6 +124,7 @@ class HttpRequest:
             "publicName": self.user.publicName,
             "username": self.user.username,
             "password": self.user.password,
+            "authToken": self.user.authToken,
             "userSettings": {
                 "id": self.user.userSettings.id,
                 "gameSoundVolume": self.user.userSettings.gameSoundVolume,
@@ -131,5 +139,5 @@ class HttpRequest:
                 "fireMainWeaponKey": self.user.userSettings.fireMainWeaponKey,
                 "fireSecondaryWeaponKey": self.user.userSettings.fireSecondaryWeaponKey
             },
-            "gameStatistics": self.user.userStatistics
+          #  "gameStatistics": self.user.userStatistics
         }

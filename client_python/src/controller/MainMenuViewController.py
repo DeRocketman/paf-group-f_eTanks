@@ -47,6 +47,7 @@ class MainMenuViewController(QWidget):
     def openStatisticView(self):
         self.stackedWidget.addWidget(self.statisticViewController)
         self.stackedWidget.setCurrentWidget(self.statisticViewController)
+        self.statisticViewController.loadData()
 
     # TODO: implement connection to StatisticView
 

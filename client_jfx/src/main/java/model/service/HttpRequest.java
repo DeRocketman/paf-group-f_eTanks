@@ -3,7 +3,6 @@ package model.service;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import javafx.scene.control.Alert;
-import javafx.scene.image.Image;
 import main.ETankApplication;
 import model.data.*;
 

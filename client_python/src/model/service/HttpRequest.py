@@ -9,6 +9,7 @@ class HttpRequest:
     def __init__(self):
         self.user = User()
         self.statistics = []
+        self.highscoreList = []
 
     def httpReq(self, requestCode = RequestCode):
         success = False
@@ -74,8 +75,8 @@ class HttpRequest:
                 success = True
             elif requestCode == requestCode.HIGHCSCORE_LIST:
                 print("Response " + request.text)
-                highscoreList = request.json()
-                self.mapResponseToHighscore(highscoreList)
+                response = request.text
+                self.highscoreList = json.loads(response)
                 success = True
             elif requestCode == requestCode.UPDATE_USER:
                 print("Update User Response:")
@@ -110,9 +111,6 @@ class HttpRequest:
         self.user.userSettings.moveRightKey = jsonData["userSettings"]["moveRightKey"]
         self.user.userSettings.fireMainWeaponKey = jsonData["userSettings"]["fireMainWeaponKey"]
         self.user.userSettings.fireSecondaryWeaponKey = jsonData["userSettings"]["fireSecondaryWeaponKey"]
-
-    def mapResponseToHighscore(self, jsonData):
-        pass
 
     def mapUserToPayload(self):
         return {

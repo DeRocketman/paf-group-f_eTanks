@@ -201,8 +201,6 @@ public class GameLobbyViewController {
     private void joinSelectedGame() {
         selectedLobby = new GameLobby();
         selectedLobby = lobbyTable.getSelectionModel().getSelectedItem();
-        for (Player player : selectedLobby.getPlayers()) {
-        }
         if (selectedLobby.getSeatCounter() < 4) {
             Message msg = new Message();
             msg.setMessageType(MessageType.JOIN);

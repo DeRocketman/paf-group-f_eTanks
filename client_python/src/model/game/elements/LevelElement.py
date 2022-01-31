@@ -2,7 +2,7 @@ import pygame as pg
 
 
 class LevelElement(pg.sprite.Sprite):
-    def __init__(self, elementType,imagePath, positionX, positionY, width, height, rotation):
+    def __init__(self, elementType, imagePath, positionX, positionY, width, height, rotation):
         pg.sprite.Sprite.__init__(self)
 
         self.type = elementType

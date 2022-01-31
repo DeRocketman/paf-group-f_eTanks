@@ -8,5 +8,5 @@ class GamePhysics:
     KILL_POINTS = 1000
     ITEM_POINTS = 300
 
-    WINDOW_WIDTH = 1200
+    WINDOW_WIDTH = 1400
     WINDOW_HEIGHT = 850

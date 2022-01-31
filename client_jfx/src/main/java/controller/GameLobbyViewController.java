@@ -316,7 +316,7 @@ public class GameLobbyViewController {
     private void processRegisterLobbyMsg(Message msg) {
         Player player = new Player(msg.getPlayerId(), null, msg.getPlayerPublicName(), msg.getPlayerImage(), null, null);
         selectedLobby.getPlayers().add(player);
-        fillPlayerGrid();
+        fillPlayerGrid(false);
         textAreaChatField.appendText(msg.getPayload()  + "\n");
     }
 
@@ -355,14 +355,18 @@ public class GameLobbyViewController {
                 if (eTankApplication.getSignedUser().getId() == msg.getPlayerId()) {
                     if (player.isReady()) {
                         btnSetHostRdy.setStyle("-fx-background-color: green;");
+                        btnSetHostRdy.setText("Nicht bereit");
                         btnSetJoinRdy.setStyle("-fx-background-color: green;");
+                        btnSetJoinRdy.setText("Nicht bereit");
                     } else {
                         btnSetHostRdy.setStyle("-fx-background-color: red;");
+                        btnSetHostRdy.setText("Bereit");
                         btnSetJoinRdy.setStyle("-fx-background-color: red;");
+                        btnSetJoinRdy.setText("Bereit");
                     }
                 }
             }
-            fillPlayerGrid();
+            fillPlayerGrid(true);
             checkAllPlayerRdy();
         });
     }
@@ -375,7 +379,7 @@ public class GameLobbyViewController {
     private void processJoinedPlayerMsg(Message msg) {
         Player player = new Player(msg.getPlayerId(), "", msg.getPlayerPublicName(), msg.getPlayerImage(), "", null);
         selectedLobby.addPlayer(player);
-        fillPlayerGrid();
+        fillPlayerGrid(false);
     }
 
     /**
@@ -412,6 +416,8 @@ public class GameLobbyViewController {
             }
         }
         btnGameStart.setDisable(playerNotRdy != 0);
+
+
     }
 
     /**
@@ -463,40 +469,42 @@ public class GameLobbyViewController {
     /**
      * Fills the PlayerGrid with data from the Player List of a lobby
      */
-    private void fillPlayerGrid() {
+    private void fillPlayerGrid(boolean setReady) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 httpRequest.setETankApplication(eTankApplication);
                 for (int row = 0; row < selectedLobby.getPlayers().size(); row++) {
+
                     ImageView playerImage = new ImageView();
                     ImageView playerIsRdy = new ImageView();
                     playerImage.setFitHeight(40.0);
                     playerImage.setFitWidth(40.0);
                     playerIsRdy.setFitHeight(40.0);
                     playerIsRdy.setFitWidth(40.0);
-
                     Label playerNameLbl = new Label();
                     playerNameLbl.setText(selectedLobby.getPlayers().get(row).getPublicName());
 
-                    String image = httpRequest.getImageById(selectedLobby.getPlayers().get(row).getId());
+                    if(!setReady){
 
-                    if (image.equals("default")) {
-                        playerImage.setImage(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("img/images/default-user-image.png"))));
-                    } else {
-                        playerImage.setImage(decodeImage(image));
+                        String image = httpRequest.getImageById(selectedLobby.getPlayers().get(row).getId());
+
+                        if (image.equals("default")) {
+                            playerImage.setImage(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("img/images/default-user-image.png"))));
+                        } else {
+                            playerImage.setImage(decodeImage(image));
+                        }
+
+                        playerGrid.add(playerImage, 0, row);
+                        playerGrid.add(playerNameLbl, 1, row);
                     }
 
-
-                    System.out.println(httpRequest.getImageById(selectedLobby.getPlayers().get(row).getId()));
 
                     if (selectedLobby.getPlayers().get(row).isReady()) {
                         playerIsRdy.setImage(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("img/images/lobby/rdy.png"))));
                     } else {
                         playerIsRdy.setImage(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("img/images/lobby/notrdy.png"))));
                     }
-                    playerGrid.add(playerImage, 0, row);
-                    playerGrid.add(playerNameLbl, 1, row);
                     playerGrid.add(playerIsRdy, 2, row);
                 }
             }

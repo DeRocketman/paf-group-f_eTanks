@@ -137,6 +137,54 @@ public class HttpRequest {
         return userImage;
     }
 
+    public User findUserById(long id){
+        URL url = null;
+        HttpURLConnection con = null;
+        try {
+            url = new URL("http://127.0.0.1:8080/user/username");
+            con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("POST");
+
+            con.setRequestProperty("Authorization", "Bearer " + eTankApplication.getBearerToken());
+            con.setRequestProperty("Content-Type", "application/json; utf-8");
+            con.setRequestProperty("Accept", "application/json");
+            con.setDoOutput(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String jsonInputString = String.valueOf(id);
+
+
+        try {
+            OutputStream os = con.getOutputStream();
+            byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
+            os.write(input, 0, input.length);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        StringBuilder response = null;
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String output;
+
+            response = new StringBuilder();
+            while ((output = br.readLine()) != null) {
+                response.append(output);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Gson gson = new Gson();
+
+        User tempUser = gson.fromJson(String.valueOf(response), User.class);
+
+        con.disconnect();
+        return tempUser;
+    }
+
     public void findUserByUsername(Authorisation authorisation) {
 
         URL url = null;

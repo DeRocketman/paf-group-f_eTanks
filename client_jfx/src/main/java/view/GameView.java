@@ -1,5 +1,6 @@
 package view;
 
+import javafx.scene.text.Font;
 import model.data.GameStatistic;
 import model.game.elements.*;
 import model.game.logic.GamePhysics;
@@ -421,5 +422,13 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
      */
     public void updateTimer(double time){
         this.time.setText(String.valueOf((int) time));
+    }
+
+    public void showWinnerLabel(String winner) {
+        Label winnerLabel = new Label();
+        winnerLabel.setLayoutX(GamePhysics.GAME_WIDTH / 2);
+        winnerLabel.setLayoutY(GamePhysics.GAME_HEIGHT / 2);
+        winnerLabel.setFont(Font.font(65));
+        winnerLabel.setText(winner + "Hat gewonnen TOLL TOOL SUPER TOLL");
     }
 }

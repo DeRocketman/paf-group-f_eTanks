@@ -1,7 +1,10 @@
 package viewmodel;
 
+import javafx.scene.control.Label;
+import javafx.scene.text.Font;
 import main.ETankApplication;
 import model.data.GameStatistic;
+import model.data.User;
 import model.game.elements.*;
 import model.game.logic.GameLobby;
 import model.game.logic.GamePhysics;
@@ -65,6 +68,8 @@ public class GameViewModel implements ViewModel {
         gameView.initElements();
         gameView.initWorldBorder();
         gameView.initDisplay();
+
+        httpRequest.setETankApplication(eTankApplication);
 
         eTankApplication.getPrimaryStage().getScene().setOnKeyPressed(this::handleKeyPressed);
         eTankApplication.getPrimaryStage().getScene().setOnKeyReleased(this::handleKeyReleased);
@@ -557,6 +562,7 @@ public class GameViewModel implements ViewModel {
      * first who won more rounds and second who has more gamepoints
      */
     private void setGameWinner() {
+
         int winner = 0;
         for (int i = 0; i < gameStatistics.size(); i++) {
             if (i < gameStatistics.size() - 1) {
@@ -573,7 +579,9 @@ public class GameViewModel implements ViewModel {
                 }
             }
         }
-        gameStatistics.get(winner).setWinner(true);
+        gameStatistics.get(winner);
+        User user = httpRequest.findUserById(gameStatistics.get(winner).getUserId());
+        gameView.showWinnerLabel(user.getPublicName());
     }
 
     /**

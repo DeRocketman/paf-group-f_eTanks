@@ -1,8 +1,6 @@
 package model.game.elements;
 
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import model.game.elements.LevelElement;
 import model.game.logic.GamePhysics;
 
 public class Item extends LevelElement {

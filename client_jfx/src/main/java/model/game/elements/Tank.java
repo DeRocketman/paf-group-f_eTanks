@@ -12,6 +12,16 @@ public class Tank extends LevelElement{
     private int livePoints;
     boolean isActive;
 
+    /**
+     * Constructor of the class Tank
+     * @param image         Image of the tank
+     * @param positionX     x position
+     * @param positionY     y position
+     * @param width         width of the ImageView
+     * @param height        height of the ImageView
+     * @param rotation      rotation of the ImageView
+     * @param playerId      id of the player who drives the tank
+     */
     public Tank(Image image, double positionX, double positionY, double width, double height, double rotation, int playerId) {
         super(image, LevelElementType.TANK ,positionX, positionY, width, height, rotation);
         this.livePoints = 3;
@@ -47,40 +57,42 @@ public class Tank extends LevelElement{
                 }
             }
         } else {
-            rotateTransition(this, newCourse);
+            this.rotateTransition(newCourse);
         }
     }
 
-    /*
-     * Sorgt für die Rotationsanimation
-     * */
-    public void rotateTransition(LevelElement myTank, double newCourse) {
+    /**
+     * Provides the rotation animation
+     *
+     * @param newCourse     new course of the tank
+     */
+    public void rotateTransition(double newCourse) {
 
         RotateTransition rt;
 
-        if (Math.abs(myTank.getRotate() - newCourse) == 180.0) {
-            rt = new RotateTransition(Duration.seconds(GamePhysics.TANK_QUARTER_ROTATION_DURATION * 2), myTank);
+        if (Math.abs(this.getRotate() - newCourse) == 180.0) {
+            rt = new RotateTransition(Duration.seconds(GamePhysics.TANK_QUARTER_ROTATION_DURATION * 2), this);
         } else {
-            rt = new RotateTransition(Duration.seconds(GamePhysics.TANK_QUARTER_ROTATION_DURATION), myTank);
+            rt = new RotateTransition(Duration.seconds(GamePhysics.TANK_QUARTER_ROTATION_DURATION), this);
         }
         if (rt.getStatus() != Animation.Status.RUNNING) {
-            if (myTank.getRotate() == 360.0 && newCourse == 90.0) {
-                myTank.setRotate(0.0);
-                rt.setFromAngle(myTank.getRotate());
+            if (this.getRotate() == 360.0 && newCourse == 90.0) {
+                this.setRotate(0.0);
+                rt.setFromAngle(this.getRotate());
                 rt.setToAngle(newCourse);
-            } else if (myTank.getRotate() == 0.0 && newCourse == 360.0) {
-                myTank.setRotate(newCourse);
-                rt.setFromAngle(myTank.getRotate());
+            } else if (this.getRotate() == 0.0 && newCourse == 360.0) {
+                this.setRotate(newCourse);
+                rt.setFromAngle(this.getRotate());
                 rt.setToAngle(newCourse);
-            } else if (myTank.getRotate() == 90.0 && newCourse == 360.0) {
-                rt.setFromAngle(myTank.getRotate());
+            } else if (this.getRotate() == 90.0 && newCourse == 360.0) {
+                rt.setFromAngle(this.getRotate());
                 rt.setToAngle(0.0);
             } else {
-                rt.setFromAngle(myTank.getRotate());
+                rt.setFromAngle(this.getRotate());
                 rt.setToAngle(newCourse);
             }
-            if (myTank.getRotate() == 0.0) {
-                myTank.setRotate(360.0);
+            if (this.getRotate() == 0.0) {
+                this.setRotate(360.0);
             }
         }
         rt.play();
@@ -93,20 +105,25 @@ public class Tank extends LevelElement{
         livePoints--;
     }
 
-    public double[] setCorrectBulletPosition(LevelElement myTank) {
+    /**
+     * Sets the correct position for a bullet shot by the tank
+     *
+     * @return      x and y position for the bullet
+     */
+    public double[] setCorrectBulletPosition() {
         double[] bulletStartPosition = new double[2];
-        if (myTank.getRotate() == 360.0 || myTank.getRotate() == 0.0) {
-            bulletStartPosition[0] = myTank.getLayoutX() + 17.0;
-            bulletStartPosition[1] = myTank.getLayoutY();
-        } else if (myTank.getRotate() == 90.0) {
-            bulletStartPosition[0] = myTank.getLayoutX() + 22.0;
-            bulletStartPosition[1] = myTank.getLayoutY() + 14.0;
-        } else if (myTank.getRotate() == 180.0) {
-            bulletStartPosition[0] = myTank.getLayoutX() + 15.0;
-            bulletStartPosition[1] = myTank.getLayoutY() + 22.0;
-        } else if (myTank.getRotate() == 270.0) {
-            bulletStartPosition[0] = myTank.getLayoutX() + 14.0;
-            bulletStartPosition[1] = myTank.getLayoutY() + 15.0;
+        if (this.getRotate() == 360.0 || this.getRotate() == 0.0) {
+            bulletStartPosition[0] = this.getLayoutX() + 17.0;
+            bulletStartPosition[1] = this.getLayoutY();
+        } else if (this.getRotate() == 90.0) {
+            bulletStartPosition[0] = this.getLayoutX() + 22.0;
+            bulletStartPosition[1] = this.getLayoutY() + 14.0;
+        } else if (this.getRotate() == 180.0) {
+            bulletStartPosition[0] = this.getLayoutX() + 15.0;
+            bulletStartPosition[1] = this.getLayoutY() + 22.0;
+        } else if (this.getRotate() == 270.0) {
+            bulletStartPosition[0] = this.getLayoutX() + 14.0;
+            bulletStartPosition[1] = this.getLayoutY() + 15.0;
             }
         return bulletStartPosition;
     }

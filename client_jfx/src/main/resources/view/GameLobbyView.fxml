@@ -79,7 +79,7 @@
                         </HBox>
                         <HBox fx:id="hbxJoinerPanel" alignment="TOP_CENTER" prefHeight="29.0" prefWidth="240.0" spacing="20.0" visible="false">
                            <children>
-                              <Button id="btnSetRdy" fx:id="btnSetJoinRdy" onAction="#setRdy" prefHeight="29.0" prefWidth="150.0" text="Nicht Bereit" />
+                              <Button id="btnSetRdy" fx:id="btnSetJoinRdy" onAction="#setRdy" prefHeight="29.0" prefWidth="150.0" text="Bereit" />
                               <Separator prefHeight="5.0" prefWidth="394.0" visible="false" />
                            </children>
                         </HBox>

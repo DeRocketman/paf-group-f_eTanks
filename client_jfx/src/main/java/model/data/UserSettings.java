@@ -1,7 +1,5 @@
 package model.data;
 
-//@todo: Es bleibt zu ueberlegen, ob die strings für die Steuerung noch zu ASCII "gemappt" werden muessen. (z.B. space)
-
 /**
  * The UserSettings class is the model for the control keymap and the principle game settings of each user.
  * @author Gruppe F (Patterns and Frameworks WiSe21)
@@ -10,7 +8,6 @@ package model.data;
 public class UserSettings {
 
     private long id;
-
     private int gameSoundVolume;
     private int gameMusicVolume;
     private boolean gameSoundOn;
@@ -23,11 +20,10 @@ public class UserSettings {
     private String fireSecondaryWeaponKey;
 
     /**
-     * Instantiates a new User settings.
+     * Instantiates a new UserSettings.
      */
     public UserSettings() {
     }
-
 
     /**
      * Sets default settings.

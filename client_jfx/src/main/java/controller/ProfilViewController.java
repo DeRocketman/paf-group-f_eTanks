@@ -2,7 +2,6 @@ package controller;
 
 import model.service.HttpRequest;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -42,21 +41,31 @@ public class ProfilViewController extends ViewController {
         password.setDisable(true);
     }
 
-    public void editName(ActionEvent actionEvent) {
+    /**
+     * Disables or activates the publicName field
+     */
+    public void editName() {
         publicName.setDisable(!publicName.isDisable());
     }
 
-    public void editPassword(ActionEvent actionEvent) {
+    /**
+     * Disables or activates the password field
+     */
+    public void editPassword() {
         password.setDisable(!password.isDisable());
     }
 
-    public void saveProfil(ActionEvent actionEvent) {
+    /**
+     * Changes the data of the signedUser and
+     * sends a httpRequest to save the changes
+     */
+    public void saveProfil() {
         eTankApplication.getSignedUser().setPublicName(publicName.getText());
         if(!password.getText().isEmpty()){
             eTankApplication.getSignedUser().setPassword(password.getText());
         }
         if(userImageEdited){
-            eTankApplication.getSignedUser().setUserImage(decodeImage(changedImagePath));
+            eTankApplication.getSignedUser().setUserImage(encodeImage(changedImagePath));
         }
 
         setHttpRequestETankapplication();
@@ -72,23 +81,25 @@ public class ProfilViewController extends ViewController {
         }
     }
 
+    /**
+     * Initializes the fields with the data from signedUser
+     */
     public void initialiseUserData() {
         setUserImage();
         publicName.setText(eTankApplication.getSignedUser().getPublicName());
         password.setText(eTankApplication.getSignedUser().getPassword());
     }
 
+    /**
+     * Sets the User Image from the image in signedUser
+     */
     public void setUserImage() {
         if(eTankApplication.getSignedUser().getUserImage().equals("default")){
             userImage.setImage(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("img/images/default-user-image.png"))));
             System.out.println("Default Bild geladen");
         } else {
-            userImage.setImage(getImageFromBase64String(eTankApplication.getSignedUser().getUserImage()));
+            userImage.setImage(decodeImage(eTankApplication.getSignedUser().getUserImage()));
         }
-    }
-
-    public void setHttpRequestETankapplication(){
-        httpRequest.setETankApplication(eTankApplication);
     }
 
     @FXML
@@ -104,15 +115,27 @@ public class ProfilViewController extends ViewController {
         String filePath = file.getAbsolutePath();
         userImageEdited = true;
         changedImagePath = filePath;
-        userImage.setImage(getImageFromBase64String(decodeImage(filePath)));
+        userImage.setImage(decodeImage(encodeImage(filePath)));
     }
 
-    private Image getImageFromBase64String(String newValue) {
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64.getDecoder().decode(newValue));
+    /**
+     * Decodes the base64Image to an Image
+     *
+     * @param base64Image   readable String of an image
+     * @return              new Image from the String
+     */
+    private Image decodeImage(String base64Image) {
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64.getDecoder().decode(base64Image));
         return new Image(inputStream);
     }
 
-    private String decodeImage(String imagePath) {
+    /**
+     * Encodes the Image from the path to an base64Image
+     *
+     * @param imagePath     local path of the image
+     * @return base64Image  readable String of the image
+     */
+    private String encodeImage(String imagePath) {
 
         String base64Image = null;
         try {
@@ -123,5 +146,12 @@ public class ProfilViewController extends ViewController {
         }
 
         return base64Image;
+    }
+
+    /**
+     * Sets the eTankApplication in the class httpRequest
+     */
+    public void setHttpRequestETankapplication(){
+        httpRequest.setETankApplication(eTankApplication);
     }
 }

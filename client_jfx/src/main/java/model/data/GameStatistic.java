@@ -5,7 +5,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-//todo: Klaeren, ob noch gameWins and roundWins dazukommen sollen DS= ja ; Line: roundwinds ja, gamewins ergibt sich aus winner
 public class GameStatistic {
 
     private long userId;
@@ -19,22 +18,20 @@ public class GameStatistic {
     private int shots;
     private int hitPoints;
 
-    public GameStatistic() {
-
-    }
-
-    public GameStatistic(String gameNumber, long userId, boolean winner, int roundWins, int gamePoints, int kills, int deaths, int shots, int hitPoints) {
-        this.gameNumber = gameNumber;
-        this.userId = userId;
-        this.winner = winner;
-        this.roundWins = roundWins;
-        this.gamePoints = gamePoints;
-        this.kills = kills;
-        this.deaths = deaths;
-        this.shots = shots;
-        this.hitPoints = hitPoints;
-    }
-
+    /**
+     * Constructor of the class GameStatistic
+     *
+     * @param gameNumber    the game number
+     * @param userId        the id of the user
+     * @param winner        if the user was winner of the game
+     * @param roundWins     how many rounds the user won
+     * @param gamePoints    total gamePoints
+     * @param kills         kills of the user
+     * @param deaths        deaths of the user
+     * @param shots         shots of the user
+     * @param hitPoints     total hitpoints
+     * @param userName      username of the user
+     */
     public GameStatistic(String gameNumber, long userId, boolean winner, int roundWins, int gamePoints, int kills, int deaths, int shots, int hitPoints, String userName) {
         this.gameNumber = gameNumber;
         this.userId = userId;
@@ -48,40 +45,8 @@ public class GameStatistic {
         this.userName = userName;
     }
 
-
-    public float killDeathRate() {
-        if (this.deaths > 0) {
-            return this.kills / this.deaths;
-        } else {
-            return this.kills;
-        }
-    }
-
-    public float hitRate() {
-        return this.hitPoints / this.shots;
-    }
-
-    public String toJSON() {
-        return "{\"userId\":"+ this.userId + ",\"deaths\":"+ this.deaths +",\"game_number\":"+ this.gameNumber +",\"game_Points\":"+this.gamePoints+
-                "\"hitPoints\":"+this.hitPoints+"\",\"kills\":\""+this.kills+",\"round_wins\":"+this.roundWins+"," +
-                "\",\"shots\":\""+this.shots+"\"," +
-                "\"winner\":\""+this.winner+"\"}";
-    }
-
     public Long getUserId() {
         return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getGameNumber() {
-        return gameNumber;
-    }
-
-    public void setGameNumber(String gameNumber) {
-        this.gameNumber = gameNumber;
     }
 
     public boolean isWinner() {
@@ -138,14 +103,6 @@ public class GameStatistic {
 
     public void setHitPoints(int hitPoints) {
         this.hitPoints = hitPoints;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     public IntegerProperty getGamePointsProperty(){

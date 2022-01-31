@@ -109,7 +109,7 @@ public class StatisticsViewController extends ViewController {
 
     /**
      * Sends request to get the Highscore list
-     * and sets the table data
+     * and sets the table data with the received list
      */
     public void getHighscoreList() {
 

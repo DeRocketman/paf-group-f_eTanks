@@ -13,6 +13,9 @@ public class User {
     private String password;
     private UserSettings userSettings;
 
+    /**
+     * Default constructor of the class User
+     */
     public User () {
         this.username = "default";
         this.publicName = "default";
@@ -22,6 +25,16 @@ public class User {
         this.userSettings.setDefaultSettings();
     }
 
+    /**
+     * Constructor of the class User
+     *
+     * @param id            id of the user
+     * @param username      username of the user
+     * @param publicName    publicname of the user
+     * @param imagePath     imagePath of the user
+     * @param password      password of the user
+     * @param userSettings  userSettings of the user
+     */
     public User(long id, String username, String publicName, String imagePath, String password, UserSettings userSettings)  {
         this.id = id;
         this.username = username;
@@ -62,10 +75,6 @@ public class User {
 
     public String getUserName() {
         return username;
-    }
-
-    public void setUserName(String userName) {
-        this.username = userName;
     }
 
     public String getPublicName() {

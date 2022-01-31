@@ -355,10 +355,14 @@ public class GameLobbyViewController {
                 if (eTankApplication.getSignedUser().getId() == msg.getPlayerId()) {
                     if (player.isReady()) {
                         btnSetHostRdy.setStyle("-fx-background-color: green;");
+                        btnSetHostRdy.setText("Nicht bereit");
                         btnSetJoinRdy.setStyle("-fx-background-color: green;");
+                        btnSetJoinRdy.setText("Nicht bereit");
                     } else {
                         btnSetHostRdy.setStyle("-fx-background-color: red;");
+                        btnSetHostRdy.setText("Bereit");
                         btnSetJoinRdy.setStyle("-fx-background-color: red;");
+                        btnSetJoinRdy.setText("Bereit");
                     }
                 }
             }

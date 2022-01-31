@@ -1,4 +1,5 @@
 from PySide6.QtWidgets import QWidget
+from PySide6.QtWidgets import QTableWidgetItem
 
 from model.service.HttpRequest import HttpRequest
 from model.service.RequestCode import RequestCode
@@ -15,20 +16,17 @@ class StatisticViewController(QWidget):
         self.statisticView = Ui_statisticView()
         self.statisticView.setupUi(self)
 
+        self.statisticView.showMainMenuView.clicked.connect(self.showMainMenuView)
+
     def loadData(self):
         self.httpRequest.user.id = self.mainMenuController.signedUser.id
         self.httpRequest.user.authToken = self.mainMenuController.signedUser.authToken
 
         if self.httpRequest.httpReq(RequestCode.STATISTIC_LIST):
-            pass
             self.addStatistic()
-        else:
-            print("Das hat nicht geklappt.")
 
         if self.httpRequest.httpReq(RequestCode.HIGHCSCORE_LIST):
             self.addHighscoreList()
-        else:
-            print("Das hat nicht geklappt.")
 
     def addStatistic(self):
         totalDeaths = 0
@@ -69,4 +67,9 @@ class StatisticViewController(QWidget):
         self.statisticView.playedGames.setText(str(totalPlayedGames))
 
     def addHighscoreList(self):
-        print("Hier kommt die Highscore Liste.")
+        for index, highscore in enumerate(self.httpRequest.highscoreList):
+            self.statisticView.tableWidget.setItem(index, 0, QTableWidgetItem(highscore['userName']))
+            self.statisticView.tableWidget.setItem(index, 1, QTableWidgetItem(str(highscore['gamePoints'])))
+
+    def showMainMenuView(self):
+        self.mainMenuController.stackedWidget.setCurrentWidget(self.mainMenuController)

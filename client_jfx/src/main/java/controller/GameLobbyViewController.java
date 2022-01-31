@@ -491,19 +491,15 @@ public class GameLobbyViewController {
                     playerNameLbl.setText(selectedLobby.getPlayers().get(row).getPublicName());
 
                     if(!setReady){
-
                         String image = httpRequest.getImageById(selectedLobby.getPlayers().get(row).getId());
-
                         if (image.equals("default")) {
                             playerImage.setImage(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("img/images/default-user-image.png"))));
                         } else {
                             playerImage.setImage(decodeImage(image));
                         }
-
                         playerGrid.add(playerImage, 0, row);
                         playerGrid.add(playerNameLbl, 1, row);
                     }
-
 
                     if (selectedLobby.getPlayers().get(row).isReady()) {
                         System.out.println(selectedLobby.getPlayers().get(row).isReady());

@@ -129,7 +129,6 @@ public class GameLobbyViewController {
      */
     @FXML
     private void closeLobby() {
-
         GameLobby toRemove = new GameLobby();
 
         for (GameLobby lobby : lobbyList) {

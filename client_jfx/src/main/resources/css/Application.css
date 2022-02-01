@@ -38,3 +38,31 @@
     -fx-pref-height: 0;
     -fx-min-height: 0;
 }
+
+#highscoreTable .table-cell{
+    -fx-alignment: CENTER;
+}
+
+#highscoreTable .table-row{
+    -fx-border-color: #bb9c68;
+}
+
+#highscoreTable .column-header {
+    -fx-alignment: CENTER;
+    -fx-background-color: #bb9c68;
+    -fx-text-fill: #000000;
+}
+
+#statisticBox{
+    -fx-border-color: #bb9c68;
+    -fx-border-width: 5px;
+}
+
+#statisticBox .separator *.line {
+    -fx-border-color: #bb9c68;
+}
+
+#statisticBox .label{
+    -fx-text-fill:#000000;
+    -fx-padding: 10px 5px;
+}

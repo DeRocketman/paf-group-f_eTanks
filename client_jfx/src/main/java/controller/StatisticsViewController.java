@@ -119,7 +119,7 @@ public class StatisticsViewController extends ViewController {
 
         highscoreTable.setItems(observableList);
         this.gamePointsColumn.setCellValueFactory(e -> e.getValue().getGamePointsProperty().asObject());
-        this.nameColumn.setCellValueFactory(e -> e.getValue().getPublicNameProperty());
+        this.nameColumn.setCellValueFactory(e -> e.getValue().getUserNameProperty());
 
         this.positionColumn.setCellValueFactory(e -> {
             GameStatistic item = e.getValue();

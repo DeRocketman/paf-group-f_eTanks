@@ -8,7 +8,7 @@ import javafx.beans.property.StringProperty;
 public class GameStatistic {
 
     private long userId;
-    private String publicName;
+    private String userName;
     private String gameNumber;
     private boolean winner;
     private int roundWins;
@@ -30,9 +30,9 @@ public class GameStatistic {
      * @param deaths        deaths of the user
      * @param shots         shots of the user
      * @param hitPoints     total hitpoints
-     * @param publicName      username of the user
+     * @param userName      public name of the user
      */
-    public GameStatistic(String gameNumber, long userId, boolean winner, int roundWins, int gamePoints, int kills, int deaths, int shots, int hitPoints, String publicName) {
+    public GameStatistic(String gameNumber, long userId, boolean winner, int roundWins, int gamePoints, int kills, int deaths, int shots, int hitPoints, String userName) {
         this.gameNumber = gameNumber;
         this.userId = userId;
         this.winner = winner;
@@ -42,7 +42,7 @@ public class GameStatistic {
         this.deaths = deaths;
         this.shots = shots;
         this.hitPoints = hitPoints;
-        this.publicName = publicName;
+        this.userName = userName;
     }
 
     public Long getUserId() {
@@ -109,7 +109,7 @@ public class GameStatistic {
         return new SimpleIntegerProperty(gamePoints);
     }
 
-    public StringProperty getPublicNameProperty(){
-        return new SimpleStringProperty(publicName);
+    public StringProperty getUserNameProperty(){
+        return new SimpleStringProperty(userName);
     }
 }

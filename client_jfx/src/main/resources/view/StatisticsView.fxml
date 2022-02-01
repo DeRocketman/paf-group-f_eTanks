@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane stylesheets="@../css/Application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StatisticsViewController">
@@ -18,8 +19,11 @@
             <AnchorPane id="btn-back" prefHeight="850.0" prefWidth="800.0" BorderPane.alignment="CENTER">
                <children>
                   <Button id="btn-back" layoutX="98.0" layoutY="95.0" mnemonicParsing="false" onAction="#switchToMenu" text="Zurück" />
-                  <Text layoutX="98.0" layoutY="282.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Meine Statistik" />
-                  <HBox layoutX="100.0" layoutY="307.0" prefHeight="100.0" prefWidth="200.0">
+                  <Text layoutX="98.0" layoutY="282.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Meine Statistik">
+                     <font>
+                        <Font name="Stencil" size="24.0" />
+                     </font></Text>
+                  <HBox fx:id="statisticBox" layoutX="100.0" layoutY="307.0" prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <VBox prefHeight="151.0" prefWidth="193.0">
                            <children>
@@ -35,7 +39,7 @@
                               <Label text="K/D" />
                            </children>
                         </VBox>
-                        <Separator orientation="VERTICAL" prefHeight="200.0" />
+                        <Separator disable="true" orientation="VERTICAL" prefHeight="200.0" />
                         <VBox prefHeight="151.0" prefWidth="193.0">
                            <children>
                               <Label fx:id="playedGames" />
@@ -52,12 +56,15 @@
                         </VBox>
                      </children>
                   </HBox>
-                  <Text layoutX="400.0" layoutY="282.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Highscore" />
-                  <TableView fx:id="highscoreTable" layoutX="400.0" layoutY="307.0" prefHeight="200.0" prefWidth="329.0">
+                  <Text layoutX="400.0" layoutY="282.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Highscore">
+                     <font>
+                        <Font name="Stencil" size="24.0" />
+                     </font></Text>
+                  <TableView fx:id="highscoreTable" fixedCellSize="0.0" layoutX="400.0" layoutY="307.0" nodeOrientation="LEFT_TO_RIGHT">
                     <columns>
-                      <TableColumn fx:id="positionColumn" prefWidth="50.0" sortable="false" text="Platz" />
-                      <TableColumn fx:id="nameColumn" prefWidth="156.0" sortable="false" text="Spieler" />
-                       <TableColumn fx:id="gamePointsColumn" prefWidth="122.0" sortable="false" text="Punkte" />
+                      <TableColumn fx:id="positionColumn" editable="false" prefWidth="50.0" sortable="false" text="Platz" />
+                      <TableColumn fx:id="nameColumn" editable="false" prefWidth="156.0" sortable="false" text="Spieler" />
+                       <TableColumn fx:id="gamePointsColumn" editable="false" prefWidth="122.0" sortable="false" text="Punkte" />
                     </columns>
                   </TableView>
                </children></AnchorPane>

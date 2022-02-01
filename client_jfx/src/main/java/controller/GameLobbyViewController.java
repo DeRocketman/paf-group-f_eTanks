@@ -460,6 +460,7 @@ public class GameLobbyViewController {
         GameLobby lobby = new GameLobby();
         lobby.setGameLobbyID(msg.getGameLobbyNumber());
         lobby.setSeatCounter(Integer.parseInt(msg.getPayload()));
+        lobbyList.add(lobby);
         fillLobbyTable();
     }
 

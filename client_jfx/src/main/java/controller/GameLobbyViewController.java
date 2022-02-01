@@ -130,6 +130,8 @@ public class GameLobbyViewController {
     private void closeLobby() {
         removeLobbyFromServer(selectedLobby.getGameLobbyID());
         selectedLobby.getPlayers().clear();
+        playerGrid.getChildren().clear();
+        System.out.println(selectedLobby.getPlayers().size());
         textAreaChatField.clear();
         switchToInit();
     }
@@ -476,6 +478,7 @@ public class GameLobbyViewController {
         vbxLobby.setVisible(true);
         hbxHostPanel.setVisible(true);
         lblGameNumber.setText("Spielnummer: " + lobby.getGameLobbyID());
+        fillPlayerGrid(false);
     }
 
     /**

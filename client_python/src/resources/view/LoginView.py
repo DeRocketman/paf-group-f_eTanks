@@ -30,6 +30,9 @@ class Ui_loginView(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(loginView.sizePolicy().hasHeightForWidth())
         loginView.setSizePolicy(sizePolicy)
+        icon = QIcon()
+        icon.addFile(u":/background/menuBackground/eTanksTitle.png", QSize(), QIcon.Normal, QIcon.Off)
+        loginView.setWindowIcon(icon)
         loginView.setStyleSheet(u"background: #8A8557;\n"
                                 "")
         self.usernameTextfield = QLineEdit(loginView)
@@ -69,7 +72,7 @@ class Ui_loginView(object):
         self.label.setGeometry(QRect(0, 10, 1211, 791))
         sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
         self.label.setSizePolicy(sizePolicy)
-        self.label.setStyleSheet(u"border-image: url(:/background/eTanksTitle.png) 0 0 0 0 stretch stretch;")
+        self.label.setStyleSheet(u"border-image: url(:/background/menuBackground/eTanksTitle.png) 0 0 0 0 stretch stretch;")
         self.forgetPasswordButton = QPushButton(loginView)
         self.forgetPasswordButton.setObjectName(u"forgetPasswordButton")
         self.forgetPasswordButton.setGeometry(QRect(460, 550, 141, 20))

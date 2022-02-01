@@ -23,7 +23,7 @@ class GameView:
         self.buildTanks(1)
 
     def drawWindow(self):
-        icon = pygame.image.load("../images/eTanksTitle.png")
+        icon = pygame.image.load("../images/menuBackground/eTanksTitle.png")
         pg.display.set_icon(icon)
         pg.display.set_caption("eTanks - PuF WiSe 21/22 - Gruppe F", "../images/eTanksTitle.png")
         self.gameWindow.blit(self.topPanel, (0, 0))

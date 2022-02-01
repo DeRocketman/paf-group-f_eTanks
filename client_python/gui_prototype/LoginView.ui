@@ -16,6 +16,10 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../src/resources/images/ressourcesETanks.qrc">
+    <normaloff>:/background/menuBackground/eTanksTitle.png</normaloff>:/background/menuBackground/eTanksTitle.png</iconset>
+  </property>
   <property name="styleSheet">
    <string notr="true">background: #8A8557;
 </string>
@@ -130,7 +134,7 @@ border-color: #111111;
     </sizepolicy>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/background/eTanksTitle.png) 0 0 0 0 stretch stretch;</string>
+    <string notr="true">border-image: url(:/background/menuBackground/eTanksTitle.png) 0 0 0 0 stretch stretch;</string>
    </property>
    <property name="text">
     <string/>

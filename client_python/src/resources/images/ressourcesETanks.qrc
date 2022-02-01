@@ -3,6 +3,6 @@
     <file>default-user-image.png</file>
   </qresource>
   <qresource prefix="background">
-    <file>eTanksTitle.png</file>
+    <file>menuBackground/eTanksTitle.png</file>
   </qresource>
 </RCC>

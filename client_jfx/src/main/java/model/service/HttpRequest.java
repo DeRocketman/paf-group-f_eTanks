@@ -476,6 +476,7 @@ public class HttpRequest {
         Gson gson = new Gson();
         Type gameStatisticType = new TypeToken<ArrayList<GameStatistic>>(){}.getType();
         ArrayList<GameStatistic> list = gson.fromJson(String.valueOf(responseContent), gameStatisticType);
+        System.out.println(responseContent);
         eTankApplication.setGameStatistic(list);
 
         con.disconnect();

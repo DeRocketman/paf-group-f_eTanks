@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane stylesheets="@../css/Application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SettingViewController">
@@ -18,7 +19,12 @@
                 <AnchorPane id="btn-back" prefHeight="850.0" prefWidth="800.0" BorderPane.alignment="CENTER">
                     <children>
                         <Button id="btn-back" layoutX="98.0" layoutY="95.0" mnemonicParsing="false" onAction="#switchToMenu" text="Zurück" />
-                  <VBox layoutX="235.0" layoutY="224.0" prefHeight="403.0" prefWidth="330.0">
+                  <Label layoutX="316.0" layoutY="200.0" text="Einstellungen">
+                     <font>
+                        <Font name="Stencil" size="24.0" />
+                     </font>
+                  </Label>
+                  <VBox layoutX="236.0" layoutY="279.0" prefHeight="403.0" prefWidth="330.0">
                      <children>
                         <HBox prefHeight="50.0" prefWidth="308.0">
                            <children>
@@ -46,7 +52,7 @@
                         </HBox>
                         <Label text="moveUp">
                            <VBox.margin>
-                              <Insets left="60.0" />
+                              <Insets left="75.0" />
                            </VBox.margin>
                         </Label>
                         <HBox>
@@ -58,7 +64,7 @@
                               </Label>
                               <Button fx:id="moveUpKey" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#handleChangKey" prefHeight="60.0" prefWidth="55.0" text="W">
                                  <HBox.margin>
-                                    <Insets />
+                                    <Insets bottom="5.0" left="10.0" right="5.0" top="5.0" />
                                  </HBox.margin>
                               </Button>
                               <Label prefHeight="17.0" prefWidth="80.0" text="moveRight">
@@ -80,22 +86,34 @@
                         </HBox>
                         <HBox>
                            <children>
-                              <Button fx:id="moveLeftKey" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#handleChangKey" prefHeight="60.0" prefWidth="60.0" text="A" />
-                              <Button fx:id="moveDownKey" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#handleChangKey" prefHeight="60.0" prefWidth="60.0" text="S" />
-                              <Button fx:id="moveRightKey" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#handleChangKey" prefHeight="60.0" prefWidth="60.0" text="D" />
+                              <Button fx:id="moveLeftKey" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#handleChangKey" prefHeight="60.0" prefWidth="60.0" text="A">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin></Button>
+                              <Button fx:id="moveDownKey" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#handleChangKey" prefHeight="60.0" prefWidth="60.0" text="S">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin></Button>
+                              <Button fx:id="moveRightKey" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#handleChangKey" prefHeight="60.0" prefWidth="60.0" text="D">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin></Button>
                               <Button fx:id="fireMainKey" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#handleChangKey" prefHeight="60.0" prefWidth="60.0" text="N">
                                  <HBox.margin>
-                                    <Insets left="20.0" />
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
                               </Button>
-                              <Button fx:id="fireSecondKey" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#handleChangKey" prefHeight="60.0" prefWidth="60.0" text="M" />
+                              <Button fx:id="fireSecondKey" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" mnemonicParsing="false" onAction="#handleChangKey" prefHeight="60.0" prefWidth="60.0" text="M">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin></Button>
                            </children>
                         </HBox>
                         <VBox prefHeight="0.0" prefWidth="330.0">
                            <children>
                               <Label text="moveDown">
                                  <VBox.margin>
-                                    <Insets left="60.0" />
+                                    <Insets left="75.0" />
                                  </VBox.margin>
                               </Label>
                                     <Button mnemonicParsing="false" onAction="#saveSettings" text="Speichern">

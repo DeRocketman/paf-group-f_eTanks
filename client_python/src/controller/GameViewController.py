@@ -30,10 +30,6 @@ class GameViewController:
         pass
 
     def gameLoop(self):
-        self.gameWindow = self.gameView.drawWindow()
-        for tank in self.gameView.drawTanks(4):
-            self.gameWindow.blit(tank.image, (100, 100))
-
         while True:
             for event in pg.event.get():
                 if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):

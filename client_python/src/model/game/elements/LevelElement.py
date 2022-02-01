@@ -11,8 +11,9 @@ class LevelElement(pg.sprite.Sprite):
         self.positionY = positionY
         self.rotation = rotation
 
-        self.image, self.rect = pg.image.load(imagePath)
-        pg.transform.scale(self.image, (width, height))
-        pg.transform.rotate(self.image, rotation)
+        self.image = pg.image.load(imagePath)
+        self.image = pg.transform.scale(self.image, (width, height))
+        self.rect = self.image.get_rect()
+        self.image = pg.transform.rotate(self.image, rotation)
 
 

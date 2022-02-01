@@ -4,6 +4,7 @@ from pygame import QUIT, K_ESCAPE
 from pygame.constants import KEYDOWN
 
 from model.game.elements.Tank import Tank
+from model.game.logic.Level import LevelBuilder
 
 
 class GameView:
@@ -12,15 +13,17 @@ class GameView:
         self.gameWindow = pg.display.set_mode((1400, 850))
         self.topPanel = pg.Surface((1400, 50))
         self.sidePanel = pg.Surface((200, 800))
-        self.pitch = pg.Surface((1200, 800))
+        self.pitch = pg.Surface((1200, 800)).convert()
         self.topPanel.fill(pg.Color("#69583a"))
         self.sidePanel.fill(pg.Color("#69583a"))
-        self.pitch.fill(pg.Color("#808080"))
+        self.pitchGround = None
 
         self.tanks = pg.sprite.Group()
+        self.elements = pg.sprite.Group()
 
+        self.drawLvl(3)
+        self.buildTanks(4)
         self.drawWindow()
-        self.buildTanks(1)
 
     def drawWindow(self):
         icon = pygame.image.load("../images/menuBackground/eTanksTitle.png")
@@ -30,21 +33,33 @@ class GameView:
         self.gameWindow.blit(self.pitch, (0, 50))
         self.gameWindow.blit(self.sidePanel, (1200, 50))
 
-    def drawLvl(self):
-        for tank in self.tankList:
-            pass
+    def drawLvl(self, lvlNumber):
+        lvlBuilder = LevelBuilder()
+        self.pitchGround = pg.image.load(lvlBuilder.buildLvl(lvlNumber).backgroundPath).convert_alpha()
+        self.pitchGround = pg.transform.scale(self.pitchGround, (40, 40))
+        for x in range(0, 1200, 40):
+            for y in range(0, 800, 40):
+                self.pitch.blit(self.pitchGround, (x, y))
 
     def buildTanks(self, playerCount):
-        if playerCount < 2:
+        if playerCount >= 1:
             tank1 = Tank("../../resources/images/tank/Tank_01.png", 100.0, 700.0, 40.0, 40.0, 360.0)
-        if playerCount < 3:
-            tank2 = Tank("../resources/images/tank/Tank_02.png", 1060.0, 700.0, 40.0, 40.0, 360.0)
-        if playerCount < 4:
-            tank3 = Tank("../resources/images/tank/Tank_03.png", 100.0, 60.0, 40.0, 40.0, 180.0)
+            self.pitch.blit(tank1.image, (tank1.positionX, tank1.positionY))
+            self.tanks.add(tank1)
+        if playerCount >= 2:
+            tank2 = Tank("../../resources/images/tank/Tank_02.png", 1060.0, 700.0, 40.0, 40.0, 360.0)
+            self.pitch.blit(tank2.image, (tank2.positionX, tank2.positionY))
+            self.tanks.add(tank2)
+        if playerCount >= 3:
+            tank3 = Tank("../../resources/images/tank/Tank_03.png", 100.0, 60.0, 40.0, 40.0, 180.0)
+            self.pitch.blit(tank3.image, (tank3.positionX, tank3.positionY))
+            self.tanks.add(tank3)
         if playerCount == 4:
-            tank4 = Tank("../images/tank/Tank_04.png", 1090.0, 60.0, 40.0, 40.0, 180.0)
+            tank4 = Tank("../../resources/images/tank/Tank_04.png", 1060.0, 60.0, 40.0, 40.0, 180.0)
+            self.pitch.blit(tank4.image, (tank4.positionX, tank4.positionY))
+            self.tanks.add(tank4)
 
-    def drawBullets(self):
+    def drawBullets(self, owner):
         pass
 
 

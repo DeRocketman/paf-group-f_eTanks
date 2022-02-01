@@ -37,11 +37,12 @@ public class GameViewModel implements ViewModel {
     GameView gameView;
 
     AnimationTimer gameActionTimer;
+    Timeline gameTimeline = new Timeline();
     ObservableList<LevelElement> elementList = FXCollections.observableArrayList();
     ArrayList<Tank> tankList = new ArrayList<>();
 
     int whichTank;
-    boolean isActive = true;
+    boolean playerIsActive = true;
     boolean isMovingUp;
     boolean isMovingDown;
     boolean isMovingLeft;
@@ -52,7 +53,7 @@ public class GameViewModel implements ViewModel {
     boolean endOfGame = false;
     double shootDelay = GamePhysics.BULLET_DELAY;
     double roundTime = GamePhysics.ROUND_TIME;
-    int roundCounter = 2;
+    int roundCounter = 1;
     private List<GameStatistic> gameStatistics;
 
     /**
@@ -100,6 +101,7 @@ public class GameViewModel implements ViewModel {
         gameActionTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
+                checkLeftPlayers();
                 playerMovementDetection();
                 bulletCollisionDetection();
                 shootDelayer();
@@ -115,34 +117,24 @@ public class GameViewModel implements ViewModel {
     }
 
     public void startTimer() {
-        if (roundCounter < 3) {
-
-            Timeline gameTimeline = new Timeline();
+        if (roundCounter < GamePhysics.ROUNDS) {
             KeyFrame kf = new KeyFrame(Duration.seconds(1), event -> {
                 if ((roundTime > GamePhysics.END_TIME && gameIsRunning == false) || (roundTime > 0 && gameIsRunning == true)) {
                     gameView.updateTimer(roundTime);
                     roundTime--;
                     System.out.println(roundTime);
-                } else if (roundTime == 0 && roundCounter != 3) {
+                } else if (roundTime == 0 && roundCounter != GamePhysics.ROUNDS) {
                     gameView.updateTimer(roundTime);
-                    gameIsRunning = false;
-                    setRoundWinner();
-                    elementList.clear();
-                    isActive = true;
-                    gameView.initNextLevel(roundCounter);
-                    gameActionTimer.stop();
-                    gameTimeline.stop();
-                    roundCounter++;
-                    roundTime = GamePhysics.ROUND_TIME;
+                    nextLevel();
                 } else if (roundTime == 0) {
                     setRoundWinner();
                     setGameWinner();
                     gameIsRunning = false;
-                } else if(roundTime == GamePhysics.END_TIME){
                     endOfGame = true;
+                } else if(roundTime == GamePhysics.END_TIME || endOfGame){
                     saveStatistics();
                     gameTimeline.stop();
-                    System.out.println("SPIEL ZUENDE");
+                    System.out.println("SPIEL ZU ENDE");
                     try {
                         eTankApplication.showMenuView();
                     } catch (IOException e) {
@@ -150,6 +142,7 @@ public class GameViewModel implements ViewModel {
                     }
                 }
             });
+
             gameTimeline.setCycleCount(Animation.INDEFINITE);
             gameTimeline.getKeyFrames().add(kf);
 
@@ -180,8 +173,33 @@ public class GameViewModel implements ViewModel {
         }
     }
 
+    /**
+     * Starts the next level
+     */
+    public void nextLevel(){
+        gameIsRunning = false;
+        setRoundWinner();
+        elementList.clear();
+        playerIsActive = true;
+        gameView.initNextLevel(roundCounter);
+        gameActionTimer.stop();
+        gameTimeline.stop();
+        roundCounter++;
+        roundTime = GamePhysics.ROUND_TIME;
+    }
+
+    /**
+     * Ends the game
+     */
+    public void endGame(){
+        setRoundWinner();
+        setGameWinner();
+        gameIsRunning = false;
+        endOfGame = true;
+    }
+
     public void handleKeyPressed(KeyEvent keyEvent) {
-        if (gameIsRunning && isActive) {
+        if (gameIsRunning && playerIsActive) {
             if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveUpKey()) || isMovingUp && isFiringMainWeapon) {
                 this.isMovingUp = true;
                 sendMoveTankMsg(GamePhysics.TANK_MOVE_UP_COURSE);
@@ -288,6 +306,27 @@ public class GameViewModel implements ViewModel {
         socketClient.sendMsg(msg);
     }
 
+    /**
+     * Checks if there are two players still alive
+     */
+    public void checkLeftPlayers(){
+        int playersAlive = 0;
+        for (Tank tank : tankList){
+            if (tank.getLivePoints() > 0){
+                playersAlive++;
+            }
+        }
+        if(playersAlive < 2){
+            if(roundCounter == GamePhysics.ROUNDS ){
+                endGame();
+            } else {
+                nextLevel();
+            }
+
+        }
+
+    }
+
     private void shootCollector() {
         ArrayList<LevelElement> bulletsToRemove = new ArrayList<>();
         for (LevelElement element : elementList) {
@@ -362,7 +401,7 @@ public class GameViewModel implements ViewModel {
                                     if (tank.getLivePoints() == 0) {
                                         Tank myTank = (Tank) elementList.get(whichTank);
                                         if (myTank.getPlayerId() == tank.getPlayerId()) {
-                                            isActive = false;
+                                            playerIsActive = false;
                                         }
 
                                         // Tank who was hit
@@ -483,7 +522,6 @@ public class GameViewModel implements ViewModel {
         }
     }
 
-
     /**
      * Creates a new List of GameStatistics
      * one Statistic for every player
@@ -495,18 +533,6 @@ public class GameViewModel implements ViewModel {
             GameStatistic userGameStatistic = new GameStatistic(gameLobby.getGameLobbyID(), gameLobby.getPlayers().get(i).getId(), false, 0, 0, 0, 0, 0, 0, gameLobby.getPlayers().get(i).getPublicName());
             gameStatistics.add(userGameStatistic);
         }
-    }
-
-    public void setElementList(ObservableList<LevelElement> elementList) {
-        this.elementList = elementList;
-    }
-
-    public void setETankApplication(ETankApplication eTankApplication) {
-        this.eTankApplication = eTankApplication;
-    }
-
-    public void setGameView(GameView gameView) {
-        this.gameView = gameView;
     }
 
     /**
@@ -522,14 +548,6 @@ public class GameViewModel implements ViewModel {
                 whichTank = i;
             }
         }
-    }
-
-    public void setSocketClient(SocketClient socketClient) {
-        this.socketClient = socketClient;
-    }
-
-    public void setLobby(GameLobby selectedLobby) {
-        this.gameLobby = selectedLobby;
     }
 
     /**
@@ -596,7 +614,30 @@ public class GameViewModel implements ViewModel {
         }
     }
 
+    /**
+     * Sets the eTankApplication in the class httpRequest
+     */
     public void setHttpRequestETankapplication() {
         httpRequest.setETankApplication(eTankApplication);
+    }
+
+    public void setGameView(GameView gameView) {
+        this.gameView = gameView;
+    }
+
+    public void setSocketClient(SocketClient socketClient) {
+        this.socketClient = socketClient;
+    }
+
+    public void setLobby(GameLobby selectedLobby) {
+        this.gameLobby = selectedLobby;
+    }
+
+    public void setElementList(ObservableList<LevelElement> elementList) {
+        this.elementList = elementList;
+    }
+
+    public void setETankApplication(ETankApplication eTankApplication) {
+        this.eTankApplication = eTankApplication;
     }
 }

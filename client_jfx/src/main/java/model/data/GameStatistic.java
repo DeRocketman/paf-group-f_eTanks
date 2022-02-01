@@ -105,6 +105,10 @@ public class GameStatistic {
         this.hitPoints = hitPoints;
     }
 
+    public String getUserName() {
+        return this.userName;
+    }
+
     public IntegerProperty getGamePointsProperty(){
         return new SimpleIntegerProperty(gamePoints);
     }

@@ -22,7 +22,6 @@ import model.service.HttpRequest;
 import model.service.Message;
 import model.service.MessageType;
 import model.service.SocketClient;
-import org.boon.core.Sys;
 
 public class GameLobbyViewController {
 

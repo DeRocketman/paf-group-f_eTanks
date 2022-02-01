@@ -1,6 +1,9 @@
 package view;
 
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import model.data.GameStatistic;
 import model.game.elements.*;
 import model.game.logic.GamePhysics;
@@ -388,12 +391,12 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
 
         switch (playerCount){
             case 4:
-                player_4_wins.setText(String.valueOf(gameStatistics.get(3).getRoundWins()));
+                player_4_wins.setText(String.valueOf(gameStatistics.get(3).getRoundWins()) + ": ");
             case 3:
-                player_3_wins.setText(String.valueOf(gameStatistics.get(2).getRoundWins()));
+                player_3_wins.setText(String.valueOf(gameStatistics.get(2).getRoundWins()) + ": ");
             case 2:
-                player_2_wins.setText(String.valueOf(gameStatistics.get(1).getRoundWins()));
-                player_1_wins.setText(String.valueOf(gameStatistics.get(0).getRoundWins()));
+                player_2_wins.setText(String.valueOf(gameStatistics.get(1).getRoundWins()) + ": ");
+                player_1_wins.setText(String.valueOf(gameStatistics.get(0).getRoundWins()) + ": ");
 
                 //Case 1 später löschen
             case 1:
@@ -409,28 +412,22 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
     public void updateStatisticText(List<GameStatistic> gameStatistics){
         int playerCount = gameStatistics.size() ;
 
-        switch (playerCount){
-            case 4:
-                player_4_kills.setText(String.valueOf(gameStatistics.get(3).getKills()));
-                player_4_shots.setText(String.valueOf(gameStatistics.get(3).getShots()));
-                player_4_deaths.setText(String.valueOf(gameStatistics.get(3).getDeaths()));
-            case 3:
-                player_3_kills.setText(String.valueOf(gameStatistics.get(2).getKills()));
-                player_3_shots.setText(String.valueOf(gameStatistics.get(2).getShots()));
-                player_3_deaths.setText(String.valueOf(gameStatistics.get(2).getDeaths()));
-            case 2:
-                player_2_kills.setText(String.valueOf(gameStatistics.get(1).getKills()));
-                player_2_shots.setText(String.valueOf(gameStatistics.get(1).getShots()));
-                player_2_deaths.setText(String.valueOf(gameStatistics.get(1).getDeaths()));
-
-                player_1_kills.setText(String.valueOf(gameStatistics.get(0).getKills()));
-                player_1_shots.setText(String.valueOf(gameStatistics.get(0).getShots()));
-                player_1_deaths.setText(String.valueOf(gameStatistics.get(0).getDeaths()));
-                //Case 1 später löschen
-            case 1:
-                player_1_kills.setText(String.valueOf(gameStatistics.get(0).getKills()));
-                player_1_shots.setText(String.valueOf(gameStatistics.get(0).getShots()));
-                player_1_deaths.setText(String.valueOf(gameStatistics.get(0).getDeaths()));
+        if(playerCount >= 1){
+            player_1_kills.setText(String.valueOf(gameStatistics.get(0).getKills()));
+            player_1_shots.setText(String.valueOf(gameStatistics.get(0).getShots()));
+            player_1_deaths.setText(String.valueOf(gameStatistics.get(0).getDeaths()));
+        } else if(playerCount >= 2){
+            player_2_kills.setText(String.valueOf(gameStatistics.get(1).getKills()));
+            player_2_shots.setText(String.valueOf(gameStatistics.get(1).getShots()));
+            player_2_deaths.setText(String.valueOf(gameStatistics.get(1).getDeaths()));
+        } else if(playerCount >= 3){
+            player_3_kills.setText(String.valueOf(gameStatistics.get(2).getKills()));
+            player_3_shots.setText(String.valueOf(gameStatistics.get(2).getShots()));
+            player_3_deaths.setText(String.valueOf(gameStatistics.get(2).getDeaths()));
+        } else if(playerCount == 4){
+            player_4_kills.setText(String.valueOf(gameStatistics.get(3).getKills()));
+            player_4_shots.setText(String.valueOf(gameStatistics.get(3).getShots()));
+            player_4_deaths.setText(String.valueOf(gameStatistics.get(3).getDeaths()));
         }
     }
 
@@ -443,11 +440,27 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         this.time.setText(String.valueOf((int) time));
     }
 
-    public void showWinnerLabel(String winner) {
-        Label winnerLabel = new Label();
-        winnerLabel.setLayoutX(GamePhysics.GAME_WIDTH / 2);
-        winnerLabel.setLayoutY(GamePhysics.GAME_HEIGHT / 2);
-        winnerLabel.setFont(Font.font(65));
-        winnerLabel.setText(winner + "Hat gewonnen TOLL TOOL SUPER TOLL");
+    /**
+     * Shows a message during the game
+     *
+     * @param text  message text
+     */
+    public void setGameMessage(String text, int winner){
+        Text winnerText = new Text();
+        winnerText.setText(text);
+        winnerText.setFont(new Font("Stencil", 56));
+        winnerText.setY(GamePhysics.GAME_HEIGHT / 2 - 40);
+        winnerText.setX((GamePhysics.GAME_WIDTH / 2) - (winnerText.getLayoutBounds().getWidth() / 2));
+        winnerText.setTextOrigin(VPos.CENTER);
+        winnerText.toFront();
+
+        ImageView winnerTank = new ImageView();
+        winnerTank.setImage(elementList.get(winner).getImage());
+        winnerTank.setFitHeight(100);
+        winnerTank.setFitWidth(100);
+        winnerTank.setLayoutX(GamePhysics.GAME_WIDTH / 2 - winnerTank.getFitWidth() / 2 );
+        winnerTank.setLayoutY(GamePhysics.GAME_HEIGHT / 2);
+
+        elementPane.getChildren().addAll(winnerText, winnerTank);
     }
 }

@@ -1,10 +1,7 @@
 package viewmodel;
 
-import javafx.scene.control.Label;
-import javafx.scene.text.Font;
 import main.ETankApplication;
 import model.data.GameStatistic;
-import model.data.User;
 import model.game.elements.*;
 import model.game.logic.GameLobby;
 import model.game.logic.GamePhysics;
@@ -55,7 +52,7 @@ public class GameViewModel implements ViewModel {
     boolean endOfGame = false;
     double shootDelay = GamePhysics.BULLET_DELAY;
     double roundTime = GamePhysics.ROUND_TIME;
-    int roundCounter = 1;
+    int roundCounter = 2;
     private List<GameStatistic> gameStatistics;
 
     /**
@@ -122,10 +119,12 @@ public class GameViewModel implements ViewModel {
 
             Timeline gameTimeline = new Timeline();
             KeyFrame kf = new KeyFrame(Duration.seconds(1), event -> {
-                if (roundTime > 0) {
+                if ((roundTime > GamePhysics.END_TIME && gameIsRunning == false) || (roundTime > 0 && gameIsRunning == true)) {
                     gameView.updateTimer(roundTime);
                     roundTime--;
+                    System.out.println(roundTime);
                 } else if (roundTime == 0 && roundCounter != 3) {
+                    gameView.updateTimer(roundTime);
                     gameIsRunning = false;
                     setRoundWinner();
                     elementList.clear();
@@ -136,19 +135,19 @@ public class GameViewModel implements ViewModel {
                     roundCounter++;
                     roundTime = GamePhysics.ROUND_TIME;
                 } else if (roundTime == 0) {
-                    //TODO WAS PASSIERT WENN DAS GAME ZUENDE IST
-                    endOfGame = true;
-                    gameIsRunning = false;
                     setRoundWinner();
                     setGameWinner();
+                    gameIsRunning = false;
+                } else if(roundTime == GamePhysics.END_TIME){
+                    endOfGame = true;
                     saveStatistics();
+                    gameTimeline.stop();
+                    System.out.println("SPIEL ZUENDE");
                     try {
                         eTankApplication.showMenuView();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    gameTimeline.stop();
-                    System.out.println("SPIEL ZUENDE");
                 }
             });
             gameTimeline.setCycleCount(Animation.INDEFINITE);
@@ -579,9 +578,9 @@ public class GameViewModel implements ViewModel {
                 }
             }
         }
-        gameStatistics.get(winner);
-        User user = httpRequest.findUserById(gameStatistics.get(winner).getUserId());
-        gameView.showWinnerLabel(user.getPublicName());
+
+        String winnerName = gameStatistics.get(winner).getUserName();
+        gameView.setGameMessage("Commander " + winnerName + " hat gewonnen!", winner);
     }
 
     /**

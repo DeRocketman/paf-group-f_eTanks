@@ -111,6 +111,20 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
     @FXML
     private Label shots_4;
 
+    @FXML
+    private Label player_3_lives_text;
+    @FXML
+    private Label player_4_lives_text;
+
+    @FXML
+    private Label player_1_lives;
+    @FXML
+    private Label player_2_lives;
+    @FXML
+    private Label player_3_lives;
+    @FXML
+    private Label player_4_lives;
+
     private ObservableList<LevelElement> elementList = FXCollections.observableArrayList();
     public ImageView display;
 
@@ -330,10 +344,12 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
                 deaths_3.setVisible(false);
                 kills_3.setVisible(false);
                 shots_3.setVisible(false);
+                player_3_lives_text.setVisible(false);
 
                 deaths_4.setVisible(false);
                 kills_4.setVisible(false);
                 shots_4.setVisible(false);
+                player_4_lives_text.setVisible(false);
             }
         }
         if(playerCount >= 2){
@@ -346,10 +362,12 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
                 deaths_3.setVisible(false);
                 kills_3.setVisible(false);
                 shots_3.setVisible(false);
+                player_3_lives_text.setVisible(false);
 
                 deaths_4.setVisible(false);
                 kills_4.setVisible(false);
                 shots_4.setVisible(false);
+                player_4_lives_text.setVisible(false);
             }
         }
         if(playerCount >= 3){
@@ -360,6 +378,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
                 deaths_4.setVisible(false);
                 kills_4.setVisible(false);
                 shots_4.setVisible(false);
+                player_4_lives_text.setVisible(false);
             }
         }
         if(playerCount == 4){
@@ -417,6 +436,18 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
             player_4_kills.setText(String.valueOf(gameStatistics.get(3).getKills()));
             player_4_shots.setText(String.valueOf(gameStatistics.get(3).getShots()));
             player_4_deaths.setText(String.valueOf(gameStatistics.get(3).getDeaths()));
+        }
+    }
+
+    public void setPlayerLives(int[] playerLives){
+        int playerCount = playerLives.length;
+        player_1_lives.setText(String.valueOf(playerLives[0]));
+        player_2_lives.setText(String.valueOf(playerLives[0]));
+        if(playerCount >= 3){
+            player_3_lives.setText(String.valueOf(playerLives[0]));
+        }
+        if (playerCount == 4){
+            player_4_lives.setText(String.valueOf(playerLives[0]));
         }
     }
 

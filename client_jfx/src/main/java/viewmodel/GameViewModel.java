@@ -22,6 +22,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.lang.module.FindException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -107,6 +108,7 @@ public class GameViewModel implements ViewModel {
                 shootDelayer();
                 shootCollector();
                 gameView.updateStatisticText(gameStatistics);
+                setPlayerLives();
                 if (endOfGame) {
                     System.out.println("ENDEGELÄNDE");
                     this.stop();
@@ -325,6 +327,16 @@ public class GameViewModel implements ViewModel {
 
         }
 
+    }
+
+    private  void setPlayerLives(){
+        int [] playerLives = new int[tankList.size()];
+        int index = 0;
+        for (Tank tank : tankList){
+            playerLives[index] = tank.getLivePoints();
+            index++;
+        }
+        gameView.setPlayerLives(playerLives);
     }
 
     private void shootCollector() {

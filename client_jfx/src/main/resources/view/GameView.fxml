@@ -156,6 +156,23 @@
                      </font></Label>
                </children>
             </HBox>
+            <HBox prefHeight="25.0" prefWidth="204.0">
+               <children>
+                  <Label fx:id="player_1_lives_text" prefWidth="80.0" text="Lives">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="player_1_lives">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
             <Label fx:id="stat_player_2_name">
                <font>
                   <Font name="System Bold" size="20.0" />
@@ -200,6 +217,23 @@
                      </font>
                   </Label>
                   <Label fx:id="player_2_kills">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox prefHeight="25.0" prefWidth="204.0">
+               <children>
+                  <Label fx:id="player_2_lives_text" prefWidth="80.0" text="Lives">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="player_2_lives">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -256,6 +290,23 @@
                   </Label>
                </children>
             </HBox>
+            <HBox prefHeight="25.0" prefWidth="204.0">
+               <children>
+                  <Label fx:id="player_3_lives_text" prefWidth="80.0" text="Lives">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="player_3_lives">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
             <Label fx:id="stat_player_4_name">
                <font>
                   <Font name="System Bold" size="20.0" />
@@ -300,6 +351,23 @@
                      </font>
                   </Label>
                   <Label fx:id="player_4_kills">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox prefHeight="25.0" prefWidth="204.0">
+               <children>
+                  <Label fx:id="player_4_lives_text" prefWidth="80.0" text="Lives">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="player_4_lives">
                      <font>
                         <Font size="18.0" />
                      </font>

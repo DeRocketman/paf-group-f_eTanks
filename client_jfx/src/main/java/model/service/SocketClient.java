@@ -79,6 +79,9 @@ public class SocketClient implements Runnable {
 
        // System.out.println("Nachricht gesendet: " + outgoingMsg);
     }
+    public void closeConnection() throws IOException {
+        this.socket.close();
+    }
 
     public void setGameViewModel(GameViewModel gameViewModel) {
         this.gameViewModel = gameViewModel;

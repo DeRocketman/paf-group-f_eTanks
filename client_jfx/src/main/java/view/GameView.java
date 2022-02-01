@@ -322,15 +322,31 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
 
         switch (playerCount){
             case 4:
-                stat_player_4_name.setText(playerList.get(3).getPublicName());
-                player_4.setText(playerList.get(3).getPublicName());
-            case 3:
+                stat_player_1_name.setText(playerList.get(0).getPublicName());
+                stat_player_2_name.setText(playerList.get(1).getPublicName());
                 stat_player_3_name.setText(playerList.get(2).getPublicName());
+                stat_player_4_name.setText(playerList.get(3).getPublicName());
+
+                player_1.setText(playerList.get(0).getPublicName());
+                player_2.setText(playerList.get(1).getPublicName());
+                player_3.setText(playerList.get(2).getPublicName());
+                player_4.setText(playerList.get(3).getPublicName());
+
+                break;
+            case 3:
+                stat_player_1_name.setText(playerList.get(0).getPublicName());
+                stat_player_2_name.setText(playerList.get(1).getPublicName());
+                stat_player_3_name.setText(playerList.get(2).getPublicName());
+
+                player_1.setText(playerList.get(0).getPublicName());
+                player_2.setText(playerList.get(1).getPublicName());
                 player_3.setText(playerList.get(2).getPublicName());
 
                 deaths_4.setVisible(false);
                 kills_4.setVisible(false);
                 shots_4.setVisible(false);
+
+                break;
             case 2:
                 stat_player_1_name.setText(playerList.get(0).getPublicName());
                 stat_player_2_name.setText(playerList.get(1).getPublicName());
@@ -345,6 +361,8 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
                 deaths_4.setVisible(false);
                 kills_4.setVisible(false);
                 shots_4.setVisible(false);
+
+                break;
                 //Case 1 später löschen
             case 1:
                 stat_player_1_name.setText(playerList.get(0).getPublicName());
@@ -357,6 +375,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
                 deaths_4.setVisible(false);
                 kills_4.setVisible(false);
                 shots_4.setVisible(false);
+                break;
         }
     }
 

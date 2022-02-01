@@ -1,12 +1,12 @@
 .root{
     -fx-background-color: #69583a;
-    -fx-text-fill: #000;
-    /* #364136FF */
+    -fx-text-fill: #000000;
+    -fx-text-background-color: blackttes;
 }
 
 .button{
     -fx-background-color: #bb9c68;
-    -fx-text-fill:#111111;
+    -fx-text-fill:#000000;
     /*-fx-border-color: #111111;*/
     -fx-border-width: 2;
     -fx-pref-width:200;

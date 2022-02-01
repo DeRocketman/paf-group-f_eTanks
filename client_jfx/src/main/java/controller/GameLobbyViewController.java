@@ -110,6 +110,7 @@ public class GameLobbyViewController {
         sendExtendUserData();
         selectedLobby = new GameLobby();
         selectedLobby.buildLobbyID();
+        lobbyList.add(selectedLobby);
         registerLobby(selectedLobby);
         showLobbyHostView(selectedLobby);
     }
@@ -128,13 +129,19 @@ public class GameLobbyViewController {
      */
     @FXML
     private void closeLobby() {
-        switchToInit();
+
+        GameLobby toRemove = new GameLobby();
+
         for (GameLobby lobby : lobbyList) {
             if (lobby.getPlayers().get(0).getId() == eTankApplication.getSignedUser().getId()) {
-                lobbyList.remove(lobby);
-                break;
+
+                toRemove = lobby;
+
+                removeLobbyFromServer(lobby.getGameLobbyID());
             }
         }
+        lobbyList.remove(toRemove);
+        switchToInit();
     }
 
     /**
@@ -145,6 +152,7 @@ public class GameLobbyViewController {
     @FXML
     public void switchBackToMainMenu() throws IOException {
         eTankApplication.showMenuView();
+        sc.closeConnection();
     }
 
     /**
@@ -273,6 +281,14 @@ public class GameLobbyViewController {
         msg.setGameLobbyNumber(lobby.getGameLobbyID());
         msg.setPlayerId(eTankApplication.getSignedUser().getId());
         msg.setPlayerPublicName(eTankApplication.getSignedUser().getPublicName());
+        sc.sendMsg(msg);
+    }
+
+    public void removeLobbyFromServer(String lobbyNumber){
+        System.out.println("in removeLobbyFromServer");
+        Message msg = new Message();
+        msg.setGameLobbyNumber(lobbyNumber);
+        msg.setMessageType(MessageType.REMOVE_LOBBY);
         sc.sendMsg(msg);
     }
 
@@ -439,6 +455,7 @@ public class GameLobbyViewController {
      * @param msg   the message from SocketClient
      */
     private void processGetLobbiesMsg(Message msg) {
+        lobbyList.clear();
         GameLobby lobby = new GameLobby();
         lobby.setGameLobbyID(msg.getGameLobbyNumber());
         lobby.setSeatCounter(Integer.parseInt(msg.getPayload()));

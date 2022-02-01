@@ -44,6 +44,12 @@ class SocketServer:
                     lobby.hostConnection = exSockData
                     self.lobbyList.append(lobby)
 
+                elif msgJson["messageType"] == "REMOVE_LOBBY":
+                    for lobby in self.lobbyList:
+                        if lobby.lobbyId == msgJson["gameLobbyNumber"]:
+                            self.lobbyList.remove(lobby)
+                            exSockData.lobbyId = None
+
                 elif msgJson["messageType"] == "JOIN":
                     exSockData.joinLobby(msgJson)
                     for lobby in self.lobbyList:
@@ -56,8 +62,10 @@ class SocketServer:
                                     exSockData.sendData(player, msgJson, "JOINED_PLAYER")
                             exSockData.sendData(exSockData, msgJson, "JOINED_PLAYER")
 
-                elif msgJson["messageType"] == "CHAT_MSG" or msgJson["messageType"] == "RDY_STATUS" or msgJson["messageType"] == "WHAT_IS_YOUR_STATUS" or\
-                        msgJson["messageType"] == "START_GAME" or msgJson["messageType"] == "TANK_MOVE" or msgJson["messageType"] == "FIRE_MAIN":
+                elif msgJson["messageType"] == "CHAT_MSG" or msgJson["messageType"] == "RDY_STATUS" or\
+                        msgJson["messageType"] == "WHAT_IS_YOUR_STATUS" or\
+                        msgJson["messageType"] == "START_GAME" or msgJson["messageType"] == "TANK_MOVE" or\
+                        msgJson["messageType"] == "FIRE_MAIN":
                     if msgJson["messageType"] == "RDY_STATUS":
                         exSockData.setRdy(msgJson)
                     for player in self.connSocketList:
@@ -69,20 +77,19 @@ class SocketServer:
                         seatCount = lobby.playerCount
                         exSockData.getLobbyData(lobby.lobbyId, seatCount, msgJson)
 
-
                 for player in self.connSocketList:
                     while len(player.outgoingMessageBox) != 0:
                         for msg in player.outgoingMessageBox:
                             if len(msg) > 1024:
                                 print("Server: Message ist zu groß: ", len(msg))
-                                # todo: Lösung finden falls Puffer zu klein ist!
                             else:
                                 if player.clientLanguage == "JAVA":
                                     player.connection.send(struct.pack(">H", len(msg)))
                                 player.connection.send(msg)
                                 reply = msg.decode("utf-8")
                                 msgJson = json.loads(reply)
-                                print("Server: Nachricht gesendet an ", player.playerPublicName, "Größe: ", len(msg), " ",
+                                print("Server: Nachricht gesendet an ",
+                                      player.playerPublicName, "Größe: ", len(msg), " ",
                                       msgJson)
                             player.outgoingMessageBox.remove(msg)
 

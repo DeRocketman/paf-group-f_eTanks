@@ -10,3 +10,4 @@ class GamePhysics:
 
     WINDOW_WIDTH = 1400
     WINDOW_HEIGHT = 850
+

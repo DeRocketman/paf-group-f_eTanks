@@ -34,7 +34,6 @@ class GameViewController:
         for tank in self.gameView.drawTanks(4):
             self.gameWindow.blit(tank.image, (100, 100))
 
-        pg.display.set_caption("eTanks - PuF WiSe 21/22 - Gruppe F", "../resources/images/eTanksTitle.png")
         while True:
             for event in pg.event.get():
                 if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):

@@ -17,7 +17,11 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>eTanks Group F</string>
+   <string>PuF - WiSe 21/22 eTanks Gruppe F</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../src/resources/images/ressourcesETanks.qrc">
+    <normaloff>:/background/menuBackground/eTanksTitle.png</normaloff>:/background/menuBackground/eTanksTitle.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="sizePolicy">

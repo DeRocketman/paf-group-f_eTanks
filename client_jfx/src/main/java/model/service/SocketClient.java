@@ -50,9 +50,9 @@ public class SocketClient implements Runnable {
             String outgoingMsg = gson.toJson(message) + "\n";
             dataOut.write(outgoingMsg);
             dataOut.flush();
-           // System.out.println("Nachricht gesendet: " + outgoingMsg);
+            System.out.println("Nachricht gesendet: " + outgoingMsg);
         } catch (IOException e) {
-          //  System.out.println(e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 

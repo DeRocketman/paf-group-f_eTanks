@@ -93,7 +93,7 @@ public class GameLobbyViewController {
     }
 
     @FXML
-    public void switchBackToInit() {
+    private void switchBackToInit() {
         switchToInit();
         for (GameLobby lobby : this.lobbyList) {
             for (Player player : lobby.getPlayers()) {
@@ -110,7 +110,6 @@ public class GameLobbyViewController {
         sendExtendUserData();
         selectedLobby = new GameLobby();
         selectedLobby.buildLobbyID();
-        lobbyList.add(selectedLobby);
         registerLobby(selectedLobby);
         showLobbyHostView(selectedLobby);
     }
@@ -129,17 +128,9 @@ public class GameLobbyViewController {
      */
     @FXML
     private void closeLobby() {
-        GameLobby toRemove = new GameLobby();
-
-        for (GameLobby lobby : lobbyList) {
-            if (lobby.getPlayers().get(0).getId() == eTankApplication.getSignedUser().getId()) {
-
-                toRemove = lobby;
-
-                removeLobbyFromServer(lobby.getGameLobbyID());
-            }
-        }
-        lobbyList.remove(toRemove);
+        removeLobbyFromServer(selectedLobby.getGameLobbyID());
+        selectedLobby.getPlayers().clear();
+        textAreaChatField.clear();
         switchToInit();
     }
 

@@ -323,40 +323,10 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
     public void setPlayerText(ObservableList<Player> playerList){
         int playerCount = playerList.size() ;
 
-        switch (playerCount){
-            case 4:
-                stat_player_1_name.setText(playerList.get(0).getPublicName());
-                stat_player_2_name.setText(playerList.get(1).getPublicName());
-                stat_player_3_name.setText(playerList.get(2).getPublicName());
-                stat_player_4_name.setText(playerList.get(3).getPublicName());
-
-                player_1.setText(playerList.get(0).getPublicName());
-                player_2.setText(playerList.get(1).getPublicName());
-                player_3.setText(playerList.get(2).getPublicName());
-                player_4.setText(playerList.get(3).getPublicName());
-
-                break;
-            case 3:
-                stat_player_1_name.setText(playerList.get(0).getPublicName());
-                stat_player_2_name.setText(playerList.get(1).getPublicName());
-                stat_player_3_name.setText(playerList.get(2).getPublicName());
-
-                player_1.setText(playerList.get(0).getPublicName());
-                player_2.setText(playerList.get(1).getPublicName());
-                player_3.setText(playerList.get(2).getPublicName());
-
-                deaths_4.setVisible(false);
-                kills_4.setVisible(false);
-                shots_4.setVisible(false);
-
-                break;
-            case 2:
-                stat_player_1_name.setText(playerList.get(0).getPublicName());
-                stat_player_2_name.setText(playerList.get(1).getPublicName());
-
-                player_1.setText(playerList.get(0).getPublicName());
-                player_2.setText(playerList.get(1).getPublicName());
-
+        if(playerCount >= 1){
+            stat_player_1_name.setText(playerList.get(0).getPublicName());
+            player_1.setText(playerList.get(0).getPublicName() + ": ");
+            if(playerCount == 1){
                 deaths_3.setVisible(false);
                 kills_3.setVisible(false);
                 shots_3.setVisible(false);
@@ -364,13 +334,15 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
                 deaths_4.setVisible(false);
                 kills_4.setVisible(false);
                 shots_4.setVisible(false);
+            }
+        }
+        if(playerCount >= 2){
+            stat_player_1_name.setText(playerList.get(0).getPublicName());
+            player_1.setText(playerList.get(0).getPublicName() + ": ");
 
-                break;
-                //Case 1 später löschen
-            case 1:
-                stat_player_1_name.setText(playerList.get(0).getPublicName());
-                player_1.setText(playerList.get(0).getPublicName());
-
+            stat_player_2_name.setText(playerList.get(1).getPublicName());
+            player_2.setText(playerList.get(1).getPublicName() + ": ");
+            if(playerCount == 2){
                 deaths_3.setVisible(false);
                 kills_3.setVisible(false);
                 shots_3.setVisible(false);
@@ -378,7 +350,21 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
                 deaths_4.setVisible(false);
                 kills_4.setVisible(false);
                 shots_4.setVisible(false);
-                break;
+            }
+        }
+        if(playerCount >= 3){
+            stat_player_3_name.setText(playerList.get(2).getPublicName());
+            player_3.setText(playerList.get(2).getPublicName() + ": ");
+
+            if(playerCount == 3){
+                deaths_4.setVisible(false);
+                kills_4.setVisible(false);
+                shots_4.setVisible(false);
+            }
+        }
+        if(playerCount == 4){
+            stat_player_4_name.setText(playerList.get(3).getPublicName());
+            player_4.setText(playerList.get(3).getPublicName() + ": ");
         }
     }
 
@@ -387,16 +373,16 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
      * @param gameStatistics    List of GameStatistic Objects
      */
     public void setPlayerWins(List<GameStatistic> gameStatistics){
-        int playerCount = gameStatistics.size() ;
+        int playerCount = gameStatistics.size();
 
         switch (playerCount){
             case 4:
-                player_4_wins.setText(String.valueOf(gameStatistics.get(3).getRoundWins()) + ": ");
+                player_4_wins.setText(String.valueOf(gameStatistics.get(3).getRoundWins()));
             case 3:
-                player_3_wins.setText(String.valueOf(gameStatistics.get(2).getRoundWins()) + ": ");
+                player_3_wins.setText(String.valueOf(gameStatistics.get(2).getRoundWins()));
             case 2:
-                player_2_wins.setText(String.valueOf(gameStatistics.get(1).getRoundWins()) + ": ");
-                player_1_wins.setText(String.valueOf(gameStatistics.get(0).getRoundWins()) + ": ");
+                player_2_wins.setText(String.valueOf(gameStatistics.get(1).getRoundWins()));
+                player_1_wins.setText(String.valueOf(gameStatistics.get(0).getRoundWins()));
 
                 //Case 1 später löschen
             case 1:
@@ -410,21 +396,24 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
      * @param gameStatistics    List of GameStatistic Objects
      */
     public void updateStatisticText(List<GameStatistic> gameStatistics){
-        int playerCount = gameStatistics.size() ;
+        int playerCount = gameStatistics.size();
 
         if(playerCount >= 1){
             player_1_kills.setText(String.valueOf(gameStatistics.get(0).getKills()));
             player_1_shots.setText(String.valueOf(gameStatistics.get(0).getShots()));
             player_1_deaths.setText(String.valueOf(gameStatistics.get(0).getDeaths()));
-        } else if(playerCount >= 2){
+        }
+        if(playerCount >= 2){
             player_2_kills.setText(String.valueOf(gameStatistics.get(1).getKills()));
             player_2_shots.setText(String.valueOf(gameStatistics.get(1).getShots()));
             player_2_deaths.setText(String.valueOf(gameStatistics.get(1).getDeaths()));
-        } else if(playerCount >= 3){
+        }
+        if(playerCount >= 3){
             player_3_kills.setText(String.valueOf(gameStatistics.get(2).getKills()));
             player_3_shots.setText(String.valueOf(gameStatistics.get(2).getShots()));
             player_3_deaths.setText(String.valueOf(gameStatistics.get(2).getDeaths()));
-        } else if(playerCount == 4){
+        }
+        if(playerCount == 4){
             player_4_kills.setText(String.valueOf(gameStatistics.get(3).getKills()));
             player_4_shots.setText(String.valueOf(gameStatistics.get(3).getShots()));
             player_4_deaths.setText(String.valueOf(gameStatistics.get(3).getDeaths()));

@@ -1,6 +1,5 @@
 package thl.gruppef.etankrest.etankrestapi.controller;
 
-import com.google.gson.Gson;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,6 +20,9 @@ import thl.gruppef.etankrest.etankrestapi.security.JwtTokenProvider;
 
 import java.util.Optional;
 
+/**
+ * Manages the unsecured request mappings checks the security query
+ */
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -47,7 +49,11 @@ public class AuthController {
         this.gameStatisticRepository = gameStatisticRepository;
     }
 
-    //User registrieren, default Settings anlegen
+    /**
+     * Creates a new user in the database and returns it to the calling instance
+     * @param authRequest
+     * @return User as Json
+     */
     @PostMapping(value = "/register")
     public ResponseEntity<User> register(@RequestBody AuthRequest authRequest) {
         //Prüfen ob Username schon in der DB
@@ -70,6 +76,11 @@ public class AuthController {
         return ResponseEntity.ok(created);
     }
 
+    /**
+     * Checks whether the login data is correct and issues the security token
+     * @param authRequest
+     * @return jwtToken
+     */
     @PostMapping(value = "/login")
     public ResponseEntity<String> login(@RequestBody AuthRequest authRequest){
 
@@ -83,6 +94,11 @@ public class AuthController {
         return ResponseEntity.ok(jwtTokenProvider.generateToken(authentication));
     }
 
+    /**
+     * Checks whether the login data is correct and issues the security token
+     * @param userRequest
+     * @return jwtToken
+     */
     @PostMapping(value = "/login/user")
     public ResponseEntity<String> login(@RequestBody UserRequest userRequest){
 

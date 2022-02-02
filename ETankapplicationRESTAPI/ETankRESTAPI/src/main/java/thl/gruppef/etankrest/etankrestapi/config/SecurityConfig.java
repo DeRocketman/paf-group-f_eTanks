@@ -15,6 +15,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import thl.gruppef.etankrest.etankrestapi.security.JwtAuthenticationEntryPoint;
 import thl.gruppef.etankrest.etankrestapi.security.JwtAuthenticationFilter;
 
+/**
+ * Defines the configuration for SpringSecurity
+ */
 @Configuration
 @EnableWebSecurity //Damit Spring weiß Sicherheitsfeatures sind zu aktivieren
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -38,6 +41,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
+    /**
+     * Overrides default configuration for HttpRequests
+     * @param http
+     * @throws Exception
+     */
     @Override
     public void configure(HttpSecurity http) throws Exception{
         http

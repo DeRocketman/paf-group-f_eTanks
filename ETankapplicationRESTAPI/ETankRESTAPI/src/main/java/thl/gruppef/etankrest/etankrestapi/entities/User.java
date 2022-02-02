@@ -5,6 +5,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+/**
+ * Describes the database entity for User entities
+ * */
 @Entity
 @Getter
 @Setter

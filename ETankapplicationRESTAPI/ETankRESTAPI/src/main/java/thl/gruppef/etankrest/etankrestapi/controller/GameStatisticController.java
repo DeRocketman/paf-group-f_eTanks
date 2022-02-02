@@ -13,6 +13,9 @@ import thl.gruppef.etankrest.etankrestapi.repository.UserRepository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Handles requests related to GameStatistics
+ */
 @RestController
 @RequestMapping("/user_game_statistic")
 public class GameStatisticController {

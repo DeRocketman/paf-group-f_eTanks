@@ -10,6 +10,9 @@ import thl.gruppef.etankrest.etankrestapi.repository.UserSettingsRepository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * handles requests related to Users
+ */
 @RestController
 @RequestMapping("/user")
 public class UserController {

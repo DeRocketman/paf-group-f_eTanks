@@ -99,6 +99,9 @@ public class GameViewModel implements ViewModel {
         System.out.println("PlayerList: " + gameLobby.getPlayers().size());
     }
 
+    /**
+     *
+     */
     public void initGameLoop() {
         gameActionTimer = new AnimationTimer() {
             @Override

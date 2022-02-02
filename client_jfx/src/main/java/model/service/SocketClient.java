@@ -1,4 +1,5 @@
 package model.service;
+import org.boon.core.Sys;
 import viewmodel.GameViewModel;
 
 import controller.GameLobbyViewController;
@@ -39,7 +40,10 @@ public class SocketClient implements Runnable {
                 message = gson.fromJson(msg, Message.class);
                 deliverMsg(message);
             }
-        } catch (IOException e) {
+        } catch (UTFDataFormatException e){
+            System.out.println("Keine UTF-8 Nachricht");
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     }

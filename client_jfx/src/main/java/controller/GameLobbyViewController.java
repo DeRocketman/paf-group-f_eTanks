@@ -133,7 +133,6 @@ public class GameLobbyViewController {
         if (selectedLobby.getPlayers().get(0).getId() == eTankApplication.getSignedUser().getId()) {
             removeLobbyFromServer(selectedLobby.getGameLobbyID());
             resetSelectedLobby();
-            System.out.println(selectedLobby.getPlayers().size());
         }
         switchToInit();
     }
@@ -331,6 +330,7 @@ public class GameLobbyViewController {
                     player.setReady(false);
                 }
                 selectedLobby.getPlayers().clear();
+                System.out.println(selectedLobby.getPlayers().size());
                 playerGrid.getChildren().clear();
             }
         });
@@ -466,7 +466,9 @@ public class GameLobbyViewController {
      * @param msg the message from SocketClient
      */
     private void processGetLobbiesMsg(Message msg) {
-        lobbyList.clear();
+        if(!lobbyList.isEmpty()){
+            lobbyList.clear();
+        }
         GameLobby lobby = new GameLobby();
         lobby.setGameLobbyID(msg.getGameLobbyNumber());
         lobby.setSeatCounter(Integer.parseInt(msg.getPayload()));

@@ -126,7 +126,7 @@ public class ProfilViewController extends ViewController {
      */
     private Image decodeImage(String base64Image) {
         ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64.getDecoder().decode(base64Image));
-        return new Image(inputStream);
+        return new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(inputStream.toString())));
     }
 
     /**

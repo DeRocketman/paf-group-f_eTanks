@@ -493,8 +493,13 @@ public class GameViewModel implements ViewModel {
                     } else if (elementList.get(i).getType() == LevelElementType.BLOCK_STONE) {
                         Block stoneblock = (Block) elementList.get(i);
                         if (element.getBoundsInParent().intersects(elementList.get(i).getBoundsInParent())) {
-                            if (stoneblock.getLives() == 2) {
-                                stoneblock.setOpacity(.50);
+                            if (stoneblock.getLives() == 3) {
+                                stoneblock.setOpacity(.66);
+                                stoneblock.setLives(2);
+                                toRemove = element;
+                                isHit = true;
+                            } else if (stoneblock.getLives() == 2) {
+                                stoneblock.setOpacity(.33);
                                 stoneblock.setLives(1);
                                 toRemove = element;
                                 isHit = true;

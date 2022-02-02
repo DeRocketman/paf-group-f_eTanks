@@ -201,7 +201,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         double[] rotate = {360.0, 360.0, 180.0, 180.0};
 
         for (int i = 0; i < playerCount; i++) {
-            elementList.add(new Tank(new Image(imgTank[i]), positionsX[i], positionsY[i], GamePhysics.ELEMENT_SIZE, GamePhysics.ELEMENT_SIZE, rotate[i], i));
+            elementList.add(new Tank(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(imgTank[i]))), positionsX[i], positionsY[i], GamePhysics.ELEMENT_SIZE, GamePhysics.ELEMENT_SIZE, rotate[i], i));
         }
         gameViewModel.setWhichTank();
         System.out.println("in initTanks.GameView");
@@ -233,7 +233,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
      */
     public void createStoneBlock(double x, double y, double rotation){
         String blockImg = "img/images/blocks/Block_A_01.png";
-        LevelElement block = new Block(new Image(blockImg), LevelElementType.BLOCK_STONE, x, y, 64, 32, rotation);
+        LevelElement block = new Block(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(blockImg))), LevelElementType.BLOCK_STONE, x, y, 64, 32, rotation);
         block.setVisible(true);
         elementList.add(block);
     }
@@ -246,7 +246,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
      */
     public void createMetalBlock(double x, double y){
         String blockImg = "img/images/buildings/crateMetal.png";
-        LevelElement block = new Block(new Image(blockImg), LevelElementType.BLOCK_METAL, x, y, GamePhysics.ELEMENT_SIZE, GamePhysics.ELEMENT_SIZE);
+        LevelElement block = new Block(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(blockImg))), LevelElementType.BLOCK_METAL, x, y, GamePhysics.ELEMENT_SIZE, GamePhysics.ELEMENT_SIZE);
         block.setVisible(true);
         elementList.add(block);
     }
@@ -259,7 +259,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
      */
     public void createWoodBlock(double x, double y){
         String blockImg = "img/images/buildings/crateWood.png";
-        LevelElement block = new Block(new Image(blockImg), LevelElementType.BLOCK_WOOD, x, y, GamePhysics.ELEMENT_SIZE, GamePhysics.ELEMENT_SIZE);
+        LevelElement block = new Block(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(blockImg))), LevelElementType.BLOCK_WOOD, x, y, GamePhysics.ELEMENT_SIZE, GamePhysics.ELEMENT_SIZE);
         block.setVisible(true);
         elementList.add(block);
     }

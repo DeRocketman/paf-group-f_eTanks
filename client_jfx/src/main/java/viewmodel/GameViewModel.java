@@ -22,10 +22,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class GameViewModel implements ViewModel {
 
@@ -179,10 +176,10 @@ public class GameViewModel implements ViewModel {
                     Platform.runLater(() -> {
                         if (counter > 0) {
                             gameView.display.setVisible(true);
-                            gameView.display.setImage(new Image("img/images/countdown/Countdown_0" + counter + ".png"));
+                            gameView.display.setImage(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("img/images/countdown/Countdown_0" + counter + ".png"))));
                             counter--;
                         } else if (counter == 0) {
-                            gameView.display.setImage(new Image("img/images/countdown/Countdown_0" + counter + ".png"));
+                            gameView.display.setImage(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("img/images/countdown/Countdown_0" + counter + ".png"))));
                             gameIsRunning = true;
                             gameTimeline.play();
                             counter--;

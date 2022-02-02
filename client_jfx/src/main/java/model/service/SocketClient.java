@@ -18,6 +18,12 @@ public class SocketClient implements Runnable {
     private final DataInputStream dataIn;
     private Gson gson;
 
+    /**
+     * The constructor of the class SocketClient
+     *
+     * @param gameLobbyViewController
+     * @throws IOException
+     */
     public SocketClient(GameLobbyViewController gameLobbyViewController) throws IOException {
         String hostname = "localhost";
         int port = 3333;
@@ -48,7 +54,11 @@ public class SocketClient implements Runnable {
         }
     }
 
-
+    /**
+     * Writes a message in the OutputStream
+     *
+     * @param message
+     */
     public void sendMsg(Message message) {
         try {
             String outgoingMsg = gson.toJson(message) + "\n";
@@ -60,9 +70,14 @@ public class SocketClient implements Runnable {
         }
     }
 
-    //TODO Für eine richtige Verteilung der eingehenden Nachrichten sind hier weitere Messagtypen nachzutragen!
+    /**
+     * Delivers the message to the gameViewModel oder gameLobbyViewController
+     * depending on the message type
+     *
+     * @param message           the sent message
+     * @throws IOException
+     */
     private void deliverMsg(Message message) throws IOException {
-
         if (message.getMessageType() == MessageType.TANK_MOVE || message.getMessageType() == MessageType.FIRE_MAIN) {
             gameViewModel.receiveMessage(message);
         } else {
@@ -70,6 +85,11 @@ public class SocketClient implements Runnable {
         }
     }
 
+    /**
+     * Sends a connect-Message to the Server
+     *
+     * @throws IOException
+     */
     public void connectMsg() throws IOException {
         this.gson = new Gson();
         Message loginMessage = new Message();
@@ -80,9 +100,13 @@ public class SocketClient implements Runnable {
         loginMessage.setPlayerIsRdy(false);
         loginMessage.setPayload("JAVA");
         String outgoingMsg = gson.toJson(loginMessage);
-
-       // System.out.println("Nachricht gesendet: " + outgoingMsg);
     }
+
+    /**
+     * Closes the socket
+     *
+     * @throws IOException
+     */
     public void closeConnection() throws IOException {
         this.socket.close();
     }

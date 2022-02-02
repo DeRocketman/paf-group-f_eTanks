@@ -3,8 +3,8 @@ import socket
 import struct
 from _thread import *
 
-from model.service.ExtendedSocketData import ExtendedSocketData
-from model.service.ServerLobby import ServerLobby
+from ExtendedSocketData import ExtendedSocketData
+from ServerLobby import ServerLobby
 
 
 class SocketServer:

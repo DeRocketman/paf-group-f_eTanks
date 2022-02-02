@@ -28,8 +28,9 @@ class GameViewController:
         self.gameView.drawLvl(self.roundCounter)
         self.gameView.drawTanks(self.playerList)
         self.gameView.drawWindow()
-        self.threadGameLoop = threading.Thread(target=self.gameLoop())
+        self.threadGameLoop = threading.Thread(target=self.gameLoop)
         self.threadGameLoop.start()
+        self.gameLoop()
 
     def sendMoveTankMsg(self, course):
         msg = Message()
@@ -86,11 +87,12 @@ class GameViewController:
         while gameIsRunning:
             clock.tick(self.FPS)
             for event in pg.event.get():
-                if event.type == pg.K_DOWN:
+                if event.type == pg.KEYDOWN:
                     if event.key == pg.QUIT:
                         gameIsRunning = False
                         pg.quit()
                         break
+
             pressed = pg.key.get_pressed()
 
             if pressed[pg.K_w]:
@@ -101,9 +103,10 @@ class GameViewController:
                 self.gameView.myTank.moveDown()
             if pressed[pg.K_a]:
                 self.sendMoveTankMsg("270.0")
+                self.gameView.myTank.moveRight()
             if pressed[pg.K_d]:
                 self.sendMoveTankMsg("90.0")
-
+                self.gameView.myTank.moveLeft()
             if pressed[pg.K_ESCAPE]:
                 print("Lieber ausmachen")
                 pg.quit()

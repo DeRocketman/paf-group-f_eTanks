@@ -132,8 +132,7 @@ public class GameLobbyViewController {
     private void closeLobby() {
         if (selectedLobby.getPlayers().get(0).getId() == eTankApplication.getSignedUser().getId()) {
             removeLobbyFromServer(selectedLobby.getGameLobbyID());
-            selectedLobby.getPlayers().clear();
-            playerGrid.getChildren().clear();
+            resetSelectedLobby();
             System.out.println(selectedLobby.getPlayers().size());
         }
         switchToInit();
@@ -145,7 +144,7 @@ public class GameLobbyViewController {
      * @throws IOException the io exception
      */
     @FXML
-    public void switchBackToMainMenu() throws IOException {
+    private void switchBackToMainMenu() throws IOException {
         eTankApplication.showMenuView();
         sc.closeConnection();
     }
@@ -155,7 +154,7 @@ public class GameLobbyViewController {
      * and sends a START_GAME message to the SocketClient
      */
     @FXML
-    public void switchToGameView() {
+    private void switchToGameView() {
         Message msg = new Message();
         msg.setMessageType(MessageType.START_GAME);
         msg.setGameLobbyNumber(selectedLobby.getGameLobbyID());
@@ -172,7 +171,7 @@ public class GameLobbyViewController {
      * with the information if player is ready or not
      */
     @FXML
-    public void setRdy() {
+    private void setRdy() {
         for (Player player : selectedLobby.getPlayers()) {
             if (player.getId() == eTankApplication.getSignedUser().getId()) {
                 Message msg = new Message();
@@ -228,7 +227,7 @@ public class GameLobbyViewController {
      * Sends chat message to the SocketClient
      */
     @FXML
-    public void sendChatMessage() {
+    private void sendChatMessage() {
         if (!textChatMsgField.getText().equals("")) {
             Message msg = new Message();
             msg.setMessageType(MessageType.CHAT_MSG);
@@ -245,7 +244,7 @@ public class GameLobbyViewController {
     /**
      * Hides all HBoxes and VBoxes
      */
-    public void resetViews() {
+    private void resetViews() {
         vbxLobby.setVisible(false);
         vbxJoin.setVisible(false);
         vbxInit.setVisible(false);
@@ -253,7 +252,7 @@ public class GameLobbyViewController {
         hbxJoinerPanel.setVisible(false);
     }
 
-    public void sendExtendUserData() {
+    private void sendExtendUserData() {
         Message msg = new Message();
         msg.setMessageType(MessageType.LOGIN);
         msg.setPlayerId(eTankApplication.getSignedUser().getId());
@@ -269,7 +268,7 @@ public class GameLobbyViewController {
      *
      * @param lobby the new lobby
      */
-    public void registerLobby(GameLobby lobby) {
+    private void registerLobby(GameLobby lobby) {
         Message msg = new Message();
         msg.setMessageType(MessageType.REGISTER_LOBBY);
         msg.setPlayerImage("default");
@@ -279,7 +278,7 @@ public class GameLobbyViewController {
         sc.sendMsg(msg);
     }
 
-    public void removeLobbyFromServer(String lobbyNumber) {
+    private void removeLobbyFromServer(String lobbyNumber) {
         System.out.println("in removeLobbyFromServer");
         Message msg = new Message();
         msg.setGameLobbyNumber(lobbyNumber);
@@ -318,10 +317,23 @@ public class GameLobbyViewController {
                 processRegisterLobbyMsg(msg);
             }
             if (msg.getMessageType() == MessageType.REMOVE_LOBBY) {
-                selectedLobby.getPlayers().clear();
+                resetSelectedLobby();
                 switchToInit();
             }
         }
+    }
+
+    private void resetSelectedLobby() {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                for (Player player : selectedLobby.getPlayers()){
+                    player.setReady(false);
+                }
+                selectedLobby.getPlayers().clear();
+                playerGrid.getChildren().clear();
+            }
+        });
     }
 
     /**

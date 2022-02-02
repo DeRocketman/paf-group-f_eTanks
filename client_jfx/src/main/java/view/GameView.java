@@ -7,6 +7,7 @@ import model.data.GameStatistic;
 import model.game.elements.*;
 import model.game.logic.GamePhysics;
 import model.game.logic.Player;
+import org.boon.core.Sys;
 import viewmodel.GameViewModel;
 
 import de.saxsys.mvvmfx.FxmlView;
@@ -140,6 +141,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
      * Initialize the next level
      */
     public void initNextLevel(int level){
+        System.out.println("in initNextLevel");
         elementPane.getChildren().clear();
         elementPane.getChildren().add(ground);
         initBackground(level);
@@ -202,6 +204,7 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
             elementList.add(new Tank(new Image(imgTank[i]), positionsX[i], positionsY[i], GamePhysics.ELEMENT_SIZE, GamePhysics.ELEMENT_SIZE, rotate[i], i));
         }
         gameViewModel.setWhichTank();
+        System.out.println("in initTanks.GameView");
         gameViewModel.initTankList();
     }
 

@@ -9,6 +9,7 @@ import model.service.HttpRequest;
 import model.service.Message;
 import model.service.MessageType;
 import model.service.SocketClient;
+import org.boon.core.Sys;
 import view.GameView;
 
 import de.saxsys.mvvmfx.ViewModel;
@@ -36,7 +37,6 @@ public class GameViewModel implements ViewModel {
     GameView gameView;
 
     AnimationTimer gameActionTimer;
-    Timeline gameTimeline = new Timeline();
     ObservableList<LevelElement> elementList = FXCollections.observableArrayList();
     ArrayList<Tank> tankList = new ArrayList<>();
 
@@ -59,6 +59,7 @@ public class GameViewModel implements ViewModel {
      * Starts the Game
      */
     public void startGame() {
+        System.out.println("in startGame");
         gameView.initTanks(gameLobby.getPlayers().size());
         gameView.setPlayerText(gameLobby.getPlayers());
         gameView.setPlayerWins(gameStatistics);
@@ -94,6 +95,8 @@ public class GameViewModel implements ViewModel {
             this.tankList.add((Tank) elementList.get(2));
             this.tankList.add((Tank) elementList.get(3));
         }
+        System.out.println("TankList: "+tankList.size());
+        System.out.println("PlayerList: " + gameLobby.getPlayers().size());
     }
 
     public void initGameLoop() {
@@ -117,7 +120,9 @@ public class GameViewModel implements ViewModel {
     }
 
     public void startTimer() {
+
         if (roundCounter < GamePhysics.ROUNDS) {
+            Timeline gameTimeline = new Timeline();
             KeyFrame kf = new KeyFrame(Duration.seconds(1), event -> {
                 if ((roundTime > GamePhysics.END_TIME && !gameIsRunning) || (roundTime > 0 && gameIsRunning)) {
                     if(roundTime >= 0 ){
@@ -127,7 +132,18 @@ public class GameViewModel implements ViewModel {
                     System.out.println(roundTime);
                 } else if (roundTime == 0 && roundCounter != GamePhysics.ROUNDS) {
                     gameView.updateTimer(roundTime);
-                    nextLevel();
+                    System.out.println("in nextLevel");
+                    gameIsRunning = false;
+                    setRoundWinner();
+                    elementList.clear();
+                    tankList.clear();
+                    playerIsActive = true;
+                    gameView.initNextLevel(roundCounter);
+                    gameActionTimer.stop();
+                    gameTimeline.stop();
+                    roundCounter++;
+                    roundTime = GamePhysics.ROUND_TIME;
+                    //nextLevel();
                 } else if (roundTime == 0) {
                     setRoundWinner();
                     setGameWinner();
@@ -144,7 +160,6 @@ public class GameViewModel implements ViewModel {
                     }
                 }
             });
-
             gameTimeline.setCycleCount(Animation.INDEFINITE);
             gameTimeline.getKeyFrames().add(kf);
 
@@ -176,22 +191,6 @@ public class GameViewModel implements ViewModel {
     }
 
     /**
-     * Starts the next level
-     */
-    public void nextLevel(){
-        System.out.println("Nächstes Level !!!!!!!!!!!! Level: " + roundCounter);
-        gameIsRunning = false;
-        setRoundWinner();
-        elementList.clear();
-        playerIsActive = true;
-        gameView.initNextLevel(roundCounter);
-        gameActionTimer.stop();
-        gameTimeline.stop();
-        roundCounter++;
-        roundTime = GamePhysics.ROUND_TIME;
-    }
-
-    /**
      * Ends the game
      */
     public void endGame(){
@@ -201,6 +200,10 @@ public class GameViewModel implements ViewModel {
         endOfGame = true;
     }
 
+    /**
+     * Handles the KeyPressed KeyEvents
+     * @param keyEvent
+     */
     public void handleKeyPressed(KeyEvent keyEvent) {
         if (gameIsRunning && playerIsActive) {
             if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveUpKey()) || isMovingUp && isFiringMainWeapon) {
@@ -222,11 +225,15 @@ public class GameViewModel implements ViewModel {
             if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getFireMainWeaponKey()) && canShoot || isFiringMainWeapon && canShoot) {
                 this.isFiringMainWeapon = true;
                 canShoot = false;
-                sendFireMAinMsg();
+                sendFireMainMsg();
             }
         }
     }
 
+    /**
+     * Handles the KeyReleased KeyEvents
+     * @param keyEvent
+     */
     public void handleKeyReleased(KeyEvent keyEvent) {
         if (keyEvent.getCode().toString().equals(eTankApplication.getSignedUser().getUserSettings().getMoveUpKey())) {
             this.isMovingUp = false;
@@ -298,7 +305,10 @@ public class GameViewModel implements ViewModel {
         socketClient.sendMsg(msg);
     }
 
-    public void sendFireMAinMsg() {
+    /**
+     *
+     */
+    public void sendFireMainMsg() {
         Message msg = new Message();
         msg.setMessageType(MessageType.FIRE_MAIN);
         msg.setPlayerId(eTankApplication.getSignedUser().getId());
@@ -323,7 +333,7 @@ public class GameViewModel implements ViewModel {
             if(roundCounter == GamePhysics.ROUNDS ){
                 endGame();
             } else {
-                nextLevel();
+                roundTime = 0;
             }
 
         }
@@ -342,6 +352,9 @@ public class GameViewModel implements ViewModel {
         gameView.setPlayerLives(playerLives);
     }
 
+    /**
+     * Colle
+     */
     private void shootCollector() {
         ArrayList<LevelElement> bulletsToRemove = new ArrayList<>();
         for (LevelElement element : elementList) {
@@ -355,6 +368,9 @@ public class GameViewModel implements ViewModel {
         bulletsToRemove.clear();
     }
 
+    /**
+     * Creates a delay in firing rate
+     */
     private void shootDelayer() {
         shootDelay += 0.005;
         if (shootDelay >= GamePhysics.BULLET_DELAY) {
@@ -363,6 +379,11 @@ public class GameViewModel implements ViewModel {
         }
     }
 
+    /**
+     * sets the right position for a bullet and calls the
+     * createMainBullet function who displays the bullet
+     * @param myTank
+     */
     private void fireMainWeapon(LevelElement myTank) {
         Platform.runLater(() -> {
             Tank tank = (Tank) myTank;
@@ -371,6 +392,10 @@ public class GameViewModel implements ViewModel {
         });
     }
 
+    /**
+     * Sets the bullet in motion
+     * @param bullet
+     */
     public void moveBullet(BulletMainWeapon bullet) {
         double rotation = bullet.getRotate();
         if (rotation == GamePhysics.BULLET_ROTATION_RIGHT) {

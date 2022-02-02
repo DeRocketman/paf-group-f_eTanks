@@ -3,7 +3,7 @@ package model.game.logic;
 public class GamePhysics {
 
     public static final double ROUND_TIME = 30;
-    public static final double END_TIME = -30;
+    public static final double END_TIME = -15;
     public static final double ROUNDS = 3;
     public static final double FRAMES_PER_SECOND = 60;
     public static final double BULLET_DELAY = 22.0 / FRAMES_PER_SECOND;

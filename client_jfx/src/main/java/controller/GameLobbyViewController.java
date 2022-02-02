@@ -401,6 +401,7 @@ public class GameLobbyViewController {
     private void processStartGameMsg(Message msg) {
         Platform.runLater(() -> {
             try {
+
                 eTankApplication.showGameView(selectedLobby);
                 eTankApplication.getGameViewModel().setSocketClient(sc);
                 sc.setGameViewModel(eTankApplication.getGameViewModel());
@@ -486,7 +487,9 @@ public class GameLobbyViewController {
                 playerNotRdy++;
             }
         }
-        btnGameStart.setDisable(playerNotRdy != 0);
+        if(selectedLobby.getPlayers().size() >= 2){
+            btnGameStart.setDisable(playerNotRdy != 0);
+        }
     }
 
     /**

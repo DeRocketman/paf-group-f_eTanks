@@ -196,6 +196,7 @@ public class GameViewModel implements ViewModel {
     public void endGame(){
         setRoundWinner();
         setGameWinner();
+        roundTime = 0;
         gameIsRunning = false;
         endOfGame = true;
     }
@@ -349,6 +350,7 @@ public class GameViewModel implements ViewModel {
         for (int i = 0; i < gameLobby.getPlayers().size(); i++){
             playerLives[i] = tankList.get(i).getLivePoints();
         }
+        System.out.println("Playerlives: " + playerLives.length);
         gameView.setPlayerLives(playerLives);
     }
 

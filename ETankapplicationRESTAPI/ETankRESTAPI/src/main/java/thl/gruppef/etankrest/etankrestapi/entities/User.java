@@ -4,9 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-
 
 @Entity
 @Getter
@@ -29,13 +26,10 @@ public class User extends IdentifiedEntity {
     @JoinColumn(name = "userSettings_id")
     UserSettings userSettings;
 
-    /*
-    @OneToMany(mappedBy = "user")
-    @JsonIgnore
-    private List<GameStatistic> gameStatistics;*/
-
+    /**
+     * Constructor of the class
+     */
     public User() {
         userImage = "default";
-     //   gameStatistics = new ArrayList<>();
     }
 }

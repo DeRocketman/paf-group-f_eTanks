@@ -1,5 +1,4 @@
 package thl.gruppef.etankrest.etankrestapi.security;
-import lombok.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -9,18 +8,28 @@ import thl.gruppef.etankrest.etankrestapi.repository.UserRepository;
 
 import java.util.Collections;
 
-//Versorgt Spring mit dem User der überprüft werden soll.
+/**
+ * Provides Spring with the user to check
+ */
 @Service
 public class CustomUserDetailService implements UserDetailsService {
 
-    //Benötigen wir um den User aus der Datenbank zu holen
+    /**
+     * TO get the user from the database
+     */
     private UserRepository userRepository;
 
     public CustomUserDetailService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    //SpringSecurityUser anlegen
+    /**
+     * Creates SpringSecurityUser
+     *
+     * @param username
+     * @return
+     * @throws UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findUserByUsername(username)

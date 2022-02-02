@@ -14,16 +14,32 @@ public class UserSettingsController {
 
     private UserSettingsRepository userSettingsRepository;
 
+
+    /**
+     * Constructor of the class
+     *
+     * @param userSettingsRepository
+     */
     public UserSettingsController(UserSettingsRepository userSettingsRepository) {
         this.userSettingsRepository = userSettingsRepository;
     }
 
+    /**
+     * Finds all userSettings
+     *
+     *  @return     List of all UserSettings
+     */
     @GetMapping("")
     public List<UserSettings> index() {
         return userSettingsRepository.findAll();
     }
 
-
+    /**
+     * Updates a userSetting
+     *
+     * @param userSettings   the userSetting to update
+     * @return  the updated userSetting
+     */
     @PostMapping(value = "/update_settings")
     public ResponseEntity<UserSettings> updateUserSettings(@RequestBody UserSettings userSettings) {
 

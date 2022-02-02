@@ -31,7 +31,12 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    //Überladen der Methode um Einen User verwenden zu können, der Userdetails implementiert
+    /**
+     * Overloading the method to be able to use a user that implements user details
+     *
+     * @param authentication
+     * @return
+     */
     public String generateToken(Authentication authentication){
         User user = (User) authentication.getPrincipal();
         return generateToken(user.getUsername());

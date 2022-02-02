@@ -20,16 +20,34 @@ public class GameStatisticController {
     private GameStatisticRepository gameStatisticRepository;
     private UserRepository userRepository;
 
+    /**
+     * Constructor of the class GameStatisticontroller
+     *
+     * @param userGameStatisticRepository
+     * @param userRepository
+     */
     public GameStatisticController(GameStatisticRepository userGameStatisticRepository,UserRepository userRepository) {
         this.gameStatisticRepository = userGameStatisticRepository;
         this.userRepository = userRepository;
     }
 
+    /**
+     * Finds all game statistics
+     *
+     * @return List of GameStatistics
+     */
     @GetMapping("")
     public List<GameStatistic> index() {
         return gameStatisticRepository.findAll();
     }
 
+    /**
+     * Creates new GameStatistic
+     *
+     * @param gameStatistic     the new GameStatistic
+     * @param userId            the id of the user
+     * @return                  the saved gameStatistic
+     */
     @PostMapping("new/{userId}")
     public ResponseEntity<GameStatistic> newStatistic( @RequestBody GameStatistic gameStatistic, @PathVariable Long userId){
 
@@ -47,28 +65,27 @@ public class GameStatisticController {
         return ResponseEntity.ok(gameStatistic);
     }
 
+    /**
+     * Finds all GameStatistic of the user
+     *
+     * @param userId    Id of the user
+     * @return          List of all gameStatistics of the user
+     */
     @GetMapping("/{userId}")
     public List<GameStatistic> gameStatistics(@PathVariable Long userId) {
         return gameStatisticRepository.findGameStatisticByUserId(userId);
     }
 
-    @GetMapping("/sorted")
-    public List<GameStatistic> sorted() {
-        return gameStatisticRepository.OrderByGamePointsDesc();
-    }
-
+    /**+
+     * Finds highscore list of the gameStatistics
+     *
+     * @param size      the size of the highscore list
+     * @return          highscore list of the gameStatistics
+     */
     @GetMapping("/highscorelist/{size}")
     public List<GameStatistic> highscorelist(@PathVariable int size){
         Page<GameStatistic> gameStatisticPageTest = gameStatisticRepository.findAll(PageRequest.of(0, size, Sort.Direction.DESC, "gamePoints"));
         List<GameStatistic> gameStatisticsTop = gameStatisticPageTest.getContent();
         return gameStatisticsTop;
     }
-
-        /*
-    @GetMapping("/highscorelist")
-    public List<GameStatistic> Highscorelist(GameStatisticPage gameStatisticPage){
-        Page<GameStatistic> gameStatisticPageTest =gameStatisticService.getGameStatistics(gameStatisticPage);
-        List<GameStatistic> gameStatisticsTop3 = gameStatisticPageTest.getContent();
-        return gameStatisticsTop3;
-    }*/
 }

@@ -6,7 +6,6 @@ import thl.gruppef.etankrest.etankrestapi.entities.User;
 @Data
 public class UserRequest {
 
-    //User
     private User user;
 
 }

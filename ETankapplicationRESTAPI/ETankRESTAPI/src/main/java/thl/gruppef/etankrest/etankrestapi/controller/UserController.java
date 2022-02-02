@@ -17,11 +17,23 @@ public class UserController {
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
 
+    /**
+     * Constructor of the class UserController
+     *
+     * @param userRepository
+     * @param userSettingsRepository
+     * @param passwordEncoder
+     */
     public UserController(UserRepository userRepository, UserSettingsRepository userSettingsRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * Finds all users
+     *
+     * @return list of all users
+     */
     @GetMapping("")
     public List<User> index() {
         return userRepository.findAll();
@@ -32,7 +44,6 @@ public class UserController {
 
         Optional<User> userOptional = userRepository.findUserByUsername(username);
 
-        //TODO Entfernen oder verbessern DEBUG
         if(userOptional.isEmpty()){
             User user = new User();
             user.setUsername("DER FALSCHE KERL");
@@ -42,12 +53,17 @@ public class UserController {
         return this.userRepository.findUserByUsername(username);
     }
 
+    /**
+     * Finds User by Id
+     *
+     * @param id    ID of the user
+     * @return      the wanted user
+     */
     @PostMapping("/id")
     public Optional<User> findUserByUserId(@RequestBody long id){
 
         Optional<User> userOptional = userRepository.findUserById(id);
 
-        //TODO Entfernen oder verbessern DEBUG
         if(userOptional.isEmpty()){
             User user = new User();
             user.setUsername("Falsche ID");
@@ -56,6 +72,12 @@ public class UserController {
         return this.userRepository.findUserById(id);
     }
 
+    /**
+     * Saves changes of User
+     *
+     * @param changedUser   the changed User
+     * @return the changed User
+     */
     @PostMapping("/save")
     public ResponseEntity<User> saveUser(@RequestBody User changedUser) {
         Optional<User> user = userRepository.findUserByUsername(changedUser.getUsername());

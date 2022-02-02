@@ -22,7 +22,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private CustomUserDetailService customUserDetailService;
 
-    //Sorgt dafür, dass bei jedem Request geprüft wird ob Token vorhanden ist. Wenn Ja, gültig? Wenn ja, melde den User an. Sorge dafür, dass er den Request bekommt.
+    /**
+     * Ensures that each request is checked to see whether a token is present.
+     * If yes register the user and make sure he gets the request.
+     *
+     * @param request
+     * @param response
+     * @param filterChain
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String jwt = getJwtFromRequest(request);
@@ -42,7 +51,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    //Hilfsmethode die uns den Token aus dem RequestHeader filtert.
+    /**
+     * Filters the token from the RequestHeader
+     *
+     * @param request
+     * @return
+     */
     private String getJwtFromRequest(HttpServletRequest request){
         String bearerToken = request.getHeader("Authorization");
 

@@ -3,7 +3,6 @@ package thl.gruppef.etankrest.etankrestapi.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
-import thl.gruppef.etankrest.etankrestapi.request.UserRequest;
 
 import javax.persistence.*;
 
@@ -15,7 +14,6 @@ public class UserSettings {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-
 
     //Ohne Ignore läuft er in eine endlosschleife
     @JsonIgnore
@@ -44,7 +42,10 @@ public class UserSettings {
 
     private String fireSecondaryWeaponKey;
 
-
+    /**
+     * Constructor of the class
+     * with default values
+     */
     public UserSettings() {
         this.gameSoundVolume = 100;
         this.gameMusicVolume = 100;

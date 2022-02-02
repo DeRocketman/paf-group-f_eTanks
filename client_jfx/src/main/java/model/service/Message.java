@@ -1,6 +1,5 @@
 package model.service;
 
-
 public class Message {
     private MessageType messageType;
     private String gameLobbyNumber;

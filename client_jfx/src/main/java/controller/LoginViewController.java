@@ -46,7 +46,7 @@ public class LoginViewController extends  ViewController {
      * @throws IOException
      */
     public void switchToCreateUser() throws IOException {
-        eTankApplication.showCreateUserView();
+        eTankApplication.showRegisterUserView();
     }
 
     /**

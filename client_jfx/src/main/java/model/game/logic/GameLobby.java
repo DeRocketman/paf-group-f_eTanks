@@ -18,11 +18,21 @@ public class GameLobby implements Serializable {
        this.seatCounter = new SimpleIntegerProperty(playerList.size());
     }
 
+    /**
+     * Adds a player to the player list of the lobby
+     *
+     * @param player    new player
+     */
     public void addPlayer(Player player) {
         playerList.add(player);
         setSeatCounter(getSeatCounter()+1);
     }
 
+    /**
+     * Removes player of the player list
+     *
+     * @param player    player to remove
+     */
     public void removePlayer(Player player) {
         for (int i = 0; i < playerList.size(); i++) {
             if (playerList.get(i).getId() == player.getId()) {
@@ -32,6 +42,11 @@ public class GameLobby implements Serializable {
         }
     }
 
+    /**
+     * Builds the random lobbyID
+     *
+     * @return  lobbyID
+     */
     public long buildLobbyID() {
         long time = System.currentTimeMillis();
         long random = (long) (Math.random()*8001+1000);

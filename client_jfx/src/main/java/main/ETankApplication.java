@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class ETankApplication extends Application {
 
     Stage primaryStage;
@@ -42,15 +41,19 @@ public class ETankApplication extends Application {
         createUser();
     }
 
+    /**
+     * Creates User and gameStatistic List
+     */
     public void createUser(){
         this.signedUser = new User();
         this.gameStatistics = new ArrayList<>();
     }
 
-    public Stage getPrimaryStage() {
-        return primaryStage;
-    }
-
+    /**
+     * Calls the login view
+     *
+     * @throws IOException
+     */
     public void showLoginView() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("../view/LoginView.fxml"));
@@ -64,6 +67,11 @@ public class ETankApplication extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Calls the  menu view
+     *
+     * @throws IOException
+     */
     public void showMenuView() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("../view/MenuView.fxml"));
@@ -77,6 +85,10 @@ public class ETankApplication extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Calls the profil view
+     * @throws IOException
+     */
     public void showProfilView() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("../view/ProfilView.fxml"));
@@ -91,6 +103,10 @@ public class ETankApplication extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Calls the statistic view
+     * @throws IOException
+     */
     public void showStatisticsView() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("../view/StatisticsView.fxml"));
@@ -105,6 +121,10 @@ public class ETankApplication extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Calls the settingsView
+     * @throws IOException
+     */
     public void showSettingsView() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("../view/SettingView.fxml"));
@@ -119,7 +139,11 @@ public class ETankApplication extends Application {
         primaryStage.show();
     }
 
-    public void showCreateUserView() throws IOException {
+    /**
+     * Calls the registration view
+     * @throws IOException
+     */
+    public void showRegisterUserView() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("../view/RegisterUserView.fxml"));
         rootLayout = loader.load();
@@ -132,6 +156,12 @@ public class ETankApplication extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Calls the game view
+     *
+     * @param lobby     the selected lobby
+     * @throws IOException
+     */
     public void showGameView(GameLobby lobby) throws IOException {
         ViewTuple<GameView, GameViewModel> viewTuple = FluentViewLoader.fxmlView(GameView.class).load();
         Scene scene = new Scene(viewTuple.getView());
@@ -145,6 +175,10 @@ public class ETankApplication extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Calls the lobby view
+     * @throws IOException
+     */
     public void showLobbyView() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("../view/GameLobbyView.fxml"));
@@ -184,5 +218,9 @@ public class ETankApplication extends Application {
 
     public GameViewModel getGameViewModel(){
         return this.gameViewModel;
+    }
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
     }
 }

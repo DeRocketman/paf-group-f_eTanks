@@ -22,10 +22,12 @@ public class HttpRequest {
 
     ETankApplication eTankApplication;
 
-    public void setETankApplication(ETankApplication eTankApplication) {
-        this.eTankApplication = eTankApplication;
-    }
-
+    /**
+     * Logs in the user and sets the BearerToken in eTankApplication
+     *
+     * @param authorisation Authorisation Object with username, publicname and password
+     * @return              boolean if the login was successful
+     */
     public boolean login(Authorisation authorisation) {
 
         HttpURLConnection con = null;
@@ -68,7 +70,6 @@ public class HttpRequest {
                 response.append(responseLine.trim());
             }
 
-            System.out.println(response.toString());
             eTankApplication.setBearerToken(response.toString());
             findUserByUsername(authorisation);
 
@@ -84,6 +85,12 @@ public class HttpRequest {
         return true;
     }
 
+    /**
+     * Gets user image by user id
+     *
+     * @param id    the ID of the user
+     * @return      the user image as string
+     */
     public String getImageById(long id){
         String userImage;
 
@@ -137,6 +144,12 @@ public class HttpRequest {
         return userImage;
     }
 
+    /**
+     * Finds user in database by username
+     * and sets the signedUser in eTankApplication
+     *
+     * @param authorisation     Authorisation Object with username, publicname and password
+     */
     public void findUserByUsername(Authorisation authorisation) {
 
         URL url = null;
@@ -184,6 +197,12 @@ public class HttpRequest {
         con.disconnect();
     }
 
+    /**
+     * Registers a new user in the database
+     *
+     * @param authorisation     Authorisation Object with username, publicname and password
+     * @return                  boolean if registration was successful
+     */
     public boolean registerUser(Authorisation authorisation){
 
         HttpURLConnection con = null;
@@ -237,6 +256,12 @@ public class HttpRequest {
         return true;
     }
 
+    /**
+     * saves the changed user to the database
+     *
+     * @param user
+     * @return      boolean if saving was successful
+     */
     public boolean saveUser(User user){
 
         HttpURLConnection con = null;
@@ -283,6 +308,12 @@ public class HttpRequest {
         return true;
     }
 
+    /**
+     * Saves the changes settings in the database
+     *
+     * @param usersettings  the setting to save
+     * @return              boolean if saving was successful
+     */
     public boolean saveSettings(UserSettings usersettings){
 
         URL url = null;
@@ -333,6 +364,13 @@ public class HttpRequest {
         return true;
     }
 
+    /**
+     * Saves a gameStatistic in the database
+     *
+     * @param gameStatistic     the statistic to save
+     * @param userId
+     * @return                  boolean if saving was successful
+     */
     public boolean saveGameStatistic(GameStatistic gameStatistic, Long userId){
 
         System.out.println(gameStatistic);
@@ -386,6 +424,13 @@ public class HttpRequest {
         return true;
     }
 
+    /**
+     * Gets the list of all gameStatistics of the requested user
+     * and passes the list to the eTankApplication
+     *
+     * @param userId    userID of the requested user
+     * @return          the list of gameStatistics
+     */
     public boolean getGameStatisticList(Long userId) {
         String line;
         StringBuilder responseContent = new StringBuilder();
@@ -435,6 +480,12 @@ public class HttpRequest {
         return true;
     }
 
+    /**
+     * Gets the highscore list of gameStatistics
+     *
+     * @param size      size of the highscorelist
+     * @return          highscore list of gameStatistics
+     */
     public List<GameStatistic> getHighscoreList(int size) {
         String line;
         StringBuilder responseContent = new StringBuilder();
@@ -480,5 +531,9 @@ public class HttpRequest {
 
         con.disconnect();
         return list;
+    }
+
+    public void setETankApplication(ETankApplication eTankApplication) {
+        this.eTankApplication = eTankApplication;
     }
 }

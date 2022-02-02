@@ -59,7 +59,6 @@ public class GameViewModel implements ViewModel {
      * Starts the Game
      */
     public void startGame() {
-        System.out.println("in startGame");
         gameView.initTanks(gameLobby.getPlayers().size());
         gameView.setPlayerText(gameLobby.getPlayers());
         gameView.setPlayerWins(gameStatistics);
@@ -99,6 +98,10 @@ public class GameViewModel implements ViewModel {
         System.out.println("PlayerList: " + gameLobby.getPlayers().size());
     }
 
+    /**
+     * Initialized the gameloop
+     * and runs the thread as long as endOfGame is false
+     */
     public void initGameLoop() {
         gameActionTimer = new AnimationTimer() {
             @Override
@@ -119,6 +122,10 @@ public class GameViewModel implements ViewModel {
         gameActionTimer.start();
     }
 
+    /**
+     * Starts the countdown for the round and the gameTimeline
+     *
+     */
     public void startTimer() {
 
         if (roundCounter < GamePhysics.ROUNDS) {
@@ -253,6 +260,10 @@ public class GameViewModel implements ViewModel {
         }
     }
 
+    /**
+     * Handles incoming Messages and calls the appropriate functions
+     * @param msg    incoming message from the socket server
+     */
     public void receiveMessage(Message msg) {
         Platform.runLater(() -> {
             if (msg.getMessageType() == MessageType.TANK_MOVE) {
@@ -263,6 +274,12 @@ public class GameViewModel implements ViewModel {
         });
     }
 
+    /**
+     * Processes the MoveTank message and calls the moveTank function of the
+     * tank with the same id of the given user
+     *
+     * @param msg incoming message from the socket server
+     */
     public void processMoveTankMsg(Message msg) {
         for (LevelElement tank : elementList) {
             if (tank.getType() == LevelElementType.TANK) {
@@ -295,6 +312,11 @@ public class GameViewModel implements ViewModel {
         });
     }
 
+    /**
+     * Sends moveTank Message to the socketClient
+     * and hands over the information of the signed player
+     * who wants to move
+     */
     public void sendMoveTankMsg(String course) {
         Message msg = new Message();
         msg.setMessageType(MessageType.TANK_MOVE);
@@ -307,7 +329,9 @@ public class GameViewModel implements ViewModel {
     }
 
     /**
-     *
+     * Sends FireMain Message to the socketClient
+     * and hands over the information of the signed player
+     * who is shooting
      */
     public void sendFireMainMsg() {
         Message msg = new Message();
@@ -355,7 +379,7 @@ public class GameViewModel implements ViewModel {
     }
 
     /**
-     * Colle
+     * Collects all unnecessary bullets and removes them from the elmentList
      */
     private void shootCollector() {
         ArrayList<LevelElement> bulletsToRemove = new ArrayList<>();

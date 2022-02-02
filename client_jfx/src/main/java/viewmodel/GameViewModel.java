@@ -120,7 +120,9 @@ public class GameViewModel implements ViewModel {
         if (roundCounter < GamePhysics.ROUNDS) {
             KeyFrame kf = new KeyFrame(Duration.seconds(1), event -> {
                 if ((roundTime > GamePhysics.END_TIME && !gameIsRunning) || (roundTime > 0 && gameIsRunning)) {
-                    gameView.updateTimer(roundTime);
+                    if(roundTime >= 0 ){
+                        gameView.updateTimer(roundTime);
+                    }
                     roundTime--;
                     System.out.println(roundTime);
                 } else if (roundTime == 0 && roundCounter != GamePhysics.ROUNDS) {
@@ -177,6 +179,7 @@ public class GameViewModel implements ViewModel {
      * Starts the next level
      */
     public void nextLevel(){
+        System.out.println("Nächstes Level !!!!!!!!!!!! Level: " + roundCounter);
         gameIsRunning = false;
         setRoundWinner();
         elementList.clear();
@@ -327,12 +330,14 @@ public class GameViewModel implements ViewModel {
 
     }
 
+    /**
+     * Sets the displayed player lives text
+     * int the game information
+     */
     private  void setPlayerLives(){
-        int [] playerLives = new int[tankList.size()];
-        int index = 0;
-        for (Tank tank : tankList){
-            playerLives[index] = tank.getLivePoints();
-            index++;
+        int [] playerLives = new int[gameLobby.getPlayers().size()];
+        for (int i = 0; i < gameLobby.getPlayers().size(); i++){
+            playerLives[i] = tankList.get(i).getLivePoints();
         }
         gameView.setPlayerLives(playerLives);
     }

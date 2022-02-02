@@ -37,7 +37,6 @@ public class GameViewModel implements ViewModel {
     GameView gameView;
 
     AnimationTimer gameActionTimer;
-/*    Timeline gameTimeline;*/
     ObservableList<LevelElement> elementList = FXCollections.observableArrayList();
     ArrayList<Tank> tankList = new ArrayList<>();
 
@@ -137,6 +136,7 @@ public class GameViewModel implements ViewModel {
                     gameIsRunning = false;
                     setRoundWinner();
                     elementList.clear();
+                    tankList.clear();
                     playerIsActive = true;
                     gameView.initNextLevel(roundCounter);
                     gameActionTimer.stop();
@@ -188,22 +188,6 @@ public class GameViewModel implements ViewModel {
             };
             gameCountdown.schedule(startGameCountdown, 1000, 1000);
         }
-    }
-
-    /**
-     * Starts the next level
-     */
-    public void nextLevel(){
-/*        System.out.println("in nextLevel");
-        gameIsRunning = false;
-        setRoundWinner();
-        elementList.clear();
-        playerIsActive = true;
-        gameView.initNextLevel(roundCounter);
-        gameActionTimer.stop();
-        gameTimeline.stop();
-        roundCounter++;
-        roundTime = GamePhysics.ROUND_TIME;*/
     }
 
     /**

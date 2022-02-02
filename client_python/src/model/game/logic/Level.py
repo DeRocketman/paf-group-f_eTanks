@@ -10,9 +10,9 @@ class LevelBuilder:
         self.lvl2 = Level(2)
         self.lvl3 = Level(3)
 
-        self.lvl1.backgroundPath = "../images/levelBackground/Ground_Tile_02_A.png"
-        self.lvl2.backgroundPath = "../images/levelBackground/Ground_Tile_01_C.png"
-        self.lvl3.backgroundPath = "../images/levelBackground/Ground_Tile_02_C.png"
+        self.lvl1.backgroundPath = "../resources/images/levelBackground/Ground_Tile_02_A.png"
+        self.lvl2.backgroundPath = "../resources/images/levelBackground/Ground_Tile_01_C.png"
+        self.lvl3.backgroundPath = "../resources/images/levelBackground/Ground_Tile_02_C.png"
 
     def buildLvl(self, lvlNumber):
         if lvlNumber == 1:

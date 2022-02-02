@@ -19,7 +19,6 @@ class MainMenuViewController(QWidget):
         self.signedUser = user
         self.gameStatisticList = []
         self.checkDefaultUserImage()
-        print(self.signedUser.username)
         self.stackedWidget.addWidget(self)
         self.profilViewController = ProfilViewController(self)
         self.settingsViewController = SettingsViewController(self)
@@ -43,13 +42,10 @@ class MainMenuViewController(QWidget):
         self.stackedWidget.addWidget(self.settingsViewController)
         self.stackedWidget.setCurrentWidget(self.settingsViewController)
 
-    # TODO: implement connection to SettingsView
     def openStatisticView(self):
         self.stackedWidget.addWidget(self.statisticViewController)
         self.stackedWidget.setCurrentWidget(self.statisticViewController)
         self.statisticViewController.loadData()
-
-    # TODO: implement connection to StatisticView
 
     def checkDefaultUserImage(self):
         if self.signedUser.userImage == "default":

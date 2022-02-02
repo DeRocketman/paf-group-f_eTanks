@@ -12,6 +12,7 @@ class ClientSocket:
         self.port = 3333
 
         self.newGameViewController = newGameViewController
+        self.gameViewController = None
         self.connect()
         self.deliveryToHostView = False
         self.threadSendJoinMsg = threading.Thread(target=self.sendMsg)
@@ -61,3 +62,5 @@ class ClientSocket:
                 self.newGameViewController.lobbyJoinView.receiveMsg(msg)
         elif msg.messageType == "GET_LOBBIES":
             self.newGameViewController.joinGameView.receiveJoinMsg(msg)
+        elif msg.messageType == "FIRE_MAIN" or msg.messageType == "MOVE_TANK":
+            self.gameViewController.receiveMsg(msg)

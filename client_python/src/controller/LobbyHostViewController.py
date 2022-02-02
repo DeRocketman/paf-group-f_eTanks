@@ -6,6 +6,8 @@ import time
 
 from PySide6 import QtGui, QtCore
 from PySide6.QtWidgets import QWidget, QListWidgetItem
+
+from controller.GameViewController import GameViewController
 from model.data.User import User
 from model.service.Message import Message
 from resources.view.LobbyHostView import Ui_lobbyHostView
@@ -118,7 +120,6 @@ class LobbyHostViewController(QWidget):
         data_as_dict = vars(msg)
         msgJSON = json.dumps(data_as_dict)
         self.lobbySocket.sendMsg(msgJSON)
-        print("Gesendet in LobbyHostView: ", msgJSON)
 
     def receiveMsg(self, msg):
         if msg is not None:
@@ -146,10 +147,11 @@ class LobbyHostViewController(QWidget):
         self.fillPlayerTable()
 
     def startGame(self):
-        self.newGameViewController.gameView.initGameData(self.playerList, self.lobbyId)
-    #    self.newGameViewController.mainMenuViewController.stackedWidget.addWidget(self.newGameViewController.gameView)
-    #    self.newGameViewController.mainMenuViewController.stackedWidget. \
-    #        setCurrentWidget(self.newGameViewController.gameView)
+        gameViewController = GameViewController(self.newGameViewController)
+        self.lobbySocket.gameViewController = gameViewController
+        gameViewController.initGame(self.playerList, self.lobbyId)
+        self.hide()
+
 
     @staticmethod
     def buildPlayerIconItem(user=User()):

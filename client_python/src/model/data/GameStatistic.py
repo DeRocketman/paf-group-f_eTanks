@@ -1,9 +1,9 @@
 from model.data.User import User
 
+
 class GameStatistic:
 
     def __init__(self):
-        # self.user = User()
         self.id = 0
         self.userName = ""
         self.gameNumber = 1100101

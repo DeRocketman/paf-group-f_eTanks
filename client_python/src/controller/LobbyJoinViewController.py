@@ -5,6 +5,8 @@ import socket
 from PySide6 import QtCore
 from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QWidget, QListWidgetItem
+
+from controller.GameViewController import GameViewController
 from model.data.User import User
 from model.service.Message import Message
 from resources.view.LobbyJoinView import Ui_lobbyJoinView
@@ -120,11 +122,10 @@ class LobbyJoinViewController(QWidget):
         self.fillPlayerTable()
 
     def startGame(self):
-        self.newGameViewController.gameView.initGameData(self.playerList, self.lobbyId)
-    #    self.newGameViewController.mainMenuViewController.stackedWidget.addWidget(self.newGameViewController.gameView)
-    #    self.newGameViewController.mainMenuViewController.stackedWidget. \
-    #        setCurrentWidget(self.newGameViewController.gameView)
-
+        gameViewController = GameViewController(self.newGameViewController)
+        gameViewController.initGame(self.playerList, self.lobbyId)
+        self.lobbySocket.gameViewController = gameViewController
+        self.hide()
     @staticmethod
     def buildPlayerIconItem(user=User()):
         pixmap = QPixmap()

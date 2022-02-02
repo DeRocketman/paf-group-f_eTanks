@@ -330,7 +330,6 @@ public class GameLobbyViewController {
                     player.setReady(false);
                 }
                 selectedLobby.getPlayers().clear();
-                System.out.println(selectedLobby.getPlayers().size());
                 playerGrid.getChildren().clear();
             }
         });

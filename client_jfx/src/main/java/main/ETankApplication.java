@@ -35,6 +35,9 @@ public class ETankApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         this.primaryStage = primaryStage;
+        primaryStage.setResizable(false);
+        primaryStage.setFullScreen(false);
+        primaryStage.setTitle("E-Tanks 2021");
         showLoginView();
         createUser();
     }

@@ -19,7 +19,6 @@ public class GamePhysics {
     public static final String TANK_MOVE_RIGHT_COURSE = "90.0";
     public static final String TANK_MOVE_LEFT_COURSE = "270.0";
 
-    public static final long PLAYER_PREPARATION_TIME_SECONDS = 30;
     public static final long GAME_TIME_SECONDS = 180;
     public static final long GAME_TIME = GAME_TIME_SECONDS * 1000000000L;
     public static final double GAME_WIDTH = 1280;

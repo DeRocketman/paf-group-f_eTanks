@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+
 import java.io.ByteArrayInputStream;
 import java.util.Base64;
 import java.io.IOException;
@@ -89,6 +90,7 @@ public class GameLobbyViewController {
     @FXML
     private void switchToInit() {
         resetViews();
+        textAreaChatField.clear();
         vbxInit.setVisible(true);
     }
 
@@ -128,15 +130,12 @@ public class GameLobbyViewController {
      */
     @FXML
     private void closeLobby() {
-        if(selectedLobby != null){
-            if(selectedLobby.getPlayers().get(0).getId() == eTankApplication.getSignedUser().getId()){
-                removeLobbyFromServer(selectedLobby.getGameLobbyID());
-                selectedLobby.getPlayers().clear();
-                playerGrid.getChildren().clear();
-                System.out.println(selectedLobby.getPlayers().size());
-            }
+        if (selectedLobby.getPlayers().get(0).getId() == eTankApplication.getSignedUser().getId()) {
+            removeLobbyFromServer(selectedLobby.getGameLobbyID());
+            selectedLobby.getPlayers().clear();
+            playerGrid.getChildren().clear();
+            System.out.println(selectedLobby.getPlayers().size());
         }
-        textAreaChatField.clear();
         switchToInit();
     }
 
@@ -268,7 +267,7 @@ public class GameLobbyViewController {
     /**
      * Sends a REGISTER_LOBBY message to the SocketClient
      *
-     * @param lobby     the new lobby
+     * @param lobby the new lobby
      */
     public void registerLobby(GameLobby lobby) {
         Message msg = new Message();
@@ -280,7 +279,7 @@ public class GameLobbyViewController {
         sc.sendMsg(msg);
     }
 
-    public void removeLobbyFromServer(String lobbyNumber){
+    public void removeLobbyFromServer(String lobbyNumber) {
         System.out.println("in removeLobbyFromServer");
         Message msg = new Message();
         msg.setGameLobbyNumber(lobbyNumber);
@@ -292,8 +291,8 @@ public class GameLobbyViewController {
      * Receive lobby messages from the SocketClient
      * and calls the appropriate functions to handle the message
      *
-     * @param msg           the message
-     * @throws IOException  the IO exception
+     * @param msg the message
+     * @throws IOException the IO exception
      */
     public void receiveLobbyMessages(Message msg) throws IOException {
         if (msg != null) {
@@ -317,6 +316,10 @@ public class GameLobbyViewController {
             }
             if (msg.getMessageType() == MessageType.REGISTER_LOBBY) {
                 processRegisterLobbyMsg(msg);
+            }
+            if (msg.getMessageType() == MessageType.REMOVE_LOBBY) {
+                selectedLobby.getPlayers().clear();
+                switchToInit();
             }
         }
     }
@@ -367,13 +370,13 @@ public class GameLobbyViewController {
     /**
      * Assigns a new player to a lobby
      *
-     * @param msg   the message from SocketClient
+     * @param msg the message from SocketClient
      */
     private void processRegisterLobbyMsg(Message msg) {
         Player player = new Player(msg.getPlayerId(), null, msg.getPlayerPublicName(), msg.getPlayerImage(), null, null);
         selectedLobby.getPlayers().add(player);
         fillPlayerGrid(false);
-        textAreaChatField.appendText(msg.getPayload()  + "\n");
+        textAreaChatField.appendText(msg.getPayload() + "\n");
     }
 
     /**
@@ -381,7 +384,7 @@ public class GameLobbyViewController {
      * hands over the selectedLobby and SocketClient
      * and starts the Game
      *
-     * @param msg   the message from SocketClient
+     * @param msg the message from SocketClient
      */
     private void processStartGameMsg(Message msg) {
         Platform.runLater(() -> {
@@ -399,7 +402,7 @@ public class GameLobbyViewController {
     /**
      * Sets the status of a player by changing the button color
      *
-     * @param msg   the message from SocketClient
+     * @param msg the message from SocketClient
      */
     private void processRdyStatusMsg(Message msg) {
         Platform.runLater(() -> {
@@ -426,7 +429,7 @@ public class GameLobbyViewController {
     /**
      * Adds a player to the selected lobby
      *
-     * @param msg   the message from SocketClient
+     * @param msg the message from SocketClient
      */
     private void processJoinedPlayerMsg(Message msg) {
         Player player = new Player(msg.getPlayerId(), "", msg.getPlayerPublicName(), msg.getPlayerImage(), "", null);
@@ -438,7 +441,7 @@ public class GameLobbyViewController {
     /**
      * Displays a new chat message
      *
-     * @param msg   the message from SocketClient
+     * @param msg the message from SocketClient
      */
     private void processChatMsg(Message msg) {
         textAreaChatField.appendText(msg.getPlayerPublicName() + ": " + msg.getPayload() + "\n");
@@ -448,7 +451,7 @@ public class GameLobbyViewController {
      * Adds new Lobby to the lobbylist
      * and adds it to the lobby table
      *
-     * @param msg   the message from SocketClient
+     * @param msg the message from SocketClient
      */
     private void processGetLobbiesMsg(Message msg) {
         lobbyList.clear();
@@ -538,7 +541,7 @@ public class GameLobbyViewController {
                     Label playerNameLbl = new Label();
                     playerNameLbl.setText(selectedLobby.getPlayers().get(row).getPublicName());
 
-                    if(!setReady){
+                    if (!setReady) {
                         String image = httpRequest.getImageById(selectedLobby.getPlayers().get(row).getId());
                         if (image.equals("default")) {
                             playerImage.setImage(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("img/images/default-user-image.png"))));
@@ -563,8 +566,8 @@ public class GameLobbyViewController {
     /**
      * Decodes the base64Image to an Image
      *
-     * @param base64Image   readable String of an image
-     * @return              new Image from the String
+     * @param base64Image readable String of an image
+     * @return new Image from the String
      */
     private Image decodeImage(String base64Image) {
         ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64.getDecoder().decode(base64Image));

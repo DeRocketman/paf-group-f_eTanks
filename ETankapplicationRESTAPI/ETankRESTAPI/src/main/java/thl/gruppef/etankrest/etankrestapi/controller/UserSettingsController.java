@@ -8,6 +8,9 @@ import thl.gruppef.etankrest.etankrestapi.repository.UserSettingsRepository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Handles requests related to user statistics
+ */
 @RestController
 @RequestMapping("/user_settings")
 public class UserSettingsController {

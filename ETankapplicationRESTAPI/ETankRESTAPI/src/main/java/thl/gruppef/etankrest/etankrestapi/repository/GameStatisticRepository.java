@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
+
 public interface GameStatisticRepository extends JpaRepository<GameStatistic, Long> {
     Optional<GameStatistic> findGameStatisticByGameNumber(long gameNumber);
 

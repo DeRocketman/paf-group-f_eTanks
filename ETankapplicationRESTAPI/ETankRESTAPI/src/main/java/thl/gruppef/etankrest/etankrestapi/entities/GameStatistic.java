@@ -5,6 +5,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+/**
+ * Describes the database entity for game statistics
+ * */
 @Entity
 @Getter
 @Setter

@@ -8,6 +8,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+/**
+ * unique identifier for entities
+ */
 @MappedSuperclass
 @Getter
 @Setter

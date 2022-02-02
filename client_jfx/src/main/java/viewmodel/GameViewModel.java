@@ -9,7 +9,6 @@ import model.service.HttpRequest;
 import model.service.Message;
 import model.service.MessageType;
 import model.service.SocketClient;
-import org.boon.core.Sys;
 import view.GameView;
 
 import de.saxsys.mvvmfx.ViewModel;
@@ -22,7 +21,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
 
 import java.io.IOException;
-import java.lang.module.FindException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -121,7 +119,7 @@ public class GameViewModel implements ViewModel {
     public void startTimer() {
         if (roundCounter < GamePhysics.ROUNDS) {
             KeyFrame kf = new KeyFrame(Duration.seconds(1), event -> {
-                if ((roundTime > GamePhysics.END_TIME && gameIsRunning == false) || (roundTime > 0 && gameIsRunning == true)) {
+                if ((roundTime > GamePhysics.END_TIME && !gameIsRunning) || (roundTime > 0 && gameIsRunning)) {
                     gameView.updateTimer(roundTime);
                     roundTime--;
                     System.out.println(roundTime);
@@ -588,7 +586,7 @@ public class GameViewModel implements ViewModel {
 
     /**
      * Sets the game winner
-     * first who won more rounds and second who has more gamepoints
+     * first who won more rounds and second who has more gamePoints
      */
     private void setGameWinner() {
 

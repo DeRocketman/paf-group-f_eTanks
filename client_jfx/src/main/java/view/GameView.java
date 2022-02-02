@@ -1,6 +1,5 @@
 package view;
 
-import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -439,15 +438,20 @@ public class GameView implements FxmlView<GameViewModel>, Initializable {
         }
     }
 
+    /**
+     * Sets the player lives text labels
+     *
+     * @param playerLives   array of the playerLives
+     */
     public void setPlayerLives(int[] playerLives){
         int playerCount = playerLives.length;
         player_1_lives.setText(String.valueOf(playerLives[0]));
-        player_2_lives.setText(String.valueOf(playerLives[0]));
+        player_2_lives.setText(String.valueOf(playerLives[1]));
         if(playerCount >= 3){
-            player_3_lives.setText(String.valueOf(playerLives[0]));
+            player_3_lives.setText(String.valueOf(playerLives[2]));
         }
         if (playerCount == 4){
-            player_4_lives.setText(String.valueOf(playerLives[0]));
+            player_4_lives.setText(String.valueOf(playerLives[3]));
         }
     }
 

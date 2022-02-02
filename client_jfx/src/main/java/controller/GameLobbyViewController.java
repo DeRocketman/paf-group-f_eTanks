@@ -128,10 +128,14 @@ public class GameLobbyViewController {
      */
     @FXML
     private void closeLobby() {
-        removeLobbyFromServer(selectedLobby.getGameLobbyID());
-        selectedLobby.getPlayers().clear();
-        playerGrid.getChildren().clear();
-        System.out.println(selectedLobby.getPlayers().size());
+        if(selectedLobby != null){
+            if(selectedLobby.getPlayers().get(0).getId() == eTankApplication.getSignedUser().getId()){
+                removeLobbyFromServer(selectedLobby.getGameLobbyID());
+                selectedLobby.getPlayers().clear();
+                playerGrid.getChildren().clear();
+                System.out.println(selectedLobby.getPlayers().size());
+            }
+        }
         textAreaChatField.clear();
         switchToInit();
     }
